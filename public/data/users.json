@@ -17,7 +17,8 @@
       "role": "admin",
       "challengeId": 1,
       "challengeIds": [
-        1
+        1,
+        2
       ]
     },
     {

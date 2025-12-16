@@ -1,0 +1,349 @@
+---
+interface Props {
+  userName: string;
+  challengeName: string;
+  studyDays: number;
+  totalDays: number;
+  attendanceRate: number;
+  completionDate: string;
+}
+
+const { userName, challengeName, studyDays, totalDays, attendanceRate, completionDate } = Astro.props;
+---
+
+<div class="certificate-container">
+  <div class="certificate">
+    <!-- Corner Decorations -->
+    <div class="corner-decor top-left"></div>
+    <div class="corner-decor top-right"></div>
+    <div class="corner-decor bottom-left"></div>
+    <div class="corner-decor bottom-right"></div>
+
+    <div class="certificate-header">GIẤY CHỨNG NHẬN</div>
+    <h1 class="certificate-title">Certificate of<br>Achievement</h1>
+    
+    <div class="presented-to">Trân trọng trao tặng cho</div>
+    <div class="user-name">{userName.toUpperCase()}</div>
+    
+    <div class="description">Đã nỗ lực và hoàn thành xuất sắc thử thách</div>
+    
+    <div class="challenge-name">{challengeName.toUpperCase()}</div>
+
+    <div class="stats-overview">
+      <div class="stat-item">
+        <div class="icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <div class="stat-value">{studyDays}/{totalDays}</div>
+        <div class="stat-label">Ngày học</div>
+      </div>
+      
+      <div class="stat-item">
+        <div class="icon-wrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <div class="stat-value">{attendanceRate}%</div>
+        <div class="stat-label">Kỷ luật</div>
+      </div>
+    </div>
+
+    <div class="certificate-footer">
+      <div class="footer-col col-date">
+        <div class="signature-title">Ngày cấp</div>
+        <div class="signature-line"></div>
+        <div class="signature-content">{completionDate}</div>
+      </div>
+
+      <div class="footer-col col-org">
+        <div class="signature-title">Ban tổ chức</div>
+        <div class="signed-hph">Hph</div>
+        <div class="signature-line"></div>
+        <div class="signature-content">Anki Việt Nam</div>
+      </div>
+    </div>
+
+    <div class="website-footer">ankivn.com</div>
+  </div>
+</div>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Mrs+Saint+Delafield&display=swap');
+  
+  .certificate-container {
+    width: 210mm;
+    height: 297mm;
+    margin: 0 auto;
+    background-color: #ffffff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .certificate {
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20mm;
+    overflow: hidden;
+    font-family: 'Be Vietnam Pro', sans-serif;
+  }
+
+  /* Double Border Frame */
+  .certificate::before {
+    content: '';
+    position: absolute;
+    top: 10mm; left: 10mm; right: 10mm; bottom: 10mm;
+    border: 2px solid #1e293b;
+    z-index: 1;
+    pointer-events: none;
+  }
+  
+  .certificate::after {
+    content: '';
+    position: absolute;
+    top: 12mm; left: 12mm; right: 12mm; bottom: 12mm;
+    border: 1px solid #d97706;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* Corner Decorations */
+  .corner-decor {
+    position: absolute;
+    width: 40mm; 
+    height: 40mm;
+    border: 4px double #d97706;
+    z-index: 2;
+  }
+  .top-left { top: 10mm; left: 10mm; border-right: none; border-bottom: none; }
+  .top-right { top: 10mm; right: 10mm; border-left: none; border-bottom: none; }
+  .bottom-left { bottom: 10mm; left: 10mm; border-right: none; border-top: none; }
+  .bottom-right { bottom: 10mm; right: 10mm; border-left: none; border-top: none; }
+  
+  /* Content Styles */
+  .certificate-header {
+    font-size: 13px; 
+    font-weight: 700; 
+    color: #b45309;
+    letter-spacing: 5px; 
+    text-transform: uppercase; 
+    margin-bottom: 5mm;
+    z-index: 3;
+  }
+
+  .certificate-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 40pt; 
+    font-weight: 700; 
+    color: #0f172a;
+    margin: 0 0 10mm 0; 
+    line-height: 1.1; 
+    text-align: center;
+    z-index: 3;
+  }
+
+  .presented-to {
+    font-size: 13pt; 
+    margin-bottom: 4mm; 
+    color: #64748b;
+    font-style: italic; 
+    font-weight: 400;
+    z-index: 3;
+  }
+
+  .user-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 44pt; 
+    font-weight: 900; 
+    color: #1e3a8a;
+    margin: 0 0 5mm 0; 
+    border-bottom: 2px solid #d97706;
+    padding-bottom: 3mm; 
+    display: inline-block; 
+    line-height: 1.2;
+    z-index: 3;
+  }
+
+  .description {
+    font-size: 14pt; 
+    color: #334155; 
+    margin-top: 5mm; 
+    font-weight: 300;
+    z-index: 3;
+  }
+
+  .challenge-name {
+    font-size: 36pt; 
+    font-weight: 900; 
+    text-transform: uppercase;
+    margin: 5mm 0 15mm 0;
+    letter-spacing: 3px;
+    background: linear-gradient(90deg, #1e3a8a 0%, #0891b2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0px 2px 0px rgba(0,0,0,0.1));
+    z-index: 3;
+  }
+
+  /* Statistics */
+  .stats-overview {
+    display: flex; 
+    justify-content: center; 
+    gap: 20mm;
+    width: 100%; 
+    margin-bottom: 15mm;
+    z-index: 3;
+  }
+
+  .stat-item {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    padding: 0;
+    min-width: 40mm;
+  }
+
+  .icon-wrapper { 
+    margin-bottom: 2mm; 
+    color: #d97706; 
+  }
+  
+  .stat-value { 
+    font-size: 24pt; 
+    font-weight: 800; 
+    color: #0f172a;
+    margin-bottom: 0mm; 
+  }
+  
+  .stat-label { 
+    font-size: 9pt; 
+    color: #64748b; 
+    font-weight: 600; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    margin-top: 2mm;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 2mm;
+    width: 100%; 
+    text-align: center;
+  }
+
+  /* Footer */
+  .certificate-footer {
+    display: flex; 
+    justify-content: space-between;
+    width: 75%;
+    margin-top: 15mm; 
+    align-items: flex-end;
+    z-index: 3;
+  }
+
+  .footer-col {
+    text-align: center; 
+    width: 60mm; 
+    position: relative;
+    display: flex; 
+    flex-direction: column; 
+    justify-content: flex-end;
+  }
+
+  .signature-title {
+    font-size: 9pt; 
+    font-weight: 700; 
+    color: #94a3b8;
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+  }
+
+  .col-date .signature-title { 
+    margin-bottom: 8mm; 
+  }
+  
+  .col-org .signature-title { 
+    margin-bottom: 35mm; 
+  }
+
+  .signature-line {
+    border-top: 1px solid #cbd5e1;
+    margin-bottom: 3mm; 
+    width: 100%;
+  }
+  
+  .signature-content {
+    font-size: 12pt; 
+    font-weight: 600; 
+    color: #334155;
+  }
+
+  .col-org .signature-content {
+    color: #1e3a8a;
+  }
+
+  /* Signature */
+  .signed-hph {
+    font-family: 'Mrs Saint Delafield', cursive;
+    font-size: 55pt; 
+    color: #1e3a8a;
+    position: absolute; 
+    bottom: 12mm; 
+    left: 0; 
+    right: 0;
+    transform: rotate(-8deg); 
+    z-index: 10; 
+    line-height: 1; 
+    pointer-events: none;
+    opacity: 0.9;
+  }
+
+  /* Website Footer */
+  .website-footer {
+    position: absolute; 
+    bottom: 14mm; 
+    left: 0; 
+    right: 0;
+    text-align: center; 
+    font-size: 9pt; 
+    color: #cbd5e1;
+    font-weight: 400; 
+    letter-spacing: 3px;
+    text-transform: lowercase;
+    z-index: 3;
+  }
+
+  @media print {
+    .certificate-container {
+      width: 210mm; 
+      height: 296mm; 
+      box-shadow: none; 
+      margin: 0; 
+      page-break-after: avoid;
+    }
+    
+    .certificate {
+      overflow: hidden;
+    }
+    
+    .challenge-name {
+      background: none;
+      -webkit-text-fill-color: #1e3a8a; 
+      color: #1e3a8a;
+    }
+    
+    * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
+</style>
