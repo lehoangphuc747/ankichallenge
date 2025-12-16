@@ -1,0 +1,424 @@
+{
+  "data": [
+    {
+      "name": "Tiếng Hàn Phúc Lee",
+      "email": "erk9308@gmail.com",
+      "streak": 97,
+      "learningLanguage": "Tiếng Hàn",
+      "major": "Hàn Quốc học",
+      "bio": "Chào bác bạn mình hiện tại đang là du học sinh tại Hàn Quốc. Không nghề ngỗng nên mình vẫn lông bông đi làm trò giúp ích cho đời. Cảm ơn bạn đã giành vài giây cuộc đời cho mình :)))",
+      "facebookUrl": "https://fb.com/tuilaphuc747",
+      "id": 9,
+      "hidden": false,
+      "previousRank": 1,
+      "discordNickname": "madbear1236",
+      "zaloUrl": "https://zalo.me/0346598402",
+      "birthYear": 2001,
+      "role": "admin",
+      "challengeId": 1,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "hidden": false,
+      "role": "member",
+      "name": "Trinhthuthao",
+      "learningLanguage": "Tiếng Anh",
+      "bio": "Khi bạn khao khát một điều gì đó, cả vũ trụ sẽ hợp lực giúp bạn đạt được điều đó",
+      "previousRank": 2,
+      "id": 10,
+      "streak": 15,
+      "challengeId": 1,
+      "birthYear": 1996,
+      "zaloUrl": "https://zalo.me/0944392768",
+      "discordNickname": "Trinhthuthao2905",
+      "major": "Đại học",
+      "email": "",
+      "facebookUrl": "https://www.facebook.com/thao.trinh.10888938?locale=vi_VN",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "discordNickname": "hnil_hnank",
+      "hidden": false,
+      "learningLanguage": "Tiếng Anh",
+      "major": "Tài chính Ngân hàng",
+      "previousRank": 3,
+      "facebookUrl": "https://www.facebook.com/khanh.linh.3560/",
+      "email": "",
+      "bio": "Thích ngoại ngữ, học vì đam mê",
+      "id": 11,
+      "zaloUrl": "https://zalo.me/0934344809",
+      "streak": 1,
+      "challengeId": 1,
+      "role": "member",
+      "name": "Nguyen Khanh Linh",
+      "birthYear": 2006,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "facebookUrl": "",
+      "major": "Tự do",
+      "email": "",
+      "learningLanguage": "Tiếng Anh",
+      "birthYear": 1990,
+      "streak": 0,
+      "role": "member",
+      "previousRank": 5,
+      "zaloUrl": "",
+      "challengeId": 1,
+      "id": 13,
+      "discordNickname": "Ethan",
+      "bio": "Nothing",
+      "name": "Ethan",
+      "hidden": false,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "hidden": false,
+      "email": "",
+      "birthYear": 2006,
+      "id": 14,
+      "previousRank": 6,
+      "learningLanguage": "Tiếng Anh",
+      "role": "member",
+      "zaloUrl": "https://zalo.me/0865140522",
+      "streak": 97,
+      "facebookUrl": "https://www.facebook.com/nsquang.1112006/",
+      "major": "Y khoa",
+      "discordNickname": "endorphin_111",
+      "bio": "Minh là Quang Xồ, sinh viên y khoa năm 2 Đại học Y dược Hải Phòng",
+      "challengeId": 1,
+      "name": "Quang Xồ",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "name": "Anki Nguyên",
+      "bio": "Chào các bạn, mình là Thuê anki - ad Nguyên",
+      "birthYear": 2001,
+      "major": "Dược học",
+      "learningLanguage": "Tiếng Việt, Tiếng Anh",
+      "previousRank": 7,
+      "facebookUrl": "https://www.facebook.com/share/1ZLKxDJojR/",
+      "email": "",
+      "hidden": true,
+      "streak": 0,
+      "zaloUrl": "https://zalo.me/0941673857",
+      "role": "member",
+      "id": 15,
+      "challengeId": 1,
+      "discordNickname": "noname7242",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "email": "",
+      "streak": 94,
+      "facebookUrl": "https://www.facebook.com/share/1A5AQqEkv2/?mibextid=wwXIfr",
+      "role": "member",
+      "major": "K3B - Nguyễn Vũ",
+      "challengeId": 1,
+      "name": "Bích Nguyễn",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 2000,
+      "hidden": false,
+      "id": 16,
+      "discordNickname": "bich1982",
+      "previousRank": 8,
+      "zaloUrl": "https://zalo.me/07044806469",
+      "bio": "Muốn tạo thói quen học tập mỗi ngày",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "discordNickname": "luvher9360",
+      "bio": "Cuộc sống chẳng bao giờ phải ngưỡng mộ 1 ai cả, vì nếu mình ở vị trí đấy mình cũng làm được như thế",
+      "email": "",
+      "hidden": true,
+      "zaloUrl": "https://zalo.me/0388194024",
+      "learningLanguage": "Tiếng Anh",
+      "major": "Y khoa",
+      "name": "hiep ngo",
+      "id": 17,
+      "previousRank": 17,
+      "challengeId": 1,
+      "role": "member",
+      "streak": 0,
+      "birthYear": 2000,
+      "facebookUrl": "https://www.facebook.com/ngo.hiep.218121",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "facebookUrl": "https://www.facebook.com/chauthuyvy98/",
+      "birthYear": 1998,
+      "hidden": true,
+      "email": "",
+      "bio": "Everyone starts somewhere. 😊",
+      "streak": 0,
+      "name": "Chau Vy",
+      "id": 18,
+      "major": "Ngôn ngữ Anh",
+      "role": "member",
+      "previousRank": 18,
+      "challengeId": 1,
+      "learningLanguage": "Tiếng Anh",
+      "zaloUrl": "https://zalo.me/0905865933",
+      "discordNickname": "lazylady98",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "streak": 0,
+      "previousRank": 19,
+      "name": "Đinh Văn Đại",
+      "id": 19,
+      "role": "member",
+      "zaloUrl": "https://zalo.me/0976568010",
+      "learningLanguage": "Tiếng Anh",
+      "facebookUrl": "https://www.facebook.com/daiddinh/",
+      "email": "",
+      "major": "CNTT",
+      "bio": "k có gthieu",
+      "hidden": true,
+      "discordNickname": "hiimdaidu",
+      "challengeId": 1,
+      "birthYear": 2005,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "discordNickname": "pdt25_9",
+      "bio": "Mình tên Thanh biệt danh Anh 3 Khía năm nay 24 tuổi và hiện đang công tác tại đơn vị Đội Chữa Cháy và CNCH Khu Vực Đức Hoà",
+      "birthYear": 2001,
+      "zaloUrl": "https://zalo.me/0334520648",
+      "hidden": false,
+      "challengeId": 1,
+      "name": "Phạm Duy Thanh",
+      "streak": 0,
+      "major": "Thí sinh tự do",
+      "id": 21,
+      "role": "member",
+      "learningLanguage": "Tiếng Trung",
+      "facebookUrl": "https://www.facebook.com/share/192VDzbFwT/?mibextid=wwXIfr",
+      "email": "",
+      "previousRank": 21,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "id": 22,
+      "hidden": true,
+      "challengeId": 1,
+      "bio": "Điều kỳ diệu nhất trên cuộc đời này là làm được điều mà người ta cho rằng không thể :",
+      "learningLanguage": "Tiếng Anh",
+      "major": "Sinh viên Y Đa Khoa",
+      "zaloUrl": "https://zalo.me/0913625309",
+      "birthYear": 2003,
+      "email": "",
+      "discordNickname": "hieu7511#3823",
+      "facebookUrl": "https://www.facebook.com/ngophuc.hieu.9102003/",
+      "previousRank": 23,
+      "role": "member",
+      "name": "Hiungoo",
+      "streak": 0,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "bio": "Rush stop rush drop hmm",
+      "email": "",
+      "hidden": false,
+      "major": "KHMT",
+      "previousRank": 24,
+      "facebookUrl": "",
+      "role": "member",
+      "name": "Ha Hoang",
+      "streak": 0,
+      "zaloUrl": "",
+      "birthYear": 2003,
+      "challengeId": 1,
+      "id": 23,
+      "learningLanguage": "Tiếng Hàn",
+      "discordNickname": "adaada",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "birthYear": 2001,
+      "learningLanguage": "Tiếng Anh",
+      "previousRank": 25,
+      "role": "member",
+      "facebookUrl": "https://www.facebook.com/my.huyen.961974",
+      "major": "Phân tích dữ liệu",
+      "zaloUrl": "https://zalo.me/0964387169",
+      "streak": 97,
+      "email": "",
+      "id": 24,
+      "bio": "\"Gai Con, Bát Con, OT33+, mùa hè 2024 rực rỡ\nMùa hè có thể trôi qua, nhưng kỷ niệm ko bao giờ rời đi.\"",
+      "name": "Mỹ Huyền",
+      "discordNickname": "thocao118",
+      "challengeId": 1,
+      "hidden": false,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "name": "Chan Quynh",
+      "major": "Hospitality and Tourism Management at Singapore",
+      "zaloUrl": "https://zalo.me/81970975",
+      "email": "",
+      "role": "member",
+      "hidden": false,
+      "discordNickname": "hana.112",
+      "id": 25,
+      "facebookUrl": "https://www.facebook.com/quynhss.chan",
+      "previousRank": 26,
+      "streak": 55,
+      "birthYear": 2002,
+      "challengeId": 1,
+      "learningLanguage": "Tiếng Anh",
+      "bio": "The mess is part of the grow journey, embrace it and grow from there...",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "zaloUrl": "https://zalo.me/0818664375",
+      "email": "",
+      "challengeId": 1,
+      "facebookUrl": "https://www.facebook.com/ielts7.0thidoiten",
+      "learningLanguage": "Anh, Trung",
+      "hidden": false,
+      "discordNickname": "pthuy3x3",
+      "previousRank": 27,
+      "birthYear": 2003,
+      "name": "Ava",
+      "streak": 27,
+      "role": "member",
+      "id": 26,
+      "major": "Kinh Tế Đối Ngoại",
+      "bio": "Hard work beats talent when talent doesn't work hard.",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "previousRank": 28,
+      "learningLanguage": "Tiếng Nhật",
+      "email": "",
+      "streak": 4,
+      "birthYear": 2006,
+      "facebookUrl": "https://www.facebook.com/quann.350891",
+      "zaloUrl": "https://zalo.me/0398507948",
+      "id": 27,
+      "major": "Công nghệ Ô tô",
+      "role": "member",
+      "hidden": false,
+      "name": "WuanHaaland",
+      "bio": "Hi everyone",
+      "discordNickname": "fanjayskullz",
+      "challengeId": 1,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "challengeId": 1,
+      "role": "member",
+      "learningLanguage": "Tiếng Anh",
+      "major": "THPT Lớp 12",
+      "id": 28,
+      "email": "",
+      "hidden": false,
+      "discordNickname": "dnmeo_",
+      "bio": "🌷 Em là HS cuối cấp có nguyện vọng thi Sư Phạm Anh, em mong sẽ học được nhiều từ vựng và làm quen cùng với các anh chị thông qua challenge ạ",
+      "facebookUrl": "https://www.facebook.com/ngdieunhan",
+      "previousRank": 29,
+      "name": "Nguyen Nhan",
+      "zaloUrl": "https://zalo.me/0965082441",
+      "streak": 5,
+      "birthYear": 2008,
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "major": "AI-Trí tuệ nhân tạo",
+      "hidden": false,
+      "role": "member",
+      "facebookUrl": "https://www.facebook.com/profile.php?id=61579713743791",
+      "name": "Nguyễn Huy Phú",
+      "birthYear": 2007,
+      "discordNickname": "souakira2k7",
+      "previousRank": 30,
+      "learningLanguage": "Tiếng Anh",
+      "streak": 0,
+      "email": "",
+      "challengeId": 1,
+      "bio": "Em là Phú muốn học tập nghiêm túc ạ",
+      "id": 29,
+      "zaloUrl": "https://zalo.me/0852557193",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "streak": 97,
+      "major": "Cơ khí chế tạo",
+      "id": 30,
+      "challengeId": 1,
+      "role": "member",
+      "learningLanguage": "Tiếng Nhật",
+      "name": "Minh may mắn",
+      "bio": "Die trying",
+      "email": "",
+      "previousRank": 31,
+      "discordNickname": "_minhmayman",
+      "birthYear": 1996,
+      "hidden": false,
+      "facebookUrl": "https://www.facebook.com/Gin.Shiro025",
+      "zaloUrl": "",
+      "challengeIds": [
+        1
+      ]
+    },
+    {
+      "major": "Công nghệ Sinh học",
+      "birthYear": 2001,
+      "challengeId": 1,
+      "email": "",
+      "bio": "Doing what you love is freedom. Loving what you do is happiness.",
+      "discordNickname": "#noctivia10 (justanotherperson)",
+      "name": "Đồng Trọng",
+      "streak": 0,
+      "hidden": false,
+      "previousRank": 32,
+      "learningLanguage": "Tiếng Anh",
+      "facebookUrl": "https://www.facebook.com/ongtrong.546490",
+      "id": 31,
+      "zaloUrl": "https://zalo.me/0867083154",
+      "role": "member",
+      "challengeIds": [
+        1
+      ]
+    }
+  ]
+}

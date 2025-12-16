@@ -1,0 +1,632 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Chi tiết thành viên">
+  <main class="min-h-screen aurora-bg py-12 px-4 relative">
+    <!-- Aurora Atmospheric Layers -->
+    <div class="absolute inset-0 aurora-layer-1 pointer-events-none"></div>
+    <div class="absolute inset-0 aurora-layer-2 pointer-events-none"></div>
+    
+    <div class="max-w-5xl mx-auto relative z-10">
+      <!-- Back Button -->
+      <div class="mb-6">
+        <a href="/" class="aurora-button inline-flex items-center gap-2">
+          ← Quay lại
+        </a>
+      </div>
+
+      <div id="loading" class="text-center py-12">
+        <div class="aurora-card inline-block px-8 py-6 rounded-2xl">
+          <p class="aurora-text text-xl font-bold">✨ Đang tải dữ liệu...</p>
+        </div>
+      </div>
+
+      <!-- Profile Content -->
+      <div id="profileContent" class="hidden space-y-6">
+        <!-- Header Card -->
+        <div class="aurora-card rounded-2xl p-8">
+          <div class="text-center">
+            <h1 class="text-5xl font-bold aurora-text mb-2" id="userName"></h1>
+            <p class="text-lg text-gray-600 mb-4" id="userBio"></p>
+            <div class="flex gap-3 justify-center flex-wrap" id="userMeta"></div>
+          </div>
+        </div>
+
+        <!-- Challenge Selector -->
+        <div id="challengeSelector" class="flex gap-3 flex-wrap justify-center mb-6">
+          <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="statsGrid">
+        </div>
+
+        <!-- Calendar History - Heatmap -->
+        <div class="aurora-card rounded-2xl p-6">
+          <h2 class="text-2xl font-bold aurora-text mb-6">📅 Lịch sử Check-in</h2>
+          <div class="mb-4 flex items-center gap-2 text-sm text-gray-600">
+            <span>Ít</span>
+            <div class="flex gap-1">
+              <div class="w-4 h-4 rounded bg-gray-200"></div>
+              <div class="w-4 h-4 rounded bg-green-200"></div>
+              <div class="w-4 h-4 rounded bg-green-400"></div>
+              <div class="w-4 h-4 rounded bg-green-600"></div>
+              <div class="w-4 h-4 rounded bg-green-800"></div>
+            </div>
+            <span>Nhiều</span>
+          </div>
+          <div id="calendar" class="space-y-8">
+          </div>
+        </div>
+
+        <!-- Detailed History -->
+        <div class="aurora-card rounded-2xl p-6">
+          <h2 class="text-2xl font-bold aurora-text mb-6">📊 Chi tiết theo tháng</h2>
+          <div id="monthlyStats"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { calculateUserStats } from '../../utils/calculateStats.js';
+
+  const userId = window.location.pathname.split('/').pop();
+
+  // Challenge date ranges
+  const challengeDateRanges = {
+    '1': { start: '2025-09-03', end: '2025-12-21' },
+    '2': { start: '2025-12-22', end: '2026-03-31' },
+    '3': { start: '2026-05-01', end: '2026-08-09' }
+  };
+
+  const challengeNames = {
+    '1': 'Anki Challenge 8',
+    '2': 'Anki Challenge 9',
+    '3': 'Anki Challenge 10'
+  };
+
+  async function loadProfile() {
+    try {
+      const loadingDiv = document.getElementById('loading');
+      const profileContent = document.getElementById('profileContent');
+
+      // Load user data and study records
+      const [usersResponse, studyRecordsResponse] = await Promise.all([
+        fetch('/data/users.json'),
+        fetch('/data/studyRecords.json')
+      ]);
+
+      const usersData = await usersResponse.json();
+      const allRecords = await studyRecordsResponse.json();
+      
+      console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
+      
+      if (!usersData || !usersData.data) {
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dữ liệu người dùng không hợp lệ</p>';
+        console.error('❌ [PROFILE] usersData or usersData.data is null/undefined');
+        return;
+      }
+      
+      const members = usersData.data || [];
+      console.log('👥 [PROFILE] Found', members.length, 'members');
+      
+      const user = members.find(m => m.id.toString() === userId);
+
+      if (!user) {
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy thành viên</p>';
+        return;
+      }
+
+      console.log('📚 [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
+
+      // Get user's challenges
+      const challengeIds = user.challengeIds || ['1'];
+
+      console.log('🎯 [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
+      console.log('🎯 [PROFILE] Challenges:', challengeIds);
+
+      // Calculate stats for each challenge using shared utility
+      const challengeStats = [];
+      console.log('🔄 [PROFILE] Starting to process', challengeIds.length, 'challenges');
+      
+      for (const challengeId of challengeIds) {
+        console.log(`\n📊 [PROFILE] Processing Challenge ${challengeId}...`);
+        
+        // Use the shared calculateUserStats function
+        const usersWithStats = calculateUserStats([user], allRecords, challengeId, challengeDateRanges);
+        console.log('📊 [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
+        
+        if (usersWithStats.length > 0 && usersWithStats[0].currentStat) {
+          const stat = usersWithStats[0].currentStat;
+          challengeStats.push({
+            challengeId: parseInt(challengeId),
+            dates: stat.dates,
+            streak: stat.streak,
+            longestStreak: stat.longestStreak,
+            totalDays: stat.totalDays,
+            disciplinePercentage: stat.disciplinePercentage
+          });
+          
+          console.log(`✅ [PROFILE] Challenge ${challengeId} stats:`, {
+            streak: stat.streak,
+            longestStreak: stat.longestStreak,
+            totalDays: stat.totalDays,
+            discipline: stat.disciplinePercentage + '%',
+            datesCount: stat.dates?.length || 0
+          });
+        } else {
+          console.warn(`⚠️ [PROFILE] No stats returned for Challenge ${challengeId}`);
+        }
+      }
+      
+      console.log('✅ [PROFILE] Total challenges with stats:', challengeStats.length);
+
+      // Display profile
+      displayProfile(user, challengeStats, allRecords);
+
+      if (loadingDiv) loadingDiv.classList.add('hidden');
+      if (profileContent) profileContent.classList.remove('hidden');
+
+    } catch (error) {
+      console.error('Error loading profile:', error);
+      const loadingDiv = document.getElementById('loading');
+      if (loadingDiv) {
+        loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
+      }
+    }
+  }
+
+  // Function removed - now using shared calculateUserStats from utils
+
+  // Store current view state
+  let currentUser = null;
+  let allChallengeStats = [];
+  let currentViewChallengeId = null;
+
+  function displayProfile(user, challengeStats, allRecords) {
+    currentUser = user;
+    allChallengeStats = challengeStats;
+    
+    // Set current view to first challenge if not set
+    if (!currentViewChallengeId && challengeStats.length > 0) {
+      currentViewChallengeId = challengeStats[0].challengeId;
+    }
+    
+    // Render challenge selector
+    renderChallengeSelector(user, challengeStats);
+    
+    // User header
+    const userNameEl = document.getElementById('userName');
+    const userBioEl = document.getElementById('userBio');
+    const userMetaEl = document.getElementById('userMeta');
+
+    if (userNameEl) userNameEl.textContent = user.name;
+    if (userBioEl) userBioEl.textContent = user.bio || 'Không có bio';
+    if (userMetaEl) {
+      userMetaEl.innerHTML = `
+        ${user.learningLanguage ? `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">🌐 ${user.learningLanguage}</span>` : ''}
+        ${user.major ? `<span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">🎓 ${user.major}</span>` : ''}
+        ${user.birthYear ? `<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">📅 ${user.birthYear}</span>` : ''}
+      `;
+    }
+
+    // Stats grid - show current selected challenge or first challenge
+    updateStatsDisplay(challengeStats);
+
+    // Calendar view - display current challenge only
+    const displayStats = currentViewChallengeId 
+      ? challengeStats.filter(s => s.challengeId === currentViewChallengeId)
+      : [challengeStats[0]];
+    
+    displayCalendars(displayStats);
+
+    // Monthly breakdown
+    displayMonthlyStats(displayStats);
+  }
+
+  function displayCalendars(challengeStats) {
+    const calendarEl = document.getElementById('calendar');
+    if (!calendarEl) {
+      console.warn('⚠️ [PROFILE] calendar element not found');
+      return;
+    }
+
+    console.log('📅 [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
+
+    if (!challengeStats || challengeStats.length === 0) {
+      console.warn('⚠️ [PROFILE] No challenge stats to display');
+      calendarEl.innerHTML = '<p class="text-gray-500 text-center py-8">Không có dữ liệu thống kê</p>';
+      return;
+    }
+
+    const html = challengeStats.map(stat => {
+      if (!stat) {
+        console.warn('⚠️ [PROFILE] Null stat object');
+        return '';
+      }
+      console.log('📅 [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
+      
+      const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
+      const dateRange = challengeDateRanges[stat.challengeId];
+      const startDate = new Date(dateRange.start);
+      const endDate = new Date(dateRange.end);
+      const today = new Date();
+      const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      const effectiveEndDate = todayStr < dateRange.end ? todayStr : dateRange.end;
+      const daysSoFar = Math.ceil((new Date(effectiveEndDate) - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      const totalChallengeDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      const disciplinePercentage = Math.round((stat.totalDays / daysSoFar) * 100);
+      
+      // Make sure stat.dates exists
+      const checkedDates = stat.dates || [];
+      
+      // Generate all days in the challenge period
+      const allDays = [];
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        const dateStr = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+        // Calculate day number (Day 1 = start date)
+        const daysDiff = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
+        const dayNumber = daysDiff + 1;
+        
+        const isChecked = checkedDates.includes(dateStr);
+        const monthYear = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+        
+        allDays.push({
+          dayNumber,
+          dateStr,
+          displayDate: `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}`,
+          isChecked,
+          monthYear
+        });
+      }
+      
+      // Group by month
+      const daysByMonth = {};
+      allDays.forEach(day => {
+        if (!daysByMonth[day.monthYear]) {
+          daysByMonth[day.monthYear] = [];
+        }
+        daysByMonth[day.monthYear].push(day);
+      });
+      
+      return `
+        <div class="border-t border-gray-200 first:border-t-0 pt-6 first:pt-0">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">${challengeName}</h3>
+          <p class="text-sm text-gray-600 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngày, ${disciplinePercentage}% kỷ luật)</p>
+          
+          <div class="space-y-6">
+            ${Object.entries(daysByMonth).map(([monthKey, days]) => {
+              const firstDay = days[0];
+              const monthDate = new Date(firstDay.dateStr);
+              const monthName = monthDate.toLocaleDateString('vi-VN', { year: 'numeric', month: 'long' });
+              const checkedInMonth = days.filter(d => d.isChecked).length;
+              const totalInMonth = days.length;
+              const monthPercent = Math.round((checkedInMonth / totalInMonth) * 100);
+              
+              return `
+                <div>
+                  <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-semibold text-gray-700">${monthName}</h4>
+                    <span class="text-xs text-gray-600">${checkedInMonth}/${totalInMonth} ngày (${monthPercent}%)</span>
+                  </div>
+                  <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 gap-2">
+                    ${days.map(day => `
+                      <div class="flex items-center justify-center aspect-square rounded text-xs font-medium ${
+                        day.isChecked 
+                          ? 'bg-green-500 text-white' 
+                          : 'bg-red-500 text-white'
+                      }" title="Day ${day.dayNumber}: ${day.displayDate}">
+                        <div class="text-center">
+                          <div class="text-[10px] leading-tight">D${day.dayNumber}</div>
+                          <div class="text-[9px] leading-tight opacity-80">${day.displayDate}</div>
+                        </div>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    calendarEl.innerHTML = html;
+  }
+
+  // Render challenge selector buttons
+  function renderChallengeSelector(user, challengeStats) {
+    const selectorEl = document.getElementById('challengeSelector');
+    if (!selectorEl) return;
+
+    if (challengeStats.length === 0) {
+      selectorEl.innerHTML = '<p class="text-gray-500 text-sm">Chưa tham gia challenge nào</p>';
+      return;
+    }
+
+    const html = challengeStats.map(stat => {
+      const challengeName = challengeNames[stat.challengeId] || `Challenge ${stat.challengeId}`;
+      const isActive = currentViewChallengeId === stat.challengeId;
+      const activeClass = isActive 
+        ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg' 
+        : 'bg-white text-gray-700 hover:bg-gray-50';
+      
+      return `
+        <button 
+          class="px-6 py-3 rounded-xl font-semibold transition-all ${activeClass} challenge-btn"
+          data-challenge-id="${stat.challengeId}"
+        >
+          ${challengeName}
+          <span class="text-xs opacity-80 ml-2">(${stat.totalDays} ngày)</span>
+        </button>
+      `;
+    }).join('');
+
+    selectorEl.innerHTML = html;
+
+    // Add click handlers
+    document.querySelectorAll('.challenge-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const challengeId = parseInt(btn.getAttribute('data-challenge-id'));
+        switchChallenge(challengeId);
+      });
+    });
+  }
+
+  function switchChallenge(challengeId) {
+    currentViewChallengeId = challengeId;
+    const stat = allChallengeStats.find(s => s.challengeId === challengeId);
+    
+    if (!stat) {
+      console.warn('⚠️ [PROFILE] Challenge not found:', challengeId);
+      return;
+    }
+
+    console.log('🔄 [PROFILE] Switching to Challenge', challengeId);
+    
+    // Re-render with selected challenge
+    renderChallengeSelector(currentUser, allChallengeStats);
+    updateStatsDisplay([stat]);
+    displayCalendars([stat]);
+    displayMonthlyStats([stat]);
+  }
+
+  function updateStatsDisplay(challengeStats) {
+    const statsGridEl = document.getElementById('statsGrid');
+    if (statsGridEl && challengeStats.length > 0) {
+      const mainStats = challengeStats[0];
+      statsGridEl.innerHTML = `
+        <div class="aurora-card rounded-xl p-6 text-center">
+          <div class="text-4xl mb-2">🔥</div>
+          <div class="text-3xl font-bold aurora-text">${mainStats.streak}</div>
+          <div class="text-sm text-gray-600 mt-1">Chuỗi hiện tại</div>
+        </div>
+        <div class="aurora-card rounded-xl p-6 text-center">
+          <div class="text-4xl mb-2">🏆</div>
+          <div class="text-3xl font-bold aurora-text">${mainStats.longestStreak}</div>
+          <div class="text-sm text-gray-600 mt-1">Kỷ lục</div>
+        </div>
+        <div class="aurora-card rounded-xl p-6 text-center">
+          <div class="text-4xl mb-2">📅</div>
+          <div class="text-3xl font-bold aurora-text">${mainStats.totalDays}</div>
+          <div class="text-sm text-gray-600 mt-1">Tổng ngày</div>
+        </div>
+        <div class="aurora-card rounded-xl p-6 text-center">
+          <div class="text-4xl mb-2">💪</div>
+          <div class="text-3xl font-bold aurora-text">${mainStats.disciplinePercentage}%</div>
+          <div class="text-sm text-gray-600 mt-1">Kỷ luật</div>
+        </div>
+      `;
+    }
+  }
+
+  // Removed generateHeatmap - using list view instead
+  
+  function _removedGenerateHeatmap() {
+    return; // Function removed
+    const dateRange = {};
+    const startDate = new Date();
+    const endDate = new Date();
+
+    // Calculate streak for each date for intensity
+    const dateStreaks = new Map();
+    const sortedDates = [...dates].sort();
+    
+    let currentStreak = 0;
+    for (let i = 0; i < sortedDates.length; i++) {
+      if (i === 0) {
+        currentStreak = 1;
+      } else {
+        const prevDate = new Date(sortedDates[i - 1]);
+        const currDate = new Date(sortedDates[i]);
+        const diffDays = Math.floor((currDate - prevDate) / (1000 * 60 * 60 * 24));
+        
+        if (diffDays === 1) {
+          currentStreak++;
+        } else {
+          currentStreak = 1;
+        }
+      }
+      dateStreaks.set(sortedDates[i], currentStreak);
+    }
+
+    // Get max streak for color scaling
+    const maxStreak = Math.max(...Array.from(dateStreaks.values()), 1);
+
+    // Build heatmap by weeks
+    const allDates = [];
+    for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+      allDates.push(new Date(d));
+    }
+
+    // Group by weeks
+    const weeks = [];
+    let currentWeek = [];
+    
+    // Start from Sunday of the first week
+    const firstDate = allDates[0];
+    const firstDayOfWeek = firstDate.getDay();
+    
+    // Add empty cells for days before start
+    for (let i = 0; i < firstDayOfWeek; i++) {
+      currentWeek.push(null);
+    }
+
+    allDates.forEach(date => {
+      const dayOfWeek = date.getDay();
+      
+      if (dayOfWeek === 0 && currentWeek.length > 0) {
+        weeks.push(currentWeek);
+        currentWeek = [];
+      }
+      
+      currentWeek.push(date);
+    });
+    
+    if (currentWeek.length > 0) {
+      weeks.push(currentWeek);
+    }
+
+    // Generate heatmap HTML
+    const monthLabels = [];
+    let lastMonth = -1;
+    let weekIndex = 0;
+
+    weeks.forEach((week, idx) => {
+      const firstValidDate = week.find(d => d !== null);
+      if (firstValidDate) {
+        const month = firstValidDate.getMonth();
+        if (month !== lastMonth) {
+          monthLabels.push({
+            month: firstValidDate.toLocaleDateString('vi-VN', { month: 'short' }),
+            weekIndex: idx
+          });
+          lastMonth = month;
+        }
+      }
+    });
+
+    // Days of week labels
+    const daysOfWeek = ['CN', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7'];
+    
+    const heatmapHTML = `
+      <div class="flex gap-1">
+        <!-- Day labels -->
+        <div class="flex flex-col justify-around text-xs text-gray-600 pr-2">
+          ${daysOfWeek.map((day, i) => i % 2 === 1 ? `<div class="h-3">${day}</div>` : '<div class="h-3"></div>').join('')}
+        </div>
+        
+        <!-- Month labels -->
+        <div class="flex-1">
+          <div class="flex gap-1 mb-1 text-xs text-gray-600" style="padding-left: ${weeks.length > 0 ? '0' : '0'}">
+            ${monthLabels.map(ml => `<div style="width: ${14 * 7}px">${ml.month}</div>`).join('')}
+          </div>
+          
+          <!-- Heatmap grid -->
+          <div class="flex gap-1">
+            ${weeks.map(week => `
+              <div class="flex flex-col gap-1">
+                ${week.map(date => {
+                  if (!date) {
+                    return '<div class="w-3 h-3"></div>';
+                  }
+                  
+                  const dateStr = date.toISOString().split('T')[0];
+                  const isChecked = dates.includes(dateStr);
+                  const streak = dateStreaks.get(dateStr) || 0;
+                  
+                  // Calculate color intensity based on streak
+                  let colorClass = 'bg-gray-200';
+                  if (isChecked) {
+                    const intensity = Math.min(Math.floor((streak / maxStreak) * 4) + 1, 4);
+                    const colors = [
+                      'bg-green-200',
+                      'bg-green-400',
+                      'bg-green-600',
+                      'bg-green-800'
+                    ];
+                    colorClass = colors[intensity - 1];
+                  }
+                  
+                  const dayNum = date.getDate();
+                  const monthName = date.toLocaleDateString('vi-VN', { month: 'short', day: 'numeric' });
+                  
+                  return `
+                    <div class="w-3 h-3 rounded-sm ${colorClass} cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" 
+                         title="${monthName}: ${isChecked ? `✅ Check-in (Chuỗi: ${streak})` : 'Chưa check-in'}"
+                         data-date="${dateStr}">
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </div>
+    `;
+
+    return heatmapHTML;
+  }
+
+  function displayMonthlyStats(challengeStats) {
+    const monthlyStatsEl = document.getElementById('monthlyStats');
+    if (!monthlyStatsEl) {
+      console.warn('⚠️ [PROFILE] monthlyStats element not found');
+      return;
+    }
+
+    console.log('📊 [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
+
+    if (!challengeStats || challengeStats.length === 0) {
+      monthlyStatsEl.innerHTML = '<p class="text-gray-500 text-center py-8">Chưa có dữ liệu thống kê theo tháng</p>';
+      return;
+    }
+
+    const html = challengeStats.map(stat => {
+      if (!stat || !stat.dates) {
+        console.warn('⚠️ [PROFILE] Invalid stat object:', stat);
+        return '';
+      }
+
+      const challengeName = challengeNames[stat.challengeId] || 'Unknown';
+      const dateRange = challengeDateRanges[stat.challengeId];
+      
+      // Group by month
+      const monthlyData = {};
+      stat.dates.forEach(dateStr => {
+        const month = dateStr.substring(0, 7); // YYYY-MM
+        monthlyData[month] = (monthlyData[month] || 0) + 1;
+      });
+
+      const monthsHTML = Object.keys(monthlyData).sort().map(month => {
+        const count = monthlyData[month];
+        const monthName = new Date(month + '-01').toLocaleDateString('vi-VN', { year: 'numeric', month: 'long' });
+        return `
+          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+            <span class="font-semibold text-gray-700">${monthName}</span>
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-bold">${count} ngày</span>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="mb-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-3">${challengeName}</h3>
+          <p class="text-sm text-gray-600 mb-4">${dateRange.start} - ${dateRange.end}</p>
+          <div class="space-y-2">
+            ${monthsHTML || '<p class="text-gray-500">Chưa có dữ liệu</p>'}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    monthlyStatsEl.innerHTML = html;
+  }
+
+  // Load profile on page load
+  loadProfile();
+</script>
+</Layout>

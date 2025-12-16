@@ -1,0 +1,5 @@
+name = "anki-challenge"
+compatibility_date = "2024-01-01"
+
+# Uncomment and add your Cloudflare account ID
+# account_id = "YOUR_ACCOUNT_ID"

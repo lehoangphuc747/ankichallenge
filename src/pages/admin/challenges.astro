@@ -1,0 +1,422 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin - Quản lý Challenges">
+  <main class="p-8 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-4xl font-bold">🏆 Quản lý Challenges</h1>
+      <div class="flex gap-3">
+        <button id="addChallengeBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+          ➕ Thêm Challenge
+        </button>
+        <a href="/admin" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+          ← Quay lại Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed top-4 right-4 z-50">
+      <div class="bg-white rounded-lg shadow-2xl border-l-4 border-green-500 p-4 min-w-[300px]">
+        <div class="flex items-center">
+          <div class="text-2xl mr-3" id="toastIcon">✅</div>
+          <div>
+            <p class="font-bold text-gray-900" id="toastTitle">Thành công!</p>
+            <p class="text-sm text-gray-600" id="toastMessage">Đã lưu thay đổi</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="loading" class="text-center py-8">
+      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
+    </div>
+    
+    <!-- Challenges List -->
+    <div id="challengesList" class="hidden space-y-6">
+    </div>
+
+    <!-- Add/Edit Challenge Modal -->
+    <div id="challengeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
+        <h2 class="text-2xl font-bold mb-6" id="modalTitle">Thêm Challenge</h2>
+        <form id="challengeForm" class="space-y-4">
+          <input type="hidden" id="editId" />
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tên Challenge *</label>
+            <input type="text" id="challengeName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Anki Challenge 11" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Ngày bắt đầu *</label>
+              <input type="date" id="startDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Ngày kết thúc *</label>
+              <input type="date" id="endDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mô tả</label>
+            <textarea id="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="100 ngày thử thách"></textarea>
+          </div>
+
+          <div class="flex gap-3 justify-end pt-4">
+            <button type="button" id="cancelModal" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+              Hủy
+            </button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Lưu
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Manage Members Modal -->
+    <div id="membersModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-6">Quản lý thành viên - <span id="currentChallengeName"></span></h2>
+        
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-3">Thành viên hiện tại (<span id="currentMembersCount">0</span>)</h3>
+          <div id="currentMembersList" class="space-y-2 max-h-60 overflow-y-auto">
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Thêm thành viên</h3>
+          <div id="availableMembersList" class="space-y-2 max-h-60 overflow-y-auto">
+          </div>
+        </div>
+
+        <div class="flex justify-end mt-6">
+          <button type="button" id="closeMembersModal" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+            Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</Layout>
+
+<script>
+  let challengesData = {};
+  let usersData = [];
+  let currentEditingChallengeId = null;
+
+  // Challenge date ranges - ID mapping: 1=Challenge 8, 2=Challenge 9, 3=Challenge 10
+  const defaultChallenges = {
+    '1': { name: 'Anki Challenge 8', start: '2025-09-03', end: '2025-12-21', description: '110 ngày thử thách' },
+    '2': { name: 'Anki Challenge 9', start: '2025-12-22', end: '2026-03-31', description: '100 ngày thử thách' },
+    '3': { name: 'Anki Challenge 10', start: '2026-05-01', end: '2026-08-09', description: '100 ngày thử thách' }
+  };
+
+  async function loadData() {
+    try {
+      // Load users and challenges
+      const [usersResponse, challengesResponse] = await Promise.all([
+        fetch('/data/users.json'),
+        fetch('/api/challenges')
+      ]);
+      
+      const usersDataJson = await usersResponse.json();
+      usersData = usersDataJson.data || [];
+      
+      challengesData = await challengesResponse.json();
+
+      renderChallenges();
+      document.getElementById('loading')?.classList.add('hidden');
+      document.getElementById('challengesList')?.classList.remove('hidden');
+
+    } catch (error) {
+      console.error('Error loading data:', error);
+      showToast('Lỗi!', 'Không thể tải dữ liệu', 'error');
+    }
+  }
+
+  function renderChallenges() {
+    const listEl = document.getElementById('challengesList');
+    if (!listEl) return;
+
+    const html = Object.entries(challengesData).map(([id, challenge]) => {
+      const membersCount = usersData.filter(u => u.challengeIds && u.challengeIds.includes(parseInt(id))).length;
+      
+      return `
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+          <div class="flex items-center justify-between">
+            <div class="flex-1">
+              <h3 class="text-2xl font-bold text-gray-900 mb-2">${challenge.name}</h3>
+              <p class="text-gray-600 mb-3">${challenge.description || ''}</p>
+              <div class="flex gap-4 text-sm text-gray-600">
+                <span>📅 ${challenge.start} - ${challenge.end}</span>
+                <span>👥 ${membersCount} thành viên</span>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button class="manage-members-btn px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm" data-id="${id}">
+                👥 Quản lý thành viên
+              </button>
+              <button class="edit-challenge-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm" data-id="${id}">
+                ✏️ Sửa
+              </button>
+              <button class="delete-challenge-btn px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm" data-id="${id}">
+                🗑️ Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    listEl.innerHTML = html || '<p class="text-gray-500 text-center py-8">Chưa có challenge nào</p>';
+
+    // Add event listeners
+    document.querySelectorAll('.edit-challenge-btn').forEach(btn => {
+      btn.addEventListener('click', () => editChallenge(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.delete-challenge-btn').forEach(btn => {
+      btn.addEventListener('click', () => deleteChallenge(btn.dataset.id));
+    });
+
+    document.querySelectorAll('.manage-members-btn').forEach(btn => {
+      btn.addEventListener('click', () => openMembersModal(btn.dataset.id));
+    });
+  }
+
+  function editChallenge(id) {
+    const challenge = challengesData[id];
+    if (!challenge) return;
+
+    currentEditingChallengeId = id;
+    document.getElementById('modalTitle')!.textContent = 'Chỉnh sửa Challenge';
+    document.getElementById('editId')!.value = id;
+    document.getElementById('challengeName')!.value = challenge.name;
+    document.getElementById('startDate')!.value = challenge.start;
+    document.getElementById('endDate')!.value = challenge.end;
+    document.getElementById('description')!.value = challenge.description || '';
+    
+    document.getElementById('challengeModal')?.classList.remove('hidden');
+  }
+
+  async function deleteChallenge(id) {
+    if (!confirm('Bạn có chắc muốn xóa challenge này? Thành viên sẽ không bị xóa.')) return;
+
+    try {
+      delete challengesData[id];
+      
+      const response = await fetch('/api/challenges', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(challengesData)
+      });
+
+      const result = await response.json();
+      if (!result.success) throw new Error('Failed to delete');
+      
+      showToast('Đã xóa!', 'Challenge đã được xóa', 'success');
+      renderChallenges();
+    } catch (error) {
+      console.error('Error deleting challenge:', error);
+      showToast('Lỗi!', 'Không thể xóa challenge', 'error');
+    }
+  }
+
+  function openMembersModal(challengeId) {
+    currentEditingChallengeId = challengeId;
+    const challenge = challengesData[challengeId];
+    
+    document.getElementById('currentChallengeName')!.textContent = challenge.name;
+    
+    const currentMembers = usersData.filter(u => u.challengeIds && u.challengeIds.includes(parseInt(challengeId)));
+    const availableMembers = usersData.filter(u => !u.challengeIds || !u.challengeIds.includes(parseInt(challengeId)));
+    
+    document.getElementById('currentMembersCount')!.textContent = currentMembers.length.toString();
+    
+    // Render current members
+    document.getElementById('currentMembersList')!.innerHTML = currentMembers.length === 0
+      ? '<p class="text-gray-500 text-sm">Chưa có thành viên nào</p>'
+      : currentMembers.map(m => `
+          <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
+            <span class="font-medium">${m.name}</span>
+            <button class="remove-member-btn px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600" data-user-id="${m.id}">
+              Xóa
+            </button>
+          </div>
+        `).join('');
+    
+    // Render available members
+    document.getElementById('availableMembersList')!.innerHTML = availableMembers.length === 0
+      ? '<p class="text-gray-500 text-sm">Không có thành viên khả dụng</p>'
+      : availableMembers.map(m => `
+          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+            <span class="font-medium">${m.name}</span>
+            <button class="add-member-btn px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600" data-user-id="${m.id}">
+              Thêm
+            </button>
+          </div>
+        `).join('');
+    
+    // Add event listeners
+    document.querySelectorAll('.remove-member-btn').forEach(btn => {
+      btn.addEventListener('click', () => removeMemberFromChallenge(parseInt(btn.dataset.userId!)));
+    });
+    
+    document.querySelectorAll('.add-member-btn').forEach(btn => {
+      btn.addEventListener('click', () => addMemberToChallenge(parseInt(btn.dataset.userId!)));
+    });
+    
+    document.getElementById('membersModal')?.classList.remove('hidden');
+  }
+
+  async function addMemberToChallenge(userId) {
+    try {
+      const user = usersData.find(u => u.id === userId);
+      if (!user) return;
+      
+      if (!user.challengeIds) user.challengeIds = [];
+      user.challengeIds.push(parseInt(currentEditingChallengeId!));
+      
+      const response = await fetch('/api/update-users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: usersData })
+      });
+
+      const result = await response.json();
+      if (!result.success) throw new Error('Failed to add member');
+      
+      showToast('Đã thêm!', `${user.name} đã được thêm vào challenge`, 'success');
+      openMembersModal(currentEditingChallengeId!);
+      renderChallenges();
+    } catch (error) {
+      console.error('Error adding member:', error);
+      showToast('Lỗi!', 'Không thể thêm thành viên', 'error');
+    }
+  }
+
+  async function removeMemberFromChallenge(userId) {
+    try {
+      const user = usersData.find(u => u.id === userId);
+      if (!user) return;
+      
+      user.challengeIds = (user.challengeIds || []).filter(id => id !== parseInt(currentEditingChallengeId!));
+      
+      const response = await fetch('/api/update-users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: usersData })
+      });
+
+      const result = await response.json();
+      if (!result.success) throw new Error('Failed to remove member');
+      
+      showToast('Đã xóa!', `${user.name} đã được xóa khỏi challenge`, 'success');
+      openMembersModal(currentEditingChallengeId!);
+      renderChallenges();
+    } catch (error) {
+      console.error('Error removing member:', error);
+      showToast('Lỗi!', 'Không thể xóa thành viên', 'error');
+    }
+  }
+
+  function showToast(title, message, type = 'success') {
+    const toast = document.getElementById('toast');
+    const icon = document.getElementById('toastIcon');
+    const titleEl = document.getElementById('toastTitle');
+    const messageEl = document.getElementById('toastMessage');
+
+    if (type === 'success') {
+      icon!.textContent = '✅';
+    } else if (type === 'error') {
+      icon!.textContent = '❌';
+    }
+
+    titleEl!.textContent = title;
+    messageEl!.textContent = message;
+    
+    toast?.classList.remove('hidden');
+    
+    setTimeout(() => {
+      toast?.classList.add('hidden');
+    }, 3000);
+  }
+
+  // Event listeners
+  document.getElementById('addChallengeBtn')?.addEventListener('click', () => {
+    currentEditingChallengeId = null;
+    document.getElementById('modalTitle')!.textContent = 'Thêm Challenge';
+    document.getElementById('challengeForm')!.reset();
+    document.getElementById('challengeModal')?.classList.remove('hidden');
+  });
+
+  document.getElementById('cancelModal')?.addEventListener('click', () => {
+    document.getElementById('challengeModal')?.classList.add('hidden');
+  });
+
+  document.getElementById('closeMembersModal')?.addEventListener('click', () => {
+    document.getElementById('membersModal')?.classList.add('hidden');
+  });
+
+  document.getElementById('challengeForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const name = (document.getElementById('challengeName') as HTMLInputElement).value;
+    const start = (document.getElementById('startDate') as HTMLInputElement).value;
+    const end = (document.getElementById('endDate') as HTMLInputElement).value;
+    const description = (document.getElementById('description') as HTMLTextAreaElement).value;
+    
+    try {
+      if (currentEditingChallengeId) {
+        // Edit existing
+        challengesData[currentEditingChallengeId] = { name, start, end, description };
+      } else {
+        // Add new
+        const newId = (Math.max(...Object.keys(challengesData).map(k => parseInt(k))) + 1).toString();
+        challengesData[newId] = { name, start, end, description };
+      }
+      
+      const response = await fetch('/api/challenges', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(challengesData)
+      });
+
+      const result = await response.json();
+      if (!result.success) throw new Error('Failed to save');
+      
+      showToast('Đã lưu!', 'Challenge đã được lưu', 'success');
+      document.getElementById('challengeModal')?.classList.add('hidden');
+      renderChallenges();
+    } catch (error) {
+      console.error('Error saving challenge:', error);
+      showToast('Lỗi!', 'Không thể lưu challenge', 'error');
+    }
+  });
+
+  // Load data on page load
+  loadData();
+</script>
+
+<style>
+  @keyframes slideIn {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  #toast:not(.hidden) {
+    animation: slideIn 0.3s ease-out;
+  }
+</style>

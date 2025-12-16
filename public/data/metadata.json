@@ -1,0 +1,11 @@
+{
+  "lastUpdated": "2025-12-16T18:40:25.213Z",
+  "description": "Data processed from backup.json",
+  "sourceBackupDate": "2025-12-13T14:26:15.703Z",
+  "totalUsers": 21,
+  "totalRecordDays": 103,
+  "dateRange": {
+    "start": "2025-09-02",
+    "end": "2025-12-13"
+  }
+}

@@ -1,0 +1,98 @@
+---
+// Progress Bar Component for Anki Challenge
+interface Props {
+  challengeId: string;
+}
+
+const { challengeId } = Astro.props;
+
+// Challenge configuration
+const challengeConfig = {
+  '1': {
+    name: 'Anki Challenge 8',
+    startDate: '2025-09-03',
+    endDate: '2025-12-21',
+    totalDays: 110
+  },
+  '2': {
+    name: 'Anki Challenge 9',
+    startDate: '2026-01-01',
+    endDate: '2026-04-10',
+    totalDays: 100
+  },
+  '3': {
+    name: 'Anki Challenge 10',
+    startDate: '2026-05-01',
+    endDate: '2026-08-09',
+    totalDays: 100
+  }
+};
+---
+
+<div id="progressContainer" class="max-w-3xl mx-auto mb-6 aurora-card rounded-xl p-6">
+  <div class="flex items-center justify-between mb-3">
+    <div class="text-left">
+      <p class="text-sm font-semibold text-gray-600">Ngày bắt đầu</p>
+      <p class="text-lg font-bold text-purple-700" id="startDateText">--</p>
+    </div>
+    <div class="text-center flex-1 px-4">
+      <p class="text-sm font-semibold text-gray-600">Tiến độ</p>
+      <p class="text-2xl font-bold aurora-text" id="progressText">--/-- ngày</p>
+    </div>
+    <div class="text-right">
+      <p class="text-sm font-semibold text-gray-600">Ngày kết thúc</p>
+      <p class="text-lg font-bold text-purple-700" id="endDateText">--</p>
+    </div>
+  </div>
+  <div class="relative w-full h-6 bg-gray-200 rounded-full overflow-hidden">
+    <div id="progressBar" class="absolute inset-y-0 left-0 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 transition-all duration-1000 flex items-center justify-center" style="width: 0%">
+      <span class="text-xs font-bold text-white" id="progressPercent">0%</span>
+    </div>
+  </div>
+  <p class="text-center text-sm text-gray-600 mt-3" id="daysRemaining">Còn -- ngày</p>
+</div>
+
+<script define:vars={{ challengeConfig }}>
+  function updateProgressBar(challengeId) {
+    const config = challengeConfig[challengeId];
+    if (!config) return;
+
+    const startDate = new Date(config.startDate);
+    const endDate = new Date(config.endDate);
+    const today = new Date();
+    
+    const totalDays = config.totalDays;
+    const daysPassed = Math.max(0, Math.ceil((today - startDate) / (1000 * 60 * 60 * 24)) + 1);
+    const daysRemaining = Math.max(0, Math.ceil((endDate - today) / (1000 * 60 * 60 * 24)));
+    const progressPercent = Math.min(100, Math.round((daysPassed / totalDays) * 100));
+    
+    // Format dates
+    const formatDate = (date) => {
+      const d = new Date(date);
+      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+    };
+    
+    document.getElementById('startDateText').textContent = formatDate(config.startDate);
+    document.getElementById('endDateText').textContent = formatDate(config.endDate);
+    document.getElementById('progressBar').style.width = `${progressPercent}%`;
+    document.getElementById('progressText').textContent = `${daysPassed}/${totalDays} ngày`;
+    document.getElementById('progressPercent').textContent = `${progressPercent}%`;
+    
+    const daysRemainingEl = document.getElementById('daysRemaining');
+    if (today > endDate) {
+      daysRemainingEl.textContent = '✅ Đã hoàn thành';
+      daysRemainingEl.className = 'text-center text-sm text-green-600 font-bold mt-3';
+    } else if (daysRemaining === 0) {
+      daysRemainingEl.textContent = '🎯 Hôm nay là ngày cuối cùng!';
+    } else {
+      daysRemainingEl.textContent = `Còn ${daysRemaining} ngày`;
+      daysRemainingEl.className = 'text-center text-sm text-gray-600 mt-3';
+    }
+  }
+
+  // Export function to global scope
+  window.updateProgressBar = updateProgressBar;
+  
+  // Initial update
+  updateProgressBar('1');
+</script>

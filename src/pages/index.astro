@@ -1,11 +1,278 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import ProgressBar from '../components/ProgressBar.astro';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Anki Challenge - Bảng xếp hạng">
+	<main class="min-h-screen aurora-bg py-12 px-4 relative">
+		<!-- Aurora Atmospheric Layers -->
+		<div class="absolute inset-0 aurora-layer-1 pointer-events-none"></div>
+		<div class="absolute inset-0 aurora-layer-2 pointer-events-none"></div>
+		<div class="absolute inset-0 aurora-layer-3 pointer-events-none"></div>
+		
+		<div class="max-w-5xl mx-auto relative z-10">
+			<div class="text-center mb-8">
+				<h1 class="text-6xl font-bold aurora-text mb-4">🏆 Bảng Xếp Hạng</h1>
+				<p class="text-xl font-semibold text-gray-700 mb-4" id="challengeTitle">Anki Challenge 8 - 100 ngày thử thách</p>
+				
+				<!-- Challenge Progress Bar -->
+				<ProgressBar challengeId="1" />
+				
+				<!-- Challenge Selector -->
+				<div class="inline-block aurora-card rounded-xl p-2">
+					<select id="challengeSelect" class="px-6 py-2 bg-transparent border-0 font-bold text-gray-800 focus:outline-none focus:ring-2 focus:ring-purple-400 rounded-lg">
+						<option value="1">Anki Challenge 8</option>
+						<option value="2">Anki Challenge 9</option>
+						<option value="3">Anki Challenge 10</option>
+					</select>
+				</div>
+			</div>
+
+			<div id="loading" class="text-center py-12">
+				<div class="aurora-card inline-block px-8 py-6 rounded-2xl">
+					<p class="aurora-text text-xl font-bold">✨ Đang tải dữ liệu...</p>
+				</div>
+			</div>
+
+			<div id="leaderboard" class="hidden">
+				<div class="aurora-card rounded-2xl overflow-hidden">
+					<table class="w-full">
+						<thead class="aurora-bg text-gray-900">
+							<tr>
+								<th class="px-6 py-4 text-left text-sm font-bold">Hạng</th>
+								<th class="px-6 py-4 text-left text-sm font-bold">Tên</th>
+								<th class="px-6 py-4 text-center text-sm font-bold">Chuỗi hiện tại</th>
+								<th class="px-6 py-4 text-center text-sm font-bold">Kỷ lục</th>
+								<th class="px-6 py-4 text-center text-sm font-bold">Tổng ngày</th>
+								<th class="px-6 py-4 text-center text-sm font-bold">Kỷ luật</th>
+							</tr>
+						</thead>
+						<tbody id="leaderboardBody" class="divide-y divide-gray-200">
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</main>
 </Layout>
+
+<script>
+	import { calculateUserStats } from '../utils/calculateStats.js';
+
+	let currentChallengeId = '1';
+
+	// Challenge names mapping
+	const challengeNames = {
+		'1': 'Anki Challenge 8',
+		'2': 'Anki Challenge 9',
+		'3': 'Anki Challenge 10'
+	};
+
+	// Challenge date ranges
+	const challengeDateRanges = {
+		'1': { start: '2025-09-03', end: '2025-12-21' },
+		'2': { start: '2025-12-22', end: '2026-03-31' },
+		'3': { start: '2026-05-01', end: '2026-08-09' }
+	};
+
+	// Load static data from JSON files
+	let studyRecordsData = null;
+	let usersData = null;
+
+	async function loadStaticData() {
+		try {
+			const [studyRecordsResponse, usersResponse] = await Promise.all([
+				fetch('/data/studyRecords.json'),
+				fetch('/data/users.json')
+			]);
+
+			studyRecordsData = await studyRecordsResponse.json();
+			usersData = await usersResponse.json();
+		} catch (error) {
+			console.error('Error loading static data:', error);
+			throw error;
+		}
+	}
+
+	// Calculate stats using shared utility function
+	function calculateUserStatsForLeaderboard(userId, challengeId) {
+		try {
+			console.log(`\n🔍 [LEADERBOARD] Calculating stats for User ${userId}, Challenge ${challengeId}`);
+			
+			if (!studyRecordsData || !usersData) {
+				console.log('❌ [LEADERBOARD] Missing data:', { studyRecordsData: !!studyRecordsData, usersData: !!usersData });
+				return { streak: 0, longestStreak: 0, totalDays: 0, disciplinePercentage: 0 };
+			}
+			
+			const users = usersData.data || [];
+			const user = users.find(u => u.id === userId);
+			
+			if (!user) {
+				console.log(`❌ [LEADERBOARD] User ${userId} not found`);
+				return { streak: 0, longestStreak: 0, totalDays: 0, disciplinePercentage: 0 };
+			}
+			
+			console.log(`👤 [LEADERBOARD] User found:`, user.name, 'ChallengeIds:', user.challengeIds);
+			
+			// Use shared calculateUserStats function
+			const usersWithStats = calculateUserStats([user], studyRecordsData, challengeId, challengeDateRanges);
+			
+			if (usersWithStats.length === 0 || !usersWithStats[0].currentStat) {
+				console.log(`⚠️ [LEADERBOARD] No stats calculated for user ${userId}`);
+				return { streak: 0, longestStreak: 0, totalDays: 0, disciplinePercentage: 0 };
+			}
+			
+			const stat = usersWithStats[0].currentStat;
+			console.log(`✅ [LEADERBOARD] Stats calculated:`, {
+				user: user.name,
+				challenge: challengeId,
+				streak: stat.streak,
+				longestStreak: stat.longestStreak,
+				totalDays: stat.totalDays,
+				disciplinePercentage: stat.disciplinePercentage,
+				datesCount: stat.dates?.length
+			});
+			
+			return {
+				streak: stat.streak,
+				longestStreak: stat.longestStreak,
+				totalDays: stat.totalDays,
+				disciplinePercentage: stat.disciplinePercentage
+			};
+		} catch (error) {
+			console.error('❌ [LEADERBOARD] Error calculating stats:', error);
+			return { streak: 0, longestStreak: 0, totalDays: 0, disciplinePercentage: 0 };
+		}
+	}
+
+	async function loadLeaderboard(challengeId) {
+		try {
+			console.log('🏆 loadLeaderboard - starting with challengeId:', challengeId);
+			const loadingDiv = document.getElementById('loading');
+			const leaderboardDiv = document.getElementById('leaderboard');
+			const leaderboardBody = document.getElementById('leaderboardBody');
+
+			if (loadingDiv) loadingDiv.classList.remove('hidden');
+			if (leaderboardDiv) leaderboardDiv.classList.add('hidden');
+
+			// Ensure static data is loaded
+			if (!usersData || !studyRecordsData) {
+				await loadStaticData();
+			}
+
+			if (!usersData || !usersData.data) {
+				if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy dữ liệu</p>';
+				return;
+			}
+
+			const members = usersData.data || [];
+
+			// Filter users in this challenge
+			const challengeIdNum = parseInt(challengeId);
+			const challengeMembers = members.filter(m => 
+				!m.hidden && m.challengeIds && m.challengeIds.includes(challengeIdNum)
+			);
+			console.log('🏆 Filtered challengeMembers:', challengeMembers.length, challengeMembers.map(m => ({ id: m.id, name: m.name, challengeIds: m.challengeIds })));
+
+			// Calculate stats for each member
+			console.log(`\n🎯 [LEADERBOARD] Calculating stats for ${challengeMembers.length} members in Challenge ${challengeId}`);
+			const membersWithStats = challengeMembers.map((member) => {
+				console.log(`\n--- Processing ${member.name} (ID: ${member.id}) ---`);
+				const stats = calculateUserStatsForLeaderboard(member.id, challengeId);
+				return { ...member, ...stats };
+			});
+			
+			console.log(`\n📊 [LEADERBOARD] Final stats summary:`);
+			console.table(membersWithStats.map(m => ({
+				name: m.name,
+				streak: m.streak,
+				longestStreak: m.longestStreak,
+				totalDays: m.totalDays,
+				discipline: m.disciplinePercentage + '%'
+			})));
+
+			// Sort by discipline percentage
+			membersWithStats.sort((a, b) => b.disciplinePercentage - a.disciplinePercentage);
+
+			if (loadingDiv) loadingDiv.classList.add('hidden');
+			if (leaderboardDiv) leaderboardDiv.classList.remove('hidden');
+			if (!leaderboardBody) return;
+
+			if (membersWithStats.length === 0) {
+				leaderboardBody.innerHTML = '<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Chưa có thành viên nào trong challenge này</td></tr>';
+				return;
+			}
+
+			leaderboardBody.innerHTML = membersWithStats.map((member, index) => {
+				const rankClass = index === 0 ? 'bg-yellow-50' : index === 1 ? 'bg-gray-50' : index === 2 ? 'bg-orange-50' : '';
+				const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+				
+				return `
+					<tr class="${rankClass}">
+						<td class="px-6 py-4">
+							<div class="flex items-center gap-2">
+								<span class="text-2xl">${rankEmoji}</span>
+								<span class="font-bold text-lg text-gray-700">${index + 1}</span>
+							</div>
+						</td>
+						<td class="px-6 py-4">
+							<a href="/profile/${member.id}" target="_blank" class="font-semibold text-gray-900 text-lg hover:text-blue-600 transition-colors cursor-pointer">
+								${member.name}
+							</a>
+							${member.role === 'admin' ? '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full ml-2">Admin</span>' : ''}
+						</td>
+						<td class="px-6 py-4 text-center">
+							<div class="inline-flex items-center gap-2 bg-orange-100 px-4 py-2 rounded-full">
+								<span class="text-xl">🔥</span>
+								<span class="font-bold text-orange-700 text-lg">${member.streak}</span>
+							</div>
+						</td>
+						<td class="px-6 py-4 text-center">
+							<div class="inline-flex items-center gap-2 bg-green-100 px-4 py-2 rounded-full">
+								<span class="text-xl">🏆</span>
+								<span class="font-bold text-green-700 text-lg">${member.longestStreak}</span>
+							</div>
+						</td>
+						<td class="px-6 py-4 text-center">
+							<div class="inline-flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full">
+								<span class="text-xl">📅</span>
+								<span class="font-bold text-blue-700 text-lg">${member.totalDays}</span>
+							</div>
+						</td>
+						<td class="px-6 py-4 text-center">
+							<div class="inline-flex items-center gap-2 bg-purple-100 px-4 py-2 rounded-full">
+								<span class="text-xl">💪</span>
+								<span class="font-bold text-purple-700 text-lg">${member.disciplinePercentage}%</span>
+							</div>
+						</td>
+					</tr>
+				`;
+			}).join('');
+
+		} catch (error) {
+			console.error('Error loading leaderboard:', error);
+			const loadingDiv = document.getElementById('loading');
+			if (loadingDiv) {
+				loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
+			}
+		}
+	}
+
+	// Handle challenge selection
+	const challengeSelect = document.getElementById('challengeSelect');
+	if (challengeSelect) {
+		challengeSelect.addEventListener('change', (e) => {
+			currentChallengeId = e.target.value;
+			if (window.updateProgressBar) {
+				window.updateProgressBar(currentChallengeId);
+			}
+			const titleEl = document.getElementById('challengeTitle');
+			if (titleEl) {
+				titleEl.textContent = `${challengeNames[currentChallengeId]} - 100 ngày thử thách`;
+			}
+			loadLeaderboard(currentChallengeId);
+		});
+	}
+
+	// Load initial leaderboard
+	loadLeaderboard(currentChallengeId);

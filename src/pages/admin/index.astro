@@ -1,0 +1,226 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin Dashboard - Anki Challenge">
+  <main class="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 py-12 px-4">
+    <div class="max-w-6xl mx-auto">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <div class="inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-2 rounded-full text-sm font-bold mb-4">
+          🔐 Admin Dashboard
+        </div>
+        <h1 class="text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent mb-4">
+          Bảng Điều Khiển Quản Trị
+        </h1>
+        <p class="text-gray-600 text-lg">Quản lý và theo dõi Anki Challenge</p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-purple-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 mb-1">Tổng thành viên</p>
+              <p class="text-3xl font-bold text-gray-900" id="totalMembers">--</p>
+            </div>
+            <div class="text-4xl">👥</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-pink-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 mb-1">Hoạt động</p>
+              <p class="text-3xl font-bold text-gray-900" id="activeMembers">--</p>
+            </div>
+            <div class="text-4xl">🔥</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-blue-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 mb-1">Check-in hôm nay</p>
+              <p class="text-3xl font-bold text-gray-900" id="todayCheckins">--</p>
+            </div>
+            <div class="text-4xl">✅</div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border-l-4 border-green-500">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm text-gray-600 mb-1">Ngày còn lại</p>
+              <p class="text-3xl font-bold text-gray-900" id="daysLeft">--</p>
+            </div>
+            <div class="text-4xl">📅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Tools Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Members Management -->
+        <a href="/admin/members" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+          <div class="bg-gradient-to-br from-purple-500 to-purple-600 p-6 text-white">
+            <div class="text-5xl mb-3">👥</div>
+            <h3 class="text-2xl font-bold mb-2">Quản lý thành viên</h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Xem, chỉnh sửa và quản lý thông tin thành viên</p>
+            <ul class="text-sm text-gray-500 space-y-1">
+              <li>• Danh sách đầy đủ</li>
+              <li>• Chỉnh sửa thông tin</li>
+              <li>• Ẩn/Hiện thành viên</li>
+              <li>• Xem thống kê chi tiết</li>
+            </ul>
+            <div class="mt-4 flex items-center text-purple-600 font-semibold group-hover:translate-x-2 transition-transform">
+              Mở công cụ <span class="ml-2">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Check-in Management -->
+        <a href="/admin/checkin" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+          <div class="bg-gradient-to-br from-pink-500 to-pink-600 p-6 text-white">
+            <div class="text-5xl mb-3">✅</div>
+            <h3 class="text-2xl font-bold mb-2">Quản lý Check-in</h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Theo dõi và quản lý check-in hàng ngày</p>
+            <ul class="text-sm text-gray-500 space-y-1">
+              <li>• Xem lịch sử check-in</li>
+              <li>• Thêm/Xóa check-in</li>
+              <li>• Theo dõi streak</li>
+              <li>• Thống kê hoạt động</li>
+            </ul>
+            <div class="mt-4 flex items-center text-pink-600 font-semibold group-hover:translate-x-2 transition-transform">
+              Mở công cụ <span class="ml-2">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Challenge Management -->
+        <a href="/admin/challenges" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+          <div class="bg-gradient-to-br from-blue-500 to-indigo-600 p-6 text-white">
+            <div class="text-5xl mb-3">🎯</div>
+            <h3 class="text-2xl font-bold mb-2">Quản lý Challenges</h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Tạo và quản lý các challenges</p>
+            <ul class="text-sm text-gray-500 space-y-1">
+              <li>• Thêm/Sửa/Xóa challenges</li>
+              <li>• Quản lý thành viên challenge</li>
+              <li>• Cấu hình ngày bắt đầu/kết thúc</li>
+              <li>• Theo dõi tiến độ</li>
+            </ul>
+            <div class="mt-4 flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform">
+              Mở công cụ <span class="ml-2">→</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Leaderboard -->
+        <a href="/" class="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden transform hover:-translate-y-1">
+          <div class="bg-gradient-to-br from-yellow-500 to-orange-600 p-6 text-white">
+            <div class="text-5xl mb-3">🏆</div>
+            <h3 class="text-2xl font-bold mb-2">Bảng xếp hạng</h3>
+          </div>
+          <div class="p-6">
+            <p class="text-gray-600 mb-4">Xem bảng xếp hạng công khai</p>
+            <ul class="text-sm text-gray-500 space-y-1">
+              <li>• Xếp hạng theo kỷ luật</li>
+              <li>• Theo dõi streak</li>
+              <li>• Thống kê challenge</li>
+              <li>• Tiến độ thử thách</li>
+            </ul>
+            <div class="mt-4 flex items-center text-orange-600 font-semibold group-hover:translate-x-2 transition-transform">
+              Xem bảng xếp hạng <span class="ml-2">→</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Footer Note -->
+      <div class="bg-yellow-50 border-l-4 border-yellow-400 rounded-lg p-6">
+        <div class="flex items-start">
+          <div class="text-3xl mr-4">⚠️</div>
+          <div>
+            <h4 class="text-yellow-800 font-bold mb-2">Lưu ý quan trọng</h4>
+            <ul class="text-yellow-700 text-sm space-y-1">
+              <li>• Trang này chỉ dành cho Admin, không chia sẻ link này công khai</li>
+              <li>• Sau khi cập nhật dữ liệu bằng scripts, nhớ deploy lại website</li>
+              <li>• Kiểm tra kỹ trước khi thực hiện các thao tác quan trọng</li>
+              <li>• Metadata cập nhật: <span id="lastUpdate" class="font-mono">Đang tải...</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Load and display stats
+  async function loadStats() {
+    try {
+      const [usersResponse, studyRecordsResponse, metadataResponse] = await Promise.all([
+        fetch('/data/users.json'),
+        fetch('/data/studyRecords.json'),
+        fetch('/data/metadata.json')
+      ]);
+
+      const usersData = await usersResponse.json();
+      const studyRecordsData = await studyRecordsResponse.json();
+      const metadata = await metadataResponse.json();
+
+      // Total members
+      const totalMembers = usersData.data?.length || 0;
+      const activeMembers = usersData.data?.filter(u => !u.hidden).length || 0;
+
+      // Today's check-ins
+      const today = new Date().toISOString().split('T')[0];
+      const todayRecords = studyRecordsData[today] || {};
+      const todayCheckins = Object.keys(todayRecords).length;
+
+      // Days left in challenge
+      const endDate = new Date('2025-12-21');
+      const currentDate = new Date();
+      const daysLeft = Math.max(0, Math.ceil((endDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24)));
+
+      // Update UI
+      document.getElementById('totalMembers')!.textContent = totalMembers.toString();
+      document.getElementById('activeMembers')!.textContent = activeMembers.toString();
+      document.getElementById('todayCheckins')!.textContent = todayCheckins.toString();
+      document.getElementById('daysLeft')!.textContent = daysLeft.toString();
+
+      // Last update
+      if (metadata.lastUpdated) {
+        const lastUpdateDate = new Date(metadata.lastUpdated);
+        document.getElementById('lastUpdate')!.textContent = lastUpdateDate.toLocaleString('vi-VN');
+      }
+
+    } catch (error) {
+      console.error('Error loading stats:', error);
+    }
+  }
+
+  // Load stats on page load
+  loadStats();
+</script>
+
+<style>
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .aurora-button {
+    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+  }
+</style>

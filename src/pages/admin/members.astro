@@ -1,0 +1,329 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin - Danh sách thành viên">
+  <main class="p-8 max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-8">
+      <h1 class="text-4xl font-bold">🔐 Admin - Danh sách thành viên</h1>
+      <button id="toggleHiddenBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
+        👁️ Hiện thành viên ẩn
+      </button>
+    </div>
+    
+    <div id="loading" class="text-center py-8">
+      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
+    </div>
+    
+    <div class="overflow-x-auto shadow-md rounded-lg">
+      <table id="membersTable" class="w-full text-sm text-left text-gray-700 bg-white">
+        <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+          <tr>
+            <th class="px-6 py-3">#</th>
+            <th class="px-6 py-3">Tên</th>
+            <th class="px-6 py-3">Discord</th>
+            <th class="px-6 py-3">Ngôn ngữ</th>
+            <th class="px-6 py-3">Chuyên ngành</th>
+            <th class="px-6 py-3">Liên hệ</th>
+            <th class="px-6 py-3">Thao tác</th>
+          </tr>
+        </thead>
+        <tbody id="membersBody">
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+        <h2 class="text-2xl font-bold mb-6">Chỉnh sửa thành viên</h2>
+        <form id="edit, setDocForm" class="space-y-4">
+          <input type="hidden" id="editId" />
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tên *</label>
+            <input type="text" id="editName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" id="editEmail" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Ngôn ngữ học</label>
+              <input type="text" id="editLanguage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Chuyên ngành</label>
+              <input type="text" id="editMajor" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Năm sinh</label>
+              <input type="number" id="editBirthYear" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Vai trò</label>
+              <select id="editRole" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
+                <option value="member">Thành viên</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Bio</label>
+            <textarea id="editBio" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Discord Nickname</label>
+            <input type="text" id="editDiscordNickname" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="username#1234" />
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Facebook URL</label>
+              <input type="url" id="editFacebook" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Zalo URL</label>
+              <input type="url" id="editZalo" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input type="checkbox" id="editHidden" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500" />
+            <label for="editHidden" class="text-sm font-medium text-gray-700">Ẩn thành viên</label>
+          </div>
+
+          <div class="flex gap-3 justify-end pt-4">
+            <button type="button" id="cancelEdit" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
+              Hủy
+            </button>
+            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Lưu thay đổi
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  interface Member {
+    id: number;
+    name: string;
+    bio: string;
+    email: string;
+    rank: number;
+    previousRank: number;
+    streak: number;
+    longestStreak: number;
+    totalStudiedDays: number;
+    disciplinePercentage: number;
+    learningLanguage: string;
+    major: string;
+    birthYear: number;
+    role: string;
+    hidden: boolean;
+    facebookUrl: string;
+    zaloUrl: string;
+    discordNickname: string;
+    achievement: number;
+    modeScore: number;
+    challengeId: number;
+  }
+
+  async function loadMembers() {
+    try {
+      const loadingDiv = document.getElementById('loading');
+      const membersBody = document.getElementById('membersBody');
+      
+      // Load users data
+      const usersResponse = await fetch('/data/users.json');
+      const usersData = await usersResponse.json();
+      
+      if (!usersData || !usersData.data) {
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy dữ liệu</p>';
+        return;
+      }
+      
+      const members: Member[] = usersData.data || [];
+      
+      // Filter members based on showHidden flag
+      const showHidden = window.showHiddenMembers || false;
+      const visibleMembers = showHidden ? members : members.filter(m => !m.hidden);
+      
+      // Sort by name
+      visibleMembers.sort((a, b) => a.name.localeCompare(b.name));
+      
+      if (loadingDiv) loadingDiv.style.display = 'none';
+      
+      if (!membersBody) return;
+      
+      membersBody.innerHTML = visibleMembers.map((member, index) => `
+        <tr class="border-b hover:bg-gray-50 ${member.hidden ? 'bg-red-50' : ''}">
+          <td class="px-6 py-4 font-medium">${index + 1}</td>
+          <td class="px-6 py-4">
+            <div class="font-semibold text-gray-900">${member.name}</div>
+            ${member.role === 'admin' ? '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Admin</span>' : ''}
+            ${member.hidden ? '<span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded ml-2">Ẩn</span>' : ''}
+          </td>
+          <td class="px-6 py-4">
+            <span class="text-sm text-gray-600">${member.discordNickname || '-'}</span>
+          </td>
+          <td class="px-6 py-4">${member.learningLanguage}</td>
+          <td class="px-6 py-4 text-sm">${member.major}</td>
+          <td class="px-6 py-4">
+            <div class="flex gap-2">
+              ${member.facebookUrl ? `<a href="${member.facebookUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline text-xs">FB</a>` : ''}
+              ${member.zaloUrl ? `<a href="${member.zaloUrl}" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline text-xs">Zalo</a>` : ''}
+            </div>
+          </td>
+          <td class="px-6 py-4">
+            <button class="edit-btn px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-xs" data-id="${member.id}">
+              ✏️ Edit
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      
+      // Add event listeners for edit buttons
+      document.querySelectorAll('.edit-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const memberId = parseInt(btn.getAttribute('data-id') || '0');
+          const member = visibleMembers.find(m => m.id === memberId);
+          if (member) openEditModal(member, members);
+        });
+      });
+      
+    } catch (error) {
+      console.error('Error loading members:', error);
+      const loadingDiv = document.getElementById('loading');
+      if (loadingDiv) {
+        loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
+      }
+    }
+  }
+
+  function openEditModal(member: Member, allMembers: Member[]) {
+    const modal = document.getElementById('editModal');
+    if (!modal) return;
+
+    // Fill form with member data
+    (document.getElementById('editId') as HTMLInputElement).value = member.id.toString();
+    (document.getElementById('editName') as HTMLInputElement).value = member.name || '';
+    (document.getElementById('editEmail') as HTMLInputElement).value = member.email || '';
+    (document.getElementById('editLanguage') as HTMLInputElement).value = member.learningLanguage || '';
+    (document.getElementById('editMajor') as HTMLInputElement).value = member.major || '';
+    (document.getElementById('editBirthYear') as HTMLInputElement).value = member.birthYear?.toString() || '';
+    (document.getElementById('editRole') as HTMLSelectElement).value = member.role || 'member';
+    (document.getElementById('editBio') as HTMLTextAreaElement).value = member.bio || '';
+    (document.getElementById('editDiscordNickname') as HTMLInputElement).value = member.discordNickname || '';
+    (document.getElementById('editFacebook') as HTMLInputElement).value = member.facebookUrl || '';
+    (document.getElementById('editZalo') as HTMLInputElement).value = member.zaloUrl || '';
+    (document.getElementById('editHidden') as HTMLInputElement).checked = member.hidden || false;
+
+    modal.classList.remove('hidden');
+
+    // Store allMembers in modal for later use
+    (modal as any)._allMembers = allMembers;
+  }
+
+  async function saveEdit() {
+    const modal = document.getElementById('editModal');
+    const memberId = parseInt((document.getElementById('editId') as HTMLInputElement).value);
+    const allMembers: Member[] = (modal as any)._allMembers;
+
+    // Find and update member in array
+    const memberIndex = allMembers.findIndex(m => m.id === memberId);
+    if (memberIndex === -1) {
+      alert('Không tìm thấy thành viên');
+      return;
+    }
+
+    // Update member data
+    allMembers[memberIndex] = {
+      ...allMembers[memberIndex],
+      name: (document.getElementById('editName') as HTMLInputElement).value,
+      email: (document.getElementById('editEmail') as HTMLInputElement).value,
+      learningLanguage: (document.getElementById('editLanguage') as HTMLInputElement).value,
+      major: (document.getElementById('editMajor') as HTMLInputElement).value,
+      birthYear: parseInt((document.getElementById('editBirthYear') as HTMLInputElement).value) || 0,
+      role: (document.getElementById('editRole') as HTMLSelectElement).value,
+      bio: (document.getElementById('editBio') as HTMLTextAreaElement).value,
+      discordNickname: (document.getElementById('editDiscordNickname') as HTMLInputElement).value,
+      facebookUrl: (document.getElementById('editFacebook') as HTMLInputElement).value,
+      zaloUrl: (document.getElementById('editZalo') as HTMLInputElement).value,
+      hidden: (document.getElementById('editHidden') as HTMLInputElement).checked
+    };
+
+    try {
+      // Save to users.json via API
+      const response = await fetch('/api/update-users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: allMembers })
+      });
+
+      const result = await response.json();
+      if (!result.success) throw new Error('Failed to save');
+
+      alert('Đã lưu thay đổi!');
+      modal?.classList.add('hidden');
+      
+      // Reload members
+      loadMembers();
+    } catch (error) {
+      console.error('Error saving:', error);
+      alert('Lỗi khi lưu: ' + error.message);
+    }
+  }
+
+  // Load members when page is ready
+  loadMembers();
+
+  // Setup modal handlers
+  document.getElementById('cancelEdit')?.addEventListener('click', () => {
+    document.getElementById('editModal')?.classList.add('hidden');
+  });
+
+  document.getElementById('editForm')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    saveEdit();
+  });
+
+  // Close modal when clicking outside
+  document.getElementById('editModal')?.addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      e.currentTarget.classList.add('hidden');
+    }
+  });
+
+  // Toggle hidden members
+  window.showHiddenMembers = false;
+  document.getElementById('toggleHiddenBtn')?.addEventListener('click', (e) => {
+    window.showHiddenMembers = !window.showHiddenMembers;
+    const btn = e.target as HTMLButtonElement;
+    btn.textContent = window.showHiddenMembers ? '🙈 Ẩn thành viên đã ẩn' : '👁️ Hiện thành viên ẩn';
+    btn.className = window.showHiddenMembers 
+      ? 'px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
+      : 'px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors';
+    loadMembers();
+  });
+</script>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
