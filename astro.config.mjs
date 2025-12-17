@@ -16,6 +16,13 @@ export default defineConfig({
   output: 'server',
   adapter: cloudflare(),
   vite: {
+    // Cloudflare Workers/Pages là môi trường "edge".
+    // React 19 trên edge cần dùng `react-dom/server.edge` để tránh lỗi `MessageChannel is not defined`.
+    resolve: {
+      alias: {
+        'react-dom/server': 'react-dom/server.edge'
+      }
+    },
     plugins: [tailwindcss()],
     server: {
       watch: {
