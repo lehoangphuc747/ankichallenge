@@ -1,6 +1,4 @@
 import type { APIRoute } from 'astro';
-import fs from 'fs/promises';
-import path from 'path';
 
 interface User {
   id: number;
@@ -22,7 +20,7 @@ interface StudyRecords {
   };
 }
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
     const userId = params.userId;
     const challengeId = params.challengeId;
@@ -34,11 +32,24 @@ export const GET: APIRoute = async ({ params }) => {
       });
     }
 
-    // Load data files
-    const dataDir = path.join(process.cwd(), 'public', 'data');
-    const usersData = JSON.parse(await fs.readFile(path.join(dataDir, 'users.json'), 'utf-8'));
-    const challengesData = JSON.parse(await fs.readFile(path.join(dataDir, 'challenges.json'), 'utf-8'));
-    const studyRecordsData: StudyRecords = JSON.parse(await fs.readFile(path.join(dataDir, 'studyRecords.json'), 'utf-8'));
+    // Cloudflare Workers không có filesystem -> đọc JSON tĩnh qua fetch (cùng origin)
+    const base = request.url;
+    const [usersRes, challengesRes, recordsRes] = await Promise.all([
+      fetch(new URL('/data/users.json', base), { cache: 'force-cache' }),
+      fetch(new URL('/data/challenges.json', base), { cache: 'force-cache' }),
+      fetch(new URL('/data/studyRecords.json', base), { cache: 'force-cache' })
+    ]);
+
+    if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
+      return new Response(JSON.stringify({ error: 'Missing data files' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
+    const usersData = await usersRes.json();
+    const challengesData = await challengesRes.json();
+    const studyRecordsData: StudyRecords = await recordsRes.json();
 
     // Find user
     const user = usersData.data.find((u: User) => u.id === parseInt(userId));

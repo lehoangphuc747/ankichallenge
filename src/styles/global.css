@@ -4,7 +4,8 @@
 
 /* Typography - Swiss International Style */
 * {
-  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", "Segoe UI", Arial, sans-serif;
+  /* Typography-first (không dùng system fonts/Arial/Roboto/Inter) */
+  font-family: "Space Grotesk", sans-serif;
   font-feature-settings: "kern" 1, "liga" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -167,6 +168,7 @@
 
 /* Typography Hierarchy */
 h1, h2, h3, h4, h5, h6 {
+  font-family: "Fraunces", serif;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
