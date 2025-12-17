@@ -41,21 +41,6 @@ const { userId, challengeId } = Astro.params;
             </svg>
             Tải xuống HTML
           </button>
-          <button id="downloadImage" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors shadow-lg flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <circle cx="8.5" cy="8.5" r="1.5"/>
-              <polyline points="21 15 16 10 5 21"/>
-            </svg>
-            Tải xuống PNG
-          </button>
-          <button id="downloadPdf" class="px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors shadow-lg flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-            </svg>
-            Tải xuống PDF
-          </button>
           <button id="printBtn" class="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 6 2 18 2 18 9"/>
@@ -78,8 +63,44 @@ const { userId, challengeId } = Astro.params;
 <script define:vars={{ userId, challengeId }}>
   let certificateData = null;
 
+  const CERT_FONTS_HREF = 'https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Mrs+Saint+Delafield&display=swap';
+
+  function ensureCertificateFonts() {
+    if (document.getElementById('cert-fonts')) return;
+
+    const preconnect1 = document.createElement('link');
+    preconnect1.rel = 'preconnect';
+    preconnect1.href = 'https://fonts.googleapis.com';
+
+    const preconnect2 = document.createElement('link');
+    preconnect2.rel = 'preconnect';
+    preconnect2.href = 'https://fonts.gstatic.com';
+    preconnect2.crossOrigin = 'anonymous';
+
+    const stylesheet = document.createElement('link');
+    stylesheet.id = 'cert-fonts';
+    stylesheet.rel = 'stylesheet';
+    stylesheet.href = CERT_FONTS_HREF;
+
+    document.head.append(preconnect1, preconnect2, stylesheet);
+  }
+
+  async function waitForRenderReady() {
+    ensureCertificateFonts();
+    if (document.fonts?.ready) {
+      try {
+        await document.fonts.ready;
+      } catch {
+        // Ignore font readiness failures; proceed with best-effort rendering
+      }
+    }
+    await new Promise(requestAnimationFrame);
+    await new Promise(requestAnimationFrame);
+  }
+
   async function loadCertificate() {
     try {
+      ensureCertificateFonts();
       const response = await fetch(`/api/certificate/${userId}/${challengeId}`);
       
       if (!response.ok) {
@@ -95,6 +116,7 @@ const { userId, challengeId } = Astro.params;
       
       // Render certificate
       renderCertificate(certificateData);
+      await waitForRenderReady();
     } catch (error) {
       console.error('Error loading certificate:', error);
       document.getElementById('loading').classList.add('hidden');
@@ -174,8 +196,6 @@ const { userId, challengeId } = Astro.params;
     // Add certificate styles
     const style = document.createElement('style');
     style.textContent = `
-      @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Mrs+Saint+Delafield&display=swap');
-      
       .certificate-container {
         width: 210mm;
         height: 297mm;
@@ -466,20 +486,4 @@ const { userId, challengeId } = Astro.params;
     URL.revokeObjectURL(url);
   });
 
-  document.getElementById('downloadImage')?.addEventListener('click', async () => {
-    // For image export, we'll use html2canvas library
-    // You'll need to add this to your project: npm install html2canvas
-    alert('Tính năng tải PNG đang được phát triển. Vui lòng sử dụng chức năng In để lưu thành PDF.');
-  });
 
-  document.getElementById('downloadPdf')?.addEventListener('click', () => {
-    alert('Tính năng tải PDF đang được phát triển. Vui lòng sử dụng chức năng In và chọn "Save as PDF".');
-  });
-
-  document.getElementById('printBtn')?.addEventListener('click', () => {
-    window.print();
-  });
-
-  // Load certificate on page load
-  loadCertificate();
-</script>
