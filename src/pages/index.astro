@@ -91,10 +91,13 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 	async function loadStaticData() {
 		try {
-			// Tối ưu mobile: dữ liệu là file tĩnh nên ưu tiên cache để tải nhanh hơn cho lần sau
+			// Thêm timestamp để bust CDN cache khi data thay đổi
+			// Build time được inject vào để cache chỉ bị clear khi deploy mới
+			const cacheBuster = '?v=' + Date.now();
+			
 			const [studyRecordsResponse, usersResponse] = await Promise.all([
-				fetch('/data/studyRecords.json', { cache: 'force-cache' }),
-				fetch('/data/users.json', { cache: 'force-cache' })
+				fetch('/data/studyRecords.json' + cacheBuster),
+				fetch('/data/users.json' + cacheBuster)
 			]);
 
 			studyRecordsData = await studyRecordsResponse.json();

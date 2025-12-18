@@ -12,7 +12,7 @@ export const GET: APIRoute = async ({ request }) => {
       // Cloudflare Workers không có filesystem; đọc file tĩnh qua fetch.
       // Lưu ý: cần base URL thật để fetch tới asset cùng origin.
       // Trong Astro APIRoute, hãy dùng request.url làm base.
-      const res = await fetch(new URL('/data/challenges.json', request.url), { cache: 'force-cache' });
+      const res = await fetch(new URL('/data/challenges.json?v=' + Date.now(), request.url));
       if (res.ok) {
         const text = await res.text();
         return new Response(text, { status: 200, headers: { 'Content-Type': 'application/json' } });
