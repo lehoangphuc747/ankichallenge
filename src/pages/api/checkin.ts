@@ -4,9 +4,6 @@
 
 import type { APIRoute } from 'astro';
 
-// Không pre-render endpoint này - chỉ chạy server-side khi dev
-export const prerender = false;
-
 export const POST: APIRoute = async ({ request }) => {
   // Kiểm tra xem có đang chạy trong môi trường có fs không (Node.js)
   // Nếu không có (ví dụ: edge runtime), trả về lỗi

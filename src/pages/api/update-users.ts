@@ -4,9 +4,6 @@
 
 import type { APIRoute } from 'astro';
 
-// Không pre-render API này - chỉ chạy server-side khi dev
-export const prerender = false;
-
 export const POST: APIRoute = async ({ request }) => {
   // Dynamic import để tránh lỗi khi build
   let fs: typeof import('node:fs/promises') | null = null;

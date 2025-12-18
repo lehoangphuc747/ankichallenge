@@ -1,8 +1,5 @@
 import type { APIRoute } from 'astro';
 
-// Không pre-render API này - chỉ chạy server-side khi dev
-export const prerender = false;
-
 interface User {
   id: number;
   name: string;
