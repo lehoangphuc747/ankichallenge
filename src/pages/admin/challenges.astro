@@ -119,10 +119,11 @@ import Layout from '../../layouts/Layout.astro';
 
   async function loadData() {
     try {
-      // Load users and challenges
+      // Load users and challenges (thêm cache-busting)
+      const cb = '?v=' + Date.now();
       const [usersResponse, challengesResponse] = await Promise.all([
-        fetch('/data/users.json'),
-        fetch('/api/challenges')
+        fetch('/data/users.json' + cb),
+        fetch('/api/challenges' + cb)
       ]);
       
       const usersDataJson = await usersResponse.json();

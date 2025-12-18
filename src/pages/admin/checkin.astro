@@ -211,10 +211,12 @@ import Layout from '../../layouts/Layout.astro';
     console.log('🔄 [DEBUG] loadData() được gọi!');
     try {
       // Load challenges, users and records
+      // Thêm cache-busting
+      const cb = '?v=' + Date.now();
       const [challengesRes, usersRes, recordsRes] = await Promise.all([
-        fetch('/api/challenges'),
-        fetch('/data/users.json'),
-        fetch('/data/studyRecords.json')
+        fetch('/api/challenges' + cb),
+        fetch('/data/users.json' + cb),
+        fetch('/data/studyRecords.json' + cb)
       ]);
 
       const challenges = await challengesRes.json();

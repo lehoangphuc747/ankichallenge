@@ -166,10 +166,12 @@ import Layout from '../../layouts/Layout.astro';
   // Load and display stats
   async function loadStats() {
     try {
+      // Thêm cache-busting
+      const cb = '?v=' + Date.now();
       const [usersResponse, studyRecordsResponse, metadataResponse] = await Promise.all([
-        fetch('/data/users.json'),
-        fetch('/data/studyRecords.json'),
-        fetch('/data/metadata.json')
+        fetch('/data/users.json' + cb),
+        fetch('/data/studyRecords.json' + cb),
+        fetch('/data/metadata.json' + cb)
       ]);
 
       const usersData = await usersResponse.json();

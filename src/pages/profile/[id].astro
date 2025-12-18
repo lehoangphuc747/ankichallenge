@@ -117,10 +117,11 @@ export function getStaticPaths() {
       const loadingDiv = document.getElementById('loading');
       const profileContent = document.getElementById('profileContent');
 
-      // Load user data and study records
+      // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
+      const cacheBuster = '?v=' + Date.now();
       const [usersResponse, studyRecordsResponse] = await Promise.all([
-        fetch('/data/users.json'),
-        fetch('/data/studyRecords.json')
+        fetch('/data/users.json' + cacheBuster),
+        fetch('/data/studyRecords.json' + cacheBuster)
       ]);
 
       const usersData = await usersResponse.json();
@@ -327,11 +328,12 @@ export function getStaticPaths() {
   // Function to download certificate - tính toán từ JSON files thay vì gọi API
   (window as any).downloadCertificate = async function(userId: any, challengeId: any, format: any) {
     try {
-      // Fetch data từ JSON files
+      // Fetch data từ JSON files (thêm cache-busting)
+      const cb = '?v=' + Date.now();
       const [usersRes, challengesRes, recordsRes] = await Promise.all([
-        fetch('/data/users.json'),
-        fetch('/data/challenges.json'),
-        fetch('/data/studyRecords.json')
+        fetch('/data/users.json' + cb),
+        fetch('/data/challenges.json' + cb),
+        fetch('/data/studyRecords.json' + cb)
       ]);
 
       if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {

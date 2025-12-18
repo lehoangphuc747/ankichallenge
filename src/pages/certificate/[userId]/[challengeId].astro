@@ -131,11 +131,12 @@ const { userId, challengeId } = Astro.params;
     try {
       ensureCertificateFonts();
       
-      // Fetch data từ JSON files thay vì API
+      // Fetch data từ JSON files thay vì API (thêm cache-busting)
+      const cb = '?v=' + Date.now();
       const [usersRes, challengesRes, recordsRes] = await Promise.all([
-        fetch('/data/users.json'),
-        fetch('/data/challenges.json'),
-        fetch('/data/studyRecords.json')
+        fetch('/data/users.json' + cb),
+        fetch('/data/challenges.json' + cb),
+        fetch('/data/studyRecords.json' + cb)
       ]);
 
       if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
