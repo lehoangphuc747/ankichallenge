@@ -324,13 +324,65 @@ export function getStaticPaths() {
     }).join('');
   }
 
-  // Function to download certificate
+  // Function to download certificate - tính toán từ JSON files thay vì gọi API
   (window as any).downloadCertificate = async function(userId: any, challengeId: any, format: any) {
     try {
-      const response = await fetch(`/api/certificate/${userId}/${challengeId}`);
-      if (!response.ok) throw new Error('Failed to load certificate data');
+      // Fetch data từ JSON files
+      const [usersRes, challengesRes, recordsRes] = await Promise.all([
+        fetch('/data/users.json'),
+        fetch('/data/challenges.json'),
+        fetch('/data/studyRecords.json')
+      ]);
+
+      if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
+        throw new Error('Không thể tải dữ liệu');
+      }
+
+      const usersData = await usersRes.json();
+      const challengesData = await challengesRes.json();
+      const studyRecordsData = await recordsRes.json();
+
+      // Tìm user
+      const user = usersData.data.find((u: any) => u.id === parseInt(userId));
+      if (!user) throw new Error('Không tìm thấy người dùng');
+
+      // Tìm challenge
+      const challenge = challengesData[challengeId];
+      if (!challenge) throw new Error('Không tìm thấy challenge');
+
+      // Tính toán stats
+      const startDate = new Date(challenge.start);
+      const endDate = new Date(challenge.end);
       
-      const data = await response.json();
+      let totalDays = 0;
+      let studyDays = 0;
+      
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        totalDays++;
+        const dateStr = d.toISOString().split('T')[0];
+        if (studyRecordsData[dateStr] && studyRecordsData[dateStr][userId]) {
+          studyDays++;
+        }
+      }
+
+      const attendanceRate = totalDays > 0 ? Math.round((studyDays / totalDays) * 100) : 0;
+      
+      const today = new Date();
+      const completionDate = endDate < today ? endDate : today;
+      const formattedDate = completionDate.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+
+      const data = {
+        userName: user.name,
+        challengeName: challenge.name,
+        studyDays,
+        totalDays,
+        attendanceRate,
+        completionDate: formattedDate
+      };
       
       if (format === 'html') {
         // Generate full HTML

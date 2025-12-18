@@ -130,14 +130,76 @@ const { userId, challengeId } = Astro.params;
   async function loadCertificate() {
     try {
       ensureCertificateFonts();
-      const response = await fetch(`/api/certificate/${userId}/${challengeId}`);
       
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Failed to load certificate');
+      // Fetch data từ JSON files thay vì API
+      const [usersRes, challengesRes, recordsRes] = await Promise.all([
+        fetch('/data/users.json'),
+        fetch('/data/challenges.json'),
+        fetch('/data/studyRecords.json')
+      ]);
+
+      if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
+        throw new Error('Không thể tải dữ liệu');
       }
 
-      certificateData = await response.json();
+      const usersData = await usersRes.json();
+      const challengesData = await challengesRes.json();
+      const studyRecordsData = await recordsRes.json();
+
+      // Tìm user
+      const user = usersData.data.find(u => u.id === parseInt(userId));
+      if (!user) {
+        throw new Error('Không tìm thấy người dùng');
+      }
+
+      // Tìm challenge
+      const challenge = challengesData[challengeId];
+      if (!challenge) {
+        throw new Error('Không tìm thấy challenge');
+      }
+
+      // Kiểm tra user có tham gia challenge không
+      const userChallenges = user.challengeIds || (user.challengeId ? [user.challengeId] : []);
+      if (!userChallenges.includes(parseInt(challengeId))) {
+        throw new Error('Người dùng không tham gia challenge này');
+      }
+
+      // Tính toán stats
+      const startDate = new Date(challenge.start);
+      const endDate = new Date(challenge.end);
+      
+      let totalDays = 0;
+      let studyDays = 0;
+      
+      for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        totalDays++;
+        const dateStr = d.toISOString().split('T')[0];
+        if (studyRecordsData[dateStr] && studyRecordsData[dateStr][userId]) {
+          studyDays++;
+        }
+      }
+
+      const attendanceRate = totalDays > 0 ? Math.round((studyDays / totalDays) * 100) : 0;
+      
+      // Ngày hoàn thành
+      const today = new Date();
+      const completionDate = endDate < today ? endDate : today;
+      const formattedDate = completionDate.toLocaleDateString('vi-VN', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+
+      certificateData = {
+        userName: user.name,
+        challengeName: challenge.name,
+        studyDays,
+        totalDays,
+        attendanceRate,
+        completionDate: formattedDate,
+        userId: user.id,
+        challengeId: parseInt(challengeId)
+      };
       
       // Hide loading, show content
       document.getElementById('loading').classList.add('hidden');
