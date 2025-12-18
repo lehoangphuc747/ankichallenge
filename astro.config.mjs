@@ -1,28 +1,25 @@
 // @ts-check
+// Cấu hình Astro với Node adapter để chạy server routes (như /api/checkin) khi dev.
+// Khi build production: output: 'server' + node adapter sẽ tạo server Node.js.
+// Tuy nhiên khi deploy static lên Cloudflare Pages, bạn chỉ upload folder `dist/client`.
+
 import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
-
 import react from '@astrojs/react';
-
 import mdx from '@astrojs/mdx';
 
-import cloudflare from '@astrojs/cloudflare';
+// Node adapter để chạy server routes khi dev (hỗ trợ fs/path)
+import node from '@astrojs/node';
 
 // https://astro.build/config
 export default defineConfig({
   output: 'server',
-  adapter: cloudflare(),
+  adapter: node({ mode: 'standalone' }),
+
   vite: {
-    // Cloudflare Workers/Pages là môi trường "edge".
-    // React 19 trên edge cần dùng `react-dom/server.edge` để tránh lỗi `MessageChannel is not defined`.
-    resolve: {
-      alias: {
-        'react-dom/server': 'react-dom/server.edge'
-      }
-    },
     plugins: [tailwindcss()],
     server: {
       watch: {
