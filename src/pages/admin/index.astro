@@ -1,5 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+// Admin pages chỉ dùng local, không cần build static
+export const prerender = false;
 ---
 
 <Layout title="Admin Dashboard - Anki Challenge">

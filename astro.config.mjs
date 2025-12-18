@@ -1,7 +1,6 @@
 // @ts-check
-// Cấu hình Astro với Node adapter để chạy server routes (như /api/checkin) khi dev.
-// Khi build production: output: 'server' + node adapter sẽ tạo server Node.js.
-// Tuy nhiên khi deploy static lên Cloudflare Pages, bạn chỉ upload folder `dist/client`.
+// Cấu hình Astro cho site tĩnh, deploy lên Cloudflare Pages.
+// Admin /api/checkin chỉ hoạt động khi dev local (không có trên production).
 
 import { defineConfig } from 'astro/config';
 
@@ -11,13 +10,10 @@ import sitemap from '@astrojs/sitemap';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 
-// Node adapter để chạy server routes khi dev (hỗ trợ fs/path)
-import node from '@astrojs/node';
-
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  adapter: node({ mode: 'standalone' }),
+  // Static output: build ra HTML/CSS/JS tĩnh để deploy lên Cloudflare Pages
+  output: 'static',
 
   vite: {
     plugins: [tailwindcss()],

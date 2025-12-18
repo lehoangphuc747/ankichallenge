@@ -1,5 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+
+// Import dữ liệu người dùng để Astro biết trước danh sách `id` khi build static
+import usersData from '../../../public/data/users.json';
+
+// Astro yêu cầu dynamic route phải khai báo getStaticPaths() để build tĩnh
+export function getStaticPaths() {
+  const members = (usersData && usersData.data) ? usersData.data : [];
+  
+  // Trả về danh sách đường dẫn: /profile/9, /profile/10, ...
+  return members.map((member: any) => ({
+    params: { id: String(member.id) }
+  }));
+}
 ---
 
 <Layout title="Chi tiết thành viên">

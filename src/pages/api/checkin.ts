@@ -1,20 +1,32 @@
 // API endpoint để cập nhật dữ liệu check-in.
-// Chỉ hoạt động khi chạy với Node adapter (npm run dev hoặc Node server).
-// Dùng làm tool admin local để sửa file JSON, sau đó commit và deploy static.
+// CHỈ hoạt động khi chạy dev local (npm run dev).
+// Khi build static, endpoint này sẽ KHÔNG tồn tại trên production.
 
 import type { APIRoute } from 'astro';
-import fs from 'node:fs/promises';
-import path from 'node:path';
 
-// Không pre-render endpoint này, để nó chạy server-side
+// Không pre-render endpoint này - chỉ chạy server-side khi dev
 export const prerender = false;
 
-// Đường dẫn tới file lưu lịch sử check-in
-const DATA_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'studyRecords.json');
-
-type StudyRecords = Record<string, Record<string, boolean>>;
-
 export const POST: APIRoute = async ({ request }) => {
+  // Kiểm tra xem có đang chạy trong môi trường có fs không (Node.js)
+  // Nếu không có (ví dụ: edge runtime), trả về lỗi
+  let fs: typeof import('node:fs/promises') | null = null;
+  let path: typeof import('node:path') | null = null;
+  
+  try {
+    // Dynamic import để tránh lỗi khi build
+    fs = await import('node:fs/promises');
+    path = await import('node:path');
+  } catch {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'API này chỉ hoạt động trên Node.js (dev local)'
+      }),
+      { status: 501, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   try {
     // Parse body từ request
     const body = await request.json();
@@ -34,6 +46,11 @@ export const POST: APIRoute = async ({ request }) => {
         { status: 400, headers: { 'Content-Type': 'application/json' } }
       );
     }
+
+    // Đường dẫn tới file lưu lịch sử check-in
+    const DATA_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'studyRecords.json');
+
+    type StudyRecords = Record<string, Record<string, boolean>>;
 
     // Đọc file hiện tại
     let records: StudyRecords = {};

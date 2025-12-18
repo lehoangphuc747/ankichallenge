@@ -200,13 +200,34 @@ import ProgressBar from '../components/ProgressBar.astro';
 				member.rank = currentRank;
 			});
 
+			// Hàm helper tạo badge cho Top 3
+			function getRankBadge(rank) {
+				if (rank === 1) return '<span class="text-lg mr-1">🥇</span>';
+				if (rank === 2) return '<span class="text-lg mr-1">🥈</span>';
+				if (rank === 3) return '<span class="text-lg mr-1">🥉</span>';
+				return '';
+			}
+
+			// Hàm helper tạo class highlight cho Top 3 (Desktop)
+			function getTopRowClass(rank) {
+				if (rank === 1) return 'bg-amber-50 border-l-4 border-l-amber-400';
+				if (rank === 2) return 'bg-slate-50 border-l-4 border-l-slate-400';
+				if (rank === 3) return 'bg-orange-50 border-l-4 border-l-orange-400';
+				return '';
+			}
+
 			// Desktop/tablet table render
 			if (leaderboardBody) {
 				leaderboardBody.innerHTML = membersWithStats.map((member) => {
+					const rankBadge = getRankBadge(member.rank);
+					const topRowClass = getTopRowClass(member.rank);
+					
 					return `
-						<tr>
+						<tr class="${topRowClass}">
 							<td class="px-4 lg:px-6 py-4">
-								<span class="font-semibold text-gray-900 tabular-nums">${member.rank}</span>
+								<span class="font-semibold text-gray-900 tabular-nums flex items-center">
+									${rankBadge}${member.rank}
+								</span>
 							</td>
 							<td class="px-4 lg:px-6 py-4">
 								<a href="/profile/${member.id}" target="_blank" class="font-semibold text-gray-900 text-base hover:underline underline-offset-4 cursor-pointer">
@@ -231,24 +252,34 @@ import ProgressBar from '../components/ProgressBar.astro';
 				}).join('');
 			}
 
+			// Hàm helper tạo class highlight cho Top 3 (Mobile)
+			function getTopCardClass(rank) {
+				if (rank === 1) return 'ring-2 ring-amber-400 bg-amber-50';
+				if (rank === 2) return 'ring-2 ring-slate-400 bg-slate-50';
+				if (rank === 3) return 'ring-2 ring-orange-400 bg-orange-50';
+				return '';
+			}
+
 			// Mobile cards render (tap target >= 44px)
 			if (leaderboardCardsBody) {
 				leaderboardCardsBody.innerHTML = membersWithStats.map((member) => {
 					const badge = member.role === 'admin'
 						? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full">Admin</span>'
 						: '';
+					const rankBadge = getRankBadge(member.rank);
+					const topCardClass = getTopCardClass(member.rank);
 
 					return `
 						<a
 							href="/profile/${member.id}"
 							target="_blank"
-							class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none"
+							class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
 							aria-label="Mở hồ sơ ${member.name}"
 						>
 							<div class="flex items-start justify-between gap-3">
 								<div class="min-w-0">
 									<div class="flex items-center gap-2">
-										<span class="font-semibold text-gray-900 text-sm tabular-nums">#${member.rank}</span>
+										<span class="font-semibold text-gray-900 text-sm tabular-nums flex items-center">${rankBadge}#${member.rank}</span>
 										${badge}
 									</div>
 									<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${member.name}</div>

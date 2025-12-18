@@ -1,5 +1,8 @@
 import type { APIRoute } from 'astro';
 
+// Không pre-render API này - chỉ chạy server-side khi dev
+export const prerender = false;
+
 export const POST: APIRoute = async ({ request }) => {
   try {
     // Cloudflare Workers/Pages không có filesystem (fs/path).

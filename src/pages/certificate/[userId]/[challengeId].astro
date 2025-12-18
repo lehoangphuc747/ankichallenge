@@ -2,6 +2,35 @@
 import Layout from '../../../layouts/Layout.astro';
 import Certificate from '../../../components/Certificate.astro';
 
+// Import dữ liệu để Astro biết trước danh sách paths khi build static
+import usersData from '../../../../public/data/users.json';
+import challengesData from '../../../../public/data/challenges.json';
+
+// Astro yêu cầu dynamic route phải khai báo getStaticPaths() để build tĩnh
+export function getStaticPaths() {
+  const members = (usersData && usersData.data) ? usersData.data : [];
+  const challengeIds = Object.keys(challengesData);
+  
+  // Tạo paths cho tất cả tổ hợp user + challenge mà user tham gia
+  const paths: Array<{ params: { userId: string; challengeId: string } }> = [];
+  
+  for (const member of members) {
+    const userChallenges = member.challengeIds || (member.challengeId ? [member.challengeId] : []);
+    for (const cId of userChallenges) {
+      if (challengeIds.includes(String(cId))) {
+        paths.push({
+          params: {
+            userId: String(member.id),
+            challengeId: String(cId)
+          }
+        });
+      }
+    }
+  }
+  
+  return paths;
+}
+
 const { userId, challengeId } = Astro.params;
 ---
 
