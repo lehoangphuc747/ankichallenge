@@ -97,7 +97,9 @@ export function getStaticPaths() {
 <script>
   import { calculateUserStats } from '../../utils/calculateStats.js';
 
-  const userId = window.location.pathname.split('/').pop();
+  // Lấy userId từ URL nhưng chống lỗi dấu "/" ở cuối (Cloudflare thường redirect thành /profile/9/)
+  const pathParts = window.location.pathname.split('/').filter(Boolean);
+  const userId = pathParts[pathParts.length - 1];
 
   // Challenge date ranges for certificate calculation (excludes grace period)
   const challengeDateRanges = {
