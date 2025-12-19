@@ -55,6 +55,12 @@
   transform: translate(-2px, -2px);
 }
 
+/* Tắt hover effect cho card chứa bảng leaderboard */
+.leaderboard-table-card:hover {
+  box-shadow: 8px 8px 0 var(--color-black);
+  transform: none;
+}
+
 /* Typography - High Contrast */
 .aurora-text {
   color: var(--color-primary);

@@ -28,6 +28,33 @@ import ProgressBar from '../components/ProgressBar.astro';
 						<option value="3">Anki Challenge 10</option>
 					</select>
 				</div>
+
+				<!-- Search Bar -->
+				<div class="mt-4 w-full max-w-md mx-auto">
+					<label class="sr-only" for="searchInput">Tìm kiếm thành viên</label>
+					<div class="aurora-card rounded-xl p-2 relative">
+						<div class="flex items-center gap-2">
+							<svg class="w-5 h-5 text-gray-600 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+							</svg>
+							<input 
+								type="text" 
+								id="searchInput" 
+								placeholder="Tìm kiếm theo tên..." 
+								class="flex-1 min-h-[44px] px-3 py-2 bg-transparent border-0 font-semibold text-gray-900 focus:outline-none text-base sm:text-lg placeholder:text-gray-500"
+							/>
+							<button 
+								id="clearSearch" 
+								class="hidden shrink-0 mr-2 p-1 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-black rounded"
+								aria-label="Xóa tìm kiếm"
+							>
+								<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 
 			<div id="loading" class="text-center py-12">
@@ -45,7 +72,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 				</div>
 
 				<!-- Tablet/Desktop: Table -->
-				<div class="hidden sm:block aurora-card rounded-2xl overflow-hidden">
+				<div class="hidden sm:block aurora-card leaderboard-table-card rounded-2xl overflow-hidden">
 					<table class="w-full">
 						<thead class="aurora-bg text-gray-900">
 							<tr>
@@ -70,6 +97,8 @@ import ProgressBar from '../components/ProgressBar.astro';
 	import { calculateUserStats } from '../utils/calculateStats.js';
 
 	let currentChallengeId = '1';
+	let currentSearchQuery = '';
+	let allMembersWithStats = []; // Lưu tất cả members để filter
 
 	// Challenge names mapping
 	const challengeNames = {
@@ -207,28 +236,42 @@ import ProgressBar from '../components/ProgressBar.astro';
 			// Sort by discipline percentage
 			membersWithStats.sort((a, b) => b.disciplinePercentage - a.disciplinePercentage);
 
+			// Lưu tất cả members để dùng cho search filter
+			allMembersWithStats = membersWithStats;
+
+			// Apply search filter nếu có
+			const filteredMembers = applySearchFilter(membersWithStats, currentSearchQuery);
+
 			if (loadingDiv) loadingDiv.classList.add('hidden');
 			if (leaderboardDiv) leaderboardDiv.classList.remove('hidden');
 			if (!leaderboardBody && !leaderboardCardsBody) return;
 
-			if (membersWithStats.length === 0) {
+			if (filteredMembers.length === 0) {
 				if (leaderboardBody) {
-					leaderboardBody.innerHTML = '<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">Chưa có thành viên nào trong challenge này</td></tr>';
+					const emptyMessage = currentSearchQuery 
+						? `Không tìm thấy thành viên nào với từ khóa "${currentSearchQuery}"`
+						: 'Chưa có thành viên nào trong challenge này';
+					leaderboardBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">${emptyMessage}</td></tr>`;
 				}
 				if (leaderboardCardsBody) {
-					leaderboardCardsBody.innerHTML = '<div class="text-center text-gray-600 py-8 text-base">Chưa có thành viên nào trong challenge này</div>';
+					const emptyMessage = currentSearchQuery 
+						? `Không tìm thấy thành viên nào với từ khóa "${currentSearchQuery}"`
+						: 'Chưa có thành viên nào trong challenge này';
+					leaderboardCardsBody.innerHTML = `<div class="text-center text-gray-600 py-8 text-base">${emptyMessage}</div>`;
 				}
 				return;
 			}
 
-			// Calculate ranks with tie handling
+			// Calculate ranks với tie handling cho all members trước
 			let currentRank = 1;
-			membersWithStats.forEach((member, index) => {
-				if (index > 0 && member.disciplinePercentage < membersWithStats[index - 1].disciplinePercentage) {
+			allMembersWithStats.forEach((member, index) => {
+				if (index > 0 && member.disciplinePercentage < allMembersWithStats[index - 1].disciplinePercentage) {
 					currentRank = index + 1;
 				}
 				member.rank = currentRank;
 			});
+
+			// Filtered members sẽ giữ nguyên rank từ allMembersWithStats
 
 			// Hàm helper tạo badge cho Top 3
 			function getRankBadge(rank) {
@@ -248,7 +291,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 			// Desktop/tablet table render
 			if (leaderboardBody) {
-				leaderboardBody.innerHTML = membersWithStats.map((member) => {
+				leaderboardBody.innerHTML = filteredMembers.map((member) => {
 					const rankBadge = getRankBadge(member.rank);
 					const topRowClass = getTopRowClass(member.rank);
 					
@@ -292,7 +335,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 			// Mobile cards render (tap target >= 44px)
 			if (leaderboardCardsBody) {
-				leaderboardCardsBody.innerHTML = membersWithStats.map((member) => {
+				leaderboardCardsBody.innerHTML = filteredMembers.map((member) => {
 					const badge = member.role === 'admin'
 						? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full">Admin</span>'
 						: '';
@@ -348,11 +391,172 @@ import ProgressBar from '../components/ProgressBar.astro';
 		}
 	}
 
+	// Hàm filter members theo search query
+	function applySearchFilter(members, searchQuery) {
+		if (!searchQuery || searchQuery.trim() === '') {
+			return members;
+		}
+
+		const query = searchQuery.trim().toLowerCase();
+		return members.filter(member => {
+			// Tìm kiếm theo tên (không phân biệt hoa thường, hỗ trợ tiếng Việt)
+			const name = (member.name || '').toLowerCase();
+			return name.includes(query);
+		});
+	}
+
+	// Hàm render lại leaderboard với filter hiện tại
+	function renderFilteredLeaderboard() {
+		if (allMembersWithStats.length === 0) return;
+		
+		const filteredMembers = applySearchFilter(allMembersWithStats, currentSearchQuery);
+		const leaderboardBody = document.getElementById('leaderboardBody');
+		const leaderboardCardsBody = document.getElementById('leaderboardCardsBody');
+
+		if (filteredMembers.length === 0) {
+			if (leaderboardBody) {
+				const emptyMessage = currentSearchQuery 
+					? `Không tìm thấy thành viên nào với từ khóa "${currentSearchQuery}"`
+					: 'Chưa có thành viên nào trong challenge này';
+				leaderboardBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-gray-500">${emptyMessage}</td></tr>`;
+			}
+			if (leaderboardCardsBody) {
+				const emptyMessage = currentSearchQuery 
+					? `Không tìm thấy thành viên nào với từ khóa "${currentSearchQuery}"`
+					: 'Chưa có thành viên nào trong challenge này';
+				leaderboardCardsBody.innerHTML = `<div class="text-center text-gray-600 py-8 text-base">${emptyMessage}</div>`;
+			}
+			return;
+		}
+
+		// Rank đã được tính trong allMembersWithStats, chỉ cần dùng lại
+
+		// Hàm helper tạo badge cho Top 3
+		function getRankBadge(rank) {
+			if (rank === 1) return '<span class="text-lg mr-1">🥇</span>';
+			if (rank === 2) return '<span class="text-lg mr-1">🥈</span>';
+			if (rank === 3) return '<span class="text-lg mr-1">🥉</span>';
+			return '';
+		}
+
+		// Hàm helper tạo class highlight cho Top 3 (Desktop)
+		function getTopRowClass(rank) {
+			if (rank === 1) return 'bg-amber-50 border-l-4 border-l-amber-400';
+			if (rank === 2) return 'bg-slate-50 border-l-4 border-l-slate-400';
+			if (rank === 3) return 'bg-orange-50 border-l-4 border-l-orange-400';
+			return '';
+		}
+
+		// Desktop/tablet table render
+		if (leaderboardBody) {
+			leaderboardBody.innerHTML = filteredMembers.map((member) => {
+				const rankBadge = getRankBadge(member.rank);
+				const topRowClass = getTopRowClass(member.rank);
+				
+				return `
+					<tr class="${topRowClass}">
+						<td class="px-4 lg:px-6 py-4">
+							<span class="font-semibold text-gray-900 tabular-nums flex items-center">
+								${rankBadge}${member.rank}
+							</span>
+						</td>
+						<td class="px-4 lg:px-6 py-4">
+							<a href="/profile/${member.id}" target="_blank" class="font-semibold text-gray-900 text-base hover:underline underline-offset-4 cursor-pointer">
+								${member.name}
+							</a>
+							${member.role === 'admin' ? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full ml-2">Admin</span>' : ''}
+						</td>
+						<td class="px-4 lg:px-6 py-4 text-center">
+							<span class="font-semibold text-gray-900 tabular-nums">${member.streak}</span>
+						</td>
+						<td class="px-4 lg:px-6 py-4 text-center">
+							<span class="font-semibold text-gray-900 tabular-nums">${member.longestStreak}</span>
+						</td>
+						<td class="px-4 lg:px-6 py-4 text-center">
+							<span class="font-semibold text-gray-900 tabular-nums">${member.totalDays}</span>
+						</td>
+						<td class="px-4 lg:px-6 py-4 text-center">
+							<span class="font-semibold text-gray-900 tabular-nums">${member.disciplinePercentage}%</span>
+						</td>
+					</tr>
+				`;
+			}).join('');
+		}
+
+		// Hàm helper tạo class highlight cho Top 3 (Mobile)
+		function getTopCardClass(rank) {
+			if (rank === 1) return 'ring-2 ring-amber-400 bg-amber-50';
+			if (rank === 2) return 'ring-2 ring-slate-400 bg-slate-50';
+			if (rank === 3) return 'ring-2 ring-orange-400 bg-orange-50';
+			return '';
+		}
+
+		// Mobile cards render
+		if (leaderboardCardsBody) {
+			leaderboardCardsBody.innerHTML = filteredMembers.map((member) => {
+				const badge = member.role === 'admin'
+					? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full">Admin</span>'
+					: '';
+				const rankBadge = getRankBadge(member.rank);
+				const topCardClass = getTopCardClass(member.rank);
+
+				return `
+					<a
+						href="/profile/${member.id}"
+						target="_blank"
+						class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
+						aria-label="Mở hồ sơ ${member.name}"
+					>
+						<div class="flex items-start justify-between gap-3">
+							<div class="min-w-0">
+								<div class="flex items-center gap-2">
+									<span class="font-semibold text-gray-900 text-sm tabular-nums flex items-center">${rankBadge}#${member.rank}</span>
+									${badge}
+								</div>
+								<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${member.name}</div>
+							</div>
+							<div class="shrink-0 text-right">
+								<div class="text-xs font-medium text-gray-600">Kỷ luật</div>
+								<div class="text-lg font-semibold text-gray-900 tabular-nums">${member.disciplinePercentage}%</div>
+							</div>
+						</div>
+
+						<div class="mt-4 pt-4 border-t border-gray-200 flex items-center justify-between gap-3">
+							<div class="min-w-0">
+								<div class="text-[11px] uppercase tracking-widest text-gray-600">Chuỗi hiện tại</div>
+								<div class="text-base font-semibold text-gray-900 tabular-nums">${member.streak}</div>
+							</div>
+							<div class="min-w-0 text-center">
+								<div class="text-[11px] uppercase tracking-widest text-gray-600">Kỷ lục</div>
+								<div class="text-base font-semibold text-gray-900 tabular-nums">${member.longestStreak}</div>
+							</div>
+							<div class="min-w-0 text-right">
+								<div class="text-[11px] uppercase tracking-widest text-gray-600">Tổng ngày</div>
+								<div class="text-base font-semibold text-gray-900 tabular-nums">${member.totalDays}</div>
+							</div>
+						</div>
+					</a>
+				`;
+			}).join('');
+		}
+	}
+
 	// Handle challenge selection
 	const challengeSelect = document.getElementById('challengeSelect');
 	if (challengeSelect) {
 		challengeSelect.addEventListener('change', (e) => {
 			currentChallengeId = e.target.value;
+			// Clear search khi đổi challenge
+			currentSearchQuery = '';
+			const searchInput = document.getElementById('searchInput');
+			if (searchInput) {
+				searchInput.value = '';
+			}
+			const clearSearchBtn = document.getElementById('clearSearch');
+			if (clearSearchBtn) {
+				clearSearchBtn.classList.add('hidden');
+			}
+			
 			if (window.updateProgressBar) {
 				window.updateProgressBar(currentChallengeId);
 			}
@@ -365,6 +569,46 @@ import ProgressBar from '../components/ProgressBar.astro';
 				updateMemberCount(currentChallengeId);
 			}
 			loadLeaderboard(currentChallengeId);
+		});
+	}
+
+	// Handle search input
+	const searchInput = document.getElementById('searchInput');
+	const clearSearchBtn = document.getElementById('clearSearch');
+	
+	if (searchInput) {
+		// Tìm kiếm khi gõ (debounce để tối ưu performance)
+		let searchTimeout;
+		searchInput.addEventListener('input', (e) => {
+			clearTimeout(searchTimeout);
+			currentSearchQuery = e.target.value;
+			
+			// Hiện/ẩn nút clear
+			if (clearSearchBtn) {
+				if (currentSearchQuery.trim() !== '') {
+					clearSearchBtn.classList.remove('hidden');
+				} else {
+					clearSearchBtn.classList.add('hidden');
+				}
+			}
+			
+			// Debounce: đợi 300ms sau khi user ngừng gõ mới filter
+			searchTimeout = setTimeout(() => {
+				renderFilteredLeaderboard();
+			}, 300);
+		});
+	}
+
+	// Handle clear search button
+	if (clearSearchBtn) {
+		clearSearchBtn.addEventListener('click', () => {
+			currentSearchQuery = '';
+			if (searchInput) {
+				searchInput.value = '';
+				searchInput.focus();
+			}
+			clearSearchBtn.classList.add('hidden');
+			renderFilteredLeaderboard();
 		});
 	}
 
