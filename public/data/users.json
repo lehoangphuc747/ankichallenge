@@ -1033,6 +1033,101 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 65,
+      "name": "Bùi Mạnh Tuấn",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "IT",
+      "bio": "em tên là tuấn em sinh năm 2005 em sống ở nhà học và đang theo học ngành it , ôi chết rồi em quên ghi nội dung ck",
+      "facebookUrl": "https://www.facebook.com/bui.manh.tuan.693300",
+      "zaloUrl": "",
+      "discordNickname": "buimanhtuan12",
+      "birthYear": 2005,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 66,
+      "name": "Hà Lưu Thanh Bình",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "Em là một đứa học sinh vì làm biếng nên luôn muốn tìm cách học hiệu quả nhất :D\n\"Mọi thứ trong cuộc sống đáng đạt được cần phải luyện tập.\" - App Focus Mode Oppo",
+      "facebookUrl": "https://www.facebook.com/thanh.binh.364948/",
+      "zaloUrl": "",
+      "discordNickname": "afkgamerdn123 (Serene Flow)",
+      "birthYear": 2008,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 67,
+      "name": "Võ Nguyễn Xuân Đông",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng Anh",
+      "major": "Khác",
+      "bio": "Học từ vựng để thi các chứng chỉ tiếng Anh ạ!!!\nHãy tin vào quá trình!!!",
+      "facebookUrl": "https://www.facebook.com/vo.nguyen.xuan.ong",
+      "zaloUrl": "",
+      "discordNickname": "xuandong2740",
+      "birthYear": 2006,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 68,
+      "name": "Lê Đức Lương",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng anh",
+      "major": "Y4",
+      "bio": "E 2k4, tham gia thử thách với mục tiêu làm động lực chăm học do đã bỏ bê việc học 1 thời gian dài :v\nDeath is like the wind, always by my side",
+      "facebookUrl": "https://www.facebook.com/hanh.thichan.1/",
+      "zaloUrl": "",
+      "discordNickname": "6969jj (Johny L)",
+      "birthYear": 2004,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 69,
+      "name": "Cao Vũ An",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng Anh",
+      "major": "Khác",
+      "bio": "Vui vẻ, hòa đồng, thân thiện\nMong mọi người giúp đỡ\nWhere there is a way, there is a will!",
+      "facebookUrl": "https://www.facebook.com/ann.cao.62340/",
+      "zaloUrl": "",
+      "discordNickname": "adrewvn_91234 (adrew)",
+      "birthYear": 2003,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
