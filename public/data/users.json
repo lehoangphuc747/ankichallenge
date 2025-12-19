@@ -1014,6 +1014,25 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 64,
+      "name": "Dương Thùy Trang",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Năm 3",
+      "bio": "Mình thích học ngoại ngữ\nI can do it",
+      "facebookUrl": "https://www.facebook.com/share/17mKvaC7L3/",
+      "zaloUrl": "",
+      "discordNickname": "Wind_2605",
+      "birthYear": 1999,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
