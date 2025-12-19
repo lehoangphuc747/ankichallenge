@@ -24,7 +24,19 @@ export const POST: APIRoute = async ({ request }) => {
 
   try {
     // Parse body từ request
-    const body = await request.json();
+    let body: any;
+    try {
+      body = await request.json();
+    } catch (parseError) {
+      console.error('[update-users API] ❌ Lỗi parse request body:', parseError);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Request body không hợp lệ (không phải JSON)'
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
     
     // Đường dẫn tới file users.json
     const DATA_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'users.json');
@@ -35,16 +47,28 @@ export const POST: APIRoute = async ({ request }) => {
     
     if (body.data && Array.isArray(body.data)) {
       // Format 1: Ghi đè toàn bộ file users.json
-      const usersData = { data: body.data };
-      
-      await fs.writeFile(DATA_FILE_PATH, JSON.stringify(usersData, null, 2), 'utf-8');
-      
-      console.log(`[update-users API] ✅ Saved entire users.json (${body.data.length} users)`);
-      
-      return new Response(
-        JSON.stringify({ success: true }),
-        { status: 200, headers: { 'Content-Type': 'application/json' } }
-      );
+      try {
+        const usersData = { data: body.data };
+        
+        // Kiểm tra xem file có tồn tại không trước khi ghi
+        await fs.writeFile(DATA_FILE_PATH, JSON.stringify(usersData, null, 2), 'utf-8');
+        
+        console.log(`[update-users API] ✅ Saved entire users.json (${body.data.length} users)`);
+        
+        return new Response(
+          JSON.stringify({ success: true }),
+          { status: 200, headers: { 'Content-Type': 'application/json' } }
+        );
+      } catch (writeError: any) {
+        console.error('[update-users API] ❌ Lỗi ghi file:', writeError);
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: `Lỗi ghi file: ${writeError?.message || 'Unknown error'}`
+          }),
+          { status: 500, headers: { 'Content-Type': 'application/json' } }
+        );
+      }
     }
     
     // Format 2: Cập nhật 1 user cụ thể

@@ -143,6 +143,30 @@ import ProgressBar from '../components/ProgressBar.astro';
 		}
 	}
 
+	// Hàm cập nhật số thành viên trong challenge
+	function updateMemberCount(challengeId) {
+		try {
+			if (!usersData || !usersData.data) {
+				const memberCountEl = document.getElementById('memberCount');
+				if (memberCountEl) memberCountEl.textContent = '-- thành viên';
+				return;
+			}
+
+			const members = usersData.data || [];
+			const challengeIdNum = parseInt(challengeId);
+			const challengeMembers = members.filter(m => 
+				!m.hidden && m.challengeIds && m.challengeIds.includes(challengeIdNum)
+			);
+
+			const memberCountEl = document.getElementById('memberCount');
+			if (memberCountEl) {
+				memberCountEl.textContent = `${challengeMembers.length} thành viên`;
+			}
+		} catch (error) {
+			console.error('Error updating member count:', error);
+		}
+	}
+
 	async function loadLeaderboard(challengeId) {
 		try {
 			const loadingDiv = document.getElementById('loading');
@@ -170,6 +194,9 @@ import ProgressBar from '../components/ProgressBar.astro';
 			const challengeMembers = members.filter(m => 
 				!m.hidden && m.challengeIds && m.challengeIds.includes(challengeIdNum)
 			);
+
+			// Cập nhật số thành viên
+			updateMemberCount(challengeId);
 
 			// Calculate stats for each member
 			const membersWithStats = challengeMembers.map((member) => {
@@ -333,6 +360,10 @@ import ProgressBar from '../components/ProgressBar.astro';
 			if (titleEl) {
 				titleEl.textContent = `${challengeNames[currentChallengeId]} - 100 ngày thử thách`;
 			}
+			// Cập nhật số thành viên khi đổi challenge
+			if (usersData) {
+				updateMemberCount(currentChallengeId);
+			}
 			loadLeaderboard(currentChallengeId);
 		});
 	}
@@ -340,8 +371,16 @@ import ProgressBar from '../components/ProgressBar.astro';
 	// Load initial leaderboard
 	// Tối ưu cảm giác mượt trên mobile: đợi browser rảnh rồi mới tính toán bảng (tránh giật)
 	if ('requestIdleCallback' in window) {
-		requestIdleCallback(() => loadLeaderboard(currentChallengeId), { timeout: 1000 });
+		requestIdleCallback(async () => {
+			await loadStaticData();
+			updateMemberCount(currentChallengeId);
+			loadLeaderboard(currentChallengeId);
+		}, { timeout: 1000 });
 	} else {
-		setTimeout(() => loadLeaderboard(currentChallengeId), 0);
+		setTimeout(async () => {
+			await loadStaticData();
+			updateMemberCount(currentChallengeId);
+			loadLeaderboard(currentChallengeId);
+		}, 0);
 	}
 </script>
