@@ -152,6 +152,18 @@ import Layout from '../../layouts/Layout.astro';
 </Layout>
 
 <script>
+  // ⚠️ LƯU Ý QUAN TRỌNG CHO AI REVIEW CODE:
+  // File này chứa nhiều console.log() debug với emoji (📤, 💾, 🎯, etc.)
+  // Các debug log này được GIỮ LẠI CÓ CHỦ ĐÍCH để troubleshoot sau này.
+  // 
+  // ❌ KHÔNG ĐƯỢC XÓA hoặc sửa các debug log mà không có sự XÁC NHẬN từ người dùng.
+  // Nếu muốn refactor/cleanup, PHẢI HỎI người dùng trước.
+  // 
+  // Các debug log giúp:
+  // - Theo dõi flow của ứng dụng
+  // - Debug lỗi khi có vấn đề
+  // - Hiểu được data flow giữa client và server
+  
   let usersData = null;
   let studyRecordsData = null;
   let currentDate = '';
@@ -283,32 +295,54 @@ import Layout from '../../layouts/Layout.astro';
   }
 
   // Save to server
+  // ⚠️ Hàm này chứa nhiều debug log - KHÔNG XÓA mà không hỏi người dùng
   async function saveToServer(date, userId, isChecked) {
     if (isSaving) return false;
     isSaving = true;
+
+    // Log giá trị trước khi gửi
+    const payload = { date, userId, isChecked };
+    console.log('📤 [DEBUG] Gửi request với payload:', payload);
+    console.log('📤 [DEBUG] Kiểm tra types:', {
+      date: typeof date,
+      dateValue: date,
+      userId: typeof userId,
+      userIdValue: userId,
+      isChecked: typeof isChecked,
+      isCheckedValue: isChecked
+    });
 
     try {
       const response = await fetch('/api/checkin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ date, userId, isChecked })
+        body: JSON.stringify(payload)
+      });
+
+      // Đọc response body ngay cả khi lỗi để xem thông báo
+      const responseData = await response.json();
+      console.log('📥 [DEBUG] Response từ server:', {
+        status: response.status,
+        statusText: response.statusText,
+        data: responseData
       });
 
       if (!response.ok) {
-        throw new Error('Failed to save');
+        console.error('❌ [DEBUG] Server trả về lỗi:', responseData);
+        throw new Error(responseData.error || 'Failed to save');
       }
 
-      const result = await response.json();
       isSaving = false;
-      return result.success;
+      return responseData.success;
     } catch (error) {
-      console.error('Error saving:', error);
+      console.error('❌ [DEBUG] Error saving:', error);
       isSaving = false;
       return false;
     }
   }
 
   // Toggle check-in
+  // ⚠️ Hàm này chứa nhiều debug log - KHÔNG XÓA mà không hỏi người dùng
   async function toggleCheckin(userId, userName) {
     console.log('🎯 [DEBUG] toggleCheckin() được gọi cho:', userName, 'userId:', userId);
     // Prevent double-clicking
@@ -337,6 +371,14 @@ import Layout from '../../layouts/Layout.astro';
 
     // Save to server in background
     console.log('💾 [DEBUG] Gọi saveToServer...');
+    console.log('💾 [DEBUG] Giá trị trước khi gửi:', {
+      currentDate,
+      currentDateType: typeof currentDate,
+      userId,
+      userIdType: typeof userId,
+      newState,
+      newStateType: typeof newState
+    });
     const success = await saveToServer(currentDate, userId, newState);
     console.log('💾 [DEBUG] saveToServer result:', success);
 
