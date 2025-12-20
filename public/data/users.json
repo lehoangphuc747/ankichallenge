@@ -1261,6 +1261,25 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 77,
+      "name": "Lê Thu Thủy",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/tracyle0111",
+      "zaloUrl": "",
+      "discordNickname": "thuy.tracy.seni",
+      "birthYear": 2000,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
