@@ -8,8 +8,6 @@ import cloudflare from '@astrojs/cloudflare';
 import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
-import react from '@astrojs/react';
-import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
@@ -27,5 +25,5 @@ export default defineConfig({
     }
   },
 
-  integrations: [sitemap(), react(), mdx()]
+  integrations: [sitemap()]
 });
