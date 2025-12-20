@@ -1223,6 +1223,25 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 75,
+      "name": "Ngô Gia Bảo",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "Em là một người đang học tiếng Đức được 1 tháng, có tính ham học hỏi nhưng chưa có phương pháp đúng, mong muốn tìm tới nhóm để cải thiện khả năng học của bản thân.",
+      "facebookUrl": "https://www.facebook.com/ngo.gia.bao.625928",
+      "zaloUrl": "",
+      "discordNickname": "baobato.",
+      "birthYear": 2002,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
