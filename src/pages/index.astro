@@ -40,7 +40,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 							<input 
 								type="text" 
 								id="searchInput" 
-								placeholder="Tìm kiếm theo tên..." 
+								placeholder="Tìm kiếm theo ID, tên hoặc Discord..." 
 								class="flex-1 min-h-[44px] px-3 py-2 bg-transparent border-0 font-semibold text-gray-900 focus:outline-none text-base sm:text-lg placeholder:text-gray-500"
 							/>
 							<button 
@@ -399,9 +399,20 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 		const query = searchQuery.trim().toLowerCase();
 		return members.filter(member => {
+			// Tìm kiếm theo ID (chuyển sang string để so sánh)
+			const id = String(member.id || '').toLowerCase();
+			const idMatch = id.includes(query);
+			
 			// Tìm kiếm theo tên (không phân biệt hoa thường, hỗ trợ tiếng Việt)
 			const name = (member.name || '').toLowerCase();
-			return name.includes(query);
+			const nameMatch = name.includes(query);
+			
+			// Tìm kiếm theo Discord nickname
+			const discordNickname = (member.discordNickname || '').toLowerCase();
+			const discordMatch = discordNickname.includes(query);
+			
+			// Trả về true nếu khớp với bất kỳ trường nào
+			return idMatch || nameMatch || discordMatch;
 		});
 	}
 
