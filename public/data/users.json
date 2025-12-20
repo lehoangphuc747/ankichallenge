@@ -1242,6 +1242,25 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 76,
+      "name": "Trần Minh Hậu",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "Xin chào admin, mình là Trần Minh Hậu. Mình tham gia Anki Challenge 100 ngày với mục tiêu là duy trì thói quen học từ vựng tiếng Anh mỗi ngày bằng Anki. Trước đây mình hay học từ vựng không đều và nhanh quên, nên mình muốn dùng Anki để ghi nhớ lâu hơn và học có hệ thống. Trong 100 ngày này, mình đặt mục tiêu mỗi ngày đều mở Anki, ôn và học từ mới, dù ít nhưng đều đặn, để cải thiện vốn từ vựng và khả năng sử dụng tiếng Anh trong học tập và giao tiếp.\nLittle by little, a little becomes a lot",
+      "facebookUrl": "Minh-Hau Tran",
+      "zaloUrl": "",
+      "discordNickname": "hautm.cs",
+      "birthYear": 2005,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
