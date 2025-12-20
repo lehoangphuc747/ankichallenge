@@ -1,0 +1,308 @@
+---
+// Component chỉ để load CSS, không render DOM
+---
+
+<style is:global>
+  /* Certificate Card */
+  .cert-card {
+    background: var(--color-white);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* Thêm border rõ ràng hơn như Gemini */
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .cert-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  }
+
+  /* Completed State */
+  .cert-card.completed {
+    border-left: 5px solid #fbbf24;
+  }
+
+  .cert-card.completed .cert-icon-bg {
+    background-color: #fffbeb;
+    color: #fbbf24;
+  }
+
+  /* Progress/In-Progress State */
+  .cert-card.progress {
+    border-left: 5px solid #9ca3af;
+  }
+
+  .cert-card.progress .cert-icon-bg {
+    background-color: #f3f4f6;
+    color: #9ca3af;
+  }
+
+  /* Watermark Icon */
+  .cert-watermark {
+    position: absolute;
+    top: -10px;
+    right: -20px;
+    font-size: 120px;
+    opacity: 0.03;
+    transform: rotate(15deg);
+    pointer-events: none;
+    z-index: 0;
+    user-select: none;
+  }
+
+  /* Status Badge */
+  .cert-status-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    z-index: 2;
+  }
+
+  .status-done {
+    background: #d1fae5;
+    color: #065f46;
+  }
+
+  .status-doing {
+    background: #f3f4f6;
+    color: #374151;
+  }
+
+  /* Certificate Body - Match Gemini: 1.25rem mobile, 1.5rem desktop */
+  .cert-body {
+    padding: 1.25rem; /* Match Gemini design */
+    position: relative;
+    z-index: 1;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (min-width: 768px) {
+    .cert-body {
+      padding: 1.5rem; /* Match Gemini design */
+    }
+  }
+
+  /* Certificate Header - Match Gemini */
+  .cert-header {
+    display: flex;
+    align-items: center; /* Center align như Gemini */
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .cert-icon-bg {
+    width: 48px !important; /* Match Gemini: 48px */
+    height: 48px !important;
+    min-width: 48px;
+    max-width: 48px;
+    border-radius: 12px; /* Match Gemini: rounded, không phải circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  
+  .cert-icon-bg svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Để Tailwind classes hoạt động, không override với custom CSS */
+  .cert-title {
+    font-family: "Space Grotesk", sans-serif;
+    /* Các properties khác sẽ được Tailwind classes handle */
+  }
+
+  .cert-subtitle {
+    font-family: "Space Grotesk", sans-serif;
+    /* Các properties khác sẽ được Tailwind classes handle */
+  }
+
+  /* Stats Row - Match Gemini exactly */
+  .cert-stats-row {
+    display: flex;
+    justify-content: space-between;
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1rem; /* Match Gemini: 1rem padding */
+    margin-bottom: 0.5rem;
+    margin-top: auto; /* Push stats to bottom of body */
+  }
+
+  .cert-stat {
+    text-align: center;
+    flex: 1;
+  }
+
+  .cert-stat:first-child {
+    border-right: 1px solid #e2e8f0;
+  }
+
+  .cert-stat-val {
+    font-family: 'Fraunces', serif;
+    font-size: 1.25rem; /* Match Gemini: 1.25rem mobile */
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  @media (min-width: 768px) {
+    .cert-stat-val {
+      font-size: 1.5rem; /* Match Gemini: 1.5rem desktop */
+    }
+  }
+
+  /* Support Tailwind color classes - dùng !important để override default */
+  .cert-stat-val.text-green-600 {
+    color: #16a34a !important; /* green-600 chính xác từ Tailwind */
+  }
+
+  .cert-stat-val.text-blue-600 {
+    color: #2563eb !important; /* blue-600 chính xác từ Tailwind */
+  }
+
+  .cert-stat-val.text-gray-800 {
+    color: #1f2937 !important; /* gray-800 chính xác từ Tailwind */
+  }
+
+  .cert-stat-val.text-gray-400 {
+    color: #9ca3af !important; /* gray-400 chính xác từ Tailwind */
+  }
+  
+  /* Đảm bảo span bên trong không bị override */
+  .cert-stat-val span {
+    font-size: inherit;
+    font-weight: 400; /* font-normal */
+  }
+
+  .cert-stat-label {
+    font-size: 0.7rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 6px; /* Tăng spacing một chút */
+    letter-spacing: 0.05em; /* Tăng letter spacing cho uppercase */
+    font-family: "Space Grotesk", sans-serif;
+  }
+
+  /* Certificate Footer */
+  .cert-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #f1f5f9;
+    background: #fff;
+  }
+
+  /* Download Button */
+  .btn-download-cert {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+    background: linear-gradient(135deg, var(--color-black) 0%, #2a4c7d 100%);
+    color: var(--color-white);
+    box-shadow: 0 4px 6px rgba(29, 53, 87, 0.2);
+    cursor: pointer;
+  }
+
+  .btn-download-cert:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(29, 53, 87, 0.3);
+  }
+
+  .btn-download-cert:active {
+    transform: translateY(0);
+  }
+
+  .btn-download-cert:disabled {
+    background: #e2e8f0;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 640px) {
+    .cert-card {
+      border-radius: 12px;
+    }
+
+    .cert-card:hover {
+      transform: none;
+    }
+
+    .cert-body {
+      padding: 1rem;
+    }
+
+    .cert-icon-bg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .cert-icon-bg svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .cert-title {
+      font-size: 1rem;
+    }
+
+    .cert-subtitle {
+      font-size: 0.7rem;
+    }
+
+    .cert-stats-row {
+      padding: 0.75rem;
+    }
+
+    .cert-stat-val {
+      font-size: 1.125rem;
+    }
+
+    .cert-stat-label {
+      font-size: 0.65rem;
+    }
+
+    .cert-footer {
+      padding: 0.875rem 1rem;
+    }
+
+    .btn-download-cert {
+      padding: 0.625rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-download-cert svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+</style>
+

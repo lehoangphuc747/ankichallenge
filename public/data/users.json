@@ -1128,6 +1128,44 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 70,
+      "name": "Phạm Thị Huyền Giang",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Mình mới tốt nghiệp",
+      "bio": ".",
+      "facebookUrl": "https://www.facebook.com/share/1H6fpRWCn7/?mibextid=wwXIfr",
+      "zaloUrl": "",
+      "discordNickname": "giangpham001_20363 (Giang Pham)",
+      "birthYear": 2001,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 71,
+      "name": "Vũ Toàn Thắng",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "y6",
+      "bio": "Tôi đang ôn thi nội trú y Hà Nội.\nThiên hành kiện, quân tử không ngừng vươn nên.",
+      "facebookUrl": "https://www.facebook.com/vu.titi.948",
+      "zaloUrl": "",
+      "discordNickname": "vuthang_42589 (Vũ Thắng)",
+      "birthYear": 2001,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
