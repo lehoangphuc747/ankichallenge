@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 const defaultChallenges = {
   "1": { "name": "Anki Challenge 8", "start": "2025-09-03", "end": "2025-12-21", "certEnd": "2025-12-11", "description": "100 ngày thử thách + 10 ngày gia hạn" },
   "2": { "name": "Anki Challenge 9", "start": "2025-12-22", "end": "2026-03-31", "description": "100 ngày thử thách" },
-  "3": { "name": "Anki Challenge 10", "start": "2026-05-01", "end": "2026-08-09", "description": "100 ngày thử thách" }
+  "3": { "name": "Anki Challenge 10", "start": "2026-04-01", "end": "2026-07-10", "description": "100 ngày thử thách" }
 };
 
 export const GET: APIRoute = async ({ request }) => {
