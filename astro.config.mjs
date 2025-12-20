@@ -1,8 +1,9 @@
 // @ts-check
-// Cấu hình Astro cho site tĩnh, deploy lên Cloudflare Pages.
+// Cấu hình Astro cho site hybrid (static pages + dynamic API routes), deploy lên Cloudflare Pages.
 // Admin /api/checkin chỉ hoạt động khi dev local (không có trên production).
 
 import { defineConfig } from 'astro/config';
+import cloudflare from '@astrojs/cloudflare';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -12,8 +13,9 @@ import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
 export default defineConfig({
-  // Static output: build ra HTML/CSS/JS tĩnh để deploy lên Cloudflare Pages
-  output: 'static',
+  // Server output: hỗ trợ API routes động để deploy lên Cloudflare Pages
+  output: 'server',
+  adapter: cloudflare(),
 
   vite: {
     plugins: [tailwindcss()],
