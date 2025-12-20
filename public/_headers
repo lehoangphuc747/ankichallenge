@@ -1,0 +1,8 @@
+# Cloudflare Pages headers configuration
+# Không cache các file JSON trong /data/ để đảm bảo dữ liệu luôn mới nhất
+
+/data/*.json
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+

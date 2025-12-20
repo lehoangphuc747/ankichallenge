@@ -166,17 +166,21 @@ import Layout from '../../layouts/Layout.astro';
   // Load and display stats
   async function loadStats() {
     try {
-      // Thêm cache-busting
-      const cb = '?v=' + Date.now();
-      const [usersResponse, studyRecordsResponse, metadataResponse] = await Promise.all([
-        fetch('/data/users.json' + cb),
-        fetch('/data/studyRecords.json' + cb),
-        fetch('/data/metadata.json' + cb)
+      // Load metadata trước để lấy lastUpdated làm cache-buster
+      // Đảm bảo luôn lấy dữ liệu mới nhất từ server
+      const metadataResponse = await fetch('/data/metadata.json?v=' + Date.now());
+      const metadata = await metadataResponse.json();
+      const cacheBuster = metadata?.lastUpdated 
+        ? '?v=' + new Date(metadata.lastUpdated).getTime() 
+        : '?v=' + Date.now();
+      
+      const [usersResponse, studyRecordsResponse] = await Promise.all([
+        fetch('/data/users.json' + cacheBuster),
+        fetch('/data/studyRecords.json' + cacheBuster)
       ]);
 
       const usersData = await usersResponse.json();
       const studyRecordsData = await studyRecordsResponse.json();
-      const metadata = await metadataResponse.json();
 
       // Total members
       const totalMembers = usersData.data?.length || 0;

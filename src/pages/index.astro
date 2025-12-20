@@ -120,9 +120,13 @@ import ProgressBar from '../components/ProgressBar.astro';
 
 	async function loadStaticData() {
 		try {
-			// Thêm timestamp để bust CDN cache khi data thay đổi
-			// Build time được inject vào để cache chỉ bị clear khi deploy mới
-			const cacheBuster = '?v=' + Date.now();
+			// Load metadata trước để lấy lastUpdated làm cache-buster
+			// Đảm bảo luôn lấy dữ liệu mới nhất từ server
+			const metadataResponse = await fetch('/data/metadata.json?v=' + Date.now());
+			const metadata = await metadataResponse.json();
+			const cacheBuster = metadata?.lastUpdated 
+				? '?v=' + new Date(metadata.lastUpdated).getTime() 
+				: '?v=' + Date.now();
 			
 			const [studyRecordsResponse, usersResponse] = await Promise.all([
 				fetch('/data/studyRecords.json' + cacheBuster),
