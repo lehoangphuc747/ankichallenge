@@ -1337,6 +1337,44 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 81,
+      "name": "Nguyễn Minh Thiệu",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "Thích dùng Anki",
+      "facebookUrl": "https://www.facebook.com/thieunm",
+      "zaloUrl": "",
+      "discordNickname": "nathan_90176 (Nathan)",
+      "birthYear": 1982,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 82,
+      "name": "Nguyễn Nhật Minh",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng Trung",
+      "major": "Khác",
+      "bio": "Bằng cách nào đó mà mình khá thích học ngôn ngữ, hiện có Anh, Trung. Sắp tới sẽ có thêm vài ngôn ngữ vào giỏ hàng. Mọi người đều nhận xét là mình khá thoải mái và thân thiện",
+      "facebookUrl": "https://www.facebook.com/minh.nhatminh.7982/",
+      "zaloUrl": "",
+      "discordNickname": "themink4550",
+      "birthYear": 2003,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
