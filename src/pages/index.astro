@@ -13,46 +13,70 @@ import ProgressBar from '../components/ProgressBar.astro';
 		
 		<div class="max-w-5xl mx-auto relative z-10">
 			<div class="text-center mb-6 sm:mb-8">
-				<h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-3 sm:mb-4 leading-tight">Bảng xếp hạng</h1>
-				<p class="text-base sm:text-lg lg:text-xl font-semibold text-gray-700 mb-4" id="challengeTitle">Anki Challenge 8 - 100 ngày thử thách</p>
+				<!-- Title and Challenge Selector Row -->
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-3 sm:mb-4">
+					<h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">Bảng xếp hạng</h1>
+					<!-- Challenge Selector -->
+					<div class="aurora-card rounded-xl p-2 w-full sm:w-auto">
+						<label class="sr-only" for="challengeSelect">Chọn challenge</label>
+						<select id="challengeSelect" class="w-full sm:w-auto min-h-[44px] px-4 sm:px-6 py-3 bg-transparent border-0 font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-black rounded-lg text-base sm:text-lg">
+							<option value="1">Anki Challenge 8</option>
+							<option value="2" selected>Anki Challenge 9</option>
+							<option value="3">Anki Challenge 10</option>
+						</select>
+					</div>
+				</div>
+				
+				<p class="text-base sm:text-lg lg:text-xl font-semibold text-gray-700 mb-4" id="challengeTitle">Anki Challenge 9 - 100 ngày thử thách</p>
 				
 				<!-- Challenge Progress Bar -->
-				<ProgressBar challengeId="1" />
-				
-				<!-- Challenge Selector -->
-				<div class="inline-block aurora-card rounded-xl p-2 w-full sm:w-auto">
-					<label class="sr-only" for="challengeSelect">Chọn challenge</label>
-					<select id="challengeSelect" class="w-full sm:w-auto min-h-[44px] px-4 sm:px-6 py-3 bg-transparent border-0 font-bold text-gray-900 focus:outline-none focus:ring-2 focus:ring-black rounded-lg text-base sm:text-lg">
-						<option value="1">Anki Challenge 8</option>
-						<option value="2">Anki Challenge 9</option>
-						<option value="3">Anki Challenge 10</option>
-					</select>
-				</div>
+				<ProgressBar challengeId="2" />
 
-				<!-- Search Bar -->
-				<div class="mt-4 w-full max-w-md mx-auto">
-					<label class="sr-only" for="searchInput">Tìm kiếm thành viên</label>
-					<div class="aurora-card rounded-xl p-2 relative">
-						<div class="flex items-center gap-2">
-							<svg class="w-5 h-5 text-gray-600 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-							</svg>
-							<input 
-								type="text" 
-								id="searchInput" 
-								placeholder="Tìm kiếm theo ID, tên hoặc Discord..." 
-								class="flex-1 min-h-[44px] px-3 py-2 bg-transparent border-0 font-semibold text-gray-900 focus:outline-none text-base sm:text-lg placeholder:text-gray-500"
-							/>
-							<button 
-								id="clearSearch" 
-								class="hidden shrink-0 mr-2 p-1 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-black rounded"
-								aria-label="Xóa tìm kiếm"
-							>
-								<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+				<!-- Search Bar and Display Mode Toggle -->
+				<div class="mt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+					<!-- Search Bar -->
+					<div class="w-full sm:w-auto sm:max-w-md">
+						<label class="sr-only" for="searchInput">Tìm kiếm thành viên</label>
+						<div class="aurora-card rounded-xl p-2 relative">
+							<div class="flex items-center gap-2">
+								<svg class="w-5 h-5 text-gray-600 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
 								</svg>
-							</button>
+								<input 
+									type="text" 
+									id="searchInput" 
+									placeholder="Tìm kiếm theo ID, tên hoặc Discord..." 
+									class="flex-1 min-h-[44px] px-3 py-2 bg-transparent border-0 font-semibold text-gray-900 focus:outline-none text-base sm:text-lg placeholder:text-gray-500"
+								/>
+								<button 
+									id="clearSearch" 
+									class="hidden shrink-0 mr-2 p-1 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-black rounded"
+									aria-label="Xóa tìm kiếm"
+								>
+									<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+									</svg>
+								</button>
+							</div>
 						</div>
+					</div>
+
+					<!-- Display Mode Toggle -->
+					<div class="aurora-card rounded-xl p-2 inline-flex gap-2">
+						<button 
+							id="displayNameBtn" 
+							class="px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] bg-white text-black swiss-border swiss-shadow-sm hover:bg-gray-50"
+							aria-label="Hiển thị tên"
+						>
+							👤 Tên
+						</button>
+						<button 
+							id="displayDiscordBtn" 
+							class="px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] aurora-button"
+							aria-label="Hiển thị Discord nickname"
+						>
+							💬 Discord
+						</button>
 					</div>
 				</div>
 			</div>
@@ -96,9 +120,10 @@ import ProgressBar from '../components/ProgressBar.astro';
 <script>
 	import { calculateUserStats } from '../utils/calculateStats.js';
 
-	let currentChallengeId = '1';
+	let currentChallengeId = '2';
 	let currentSearchQuery = '';
 	let allMembersWithStats = []; // Lưu tất cả members để filter
+	let displayMode = localStorage.getItem('leaderboardDisplayMode') || 'discord'; // 'name' or 'discord'
 
 	// Challenge names mapping
 	const challengeNames = {
@@ -176,6 +201,14 @@ import ProgressBar from '../components/ProgressBar.astro';
 		}
 	}
 
+	// Hàm helper để lấy display name dựa trên displayMode
+	function getDisplayName(member) {
+		if (displayMode === 'discord' && member.discordNickname) {
+			return member.discordNickname;
+		}
+		return member.name || 'Không có tên';
+	}
+
 	// Hàm cập nhật số thành viên trong challenge
 	function updateMemberCount(challengeId) {
 		try {
@@ -197,6 +230,28 @@ import ProgressBar from '../components/ProgressBar.astro';
 			}
 		} catch (error) {
 			console.error('Error updating member count:', error);
+		}
+	}
+
+	// Hàm cập nhật trạng thái toggle buttons
+	function updateDisplayModeButtons() {
+		const nameBtn = document.getElementById('displayNameBtn');
+		const discordBtn = document.getElementById('displayDiscordBtn');
+		
+		if (displayMode === 'name') {
+			if (nameBtn) {
+				nameBtn.className = 'px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] aurora-button';
+			}
+			if (discordBtn) {
+				discordBtn.className = 'px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] bg-white text-black swiss-border swiss-shadow-sm hover:bg-gray-50';
+			}
+		} else {
+			if (nameBtn) {
+				nameBtn.className = 'px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] bg-white text-black swiss-border swiss-shadow-sm hover:bg-gray-50';
+			}
+			if (discordBtn) {
+				discordBtn.className = 'px-4 py-2 rounded-lg font-semibold text-sm transition-colors min-h-[44px] aurora-button';
+			}
 		}
 	}
 
@@ -308,7 +363,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 							</td>
 							<td class="px-4 lg:px-6 py-4">
 								<a href="/profile/${member.id}" target="_blank" class="font-semibold text-gray-900 text-base hover:underline underline-offset-4 cursor-pointer">
-									${member.name}
+									${getDisplayName(member)}
 								</a>
 								${member.role === 'admin' ? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full ml-2">Admin</span>' : ''}
 							</td>
@@ -351,7 +406,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 							href="/profile/${member.id}"
 							target="_blank"
 							class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
-							aria-label="Mở hồ sơ ${member.name}"
+							aria-label="Mở hồ sơ ${getDisplayName(member)}"
 						>
 							<div class="flex items-start justify-between gap-3">
 								<div class="min-w-0">
@@ -359,7 +414,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 										<span class="font-semibold text-gray-900 text-sm tabular-nums flex items-center">${rankBadge}#${member.rank}</span>
 										${badge}
 									</div>
-									<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${member.name}</div>
+									<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${getDisplayName(member)}</div>
 								</div>
 								<div class="shrink-0 text-right">
 									<div class="text-xs font-medium text-gray-600">Kỷ luật</div>
@@ -477,7 +532,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 						</td>
 						<td class="px-4 lg:px-6 py-4">
 							<a href="/profile/${member.id}" target="_blank" class="font-semibold text-gray-900 text-base hover:underline underline-offset-4 cursor-pointer">
-								${member.name}
+								${getDisplayName(member)}
 							</a>
 							${member.role === 'admin' ? '<span class="text-xs border border-gray-900 text-gray-900 px-2 py-0.5 rounded-full ml-2">Admin</span>' : ''}
 						</td>
@@ -520,7 +575,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 						href="/profile/${member.id}"
 						target="_blank"
 						class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
-						aria-label="Mở hồ sơ ${member.name}"
+						aria-label="Mở hồ sơ ${getDisplayName(member)}"
 					>
 						<div class="flex items-start justify-between gap-3">
 							<div class="min-w-0">
@@ -528,7 +583,7 @@ import ProgressBar from '../components/ProgressBar.astro';
 									<span class="font-semibold text-gray-900 text-sm tabular-nums flex items-center">${rankBadge}#${member.rank}</span>
 									${badge}
 								</div>
-								<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${member.name}</div>
+								<div class="mt-2 font-semibold text-gray-900 text-lg leading-snug break-words">${getDisplayName(member)}</div>
 							</div>
 							<div class="shrink-0 text-right">
 								<div class="text-xs font-medium text-gray-600">Kỷ luật</div>
@@ -626,6 +681,32 @@ import ProgressBar from '../components/ProgressBar.astro';
 			renderFilteredLeaderboard();
 		});
 	}
+
+	// Handle display mode toggle buttons
+	const displayNameBtn = document.getElementById('displayNameBtn');
+	const displayDiscordBtn = document.getElementById('displayDiscordBtn');
+	
+	function switchDisplayMode(mode) {
+		displayMode = mode;
+		localStorage.setItem('leaderboardDisplayMode', mode);
+		updateDisplayModeButtons();
+		renderFilteredLeaderboard();
+	}
+	
+	if (displayNameBtn) {
+		displayNameBtn.addEventListener('click', () => {
+			switchDisplayMode('name');
+		});
+	}
+	
+	if (displayDiscordBtn) {
+		displayDiscordBtn.addEventListener('click', () => {
+			switchDisplayMode('discord');
+		});
+	}
+	
+	// Initialize display mode buttons
+	updateDisplayModeButtons();
 
 	// Load initial leaderboard
 	// Tối ưu cảm giác mượt trên mobile: đợi browser rảnh rồi mới tính toán bảng (tránh giật)

@@ -152,6 +152,10 @@
   background-color: var(--color-primary);
 }
 
+.border-primary {
+  border-color: var(--color-primary);
+}
+
 .bg-secondary {
   background-color: var(--color-secondary);
 }

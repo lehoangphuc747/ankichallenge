@@ -53,7 +53,7 @@ const challengeConfig = {
   <p class="text-center text-sm font-semibold text-gray-700 mt-2" id="memberCount">-- thành viên</p>
 </div>
 
-<script define:vars={{ challengeConfig }}>
+<script define:vars={{ challengeConfig, challengeId }}>
   function updateProgressBar(challengeId) {
     const config = challengeConfig[challengeId];
     if (!config) return;
@@ -129,6 +129,6 @@ const challengeConfig = {
   // Export function to global scope
   window.updateProgressBar = updateProgressBar;
   
-  // Initial update
-  updateProgressBar('1');
+  // Initial update with the challengeId prop
+  updateProgressBar(challengeId);
 </script>

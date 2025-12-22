@@ -22,10 +22,78 @@ export function getStaticPaths() {
     <div class="absolute inset-0 aurora-layer-1 pointer-events-none"></div>
     <div class="absolute inset-0 aurora-layer-2 pointer-events-none"></div>
     
-    <div class="max-w-5xl mx-auto relative z-10">
-      <!-- Back Button -->
-      <div class="mb-6">
-        <a href="/" class="aurora-button inline-flex items-center gap-2">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div 
+      id="sidebarOverlay" 
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity"
+    ></div>
+
+    <!-- Sidebar -->
+    <aside 
+      id="profileSidebar" 
+      class="fixed left-0 top-0 h-full w-80 bg-white border-r-2 border-black z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto"
+    >
+      <div class="p-4 sticky top-0 bg-white border-b-2 border-black z-10">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold aurora-text">Danh sách thành viên</h2>
+          <button 
+            id="sidebarClose" 
+            class="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+            aria-label="Close sidebar"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <!-- Challenge Filter -->
+        <div class="mb-3">
+          <label for="sidebarChallengeFilter" class="block text-sm font-semibold text-gray-700 mb-2">
+            Lọc theo Challenge:
+          </label>
+          <select 
+            id="sidebarChallengeFilter" 
+            class="w-full px-4 py-2 border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white font-semibold text-gray-900"
+          >
+            <option value="all">Tất cả</option>
+            <option value="1">Anki Challenge 8</option>
+            <option value="2">Anki Challenge 9</option>
+            <option value="3">Anki Challenge 10</option>
+          </select>
+        </div>
+        <!-- Search Input -->
+        <input 
+          type="text" 
+          id="sidebarSearch" 
+          placeholder="Tìm kiếm thành viên..." 
+          class="w-full px-4 py-2 border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white text-gray-900 placeholder-gray-500"
+        />
+      </div>
+      <div id="sidebarUserList" class="p-4 space-y-2">
+        <!-- User list will be populated by JavaScript -->
+        <div class="text-center py-8 text-gray-500">Đang tải...</div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="max-w-5xl mx-auto relative z-10 md:ml-80 transition-all duration-300">
+      <!-- Top Bar with Toggle and Back Button (Mobile) -->
+      <div class="mb-6 flex items-center gap-3 md:block">
+        <!-- Sidebar Toggle Button (Mobile) -->
+        <button 
+          id="sidebarToggle" 
+          class="aurora-button p-3 rounded-lg md:hidden flex-shrink-0"
+          aria-label="Toggle sidebar"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <!-- Back Button -->
+        <a href="/" class="aurora-button inline-flex items-center gap-2 flex-1 md:flex-none">
           ← Quay lại
         </a>
       </div>
@@ -134,6 +202,9 @@ export function getStaticPaths() {
       const members = usersData.data || [];
       console.log('👥 [PROFILE] Found', members.length, 'members');
       
+      // Store all users for sidebar
+      allUsers = members;
+      
       const user = members.find(m => m.id.toString() === userId);
 
       if (!user) {
@@ -188,6 +259,26 @@ export function getStaticPaths() {
       // Display profile
       displayProfile(user, challengeStats, allRecords);
 
+      // Determine default challenge filter (use latest challenge from user's challengeIds, or 'all')
+      let defaultChallengeId = 'all';
+      if (challengeIds.length > 0) {
+        // Use the latest challenge (highest ID) or first challenge
+        const sortedChallengeIds = [...challengeIds].map(id => parseInt(id)).sort((a, b) => b - a);
+        defaultChallengeId = sortedChallengeIds[0].toString();
+      }
+      currentSidebarChallengeFilter = defaultChallengeId;
+
+      // Update challenge filter dropdown
+      setTimeout(() => {
+        const challengeFilterEl = document.getElementById('sidebarChallengeFilter');
+        if (challengeFilterEl) {
+          challengeFilterEl.value = defaultChallengeId;
+        }
+      }, 100);
+
+      // Load and render sidebar
+      renderSidebar(userId, defaultChallengeId);
+
       if (loadingDiv) loadingDiv.classList.add('hidden');
       if (profileContent) profileContent.classList.remove('hidden');
 
@@ -206,14 +297,18 @@ export function getStaticPaths() {
   let currentUser = null;
   let allChallengeStats = [];
   let currentViewChallengeId = null;
+  let allUsers = []; // Store all users for sidebar
+  let currentSidebarChallengeFilter = null; // Store current challenge filter
 
   function displayProfile(user, challengeStats, allRecords) {
     currentUser = user;
     allChallengeStats = challengeStats;
     
-    // Set current view to first challenge if not set
+    // Set current view to latest challenge (highest ID) if not set
     if (!currentViewChallengeId && challengeStats.length > 0) {
-      currentViewChallengeId = challengeStats[0].challengeId;
+      // Sort by challengeId descending to get the latest challenge
+      const sortedStats = [...challengeStats].sort((a, b) => b.challengeId - a.challengeId);
+      currentViewChallengeId = sortedStats[0].challengeId;
     }
     
     // Render challenge selector
@@ -235,6 +330,7 @@ export function getStaticPaths() {
         ${user.learningLanguage ? `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">🌐 ${user.learningLanguage}</span>` : ''}
         ${user.major ? `<span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">🎓 ${user.major}</span>` : ''}
         ${user.birthYear ? `<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">📅 ${user.birthYear}</span>` : ''}
+        ${user.discordNickname ? `<span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold">💬 ${user.discordNickname}</span>` : ''}
       `;
     }
 
@@ -1331,6 +1427,189 @@ export function getStaticPaths() {
     console.log(`${'='.repeat(60)}\n`);
   };
 
+  // Sidebar functions
+  function renderSidebar(currentUserId, challengeFilterId = 'all') {
+    const sidebarListEl = document.getElementById('sidebarUserList');
+    if (!sidebarListEl || !allUsers || allUsers.length === 0) {
+      return;
+    }
+
+    // Filter users by challenge if filter is set
+    let filteredUsers = allUsers;
+    if (challengeFilterId && challengeFilterId !== 'all') {
+      filteredUsers = allUsers.filter(user => {
+        const userChallengeIds = user.challengeIds || [];
+        return userChallengeIds.includes(parseInt(challengeFilterId));
+      });
+    }
+
+    // Sort users alphabetically by name
+    const sortedUsers = [...filteredUsers].sort((a, b) => {
+      const nameA = (a.name || '').toLowerCase();
+      const nameB = (b.name || '').toLowerCase();
+      return nameA.localeCompare(nameB, 'vi');
+    });
+
+    if (sortedUsers.length === 0) {
+      const challengeName = challengeFilterId && challengeFilterId !== 'all' 
+        ? challengeNames[challengeFilterId] || `Challenge ${challengeFilterId}`
+        : 'challenge này';
+      sidebarListEl.innerHTML = `
+        <div class="text-center py-8 text-gray-500">
+          <p class="font-semibold mb-2">Không có thành viên nào</p>
+          <p class="text-sm">Chưa có ai tham gia ${challengeName}</p>
+        </div>
+      `;
+      return;
+    }
+
+    sidebarListEl.innerHTML = sortedUsers.map(user => {
+      const isActive = user.id.toString() === currentUserId.toString();
+      const activeClass = isActive 
+        ? 'bg-primary text-white border-primary' 
+        : 'bg-white hover:bg-gray-50 border-black';
+      
+      return `
+        <a 
+          href="/profile/${user.id}" 
+          class="block p-3 rounded-lg border-2 ${activeClass} transition-all duration-200 ${isActive ? 'shadow-lg' : 'shadow-sm hover:shadow-md'}"
+          data-user-id="${user.id}"
+        >
+          <div class="flex items-center gap-3">
+            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold ${isActive ? 'bg-white text-primary' : 'text-gray-600'}">
+              ${user.name ? user.name.charAt(0).toUpperCase() : '?'}
+            </div>
+            <div class="flex-1 min-w-0">
+              <div class="font-semibold truncate ${isActive ? 'text-white' : 'text-gray-900'}">
+                ${user.name || 'Không tên'}
+              </div>
+              ${user.learningLanguage ? `
+                <div class="text-xs ${isActive ? 'text-white opacity-90' : 'text-gray-500'} truncate">
+                  🌐 ${user.learningLanguage}
+                </div>
+              ` : ''}
+            </div>
+            ${isActive ? `
+              <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+            ` : ''}
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    // Scroll active user into view
+    setTimeout(() => {
+      const activeLink = sidebarListEl.querySelector(`[data-user-id="${currentUserId}"]`);
+      if (activeLink) {
+        activeLink.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
+  }
+
+  // Sidebar search functionality
+  function setupSidebarSearch() {
+    const searchInput = document.getElementById('sidebarSearch');
+    if (!searchInput) return;
+
+    const performSearch = () => {
+      const query = searchInput.value.toLowerCase().trim();
+      const userLinks = document.querySelectorAll('#sidebarUserList a[data-user-id]');
+      
+      userLinks.forEach(link => {
+        const userName = link.textContent.toLowerCase();
+        
+        if (query === '' || userName.includes(query)) {
+          link.style.display = 'block';
+        } else {
+          link.style.display = 'none';
+        }
+      });
+    };
+
+    searchInput.addEventListener('input', performSearch);
+  }
+
+  // Sidebar challenge filter functionality
+  function setupSidebarChallengeFilter() {
+    const challengeFilter = document.getElementById('sidebarChallengeFilter');
+    if (!challengeFilter) return;
+
+    // Set default value
+    if (currentSidebarChallengeFilter) {
+      challengeFilter.value = currentSidebarChallengeFilter;
+    }
+
+    challengeFilter.addEventListener('change', (e) => {
+      const selectedChallengeId = e.target.value;
+      currentSidebarChallengeFilter = selectedChallengeId;
+      
+      // Re-render sidebar with new filter
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      const currentUserId = pathParts[pathParts.length - 1];
+      renderSidebar(currentUserId, selectedChallengeId);
+      
+      // Clear search input when filter changes
+      const searchInput = document.getElementById('sidebarSearch');
+      if (searchInput) {
+        searchInput.value = '';
+      }
+    });
+  }
+
+  // Sidebar toggle functionality
+  function setupSidebarToggle() {
+    const sidebar = document.getElementById('profileSidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarClose = document.getElementById('sidebarClose');
+    const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+    if (!sidebar || !sidebarToggle || !sidebarClose || !sidebarOverlay) return;
+
+    const openSidebar = () => {
+      sidebar.classList.remove('-translate-x-full');
+      sidebarOverlay.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeSidebar = () => {
+      sidebar.classList.add('-translate-x-full');
+      sidebarOverlay.classList.add('hidden');
+      document.body.style.overflow = '';
+    };
+
+    sidebarToggle.addEventListener('click', openSidebar);
+    sidebarClose.addEventListener('click', closeSidebar);
+    sidebarOverlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when clicking on a user link (mobile) - use event delegation
+    const sidebarListEl = document.getElementById('sidebarUserList');
+    if (sidebarListEl) {
+      sidebarListEl.addEventListener('click', (e) => {
+        const link = e.target.closest('a[data-user-id]');
+        if (link && window.innerWidth < 768) {
+          closeSidebar();
+        }
+      });
+    }
+  }
+
+  // Initialize sidebar functionality after DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      setupSidebarSearch();
+      setupSidebarChallengeFilter();
+      setupSidebarToggle();
+    });
+  } else {
+    setupSidebarSearch();
+    setupSidebarChallengeFilter();
+    setupSidebarToggle();
+  }
+
   // Load profile on page load
   loadProfile();
 </script>
@@ -1350,6 +1629,48 @@ export function getStaticPaths() {
     .cert-grid {
       gap: 2rem;
     }
+  }
+
+  /* Sidebar Styles */
+  #profileSidebar {
+    box-shadow: 4px 0 0 var(--color-black);
+  }
+
+  #profileSidebar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #profileSidebar::-webkit-scrollbar-track {
+    background: var(--color-grey-light);
+  }
+
+  #profileSidebar::-webkit-scrollbar-thumb {
+    background: var(--color-grey);
+    border-radius: 4px;
+  }
+
+  #profileSidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--color-grey-dark);
+  }
+
+  /* Ensure main content doesn't overlap sidebar on mobile */
+  @media (max-width: 767px) {
+    .max-w-5xl {
+      margin-left: 0;
+    }
+    
+    /* Ensure toggle button doesn't overlap with back button */
+    #sidebarToggle {
+      top: 1rem;
+      left: 1rem;
+      z-index: 50;
+    }
+  }
+
+  /* Smooth transitions */
+  #profileSidebar,
+  #sidebarOverlay {
+    transition: all 0.3s ease-in-out;
   }
 </style>
 </Layout>
