@@ -49,8 +49,7 @@ const challengeConfig = {
       <span class="text-xs font-bold text-white" id="progressPercent">0%</span>
     </div>
   </div>
-  <p class="text-center text-sm text-gray-600 mt-3" id="daysRemaining">Còn -- ngày</p>
-  <p class="text-center text-sm font-semibold text-gray-700 mt-2" id="memberCount">-- thành viên</p>
+  <p class="text-center text-sm text-gray-600 mt-3" id="daysRemaining">Còn -- ngày • <span id="memberCount" class="font-semibold text-gray-700">-- thành viên</span></p>
 </div>
 
 <script define:vars={{ challengeConfig, challengeId }}>
@@ -106,22 +105,25 @@ const challengeConfig = {
     document.getElementById('progressPercent').textContent = `${progressPercent}%`;
     
     const daysRemainingEl = document.getElementById('daysRemaining');
+    const memberCountEl = document.getElementById('memberCount');
+    const memberCountText = memberCountEl ? memberCountEl.textContent : '-- thành viên';
+    
     if (today < startDate) {
       // Challenge chưa bắt đầu
       const daysUntilStart = Math.ceil((startDate - today) / (1000 * 60 * 60 * 24));
-      daysRemainingEl.textContent = `Bắt đầu sau ${daysUntilStart} ngày`;
+      daysRemainingEl.innerHTML = `Bắt đầu sau ${daysUntilStart} ngày • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
       daysRemainingEl.className = 'text-center text-sm text-gray-500 mt-3';
     } else if (today > endDate) {
       // Challenge đã kết thúc
-      daysRemainingEl.textContent = 'Đã hoàn thành';
-      daysRemainingEl.className = 'text-center text-sm text-green-600 font-bold mt-3';
+      daysRemainingEl.innerHTML = `<span class="text-green-600 font-bold">Đã hoàn thành</span> • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
+      daysRemainingEl.className = 'text-center text-sm mt-3';
     } else if (daysRemaining === 0) {
       // Hôm nay là ngày cuối cùng
-      daysRemainingEl.textContent = 'Hôm nay là ngày cuối cùng!';
-      daysRemainingEl.className = 'text-center text-sm text-orange-600 font-bold mt-3';
+      daysRemainingEl.innerHTML = `<span class="text-orange-600 font-bold">Hôm nay là ngày cuối cùng!</span> • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
+      daysRemainingEl.className = 'text-center text-sm mt-3';
     } else {
       // Challenge đang diễn ra
-      daysRemainingEl.textContent = `Còn ${daysRemaining} ngày`;
+      daysRemainingEl.innerHTML = `Còn ${daysRemaining} ngày • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
       daysRemainingEl.className = 'text-center text-sm text-gray-600 mt-3';
     }
   }
