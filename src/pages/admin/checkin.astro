@@ -167,9 +167,68 @@ import Layout from '../../layouts/Layout.astro';
   let usersData = null;
   let studyRecordsData = null;
   let currentDate = '';
-  let currentChallengeId = 1;
+  let currentChallengeId = 1; // Sẽ được cập nhật tự động sau khi load challenges
   let challengeDateRanges = {};
   let searchTerm = '';
+
+  // Tìm challenge đang diễn ra dựa vào ngày hiện tại
+  // Challenge đang diễn ra = ngày hiện tại nằm trong khoảng [start, end]
+  function findActiveChallenge(dateStr) {
+    if (!dateStr || Object.keys(challengeDateRanges).length === 0) {
+      return null;
+    }
+
+    const current = new Date(dateStr);
+    current.setHours(0, 0, 0, 0);
+
+    // Tìm challenge có ngày hiện tại nằm trong khoảng start và end
+    for (const [id, range] of Object.entries(challengeDateRanges)) {
+      const start = new Date(range.start);
+      const end = new Date(range.end);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+
+      if (current >= start && current <= end) {
+        console.log('🎯 [DEBUG] Tìm thấy challenge đang diễn ra:', id, range.name);
+        return parseInt(id);
+      }
+    }
+
+    // Nếu không có challenge nào đang diễn ra, tìm challenge mới nhất (end date gần nhất trong tương lai)
+    let latestChallengeId = null;
+    let latestEndDate = null;
+
+    for (const [id, range] of Object.entries(challengeDateRanges)) {
+      const end = new Date(range.end);
+      end.setHours(0, 0, 0, 0);
+
+      // Chỉ xét các challenge chưa kết thúc hoặc vừa kết thúc gần đây
+      if (end >= current) {
+        if (!latestEndDate || end < latestEndDate) {
+          latestEndDate = end;
+          latestChallengeId = parseInt(id);
+        }
+      }
+    }
+
+    // Nếu vẫn không có, lấy challenge có end date xa nhất (challenge mới nhất)
+    if (!latestChallengeId) {
+      latestEndDate = null;
+      for (const [id, range] of Object.entries(challengeDateRanges)) {
+        const end = new Date(range.end);
+        if (!latestEndDate || end > latestEndDate) {
+          latestEndDate = end;
+          latestChallengeId = parseInt(id);
+        }
+      }
+    }
+
+    if (latestChallengeId) {
+      console.log('🎯 [DEBUG] Không có challenge đang diễn ra, chọn challenge mới nhất:', latestChallengeId);
+    }
+
+    return latestChallengeId;
+  }
 
   // Calculate day number from challenge start
   // Sep 3 = Day 1, Sep 4 = Day 2, Dec 16 = Day 105
@@ -246,6 +305,16 @@ import Layout from '../../layouts/Layout.astro';
       });
       console.log('✅ Loaded challenges:', challengeDateRanges);
       
+      // Tự động chọn challenge đang diễn ra dựa vào ngày hiện tại
+      // currentDate đã được set trong init() trước khi gọi loadData()
+      const activeChallengeId = findActiveChallenge(currentDate);
+      if (activeChallengeId) {
+        currentChallengeId = activeChallengeId;
+        console.log('🎯 [DEBUG] Đã tự động chọn challenge đang diễn ra:', currentChallengeId);
+      } else {
+        console.log('⚠️ [DEBUG] Không tìm thấy challenge phù hợp, giữ nguyên:', currentChallengeId);
+      }
+      
       // Update challenge selector with loaded data
       updateChallengeSelector();
       
@@ -264,6 +333,13 @@ import Layout from '../../layouts/Layout.astro';
     selector.innerHTML = Object.entries(challengeDateRanges)
       .map(([id, data]) => `<option value="${id}">${data.name}</option>`)
       .join('');
+    
+    // Set giá trị mặc định cho selector sau khi load xong
+    // Đảm bảo selector hiển thị đúng challenge đang được chọn
+    if (currentChallengeId && challengeDateRanges[currentChallengeId]) {
+      selector.value = currentChallengeId.toString();
+      console.log('🎯 [DEBUG] Set challenge mặc định:', currentChallengeId);
+    }
   }
 
   // Show toast notification
@@ -549,15 +625,7 @@ import Layout from '../../layouts/Layout.astro';
       renderCheckinList();
     });
 
-    // Challenge selector
-    document.getElementById('challengeSelect').addEventListener('change', (e) => {
-      currentChallengeId = parseInt(e.target.value);
-      console.log('🎯 [DEBUG] Challenge changed to:', currentChallengeId);
-      updateDayCounter();
-      renderCheckinList();
-    });
-
-    // Challenge selector
+    // Challenge selector (đã xóa duplicate)
     document.getElementById('challengeSelect').addEventListener('change', (e) => {
       currentChallengeId = parseInt(e.target.value);
       console.log('🎯 [DEBUG] Challenge changed to:', currentChallengeId);
