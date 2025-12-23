@@ -1870,9 +1870,11 @@
   "2025-12-22": {
     "9": true,
     "10": true,
+    "13": true,
     "24": true,
     "25": true,
     "26": true,
+    "28": true,
     "30": true,
     "31": true,
     "32": true,
@@ -1885,6 +1887,7 @@
     "39": true,
     "40": true,
     "41": true,
+    "42": true,
     "43": true,
     "44": true,
     "45": true,
@@ -1903,13 +1906,23 @@
     "66": true,
     "67": true,
     "68": true,
+    "71": true,
     "72": true,
     "73": true,
     "74": true,
     "75": true,
     "76": true,
     "77": true,
+    "78": true,
     "79": true,
     "80": true
+  },
+  "2025-12-23": {
+    "26": true,
+    "33": true,
+    "34": true,
+    "77": true,
+    "79": true,
+    "83": true
   }
 }
