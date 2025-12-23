@@ -1395,6 +1395,44 @@
       "challengeIds": [
         2
       ]
+    },
+    {
+      "id": 84,
+      "name": "Lê Trọng Phuc",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Y5",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/share/15TkAWRqUth/?mibextid=wwXIfr",
+      "zaloUrl": "",
+      "discordNickname": "phucle1302 (phúc nhỏ)",
+      "birthYear": 2002,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
+    },
+    {
+      "id": 85,
+      "name": "Đặng Tú Anh",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "",
+      "major": "Khác",
+      "bio": "Thích đọc sách, học tiếng Hàn, vẽ vời,....",
+      "facebookUrl": "https://m.facebook.com/dta.237/",
+      "zaloUrl": "",
+      "discordNickname": "cinnovie (Cinne_)",
+      "birthYear": 2007,
+      "role": "member",
+      "hidden": false,
+      "previousRank": 0,
+      "challengeIds": [
+        2
+      ]
     }
   ]
 }
