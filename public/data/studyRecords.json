@@ -2030,6 +2030,7 @@
     "85": true
   },
   "2025-12-25": {
+    "24": true,
     "25": true,
     "26": true,
     "30": true,
@@ -2041,6 +2042,7 @@
     "37": true,
     "38": true,
     "39": true,
+    "41": true,
     "42": true,
     "43": true,
     "44": true,
@@ -2058,12 +2060,14 @@
     "68": true,
     "69": true,
     "71": true,
+    "72": true,
     "73": true,
     "74": true,
     "75": true,
     "76": true,
     "78": true,
     "79": true,
+    "80": true,
     "82": true,
     "83": true,
     "84": true
