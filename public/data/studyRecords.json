@@ -2089,6 +2089,7 @@
   "2025-12-26": {
     "9": true,
     "24": true,
+    "25": true,
     "26": true,
     "30": true,
     "32": true,
@@ -2127,5 +2128,34 @@
     "82": true,
     "83": true,
     "85": true
+  },
+  "2025-12-27": {
+    "24": true,
+    "26": true,
+    "28": true,
+    "30": true,
+    "32": true,
+    "33": true,
+    "34": true,
+    "35": true,
+    "37": true,
+    "42": true,
+    "45": true,
+    "46": true,
+    "51": true,
+    "53": true,
+    "56": true,
+    "58": true,
+    "60": true,
+    "61": true,
+    "62": true,
+    "66": true,
+    "67": true,
+    "69": true,
+    "73": true,
+    "74": true,
+    "78": true,
+    "79": true,
+    "83": true
   }
 }
