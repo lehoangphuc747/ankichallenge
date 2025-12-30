@@ -726,7 +726,7 @@
       "discordNickname": "nguyenthihoangmai_39329",
       "birthYear": 1993,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -764,7 +764,7 @@
       "discordNickname": "Annie_2204",
       "birthYear": 1997,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -859,7 +859,7 @@
       "discordNickname": "Minh Minh / minhminer1412",
       "birthYear": 2008,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -897,7 +897,7 @@
       "discordNickname": "tuan09096",
       "birthYear": 1995,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -935,7 +935,7 @@
       "discordNickname": "muun",
       "birthYear": 2007,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -1144,7 +1144,7 @@
       "discordNickname": "giangpham001_20363 (Giang Pham)",
       "birthYear": 2001,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
@@ -1353,7 +1353,7 @@
       "discordNickname": "nathan_90176 (Nathan)",
       "birthYear": 1982,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
