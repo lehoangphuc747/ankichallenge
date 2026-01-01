@@ -348,14 +348,44 @@ import ProgressBar from '../components/ProgressBar.astro';
 				return '';
 			}
 
+			// Hàm helper tạo class highlight dựa trên tổng ngày (chia 10 ngày 1 dải màu)
+			function getTotalDaysHighlightClass(totalDays) {
+				const tier = Math.floor(totalDays / 10);
+				
+				// Mảng màu cho các dải 10 ngày (0-9, 10-19, 20-29, ...)
+				const colorTiers = [
+					{ bg: '', border: '' }, // 0-9: không màu
+					{ bg: 'bg-blue-50', border: 'border-l-4 border-l-blue-300' }, // 10-19: xanh nhạt
+					{ bg: 'bg-green-50', border: 'border-l-4 border-l-green-300' }, // 20-29: xanh lá nhạt
+					{ bg: 'bg-emerald-50', border: 'border-l-4 border-l-emerald-300' }, // 30-39: xanh ngọc nhạt
+					{ bg: 'bg-yellow-50', border: 'border-l-4 border-l-yellow-300' }, // 40-49: vàng nhạt
+					{ bg: 'bg-amber-50', border: 'border-l-4 border-l-amber-300' }, // 50-59: cam nhạt
+					{ bg: 'bg-orange-50', border: 'border-l-4 border-l-orange-300' }, // 60-69: cam đậm hơn
+					{ bg: 'bg-rose-50', border: 'border-l-4 border-l-rose-300' }, // 70-79: hồng nhạt
+					{ bg: 'bg-purple-50', border: 'border-l-4 border-l-purple-300' }, // 80-89: tím nhạt
+					{ bg: 'bg-indigo-50', border: 'border-l-4 border-l-indigo-300' }, // 90-99: chàm nhạt
+				];
+				
+				// Từ 100 ngày trở lên dùng màu đậm nhất
+				if (tier >= 10) {
+					return { bg: 'bg-indigo-100', border: 'border-l-4 border-l-indigo-400' };
+				}
+				
+				return colorTiers[tier] || { bg: '', border: '' };
+			}
+
 			// Desktop/tablet table render
 			if (leaderboardBody) {
 				leaderboardBody.innerHTML = filteredMembers.map((member) => {
 					const rankBadge = getRankBadge(member.rank);
 					const topRowClass = getTopRowClass(member.rank);
+					// Lấy class highlight dựa trên tổng ngày (ưu tiên top 3 nếu có)
+					const daysHighlight = getTotalDaysHighlightClass(member.totalDays);
+					// Nếu đã có top row class (top 3) thì không áp dụng highlight theo ngày
+					const rowClass = topRowClass || `${daysHighlight.bg} ${daysHighlight.border}`;
 					
 					return `
-						<tr class="${topRowClass}">
+						<tr class="${rowClass}">
 							<td class="px-4 lg:px-6 py-4">
 								<span class="font-semibold text-gray-900 tabular-nums flex items-center">
 									${rankBadge}${member.rank}
@@ -392,6 +422,32 @@ import ProgressBar from '../components/ProgressBar.astro';
 				return '';
 			}
 
+			// Hàm helper tạo class highlight dựa trên tổng ngày cho Mobile (chia 10 ngày 1 dải màu)
+			function getTotalDaysCardClass(totalDays) {
+				const tier = Math.floor(totalDays / 10);
+				
+				// Mảng màu cho các dải 10 ngày (dùng ring và bg cho mobile)
+				const colorTiers = [
+					{ bg: '', ring: '' }, // 0-9: không màu
+					{ bg: 'bg-blue-50', ring: 'ring-2 ring-blue-300' }, // 10-19: xanh nhạt
+					{ bg: 'bg-green-50', ring: 'ring-2 ring-green-300' }, // 20-29: xanh lá nhạt
+					{ bg: 'bg-emerald-50', ring: 'ring-2 ring-emerald-300' }, // 30-39: xanh ngọc nhạt
+					{ bg: 'bg-yellow-50', ring: 'ring-2 ring-yellow-300' }, // 40-49: vàng nhạt
+					{ bg: 'bg-amber-50', ring: 'ring-2 ring-amber-300' }, // 50-59: cam nhạt
+					{ bg: 'bg-orange-50', ring: 'ring-2 ring-orange-300' }, // 60-69: cam đậm hơn
+					{ bg: 'bg-rose-50', ring: 'ring-2 ring-rose-300' }, // 70-79: hồng nhạt
+					{ bg: 'bg-purple-50', ring: 'ring-2 ring-purple-300' }, // 80-89: tím nhạt
+					{ bg: 'bg-indigo-50', ring: 'ring-2 ring-indigo-300' }, // 90-99: chàm nhạt
+				];
+				
+				// Từ 100 ngày trở lên dùng màu đậm nhất
+				if (tier >= 10) {
+					return { bg: 'bg-indigo-100', ring: 'ring-2 ring-indigo-400' };
+				}
+				
+				return colorTiers[tier] || { bg: '', ring: '' };
+			}
+
 			// Mobile cards render (tap target >= 44px)
 			if (leaderboardCardsBody) {
 				leaderboardCardsBody.innerHTML = filteredMembers.map((member) => {
@@ -400,12 +456,16 @@ import ProgressBar from '../components/ProgressBar.astro';
 						: '';
 					const rankBadge = getRankBadge(member.rank);
 					const topCardClass = getTopCardClass(member.rank);
+					// Lấy class highlight dựa trên tổng ngày (ưu tiên top 3 nếu có)
+					const daysHighlight = getTotalDaysCardClass(member.totalDays);
+					// Nếu đã có top card class (top 3) thì không áp dụng highlight theo ngày
+					const cardClass = topCardClass || `${daysHighlight.bg} ${daysHighlight.ring}`;
 
 					return `
 						<a
 							href="/profile/${member.id}"
 							target="_blank"
-							class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
+							class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${cardClass}"
 							aria-label="Mở hồ sơ ${getDisplayName(member)}"
 						>
 							<div class="flex items-start justify-between gap-3">
@@ -517,14 +577,44 @@ import ProgressBar from '../components/ProgressBar.astro';
 			return '';
 		}
 
+		// Hàm helper tạo class highlight dựa trên tổng ngày (chia 10 ngày 1 dải màu)
+		function getTotalDaysHighlightClass(totalDays) {
+			const tier = Math.floor(totalDays / 10);
+			
+			// Mảng màu cho các dải 10 ngày (0-9, 10-19, 20-29, ...)
+			const colorTiers = [
+				{ bg: '', border: '' }, // 0-9: không màu
+				{ bg: 'bg-blue-50', border: 'border-l-4 border-l-blue-300' }, // 10-19: xanh nhạt
+				{ bg: 'bg-green-50', border: 'border-l-4 border-l-green-300' }, // 20-29: xanh lá nhạt
+				{ bg: 'bg-emerald-50', border: 'border-l-4 border-l-emerald-300' }, // 30-39: xanh ngọc nhạt
+				{ bg: 'bg-yellow-50', border: 'border-l-4 border-l-yellow-300' }, // 40-49: vàng nhạt
+				{ bg: 'bg-amber-50', border: 'border-l-4 border-l-amber-300' }, // 50-59: cam nhạt
+				{ bg: 'bg-orange-50', border: 'border-l-4 border-l-orange-300' }, // 60-69: cam đậm hơn
+				{ bg: 'bg-rose-50', border: 'border-l-4 border-l-rose-300' }, // 70-79: hồng nhạt
+				{ bg: 'bg-purple-50', border: 'border-l-4 border-l-purple-300' }, // 80-89: tím nhạt
+				{ bg: 'bg-indigo-50', border: 'border-l-4 border-l-indigo-300' }, // 90-99: chàm nhạt
+			];
+			
+			// Từ 100 ngày trở lên dùng màu đậm nhất
+			if (tier >= 10) {
+				return { bg: 'bg-indigo-100', border: 'border-l-4 border-l-indigo-400' };
+			}
+			
+			return colorTiers[tier] || { bg: '', border: '' };
+		}
+
 		// Desktop/tablet table render
 		if (leaderboardBody) {
 			leaderboardBody.innerHTML = filteredMembers.map((member) => {
 				const rankBadge = getRankBadge(member.rank);
 				const topRowClass = getTopRowClass(member.rank);
+				// Lấy class highlight dựa trên tổng ngày (ưu tiên top 3 nếu có)
+				const daysHighlight = getTotalDaysHighlightClass(member.totalDays);
+				// Nếu đã có top row class (top 3) thì không áp dụng highlight theo ngày
+				const rowClass = topRowClass || `${daysHighlight.bg} ${daysHighlight.border}`;
 				
 				return `
-					<tr class="${topRowClass}">
+					<tr class="${rowClass}">
 						<td class="px-4 lg:px-6 py-4">
 							<span class="font-semibold text-gray-900 tabular-nums flex items-center">
 								${rankBadge}${member.rank}
@@ -561,6 +651,32 @@ import ProgressBar from '../components/ProgressBar.astro';
 			return '';
 		}
 
+		// Hàm helper tạo class highlight dựa trên tổng ngày cho Mobile (chia 10 ngày 1 dải màu)
+		function getTotalDaysCardClass(totalDays) {
+			const tier = Math.floor(totalDays / 10);
+			
+			// Mảng màu cho các dải 10 ngày (dùng ring và bg cho mobile)
+			const colorTiers = [
+				{ bg: '', ring: '' }, // 0-9: không màu
+				{ bg: 'bg-blue-50', ring: 'ring-2 ring-blue-300' }, // 10-19: xanh nhạt
+				{ bg: 'bg-green-50', ring: 'ring-2 ring-green-300' }, // 20-29: xanh lá nhạt
+				{ bg: 'bg-emerald-50', ring: 'ring-2 ring-emerald-300' }, // 30-39: xanh ngọc nhạt
+				{ bg: 'bg-yellow-50', ring: 'ring-2 ring-yellow-300' }, // 40-49: vàng nhạt
+				{ bg: 'bg-amber-50', ring: 'ring-2 ring-amber-300' }, // 50-59: cam nhạt
+				{ bg: 'bg-orange-50', ring: 'ring-2 ring-orange-300' }, // 60-69: cam đậm hơn
+				{ bg: 'bg-rose-50', ring: 'ring-2 ring-rose-300' }, // 70-79: hồng nhạt
+				{ bg: 'bg-purple-50', ring: 'ring-2 ring-purple-300' }, // 80-89: tím nhạt
+				{ bg: 'bg-indigo-50', ring: 'ring-2 ring-indigo-300' }, // 90-99: chàm nhạt
+			];
+			
+			// Từ 100 ngày trở lên dùng màu đậm nhất
+			if (tier >= 10) {
+				return { bg: 'bg-indigo-100', ring: 'ring-2 ring-indigo-400' };
+			}
+			
+			return colorTiers[tier] || { bg: '', ring: '' };
+		}
+
 		// Mobile cards render
 		if (leaderboardCardsBody) {
 			leaderboardCardsBody.innerHTML = filteredMembers.map((member) => {
@@ -569,12 +685,16 @@ import ProgressBar from '../components/ProgressBar.astro';
 					: '';
 				const rankBadge = getRankBadge(member.rank);
 				const topCardClass = getTopCardClass(member.rank);
+				// Lấy class highlight dựa trên tổng ngày (ưu tiên top 3 nếu có)
+				const daysHighlight = getTotalDaysCardClass(member.totalDays);
+				// Nếu đã có top card class (top 3) thì không áp dụng highlight theo ngày
+				const cardClass = topCardClass || `${daysHighlight.bg} ${daysHighlight.ring}`;
 
 				return `
 					<a
 						href="/profile/${member.id}"
 						target="_blank"
-						class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${topCardClass}"
+						class="block aurora-card rounded-xl p-5 min-h-[44px] focus:outline-none ${cardClass}"
 						aria-label="Mở hồ sơ ${getDisplayName(member)}"
 					>
 						<div class="flex items-start justify-between gap-3">
