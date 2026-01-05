@@ -73,7 +73,7 @@
       "discordNickname": "ethanhocdi",
       "bio": "",
       "name": "Ethan",
-      "hidden": false,
+      "hidden": true,
       "challengeIds": [
         1,
         2
@@ -708,7 +708,7 @@
       "discordNickname": "Dkid",
       "birthYear": 2002,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
