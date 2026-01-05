@@ -2617,9 +2617,11 @@
     "39": true,
     "41": true,
     "42": true,
+    "43": true,
     "44": true,
     "45": true,
     "46": true,
+    "53": true,
     "54": true,
     "56": true,
     "58": true,
@@ -2644,6 +2646,14 @@
     "80": true,
     "82": true,
     "83": true,
+    "85": true,
     "86": true
+  },
+  "2026-01-05": {
+    "28": true,
+    "33": true,
+    "34": true,
+    "74": true,
+    "79": true
   }
 }
