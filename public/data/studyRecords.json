@@ -2657,8 +2657,10 @@
     "9": true,
     "14": true,
     "21": true,
+    "25": true,
     "26": true,
     "28": true,
+    "30": true,
     "31": true,
     "32": true,
     "33": true,
@@ -2674,7 +2676,10 @@
     "43": true,
     "44": true,
     "45": true,
+    "49": true,
     "51": true,
+    "52": true,
+    "54": true,
     "56": true,
     "58": true,
     "60": true,
@@ -2686,6 +2691,7 @@
     "67": true,
     "68": true,
     "69": true,
+    "72": true,
     "73": true,
     "74": true,
     "75": true,
@@ -2695,6 +2701,14 @@
     "79": true,
     "82": true,
     "83": true,
+    "85": true,
     "86": true
+  },
+  "2026-01-06": {
+    "26": true,
+    "33": true,
+    "34": true,
+    "79": true,
+    "82": true
   }
 }
