@@ -2731,6 +2731,7 @@
     "44": true,
     "45": true,
     "46": true,
+    "49": true,
     "51": true,
     "52": true,
     "54": true,
@@ -2763,8 +2764,18 @@
     "26": true,
     "33": true,
     "34": true,
+    "35": true,
+    "37": true,
+    "38": true,
+    "40": true,
+    "62": true,
     "65": true,
     "66": true,
-    "79": true
+    "71": true,
+    "73": true,
+    "74": true,
+    "79": true,
+    "83": true,
+    "86": true
   }
 }
