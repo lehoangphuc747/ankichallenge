@@ -8,48 +8,87 @@ const { challengeId } = Astro.props;
 
 // Challenge configuration
 const challengeConfig = {
-  '1': {
-    name: 'Anki Challenge 8',
-    startDate: '2025-09-03',
-    endDate: '2025-12-21', // 110 days (100 + 10 grace days)
-    totalDays: 110
+  "1": {
+    name: "Anki Challenge 8",
+    startDate: "2025-09-03",
+    endDate: "2025-12-21", // 110 days (100 + 10 grace days)
+    totalDays: 110,
   },
-  '2': {
-    name: 'Anki Challenge 9',
-    startDate: '2025-12-22',
-    endDate: '2026-03-31',
-    totalDays: 100
+  "2": {
+    name: "Anki Challenge 9",
+    startDate: "2025-12-22",
+    endDate: "2026-03-31",
+    totalDays: 100,
   },
-  '3': {
-    name: 'Anki Challenge 10',
-    startDate: '2026-04-01',
-    endDate: '2026-07-09', // 100 days (Day 1: 1/4/2026, Day 100: 9/7/2026)
-    totalDays: 100
-  }
+  "3": {
+    name: "Anki Challenge 10",
+    startDate: "2026-04-01",
+    endDate: "2026-07-09", // 100 days (Day 1: 1/4/2026, Day 100: 9/7/2026)
+    totalDays: 100,
+  },
 };
 ---
 
-<div id="progressContainer" class="max-w-3xl mx-auto mb-6 aurora-card rounded-xl p-6">
-  <div class="flex items-center justify-between mb-3">
+<div
+  id="progressContainer"
+  class="max-w-3xl mx-auto mb-6 bg-white/80 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-lg shadow-indigo-100/40"
+>
+  <div class="flex items-center justify-between mb-4">
     <div class="text-left">
-      <p class="text-sm font-semibold text-gray-600">Ngày bắt đầu</p>
-      <p class="text-lg font-bold text-secondary tabular-nums" id="startDateText">--</p>
+      <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+        Ngày bắt đầu
+      </p>
+      <p
+        class="text-lg font-bold text-slate-700 tabular-nums font-mono bg-slate-100/50 px-2 py-1 rounded-lg"
+        id="startDateText"
+      >
+        --
+      </p>
     </div>
     <div class="text-center flex-1 px-4">
-      <p class="text-sm font-semibold text-gray-600">Tiến độ</p>
-      <p class="text-2xl font-bold aurora-text" id="progressText">--/-- ngày</p>
+      <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+        Tiến độ
+      </p>
+      <p
+        class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-600 to-blue-600 tabular-nums tracking-tight"
+        id="progressText"
+      >
+        --/-- ngày
+      </p>
     </div>
     <div class="text-right">
-      <p class="text-sm font-semibold text-gray-600">Ngày kết thúc</p>
-      <p class="text-lg font-bold text-secondary tabular-nums" id="endDateText">--</p>
+      <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+        Ngày kết thúc
+      </p>
+      <p
+        class="text-lg font-bold text-slate-700 tabular-nums font-mono bg-slate-100/50 px-2 py-1 rounded-lg"
+        id="endDateText"
+      >
+        --
+      </p>
     </div>
   </div>
-  <div class="relative w-full h-6 bg-gray-200 rounded-full overflow-hidden">
-    <div id="progressBar" class="absolute inset-y-0 left-0 bg-primary transition-all duration-1000 flex items-center justify-center" style="width: 0%">
-      <span class="text-xs font-bold text-white" id="progressPercent">0%</span>
+  <div
+    class="relative w-full h-8 bg-slate-100 rounded-full overflow-hidden shadow-inner border border-slate-200"
+  >
+    <div
+      id="progressBar"
+      class="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 transition-all duration-1000 flex items-center justify-end pr-3"
+      style="width: 0%"
+    >
+      <span
+        class="text-[10px] font-bold text-white uppercase tracking-widest drop-shadow-md"
+        id="progressPercent">0%</span
+      >
     </div>
   </div>
-  <p class="text-center text-sm text-gray-600 mt-3" id="daysRemaining">Còn -- ngày • <span id="memberCount" class="font-semibold text-gray-700">-- thành viên</span></p>
+  <p
+    class="text-center text-sm text-slate-500 mt-4 font-medium"
+    id="daysRemaining"
+  >
+    Còn -- ngày • <span id="memberCount" class="font-bold text-slate-700"
+      >-- thành viên</span>
+  </p>
 </div>
 
 <script define:vars={{ challengeConfig, challengeId }}>
@@ -60,22 +99,23 @@ const challengeConfig = {
     const startDate = new Date(config.startDate);
     const endDate = new Date(config.endDate);
     const today = new Date();
-    
+
     // Đặt thời gian về 00:00:00 để tính chính xác số ngày
     startDate.setHours(0, 0, 0, 0);
     endDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
-    
+
     const totalDays = config.totalDays;
-    
+
     // Tính số ngày đã trôi qua
     let daysPassed = 0;
     let daysRemaining = 0;
-    
+
     if (today < startDate) {
       // Challenge chưa bắt đầu
       daysPassed = 0;
-      daysRemaining = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      daysRemaining =
+        Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
     } else if (today > endDate) {
       // Challenge đã kết thúc
       daysPassed = totalDays;
@@ -85,52 +125,68 @@ const challengeConfig = {
       // Tính số ngày từ ngày bắt đầu đến hôm nay (bao gồm cả hôm nay)
       daysPassed = Math.floor((today - startDate) / (1000 * 60 * 60 * 24)) + 1;
       daysPassed = Math.min(daysPassed, totalDays); // Giới hạn không vượt quá totalDays
-      
+
       // Tính số ngày còn lại (từ ngày mai đến ngày kết thúc)
-      daysRemaining = Math.max(0, Math.floor((endDate - today) / (1000 * 60 * 60 * 24)));
+      daysRemaining = Math.max(
+        0,
+        Math.floor((endDate - today) / (1000 * 60 * 60 * 24)),
+      );
     }
-    
-    const progressPercent = Math.min(100, Math.round((daysPassed / totalDays) * 100));
-    
+
+    const progressPercent = Math.min(
+      100,
+      Math.round((daysPassed / totalDays) * 100),
+    );
+
     // Format dates
     const formatDate = (date) => {
       const d = new Date(date);
-      return `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+      return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`;
     };
-    
-    document.getElementById('startDateText').textContent = formatDate(config.startDate);
-    document.getElementById('endDateText').textContent = formatDate(config.endDate);
-    document.getElementById('progressBar').style.width = `${progressPercent}%`;
-    document.getElementById('progressText').textContent = `${daysPassed}/${totalDays} NGÀY`;
-    document.getElementById('progressPercent').textContent = `${progressPercent}%`;
-    
-    const daysRemainingEl = document.getElementById('daysRemaining');
-    const memberCountEl = document.getElementById('memberCount');
-    const memberCountText = memberCountEl ? memberCountEl.textContent : '-- thành viên';
-    
+
+    document.getElementById("startDateText").textContent = formatDate(
+      config.startDate,
+    );
+    document.getElementById("endDateText").textContent = formatDate(
+      config.endDate,
+    );
+    document.getElementById("progressBar").style.width = `${progressPercent}%`;
+    document.getElementById("progressText").textContent =
+      `${daysPassed}/${totalDays} NGÀY`;
+    document.getElementById("progressPercent").textContent =
+      `${progressPercent}%`;
+
+    const daysRemainingEl = document.getElementById("daysRemaining");
+    const memberCountEl = document.getElementById("memberCount");
+    const memberCountText = memberCountEl
+      ? memberCountEl.textContent
+      : "-- thành viên";
+
     if (today < startDate) {
       // Challenge chưa bắt đầu
-      const daysUntilStart = Math.ceil((startDate - today) / (1000 * 60 * 60 * 24));
+      const daysUntilStart = Math.ceil(
+        (startDate - today) / (1000 * 60 * 60 * 24),
+      );
       daysRemainingEl.innerHTML = `Bắt đầu sau ${daysUntilStart} ngày • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
-      daysRemainingEl.className = 'text-center text-sm text-gray-500 mt-3';
+      daysRemainingEl.className = "text-center text-sm text-gray-500 mt-3";
     } else if (today > endDate) {
       // Challenge đã kết thúc
       daysRemainingEl.innerHTML = `<span class="text-green-600 font-bold">Đã hoàn thành</span> • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
-      daysRemainingEl.className = 'text-center text-sm mt-3';
+      daysRemainingEl.className = "text-center text-sm mt-3";
     } else if (daysRemaining === 0) {
       // Hôm nay là ngày cuối cùng
       daysRemainingEl.innerHTML = `<span class="text-orange-600 font-bold">Hôm nay là ngày cuối cùng!</span> • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
-      daysRemainingEl.className = 'text-center text-sm mt-3';
+      daysRemainingEl.className = "text-center text-sm mt-3";
     } else {
       // Challenge đang diễn ra
       daysRemainingEl.innerHTML = `Còn ${daysRemaining} ngày • <span id="memberCount" class="font-semibold text-gray-700">${memberCountText}</span>`;
-      daysRemainingEl.className = 'text-center text-sm text-gray-600 mt-3';
+      daysRemainingEl.className = "text-center text-sm text-gray-600 mt-3";
     }
   }
 
   // Export function to global scope
   window.updateProgressBar = updateProgressBar;
-  
+
   // Initial update with the challengeId prop
   updateProgressBar(challengeId);
 </script>
