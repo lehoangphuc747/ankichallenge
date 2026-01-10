@@ -21,9 +21,9 @@ export function showToast(title: string, message: string, type: 'success' | 'err
   const icon = document.getElementById('toastIcon');
   const titleEl = document.getElementById('toastTitle');
   const messageEl = document.getElementById('toastMessage');
-  
+
   if (!toast || !icon || !titleEl || !messageEl) return;
-  
+
   const toastContainer = toast.querySelector('div');
   if (!toastContainer) return;
 
@@ -39,9 +39,9 @@ export function showToast(title: string, message: string, type: 'success' | 'err
 
   titleEl.textContent = title;
   messageEl.textContent = message;
-  
+
   toast.classList.remove('hidden');
-  
+
   setTimeout(() => {
     toast.classList.add('hidden');
   }, 3000);
@@ -56,7 +56,7 @@ export function updateChallengeSelector(): void {
   selector.innerHTML = Object.entries(challengeDateRanges)
     .map(([id, data]) => `<option value="${id}">${data.name}</option>`)
     .join('');
-  
+
   // Set giá trị mặc định cho selector sau khi load xong
   // Đảm bảo selector hiển thị đúng challenge đang được chọn
   const currentChallengeId = getCurrentChallengeId();
@@ -78,7 +78,7 @@ export function getAllCheckinItems(): HTMLElement[] {
 export function updateFocusedItem(): void {
   const allCheckinItems = getAllCheckinItems();
   const focusedItemIndex = getFocusedItemIndex();
-  
+
   allCheckinItems.forEach((item, index) => {
     if (index === focusedItemIndex) {
       // Thêm các class để làm focus rõ ràng hơn
@@ -115,7 +115,7 @@ export function renderCheckinList(): void {
   const currentDate = getCurrentDate();
   const currentChallengeId = getCurrentChallengeId();
   console.log('🖼️ [DEBUG] renderCheckinList() được gọi cho ngày:', currentDate, 'challenge:', currentChallengeId);
-  
+
   const usersData = getUsersData();
   const studyRecordsData = getStudyRecordsData();
   if (!usersData || !studyRecordsData) return;
@@ -128,7 +128,7 @@ export function renderCheckinList(): void {
   const users = usersData.data.filter((u: User) => {
     if (u.hidden) return false;
     if (!u.challengeIds || !u.challengeIds.includes(currentChallengeId)) return false;
-    
+
     // Search filter
     if (searchTerm) {
       const search = searchTerm.toLowerCase();
@@ -136,10 +136,10 @@ export function renderCheckinList(): void {
       const discordMatch = (u.discordNickname || '').toLowerCase().includes(search);
       return nameMatch || discordMatch;
     }
-    
+
     return true;
   });
-  
+
   const dateRecords = studyRecordsData[currentDate] || {};
 
   const checked: User[] = [];
@@ -160,34 +160,40 @@ export function renderCheckinList(): void {
   const checkedHeaderEl = document.getElementById('checkedHeader');
   const uncheckedHeaderEl = document.getElementById('uncheckedHeader');
   const checkinRateEl = document.getElementById('checkinRate');
-  
+
   if (checkedCountEl) checkedCountEl.textContent = checked.length.toString();
   if (uncheckedCountEl) uncheckedCountEl.textContent = unchecked.length.toString();
   if (checkedHeaderEl) checkedHeaderEl.textContent = checked.length.toString();
   if (uncheckedHeaderEl) uncheckedHeaderEl.textContent = unchecked.length.toString();
-  
+
   const rate = users.length > 0 ? Math.round((checked.length / users.length) * 100) : 0;
   if (checkinRateEl) checkinRateEl.textContent = `${rate}%`;
 
-  // Render unchecked
-  const uncheckedList = document.getElementById('uncheckedList');
   if (uncheckedList) {
-    uncheckedList.innerHTML = unchecked.length === 0 
-      ? '<div class="p-8 text-center text-gray-500">🎉 Tất cả đã check-in!</div>'
+    uncheckedList.innerHTML = unchecked.length === 0
+      ? '<div class="p-12 text-center text-gray-500 italic">🎉 Tất cả đã check-in!</div>'
       : unchecked.map(user => `
-          <div class="checkin-item p-4 hover:bg-orange-50 cursor-pointer transition-colors flex items-center justify-between"
+          <div class="checkin-item group p-4 sm:p-5 hover:bg-orange-50 cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-0 relative overflow-hidden"
                data-user-id="${user.id}" data-user-name="${user.name.replace(/"/g, '&quot;')}">
-            <div class="flex items-center space-x-4">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white font-bold text-lg">
+            
+            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            
+            <div class="flex items-center gap-5">
+              <div class="w-14 h-14 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xl shadow-sm border border-orange-200">
                 ${user.name.charAt(0)}
               </div>
               <div>
-                <p class="font-semibold text-gray-900">${user.name}</p>
-                <p class="text-sm text-gray-500">${user.discordNickname || 'N/A'}</p>
+                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-orange-700 transition-colors">${user.name}</p>
+                <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
+                  <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
+                </p>
               </div>
             </div>
-            <div class="text-gray-400">
-              <span class="text-2xl">○</span>
+            
+            <div class="w-10 h-10 rounded-full border-2 border-gray-300 group-hover:border-orange-400 flex items-center justify-center text-transparent group-hover:text-orange-400 transition-all">
+               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform scale-75 group-hover:scale-100 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+               </svg>
             </div>
           </div>
         `).join('');
@@ -197,26 +203,34 @@ export function renderCheckinList(): void {
   const checkedList = document.getElementById('checkedList');
   if (checkedList) {
     checkedList.innerHTML = checked.length === 0
-      ? '<div class="p-8 text-center text-gray-500">Chưa có ai check-in</div>'
+      ? '<div class="p-12 text-center text-gray-500 italic">Chưa có ai check-in ngày này.</div>'
       : checked.map(user => `
-          <div class="checkin-item p-4 hover:bg-green-50 cursor-pointer transition-colors flex items-center justify-between"
+          <div class="checkin-item group p-4 sm:p-5 hover:bg-green-50 cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-0 relative overflow-hidden"
                data-user-id="${user.id}" data-user-name="${user.name.replace(/"/g, '&quot;')}">
-            <div class="flex items-center space-x-4">
-              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">
+            
+             <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+
+            <div class="flex items-center gap-5">
+              <div class="w-14 h-14 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold text-xl shadow-sm border border-green-200">
                 ${user.name.charAt(0)}
               </div>
               <div>
-                <p class="font-semibold text-gray-900">${user.name}</p>
-                <p class="text-sm text-gray-500">${user.discordNickname || 'N/A'}</p>
+                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-green-700 transition-colors">${user.name}</p>
+                <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
+                  <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
+                </p>
               </div>
             </div>
-            <div class="text-green-600">
-              <span class="text-2xl">✓</span>
+            
+            <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm transform group-hover:scale-110 transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
             </div>
           </div>
         `).join('');
   }
-  
+
   // Update navigation state sau khi render
   const allCheckinItems = getAllCheckinItems();
   setAllCheckinItems(allCheckinItems);

@@ -21,52 +21,29 @@ export function setupEventListeners(): void {
       e.stopPropagation(); // Stop event bubbling
       const userId = parseInt(item.dataset.userId || '0');
       const userName = item.dataset.userName || '';
-      
+
       // Call toggle without waiting (fire and forget for UI responsiveness)
       toggleCheckin(userId, userName);
       return false; // Extra safety to prevent navigation
     }
   });
 
-  // Previous day button
-  const prevDayBtn = document.getElementById('prevDay');
-  if (prevDayBtn) {
-    prevDayBtn.addEventListener('click', () => {
-      console.log('⬅️ [DEBUG] Previous day clicked');
-      const currentDate = getCurrentDate();
-      const date = new Date(currentDate);
-      date.setDate(date.getDate() - 1);
-      const newDate = date.toISOString().split('T')[0];
+  // Handle Date Change from React Component
+  document.addEventListener('admin-date-change', ((e: CustomEvent) => {
+    const newDate = e.detail?.date;
+    if (newDate) {
+      console.log('📅 [DEBUG] Date changed via React Calendar:', newDate);
       setCurrentDate(newDate);
-      
-      const selectedDateEl = document.getElementById('selectedDate') as HTMLInputElement;
-      if (selectedDateEl) {
-        selectedDateEl.value = formatDate(newDate);
-      }
-      updateDayCounter();
-      renderCheckinList();
-    });
-  }
 
-  // Next day button
-  const nextDayBtn = document.getElementById('nextDay');
-  if (nextDayBtn) {
-    nextDayBtn.addEventListener('click', () => {
-      console.log('➡️ [DEBUG] Next day clicked');
-      const currentDate = getCurrentDate();
-      const date = new Date(currentDate);
-      date.setDate(date.getDate() + 1);
-      const newDate = date.toISOString().split('T')[0];
-      setCurrentDate(newDate);
-      
       const selectedDateEl = document.getElementById('selectedDate') as HTMLInputElement;
       if (selectedDateEl) {
         selectedDateEl.value = formatDate(newDate);
       }
+
       updateDayCounter();
       renderCheckinList();
-    });
-  }
+    }
+  }) as EventListener);
 
   // Challenge selector
   const challengeSelect = document.getElementById('challengeSelect') as HTMLSelectElement;

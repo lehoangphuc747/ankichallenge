@@ -9,6 +9,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   // Server output: hỗ trợ API routes động để deploy lên Cloudflare Pages
@@ -25,5 +27,5 @@ export default defineConfig({
     }
   },
 
-  integrations: [sitemap()]
+  integrations: [sitemap(), react()]
 });
