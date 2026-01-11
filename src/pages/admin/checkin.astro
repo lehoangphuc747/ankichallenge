@@ -55,7 +55,7 @@ if (import.meta.env.PROD) {
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-4 gap-4">
           <div
             class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-4 text-center border-2 border-green-200"
           >
@@ -79,6 +79,14 @@ if (import.meta.env.PROD) {
           >
             <p class="text-sm text-gray-600 mb-1 font-semibold">📊 Tỷ lệ</p>
             <p class="text-3xl font-bold text-blue-600" id="checkinRate">0%</p>
+          </div>
+          <div
+            class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl p-4 text-center border-2 border-purple-200"
+          >
+            <p class="text-sm text-gray-600 mb-1 font-semibold">📅 Ngày</p>
+            <p class="text-3xl font-bold text-purple-600" id="dayCounter">
+              DAY -
+            </p>
           </div>
         </div>
       </div>
