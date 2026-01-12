@@ -5,3 +5,8 @@ compatibility_flags = ["nodejs_compat"]
 # Cloudflare Pages sẽ đọc cấu hình build output từ đây.
 # Astro mặc định build ra thư mục `dist`.
 pages_build_output_dir = "dist"
+
+# KV namespace for session storage (required by @astrojs/cloudflare adapter)
+[[kv_namespaces]]
+binding = "SESSION"
+id = "local_dev_kv"

@@ -15,7 +15,8 @@ import react from '@astrojs/react';
 export default defineConfig({
   // Server output: hỗ trợ API routes động để deploy lên Cloudflare Pages
   output: 'server',
-  adapter: cloudflare(),
+  // Only use Cloudflare adapter in production to avoid local dev issues
+  adapter: process.env.CF_PAGES ? cloudflare() : undefined,
 
   vite: {
     plugins: [tailwindcss()],
