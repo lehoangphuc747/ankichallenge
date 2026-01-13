@@ -58,6 +58,30 @@ export default function AdminCalendar({ initialDate }: AdminCalendarProps) {
         };
     }, []);
 
+    // ⌨️ Keyboard shortcuts: Arrow Left/Right to navigate dates
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            // Only handle if not typing in an input/textarea
+            const target = e.target as HTMLElement;
+            if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+                return;
+            }
+
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                shiftDate(-1); // Yesterday
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                shiftDate(1); // Tomorrow
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [selectedDate]); // Include selectedDate in deps so shiftDate has latest state
+
     return (
         <div className="relative font-sans">
             <div className="flex items-center justify-center gap-3">
