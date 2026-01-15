@@ -3009,6 +3009,7 @@
     "43": true,
     "44": true,
     "45": true,
+    "46": true,
     "49": true,
     "51": true,
     "52": true,
@@ -3144,10 +3145,12 @@
     "86": true
   },
   "2026-01-14": {
+    "9": true,
     "10": true,
     "24": true,
     "25": true,
     "26": true,
+    "28": true,
     "32": true,
     "33": true,
     "34": true,
@@ -3162,12 +3165,16 @@
     "43": true,
     "44": true,
     "45": true,
+    "46": true,
+    "49": true,
     "51": true,
+    "52": true,
     "56": true,
     "58": true,
     "60": true,
     "62": true,
     "63": true,
+    "64": true,
     "65": true,
     "66": true,
     "68": true,
@@ -3175,6 +3182,7 @@
     "73": true,
     "74": true,
     "75": true,
+    "76": true,
     "77": true,
     "78": true,
     "79": true,
@@ -3184,5 +3192,10 @@
     "84": true,
     "85": true,
     "86": true
+  },
+  "2026-01-15": {
+    "33": true,
+    "34": true,
+    "79": true
   }
 }
