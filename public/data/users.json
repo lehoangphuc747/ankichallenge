@@ -1297,7 +1297,7 @@
       "discordNickname": "Anhom_2209",
       "birthYear": 1995,
       "role": "member",
-      "hidden": true,
+      "hidden": false,
       "previousRank": 0,
       "challengeIds": [
         2
