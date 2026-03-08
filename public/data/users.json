@@ -1335,7 +1335,7 @@
       "discordNickname": "glhfun (ヤスオ)",
       "birthYear": 2000,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
