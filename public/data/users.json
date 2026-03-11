@@ -1430,7 +1430,7 @@
       "discordNickname": "cinnovie (Cinne_)",
       "birthYear": 2007,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
