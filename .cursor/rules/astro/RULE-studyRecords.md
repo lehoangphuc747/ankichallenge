@@ -30,3 +30,37 @@
    - Nếu có mâu thuẫn giữa "pattern" và list cụ thể trong chat, **luôn** tin list cụ thể.
    - Khi không chắc, **không tự quyết**, mà giữ nguyên và hỏi lại (nếu người dùng cho phép).
 
+## Bảng nickname → ID (core thường dùng)
+
+- tram1601 → 34  
+- vu → 33  
+- duy sanji → 37  
+- luxultm → 86  
+- alan le (`alan.ta.le`) → 79  
+- madbear (Tiếng Hàn Phúc Lee) → 9  
+- tracy (`thuy.tracy.seni`) → 77  
+- Trinhthuthao (`Trinhthuthao2905`) → 10  
+- 13nov (`13november._`) → 32  
+- noctivia (`noctivia10`) → 31  
+- bich (`BICH`) → 42  
+- npchieens (`phucschiens`) → 56  
+- nger (`Nger`) → 44  
+- nothin (`nothinn_39086`) → 43  
+- kirstin (`kizrin`) → 45  
+- chauvegas → 46  
+- dulgi (`dulgi_kun`) → 52  
+- thocao (`thocao118`) → 24  
+- ava (`pthuy3x3`) → 26  
+- meo xinh dep (`meoxinhdep5470`) → 49  
+- wind (`Wind_2605`) → 64  
+- hana (`hana.112`) → 25  
+- myhuyen → 35  
+- linh0101 (`linh0101`) → 63  
+- andrew (`adrewvn_91234`) → 69  
+- btram 89888 (`btram_89888`) → 58  
+- leductuan73 → 38  
+- long hoang (`gnol2k`) → 39  
+
+> Khi gặp nickname trong bảng này, có thể dùng trực tiếp ID tương ứng  
+> mà không cần mở `users.json`, trừ khi bạn nghi ngờ nó đã bị đổi trong bản mới.
+
