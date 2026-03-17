@@ -30,6 +30,24 @@
    - Nếu có mâu thuẫn giữa "pattern" và list cụ thể trong chat, **luôn** tin list cụ thể.
    - Khi không chắc, **không tự quyết**, mà giữ nguyên và hỏi lại (nếu người dùng cho phép).
 
+5. **Quy tắc map Dxx -> ngày (siêu quan trọng)**
+   - Nếu người dùng **chốt mốc rõ ràng** (ví dụ: `D86 = 17/03/2026`), phải dùng mốc đó làm chuẩn.
+   - Suy ra các ngày khác theo offset:
+     - `D85 = D86 - 1 ngày`, `D84 = D86 - 2 ngày`, ...
+   - **Không tự map theo challenge cũ hoặc dữ liệu lịch sử** khi người dùng đã chốt mốc mới.
+   - Nếu người dùng chưa chốt mốc ngày cho Dxx thì hỏi lại trước khi sửa.
+
+6. **Chuẩn hóa nickname trước khi map ID**
+   - Chấp nhận biến thể viết thường/hoa, thừa khoảng trắng, sai dấu nhẹ.
+   - Ví dụ nên hiểu là cùng một người:
+     - `longhoang` -> `long hoang` (ID 39)
+     - `meo x inh dep`, `meo xinh đẹp` -> `meo xinh dep` (ID 49)
+     - `johnny l` -> `Johny L` (ID 68)
+     - `the mink` -> `themink4550` (ID 82)
+     - `dieu nhan` -> `Dieu Nhan` (ID 28)
+     - `tai tran` -> `taitran11103` (ID 36)
+     - `di den gio tay`, `đi đến gió tây` -> `Đi đến gió Tây` (ID 41)
+
 ## Bảng nickname → ID (core thường dùng)
 
 - tram1601 → 34  
@@ -60,6 +78,12 @@
 - btram 89888 (`btram_89888`) → 58  
 - leductuan73 → 38  
 - long hoang (`gnol2k`) → 39  
+- minh may mắn (`Minh may mắn`) → 30  
+- tai tran (`taitran11103`) → 36  
+- đi đến gió tây (`duolingoooooooo`) → 41  
+- johny l (`6969jj`) → 68  
+- the mink (`themink4550`) → 82  
+- dieu nhan (`moetimchai`) → 28  
 
 > Khi gặp nickname trong bảng này, có thể dùng trực tiếp ID tương ứng  
 > mà không cần mở `users.json`, trừ khi bạn nghi ngờ nó đã bị đổi trong bản mới.
