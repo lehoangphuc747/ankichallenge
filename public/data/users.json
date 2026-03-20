@@ -80,7 +80,7 @@
       ]
     },
     {
-      "hidden": false,
+      "hidden": true,
       "email": "",
       "birthYear": 2006,
       "id": 14,
@@ -199,7 +199,7 @@
       "bio": "Mình tên Thanh biệt danh Anh 3 Khía năm nay 24 tuổi và hiện đang công tác tại đơn vị Đội Chữa Cháy và CNCH Khu Vực Đức Hoà",
       "birthYear": 2001,
       "zaloUrl": "https://zalo.me/0334520648",
-      "hidden": false,
+      "hidden": true,
       "name": "Phạm Duy Thanh",
       "streak": 0,
       "major": "Thí sinh tự do",
@@ -955,7 +955,7 @@
       "discordNickname": "valencia3599 (zôro)",
       "birthYear": 1993,
       "role": "member",
-      "hidden": false,
+      "hidden": true,
       "previousRank": 0,
       "challengeIds": [
         2
