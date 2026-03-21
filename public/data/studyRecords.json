@@ -5982,22 +5982,30 @@
     "39": true,
     "42": true,
     "43": true,
+    "44": true,
     "45": true,
     "46": true,
     "49": true,
+    "52": true,
     "58": true,
     "63": true,
     "64": true,
+    "66": true,
     "68": true,
     "77": true,
     "79": true,
     "86": true
   },
   "2026-03-21": {
+    "26": true,
+    "30": true,
+    "37": true,
+    "42": true,
     "25": true,
     "33": true,
     "34": true,
     "46": true,
-    "79": true
+    "79": true,
+    "86": true
   }
 }
