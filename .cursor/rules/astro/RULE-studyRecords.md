@@ -36,6 +36,8 @@
      - `D85 = D86 - 1 ngày`, `D84 = D86 - 2 ngày`, ...
    - **Không tự map theo challenge cũ hoặc dữ liệu lịch sử** khi người dùng đã chốt mốc mới.
    - Nếu người dùng chưa chốt mốc ngày cho Dxx thì hỏi lại trước khi sửa.
+   - **Mốc mặc định hiện tại (khi chưa có mốc mới trong chat):** `D89 = 20/03/2026`.
+   - Khi xuất hiện mốc mới trong chat, phải ưu tiên mốc mới và bỏ mốc mặc định này.
 
 6. **Chuẩn hóa nickname trước khi map ID**
    - Chấp nhận biến thể viết thường/hoa, thừa khoảng trắng, sai dấu nhẹ.
@@ -48,11 +50,24 @@
      - `tai tran` -> `taitran11103` (ID 36)
      - `di den gio tay`, `đi đến gió tây` -> `Đi đến gió Tây` (ID 41)
 
+7. **Xử lý tên không map được (bắt buộc)**
+   - Nếu nickname không map được chắc chắn sang `id`:
+      - **Không tự đoán người** và **không tự thêm ID**.
+      - Giữ nguyên dữ liệu hiện tại của ngày đó.
+      - Báo lại rõ danh sách tên chưa map được để người dùng xác nhận.
+
+8. **Checklist bắt buộc trước khi kết luận đã sửa xong**
+   - Luôn tự kiểm tra đủ 4 bước sau:
+      1. Map đúng `Dxx -> YYYY-MM-DD` theo mốc đang hiệu lực.
+      2. Map đúng từng nickname -> `id` (kể cả alias viết lệch nhẹ).
+      3. Chỉ thêm `id` còn thiếu, không xoá `id` cũ nếu user không yêu cầu.
+      4. Verify lại từng ngày vừa sửa và xác nhận các `id` yêu cầu đều đã có.
+
 ## Bảng nickname → ID (core thường dùng)
 
-- tram1601 → 34  
+- tram1601, tram 1601 → 34  
 - vu → 33  
-- duy sanji → 37  
+- duy sanji, sanji → 37  
 - luxultm → 86  
 - alan le (`alan.ta.le`) → 79  
 - madbear (Tiếng Hàn Phúc Lee) → 9  
@@ -61,7 +76,7 @@
 - 13nov (`13november._`) → 32  
 - noctivia (`noctivia10`) → 31  
 - bich (`BICH`) → 42  
-- npchieens (`phucschiens`) → 56  
+- npchieens, npchieen (`phucschiens`) → 56  
 - nger (`Nger`) → 44  
 - nothin (`nothinn_39086`) → 43  
 - kirstin (`kizrin`) → 45  
@@ -71,17 +86,19 @@
 - ava (`pthuy3x3`) → 26  
 - meo xinh dep (`meoxinhdep5470`) → 49  
 - wind (`Wind_2605`) → 64  
+- serene flow, sereneflow (`afkgamerdn123 (Serene Flow)`) → 66  
 - hana (`hana.112`) → 25  
 - myhuyen → 35  
 - linh0101 (`linh0101`) → 63  
 - andrew (`adrewvn_91234`) → 69  
 - btram 89888 (`btram_89888`) → 58  
-- leductuan73 → 38  
+- leductuan73, leductuan 73 → 38  
 - long hoang (`gnol2k`) → 39  
 - minh may mắn (`Minh may mắn`) → 30  
 - tai tran (`taitran11103`) → 36  
 - đi đến gió tây (`duolingoooooooo`) → 41  
-- johny l (`6969jj`) → 68  
+- johny l, johnny l (`6969jj`) → 68  
+- trung (`trung_2410`) → 53  
 - the mink (`themink4550`) → 82  
 - dieu nhan (`moetimchai`) → 28  
 
