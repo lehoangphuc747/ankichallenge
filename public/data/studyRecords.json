@@ -6193,7 +6193,10 @@
     "42": true,
     "45": true,
     "26": true,
-    "66": true
+    "66": true,
+    "10": true,
+    "44": true,
+    "69": true
   },
   "2026-03-26": {
     "34": true,
@@ -6221,7 +6224,11 @@
     "64": true,
     "49": true,
     "24": true,
-    "52": true
+    "52": true,
+    "28": true,
+    "44": true,
+    "69": true,
+    "10": true
   },
   "2026-03-27": {
     "24": true,
@@ -6247,7 +6254,13 @@
     "82": true,
     "45": true,
     "39": true,
-    "9": true
+    "9": true,
+    "10": true,
+    "28": true,
+    "44": true,
+    "49": true,
+    "66": true,
+    "69": true
   },
   "2026-03-28": {
     "30": true,
@@ -6259,6 +6272,37 @@
     "58": true,
     "63": true,
     "79": true,
-    "86": true
+    "86": true,
+    "24": true,
+    "26": true,
+    "28": true,
+    "33": true,
+    "36": true,
+    "38": true,
+    "43": true,
+    "44": true,
+    "45": true,
+    "46": true,
+    "49": true,
+    "52": true,
+    "53": true,
+    "64": true,
+    "66": true,
+    "68": true,
+    "82": true
+  },
+  "2026-03-29": {
+    "28": true,
+    "30": true,
+    "32": true,
+    "33": true,
+    "34": true,
+    "37": true,
+    "38": true,
+    "39": true,
+    "42": true,
+    "56": true,
+    "58": true,
+    "79": true
   }
 }
