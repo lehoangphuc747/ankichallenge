@@ -81,7 +81,7 @@ const { userId, challengeId } = Astro.params;
         </div>
 
         <!-- Certificate Display -->
-        <div id="certificateDisplay" class="bg-white rounded-2xl shadow-2xl p-8 max-w-fit mx-auto">
+        <div id="certificateDisplay" class="bg-white rounded-2xl shadow-2xl p-2 sm:p-4 md:p-6 lg:p-8 w-full max-w-[1100px] mx-auto overflow-x-hidden">
           <!-- Certificate will be rendered here -->
         </div>
       </div>
@@ -209,6 +209,8 @@ const { userId, challengeId } = Astro.params;
       // Render certificate
       renderCertificate(certificateData);
       await waitForRenderReady();
+      fitCertificateText();
+      fitCertificateToViewport();
     } catch (error) {
       console.error('Error loading certificate:', error);
       document.getElementById('loading').classList.add('hidden');
@@ -222,8 +224,9 @@ const { userId, challengeId } = Astro.params;
     
     // Import and render the certificate component manually
     display.innerHTML = `
-      <div class="certificate-container">
-        <div class="certificate">
+      <div class="certificate-viewport">
+        <div class="certificate-container">
+          <div class="certificate">
           <!-- Corner Decorations -->
           <div class="corner-decor top-left"></div>
           <div class="corner-decor top-right"></div>
@@ -280,20 +283,36 @@ const { userId, challengeId } = Astro.params;
             </div>
           </div>
 
-          <div class="website-footer">ankivn.com</div>
+            <div class="website-footer">ankivn.com</div>
+          </div>
         </div>
       </div>
     `;
 
     // Add certificate styles
+    const existingStyle = document.getElementById('runtime-certificate-style');
+    if (existingStyle) {
+      existingStyle.remove();
+    }
+
     const style = document.createElement('style');
+    style.id = 'runtime-certificate-style';
     style.textContent = `
+      .certificate-viewport {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
       .certificate-container {
         width: 210mm;
         height: 297mm;
         margin: 0 auto;
         background-color: #ffffff;
         position: relative;
+        transform-origin: top center;
+        transform: scale(var(--cert-scale, 1));
       }
 
       .certificate {
@@ -330,7 +349,7 @@ const { userId, challengeId } = Astro.params;
 
       .corner-decor {
         position: absolute;
-        width: 40mm; 
+        width: 40mm;
         height: 40mm;
         border: 4px double #d97706;
         z-index: 2;
@@ -352,7 +371,7 @@ const { userId, challengeId } = Astro.params;
 
       .certificate-title {
         font-family: 'Playfair Display', serif;
-        font-size: 40pt; 
+        font-size: 40pt;
         font-weight: 700; 
         color: #0f172a;
         margin: 0 0 10mm 0; 
@@ -372,19 +391,23 @@ const { userId, challengeId } = Astro.params;
 
       .user-name {
         font-family: 'Playfair Display', serif;
-        font-size: 44pt; 
+        font-size: 44pt;
         font-weight: 900; 
         color: #1e3a8a;
         margin: 0 0 5mm 0; 
         border-bottom: 2px solid #d97706;
         padding-bottom: 3mm; 
-        display: inline-block; 
+        display: inline-block;
+        max-width: 88%;
+        text-align: center;
+        white-space: normal;
+        overflow-wrap: anywhere;
         line-height: 1.2;
         z-index: 3;
       }
 
       .description {
-        font-size: 14pt; 
+        font-size: 14pt;
         color: #334155; 
         margin-top: 5mm; 
         font-weight: 300;
@@ -392,11 +415,13 @@ const { userId, challengeId } = Astro.params;
       }
 
       .challenge-name {
-        font-size: 36pt; 
+        font-size: 36pt;
         font-weight: 900; 
         text-transform: uppercase;
         margin: 5mm 0 15mm 0;
         letter-spacing: 3px;
+        line-height: 1.08;
+        text-align: center;
         background: linear-gradient(90deg, #1e3a8a 0%, #0891b2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -428,7 +453,7 @@ const { userId, challengeId } = Astro.params;
       }
       
       .stat-value { 
-        font-size: 24pt; 
+        font-size: 24pt;
         font-weight: 800; 
         color: #0f172a;
         margin-bottom: 0mm; 
@@ -451,14 +476,14 @@ const { userId, challengeId } = Astro.params;
         display: flex; 
         justify-content: space-between;
         width: 75%;
-        margin-top: 15mm; 
+        margin-top: 15mm;
         align-items: flex-end;
         z-index: 3;
       }
 
       .footer-col {
-        text-align: center; 
-        width: 60mm; 
+        text-align: center;
+        width: 60mm;
         position: relative;
         display: flex; 
         flex-direction: column; 
@@ -473,12 +498,9 @@ const { userId, challengeId } = Astro.params;
         letter-spacing: 2px;
       }
 
-      .col-date .signature-title { 
-        margin-bottom: 8mm; 
-      }
-      
-      .col-org .signature-title { 
-        margin-bottom: 35mm; 
+      .col-date .signature-title,
+      .col-org .signature-title {
+        margin-bottom: 35mm;
       }
 
       .signature-line {
@@ -499,7 +521,7 @@ const { userId, challengeId } = Astro.params;
 
       .signed-hph {
         font-family: 'Mrs Saint Delafield', cursive;
-        font-size: 55pt; 
+        font-size: 55pt;
         color: #1e3a8a;
         position: absolute; 
         bottom: 12mm; 
@@ -527,16 +549,47 @@ const { userId, challengeId } = Astro.params;
       }
 
       @media print {
+        .certificate-viewport {
+          height: auto !important;
+        }
+
         .certificate-container {
           width: 210mm; 
           height: 296mm; 
+          transform: none !important;
           box-shadow: none; 
           margin: 0; 
           page-break-after: avoid;
         }
         
         .certificate {
+          padding: 20mm;
           overflow: hidden;
+        }
+
+        .corner-decor {
+          width: 40mm;
+          height: 40mm;
+        }
+
+        .certificate-title { font-size: 40pt; }
+        .user-name { font-size: 44pt; }
+        .description { font-size: 14pt; }
+        .challenge-name { font-size: 36pt; }
+        .stat-value { font-size: 24pt; }
+
+        .certificate-footer {
+          width: 75%;
+          margin-top: 15mm;
+        }
+
+        .footer-col {
+          width: 60mm;
+        }
+
+        .signed-hph {
+          font-size: 55pt;
+          bottom: 12mm;
         }
         
         .challenge-name {
@@ -552,20 +605,114 @@ const { userId, challengeId } = Astro.params;
       }
     `;
     document.head.appendChild(style);
+
+    fitCertificateText();
+    fitCertificateToViewport();
+  }
+
+  function autoFitText(selector, maxSizePt, minSizePt, maxLines = 2) {
+    const element = document.querySelector(selector);
+    if (!element) return;
+
+    element.style.fontSize = `${maxSizePt}pt`;
+
+    let currentSize = maxSizePt;
+    while (currentSize > minSizePt) {
+      const computed = window.getComputedStyle(element);
+      const lineHeight = parseFloat(computed.lineHeight) || currentSize * 1.2;
+      const maxHeight = lineHeight * maxLines + 2;
+      const overflowsWidth = element.scrollWidth > element.clientWidth + 1;
+      const overflowsHeight = element.scrollHeight > maxHeight;
+
+      if (!overflowsWidth && !overflowsHeight) break;
+
+      currentSize -= 1;
+      element.style.fontSize = `${currentSize}pt`;
+    }
+  }
+
+  function fitCertificateText() {
+    autoFitText('.user-name', 44, 26, 3);
+    autoFitText('.challenge-name', 36, 24, 2);
+  }
+
+  function fitCertificateToViewport() {
+    const viewport = document.querySelector('.certificate-viewport');
+    const container = document.querySelector('.certificate-container');
+    if (!viewport || !container) return;
+
+    const baseWidth = container.offsetWidth;
+    const baseHeight = container.offsetHeight;
+    if (!baseWidth || !baseHeight) return;
+
+    const viewportWidth = viewport.clientWidth;
+    const reservedHeight = 220;
+    const viewportHeight = Math.max(320, window.innerHeight - reservedHeight);
+    const scale = Math.min(1, viewportWidth / baseWidth, viewportHeight / baseHeight);
+
+    container.style.setProperty('--cert-scale', String(scale));
+    viewport.setAttribute('style', `height:${baseHeight * scale}px;`);
   }
 
   // Download handlers
   document.getElementById('downloadHtml')?.addEventListener('click', () => {
+    const runtimeStyle = document.getElementById('runtime-certificate-style');
     const htmlContent = `<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Certificate - ${certificateData.userName} - ${certificateData.challengeName}</title>
-    ${document.querySelector('style').outerHTML}
+    ${runtimeStyle ? runtimeStyle.outerHTML : ''}
 </head>
 <body>
     ${document.getElementById('certificateDisplay').innerHTML}
+    <script>
+      function autoFitText(selector, maxSizePt, minSizePt, maxLines) {
+        const element = document.querySelector(selector);
+        if (!element) return;
+
+        element.style.fontSize = maxSizePt + 'pt';
+        let currentSize = maxSizePt;
+
+        while (currentSize > minSizePt) {
+          const computed = window.getComputedStyle(element);
+          const lineHeight = parseFloat(computed.lineHeight) || currentSize * 1.2;
+          const maxHeight = lineHeight * maxLines + 2;
+          const overflowsWidth = element.scrollWidth > element.clientWidth + 1;
+          const overflowsHeight = element.scrollHeight > maxHeight;
+
+          if (!overflowsWidth && !overflowsHeight) break;
+
+          currentSize -= 1;
+          element.style.fontSize = currentSize + 'pt';
+        }
+      }
+
+      function fitCertificate() {
+        const viewport = document.querySelector('.certificate-viewport');
+        const container = document.querySelector('.certificate-container');
+        if (!viewport || !container) return;
+
+        autoFitText('.user-name', 44, 26, 3);
+        autoFitText('.challenge-name', 36, 24, 2);
+
+        const baseWidth = container.offsetWidth;
+        const baseHeight = container.offsetHeight;
+        if (!baseWidth || !baseHeight) return;
+
+        const viewportWidth = viewport.clientWidth;
+        const viewportHeight = Math.max(320, window.innerHeight - 32);
+        const scale = Math.min(1, viewportWidth / baseWidth, viewportHeight / baseHeight);
+
+        container.style.setProperty('--cert-scale', String(scale));
+        viewport.style.height = (baseHeight * scale) + 'px';
+      }
+
+      window.addEventListener('resize', fitCertificate);
+      window.addEventListener('orientationchange', fitCertificate);
+      fitCertificate();
+    <\/script>
 </body>
 </html>`;
     
@@ -577,5 +724,8 @@ const { userId, challengeId } = Astro.params;
     a.click();
     URL.revokeObjectURL(url);
   });
+
+  window.addEventListener('resize', fitCertificateToViewport);
+  window.addEventListener('orientationchange', fitCertificateToViewport);
 
 

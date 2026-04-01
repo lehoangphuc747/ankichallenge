@@ -77,8 +77,9 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,700;1,700&family=Mrs+Saint+Delafield&display=swap');
   
   .certificate-container {
-    width: 210mm;
-    height: 297mm;
+    width: min(100%, calc((100vh - 2rem) * 210 / 297));
+    aspect-ratio: 210 / 297;
+    max-width: 210mm;
     margin: 0 auto;
     background-color: #ffffff;
     box-shadow: 0 10px 40px rgba(0,0,0,0.2);
@@ -94,7 +95,7 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20mm;
+    padding: clamp(1rem, 4.5vw, 20mm);
     overflow: hidden;
     font-family: 'Be Vietnam Pro', sans-serif;
   }
@@ -121,8 +122,8 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   /* Corner Decorations */
   .corner-decor {
     position: absolute;
-    width: 40mm; 
-    height: 40mm;
+    width: clamp(56px, 18vw, 40mm); 
+    height: clamp(56px, 18vw, 40mm);
     border: 4px double #d97706;
     z-index: 2;
   }
@@ -144,7 +145,7 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
 
   .certificate-title {
     font-family: 'Playfair Display', serif;
-    font-size: 40pt; 
+    font-size: clamp(1.9rem, 5.8vw, 40pt); 
     font-weight: 700; 
     color: #0f172a;
     margin: 0 0 10mm 0; 
@@ -164,19 +165,23 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
 
   .user-name {
     font-family: 'Playfair Display', serif;
-    font-size: 44pt; 
+    font-size: clamp(2.1rem, 8vw, 44pt); 
     font-weight: 900; 
     color: #1e3a8a;
     margin: 0 0 5mm 0; 
     border-bottom: 2px solid #d97706;
     padding-bottom: 3mm; 
-    display: inline-block; 
-    line-height: 1.2;
+    display: inline-block;
+    max-width: 88%;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.1;
     z-index: 3;
   }
 
   .description {
-    font-size: 14pt; 
+    font-size: clamp(0.95rem, 2.5vw, 14pt); 
     color: #334155; 
     margin-top: 5mm; 
     font-weight: 300;
@@ -184,11 +189,13 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   }
 
   .challenge-name {
-    font-size: 36pt; 
+    font-size: clamp(1.6rem, 6.2vw, 36pt); 
     font-weight: 900; 
     text-transform: uppercase;
     margin: 5mm 0 15mm 0;
-    letter-spacing: 3px;
+    letter-spacing: clamp(1px, 0.55vw, 3px);
+    line-height: 1.08;
+    text-align: center;
     background: linear-gradient(90deg, #1e3a8a 0%, #0891b2 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -201,9 +208,9 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   .stats-overview {
     display: flex; 
     justify-content: center; 
-    gap: 20mm;
+    gap: clamp(0.75rem, 5vw, 20mm);
     width: 100%; 
-    margin-bottom: 15mm;
+    margin-bottom: clamp(1rem, 5vw, 15mm);
     z-index: 3;
   }
 
@@ -221,7 +228,7 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   }
   
   .stat-value { 
-    font-size: 24pt; 
+    font-size: clamp(1.1rem, 4.2vw, 24pt); 
     font-weight: 800; 
     color: #0f172a;
     margin-bottom: 0mm; 
@@ -244,15 +251,15 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   .certificate-footer {
     display: flex; 
     justify-content: space-between;
-    width: 75%;
-    margin-top: 15mm; 
+    width: min(100%, 75%);
+    margin-top: clamp(0.75rem, 5vw, 15mm); 
     align-items: flex-end;
     z-index: 3;
   }
 
   .footer-col {
     text-align: center; 
-    width: 60mm; 
+    width: clamp(7.5rem, 36vw, 60mm); 
     position: relative;
     display: flex; 
     flex-direction: column; 
@@ -267,12 +274,9 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
     letter-spacing: 2px;
   }
 
-  .col-date .signature-title { 
-    margin-bottom: 8mm; 
-  }
-  
-  .col-org .signature-title { 
-    margin-bottom: 35mm; 
+  .col-date .signature-title,
+  .col-org .signature-title {
+    margin-bottom: 35mm;
   }
 
   .signature-line {
@@ -294,7 +298,7 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
   /* Signature */
   .signed-hph {
     font-family: 'Mrs Saint Delafield', cursive;
-    font-size: 55pt; 
+    font-size: clamp(2.4rem, 8.5vw, 55pt); 
     color: #1e3a8a;
     position: absolute; 
     bottom: 12mm; 
@@ -322,17 +326,117 @@ const { userName, challengeName, studyDays, totalDays, attendanceRate, completio
     z-index: 3;
   }
 
+  @media (max-width: 768px) {
+    .certificate {
+      justify-content: flex-start;
+      padding: clamp(0.75rem, 3.8vw, 1.25rem);
+      padding-top: clamp(1.2rem, 6vw, 1.7rem);
+    }
+
+    .certificate-header {
+      font-size: 10px;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .certificate-title {
+      font-size: clamp(1.4rem, 7vw, 2.05rem);
+      margin-bottom: 0.6rem;
+      line-height: 1.08;
+    }
+
+    .presented-to {
+      font-size: 0.9rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .user-name {
+      font-size: clamp(1.55rem, 9.2vw, 2.9rem);
+      max-width: 92%;
+      margin-bottom: 0.55rem;
+      padding-bottom: 0.35rem;
+      line-height: 1.03;
+    }
+
+    .description {
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    .challenge-name {
+      font-size: clamp(1.35rem, 8vw, 2.55rem);
+      margin: 0.6rem 0 0.95rem 0;
+      letter-spacing: 1px;
+      line-height: 1.02;
+    }
+
+    .stats-overview {
+      gap: clamp(0.5rem, 4vw, 0.9rem);
+      margin-bottom: 0.7rem;
+    }
+
+    .certificate-footer {
+      width: 100%;
+      gap: 0.75rem;
+      margin-top: 0.65rem;
+    }
+
+    .footer-col {
+      width: 48%;
+    }
+
+    .col-date .signature-title {
+      margin-bottom: clamp(0.75rem, 4vw, 8mm);
+    }
+
+    .col-org .signature-title {
+      margin-bottom: clamp(1.3rem, 8vw, 35mm);
+    }
+
+    .signed-hph {
+      bottom: clamp(0.6rem, 4vw, 12mm);
+    }
+  }
+
   @media print {
     .certificate-container {
       width: 210mm; 
       height: 296mm; 
+      aspect-ratio: auto;
       box-shadow: none; 
       margin: 0; 
       page-break-after: avoid;
     }
     
     .certificate {
+      padding: 20mm;
       overflow: hidden;
+    }
+
+    .corner-decor {
+      width: 40mm;
+      height: 40mm;
+    }
+
+    .certificate-title { font-size: 40pt; }
+    .user-name { font-size: 44pt; }
+    .description { font-size: 14pt; }
+    .challenge-name { font-size: 36pt; }
+    .stat-value { font-size: 24pt; }
+
+    .certificate-footer {
+      width: 75%;
+      margin-top: 15mm;
+    }
+
+    .footer-col {
+      width: 60mm;
+    }
+
+    .signed-hph {
+      font-size: 55pt;
+      bottom: 12mm;
     }
     
     .challenge-name {

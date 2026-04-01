@@ -656,7 +656,15 @@ export function getStaticPaths() {
         font-family: 'Be Vietnam Pro', sans-serif;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        padding: 1rem;
+      }
+
+      .viewport {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
       }
 
       .container {
@@ -671,6 +679,8 @@ export function getStaticPaths() {
         padding: 20mm;
         box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         overflow: hidden;
+        transform-origin: top center;
+        transform: scale(var(--cert-scale, 1));
       }
 
       .container::before {
@@ -729,7 +739,7 @@ export function getStaticPaths() {
         color: #1e3a8a;
         margin: 0 0 5mm 0; 
         border-bottom: 2px solid #d97706;
-        padding-bottom: 3mm; display: inline-block; line-height: 1.2;
+        padding-bottom: 3mm; display: inline-block; max-width: 88%; text-align: center; white-space: normal; overflow-wrap: anywhere; line-height: 1.2;
         z-index: 3;
       }
 
@@ -744,6 +754,8 @@ export function getStaticPaths() {
         text-transform: uppercase;
         margin: 5mm 0 15mm 0;
         letter-spacing: 3px;
+        line-height: 1.08;
+        text-align: center;
         background: linear-gradient(90deg, #1e3a8a 0%, #0891b2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -802,7 +814,7 @@ export function getStaticPaths() {
         text-transform: uppercase; letter-spacing: 2px;
       }
 
-      .col-date .signature-title { margin-bottom: 8mm; }
+      .col-date .signature-title,
       .col-org .signature-title { margin-bottom: 35mm; }
 
       .signature-line {
@@ -836,12 +848,43 @@ export function getStaticPaths() {
       }
 
       @media print {
+        .viewport {
+          height: auto !important;
+        }
+
         body { background-color: #fff; display: block; }
         .container {
           width: 210mm; height: 296mm; 
+          transform: none !important;
           box-shadow: none; margin: 0; padding: 20mm;
           page-break-after: avoid; overflow: hidden;
         }
+
+        .corner-decor {
+          width: 40mm;
+          height: 40mm;
+        }
+
+        h1 { font-size: 40pt; }
+        .user-name { font-size: 44pt; }
+        .description { font-size: 14pt; }
+        .challenge-name { font-size: 36pt; }
+        .stat-value { font-size: 24pt; }
+
+        .footer {
+          width: 75%;
+          margin-top: 15mm;
+        }
+
+        .footer-col {
+          width: 60mm;
+        }
+
+        .signed-hph {
+          font-size: 55pt;
+          bottom: 12mm;
+        }
+
         .challenge-name {
           background: none;
           -webkit-text-fill-color: #1e3a8a; 
@@ -853,7 +896,8 @@ export function getStaticPaths() {
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="viewport">
+      <div class="container">
         <div class="corner-decor top-left"></div>
         <div class="corner-decor top-right"></div>
         <div class="corner-decor bottom-left"></div>
@@ -903,7 +947,55 @@ export function getStaticPaths() {
         </div>
 
         <div class="website-footer">ankivn.com</div>
+      </div>
     </div>
+
+    <script>
+      function autoFitText(selector, maxSizePt, minSizePt, maxLines) {
+        const element = document.querySelector(selector);
+        if (!element) return;
+
+        element.style.fontSize = maxSizePt + 'pt';
+        let currentSize = maxSizePt;
+
+        while (currentSize > minSizePt) {
+          const computed = window.getComputedStyle(element);
+          const lineHeight = parseFloat(computed.lineHeight) || currentSize * 1.2;
+          const maxHeight = lineHeight * maxLines + 2;
+          const overflowsWidth = element.scrollWidth > element.clientWidth + 1;
+          const overflowsHeight = element.scrollHeight > maxHeight;
+
+          if (!overflowsWidth && !overflowsHeight) break;
+
+          currentSize -= 1;
+          element.style.fontSize = currentSize + 'pt';
+        }
+      }
+
+      function fitCertificate() {
+        const viewport = document.querySelector('.viewport');
+        const container = document.querySelector('.container');
+        if (!viewport || !container) return;
+
+        autoFitText('.user-name', 44, 26, 3);
+        autoFitText('.challenge-name', 36, 24, 2);
+
+        const baseWidth = container.offsetWidth;
+        const baseHeight = container.offsetHeight;
+        if (!baseWidth || !baseHeight) return;
+
+        const viewportWidth = viewport.clientWidth;
+        const viewportHeight = Math.max(320, window.innerHeight - 32);
+        const scale = Math.min(1, viewportWidth / baseWidth, viewportHeight / baseHeight);
+
+        container.style.setProperty('--cert-scale', String(scale));
+        viewport.style.height = (baseHeight * scale) + 'px';
+      }
+
+      window.addEventListener('resize', fitCertificate);
+      window.addEventListener('orientationchange', fitCertificate);
+      fitCertificate();
+    <\/script>
 </body>
 </html>`;
   }
