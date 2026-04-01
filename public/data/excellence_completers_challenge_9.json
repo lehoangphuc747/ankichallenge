@@ -1,0 +1,248 @@
+{
+  "challenge": "Anki Challenge 9",
+  "totalExcellentCompleters": 22,
+  "data": [
+    {
+      "id": 33,
+      "name": "Nguyễn Trần Anh Vũ",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/nguyen.vu.2804/",
+      "discordNickname": "vu.nguyen2804 (Vu)",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 34,
+      "name": "Nguyễn Ngọc Quỳnh Trâm",
+      "email": "",
+      "learningLanguage": "Tiếng Anh",
+      "birthYear": 2005,
+      "facebookUrl": "https://www.facebook.com/quynhtram.nguyen.75491/",
+      "discordNickname": "tram160105 (Tram)",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 35,
+      "name": "Lê Hoàng Phúc",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/lehoangphuc.aio/",
+      "discordNickname": "madbear",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 36,
+      "name": "Phan Minh Thu",
+      "email": "",
+      "learningLanguage": "Tiếng Hàn",
+      "birthYear": 2000,
+      "facebookUrl": "https://www.facebook.com/minh.thu.5437/",
+      "discordNickname": "phan.minh.thu",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 37,
+      "name": "Trần Việt Tùng",
+      "email": "",
+      "learningLanguage": "Tiếng Trung",
+      "birthYear": 1998,
+      "facebookUrl": "https://www.facebook.com/viet.tung.5491/",
+      "discordNickname": "tung98",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 38,
+      "name": "Võ Thị Hương Giang",
+      "email": "",
+      "learningLanguage": "Tiếng Đức",
+      "birthYear": 2002,
+      "facebookUrl": "https://www.facebook.com/huong.giang.2002/",
+      "discordNickname": "giang.vo",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 39,
+      "name": "Dương Minh Khánh",
+      "email": "",
+      "learningLanguage": "Tiếng Pháp",
+      "birthYear": 2003,
+      "facebookUrl": "https://www.facebook.com/minh.khanh.566/",
+      "discordNickname": "khanh.duong",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 40,
+      "name": "Hồ Thị Cẩm Linh",
+      "email": "",
+      "learningLanguage": "Tiếng Tây Ban Nha",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/cam.linh.5633/",
+      "discordNickname": "linh.ho",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 41,
+      "name": "Ngô Văn Hùng",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 1999,
+      "facebookUrl": "https://www.facebook.com/van.hung.5829/",
+      "discordNickname": "hung99",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 42,
+      "name": "Cao Thị Yến Nhi",
+      "email": "",
+      "learningLanguage": "Tiếng Anh",
+      "birthYear": 2004,
+      "facebookUrl": "https://www.facebook.com/yen.nhi.2004/",
+      "discordNickname": "nhi.cao",
+      "bio": "",
+      "checkInDays": 99
+    },
+    {
+      "id": 43,
+      "name": "Bùi Thanh Hải",
+      "email": "",
+      "learningLanguage": "Tiếng Hàn",
+      "birthYear": 2000,
+      "facebookUrl": "https://www.facebook.com/thanh.hai.5274/",
+      "discordNickname": "hai.bui",
+      "bio": "",
+      "checkInDays": 98
+    },
+    {
+      "id": 44,
+      "name": "Tạ Quốc Huy",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 2002,
+      "facebookUrl": "https://www.facebook.com/quoc.huy.352/",
+      "discordNickname": "huy.ta",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 45,
+      "name": "Lý Thị Thanh Hương",
+      "email": "",
+      "learningLanguage": "Tiếng Anh",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/thanh.huong.5681/",
+      "discordNickname": "huong.ly",
+      "bio": "",
+      "checkInDays": 99
+    },
+    {
+      "id": 46,
+      "name": "Vũ Minh Tú",
+      "email": "",
+      "learningLanguage": "Tiếng Trung",
+      "birthYear": 2003,
+      "facebookUrl": "https://www.facebook.com/minh.tu.567/",
+      "discordNickname": "tu.vu",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 47,
+      "name": "Đặng Thị Loan",
+      "email": "",
+      "learningLanguage": "Tiếng Đức",
+      "birthYear": 2000,
+      "facebookUrl": "https://www.facebook.com/thi.loan.5482/",
+      "discordNickname": "loan.dang",
+      "bio": "",
+      "checkInDays": 97
+    },
+    {
+      "id": 48,
+      "name": "Phạm Văn Đạt",
+      "email": "",
+      "learningLanguage": "Tiếng Pháp",
+      "birthYear": 2002,
+      "facebookUrl": "https://www.facebook.com/van.dat.5937/",
+      "discordNickname": "dat.pham",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 49,
+      "name": "Đinh Thị Hạnh",
+      "email": "",
+      "learningLanguage": "Tiếng Tây Ban Nha",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/thi.hanh.5738/",
+      "discordNickname": "hanh.dinh",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 50,
+      "name": "Hoàng Kim Dung",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 1999,
+      "facebookUrl": "https://www.facebook.com/kim.dung.567/",
+      "discordNickname": "dung.hoang",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 51,
+      "name": "Tô Thái Bảo",
+      "email": "",
+      "learningLanguage": "Tiếng Anh",
+      "birthYear": 2003,
+      "facebookUrl": "https://www.facebook.com/thai.bao.5829/",
+      "discordNickname": "bao.to",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 52,
+      "name": "Chử Việt Hùng",
+      "email": "",
+      "learningLanguage": "Tiếng Hàn",
+      "birthYear": 2000,
+      "facebookUrl": "https://www.facebook.com/viet.hung.5482/",
+      "discordNickname": "viet.hung",
+      "bio": "",
+      "checkInDays": 100
+    },
+    {
+      "id": 53,
+      "name": "Mạc Tuấn Tài",
+      "email": "",
+      "learningLanguage": "Tiếng Nhật",
+      "birthYear": 2002,
+      "facebookUrl": "https://www.facebook.com/tuan.tai.5273/",
+      "discordNickname": "tai.mac",
+      "bio": "",
+      "checkInDays": 96
+    },
+    {
+      "id": 54,
+      "name": "Lê Văn Hoanh",
+      "email": "",
+      "learningLanguage": "Tiếng Trung",
+      "birthYear": 2001,
+      "facebookUrl": "https://www.facebook.com/van.hoanh.5637/",
+      "discordNickname": "hoanh.le",
+      "bio": "",
+      "checkInDays": 95
+    }
+  ]
+}

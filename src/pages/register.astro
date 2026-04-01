@@ -1,0 +1,306 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const formBaseUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfoZmv7DYnzYQh66e1kToCF1czcR8GZzuG0L2LB3ZEpBq0vNA/viewform";
+
+const prefilledFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfoZmv7DYnzYQh66e1kToCF1czcR8GZzuG0L2LB3ZEpBq0vNA/viewform?usp=pp_url&entry.1772885244=T%C3%B4i+cam+k%E1%BA%BFt&entry.1998486890=%C4%90%C3%A3+%C4%91%C3%B3ng+ph%C3%AD&entry.582716327=L%C3%AA+Ho%C3%A0ng+Ph%C3%BAc&entry.182062064=2001&entry.177391751=Chuncheon&entry.1749653006=fb.com/tuilaphuc747&entry.460661342=0346598402&entry.2074934601=madbear&entry.1782122629=C%C3%B3&entry.346765928=hello&entry.909708031=kh%C3%B4gn+c%C3%B3+quote&entry.1768034029=ti%E1%BA%BFng+H%C3%80n";
+
+const embedFormUrl =
+  "https://docs.google.com/forms/d/e/1FAIpQLSfoZmv7DYnzYQh66e1kToCF1czcR8GZzuG0L2LB3ZEpBq0vNA/viewform?embedded=true";
+---
+
+<Layout title="Dang ky Anki Challenge 10">
+  <main class="register-page">
+    <section class="hero">
+      <p class="pill">Anki Challenge 10 | 100 ngay</p>
+      <h1>Dang Ky Anki Challenge 10</h1>
+      <p class="subtitle">
+        Muc tieu la giup ban nhan biet cach tao link prefill tu Google Form va dua thang vao trang Astro.
+      </p>
+    </section>
+
+    <section class="card popup-card">
+      <h2>Noi dung popup</h2>
+      <pre class="popup-content">Mình đang kiểm tra lại bằng cách đọc đúng file skill phân tích workflow trước, rồi sẽ xác nhận bằng trích dẫn trực tiếp từ code để trả lời chắc chắn. Sau đó mình sẽ gửi bạn kết luận ngắn gọn về trạng thái đã tìm hiểu đến đâu.
+
+Read skill [project-workflow-analysis-blueprint-generator](file:///c%3A/Users/ADMIN/.agents/skills/project-workflow-analysis-blueprint-generator/SKILL.md?vscodeLinkType%3Dskill)
+
+Mình đã nạp xong skill phân tích workflow và giờ đang xác minh trực tiếp trong repo để trả lời chính xác. Tiếp theo mình sẽ truy vết mọi tham chiếu đến Anki Challenge 9 và Google Form prefill.
+
+Searched for regex `anki challenge 9|anki-challenge-9|AnkiChallenge|challenge-9` (`**/src/**`), 3 results
+
+Searched for regex `docs\.google\.com/forms|formResponse|entry\.` (`**/src/**`), 20 results
+
+Searched for files matching `**/src/pages/**/*challenge*`, 1 match
+
+Searched for files matching `**/src/components/**/*Challenge*`, 1 match
+
+Mình đã xác nhận logic nằm trong 2 file backup, chưa thấy file page active cùng tên. Mình đang đọc đúng các đoạn script submit để mô tả “prefill” hiện tại là kiểu nào: query prefill hay POST trực tiếp vào Google Form.
+
+Searched for files matching `**/src/pages/**/anki-challenge-9*`, no matches
+
+Read [](file:///d%3A/A%20Web/ankivn.com/src/pages/_anki-challenge-9.astro.backup#760-760), lines 760 to 1060
+
+Read [](file:///d%3A/A%20Web/ankivn.com/src/components/AnkiChallengePopup.astro.backup)
+
+Read [](file:///d%3A/A%20Web/ankivn.com/src/pages/_anki-challenge-9.astro.backup#1060-1060), lines 1060 to 1216
+
+Searched for regex `AnkiChallengePopup|anki-challenge-9` (`**/src/**`), 2 results
+
+Searching for regex `1FAIpQLSeIuQaHsMZnCkGUusSJmjXlgYbvAXwIGhO7qBVFIx25-XfVmA|entry\.249472686|entry\.280955584`
+
+Đã xác nhận thêm: trong mã nguồn hiện tại chỉ còn dấu vết Challenge 9 ở file backup, chưa thấy nơi nào khác đang gọi trực tiếp. Mình sẽ chạy tìm kiếm hẹp hơn trong src để xác thực tuyệt đối Form ID và các `entry.*` chỉ xuất hiện một chỗ.
+
+Searched for text `1FAIpQLSeIuQaHsMZnCkGUusSJmjXlgYbvAXwIGhO7qBVFIx25-XfVmA` (`**/src/**`), 1 result
+
+Searched for regex `entry\.249472686|entry\.280955584|entry\.520562591|entry\.860434530` (`**/src/**`), 6 results
+
+Read [](file:///d%3A/A%20Web/ankivn.com/src/pages)
+
+Rồi, mình đã tìm hiểu xong và xác nhận bằng code trong repo.
+
+Kết quả chính:
+1. Anki Challenge 9 hiện chỉ còn ở bản backup, chưa chạy chính thức trong route hiện tại.
+- Trang: _anki-challenge-9.astro.backup
+- Popup: AnkiChallengePopup.astro.backup
+- Trong pages không có file src/pages/anki-challenge-9.astro, nên link từ popup về `/anki-challenge-9` đang không có page active.
+
+2. Cách “prefill” Google Form ở Challenge 9:
+- Không dùng prefill qua URL query kiểu `.../viewform?usp=pp_url&entry.xxx=...`.
+- Đang dùng form HTML map trực tiếp `name="entry.xxx"` rồi POST thẳng tới Google Forms `formResponse`: _anki-challenge-9.astro.backup.
+- Ví dụ mapping field:
+  - Cam kết: _anki-challenge-9.astro.backup
+  - Họ tên: _anki-challenge-9.astro.backup
+  - Ngôn ngữ: _anki-challenge-9.astro.backup
+
+3. Luồng submit thực tế:
+- JS chặn submit mặc định, validate các field đang hiển thị, rồi fetch POST no-cors với formData tới form.action: _anki-challenge-9.astro.backup.
+- Sau submit thì ẩn form và hiện khối “Đăng ký thành công” tại client-side: _anki-challenge-9.astro.backup.
+
+Nếu bạn muốn, mình có thể làm luôn bước tiếp theo:
+1. Tách logic này thành page active mới `anki-challenge-9.astro`.
+2. Chuyển sang prefill URL chuẩn Google Forms (nếu mục tiêu là mở sẵn form Google với dữ liệu điền trước thay vì POST trực tiếp).</pre>
+    </section>
+
+    <section class="card">
+      <h2>Cach tao link prefilled</h2>
+      <ol>
+        <li>Mo Google Form va bam dau ba cham o goc tren phai.</li>
+        <li>Chon Get pre-filled link.</li>
+        <li>Dien mau cac truong can mac dinh, sau do bam Get link.</li>
+        <li>Ban se nhan duoc link co dang ?entry.xxxxx=value.</li>
+      </ol>
+      <div class="actions">
+        <a class="btn btn-primary" href={prefilledFormUrl} target="_blank" rel="noopener noreferrer">
+          Mo link prefill cua ban
+        </a>
+        <a class="btn btn-ghost" href={formBaseUrl} target="_blank" rel="noopener noreferrer">
+          Mo form goc
+        </a>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Nhung truc tiep vao Astro</h2>
+      <p>
+        Day la iframe nhung Google Form. Neu can giu prefilled data trong iframe, ban co the doi
+        <strong> embedFormUrl </strong> thanh link prefill + <strong>&embedded=true</strong>.
+      </p>
+      <div class="embed-wrap">
+        <iframe
+          title="Google Form dang ky"
+          src={embedFormUrl}
+          loading="lazy"
+          referrerpolicy="no-referrer"
+          marginheight="0"
+          marginwidth="0"
+        >
+          Dang tai...
+        </iframe>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  :global(body) {
+    background: radial-gradient(circle at 15% 20%, #12304f 0%, #0a1120 45%, #070b14 100%);
+    color: #ecf7ff;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+  }
+
+  .register-page {
+    min-height: 100vh;
+    padding: 2rem 1rem 3rem;
+    max-width: 980px;
+    margin: 0 auto;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .hero,
+  .card {
+    border: 1px solid rgba(110, 220, 255, 0.24);
+    background: linear-gradient(155deg, rgba(12, 30, 51, 0.9), rgba(13, 16, 38, 0.92));
+    border-radius: 20px;
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero {
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: -40% -20% auto;
+    height: 240px;
+    background: conic-gradient(from 120deg, #00e5ff, #00ff8c, #ff9f1a, #00e5ff);
+    filter: blur(60px);
+    opacity: 0.25;
+    animation: spin 9s linear infinite;
+    pointer-events: none;
+  }
+
+  .pill {
+    display: inline-block;
+    margin: 0;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(0, 229, 255, 0.15);
+    border: 1px solid rgba(0, 229, 255, 0.5);
+  }
+
+  h1 {
+    margin: 0.9rem 0 0.4rem;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    margin: 0;
+    color: #b8dff8;
+    max-width: 62ch;
+    margin-inline: auto;
+  }
+
+  .card {
+    padding: 1.2rem;
+  }
+
+  .popup-card {
+    border-color: rgba(255, 180, 80, 0.45);
+    background: linear-gradient(155deg, rgba(40, 25, 8, 0.82), rgba(20, 14, 36, 0.9));
+  }
+
+  .popup-content {
+    margin: 0;
+    white-space: pre-wrap;
+    line-height: 1.6;
+    max-height: 380px;
+    overflow: auto;
+    border: 1px solid rgba(255, 180, 80, 0.3);
+    border-radius: 12px;
+    padding: 0.9rem;
+    background: rgba(0, 0, 0, 0.28);
+    color: #ffe4c4;
+    font-size: 0.9rem;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+  }
+
+  h2 {
+    margin: 0.2rem 0 0.8rem;
+    font-size: 1.25rem;
+  }
+
+  ol {
+    margin: 0;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 0.45rem;
+    color: #d9ecff;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 1.05rem;
+  }
+
+  .btn {
+    text-decoration: none;
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    font-weight: 700;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #00ff8c, #00d9ff);
+    color: #07222c;
+    box-shadow: 0 10px 22px rgba(0, 240, 173, 0.25);
+  }
+
+  .btn-ghost {
+    border: 1px solid rgba(0, 229, 255, 0.4);
+    color: #c6edff;
+    background: rgba(0, 229, 255, 0.08);
+  }
+
+  .embed-wrap {
+    margin-top: 0.9rem;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    min-height: 72vh;
+    background: #fff;
+  }
+
+  iframe {
+    width: 100%;
+    height: 72vh;
+    border: 0;
+    display: block;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (max-width: 680px) {
+    .hero,
+    .card {
+      border-radius: 16px;
+    }
+
+    .hero {
+      padding: 1.3rem;
+    }
+
+    .card {
+      padding: 1rem;
+    }
+
+    .embed-wrap,
+    iframe {
+      min-height: 68vh;
+      height: 68vh;
+    }
+  }
+</style>

@@ -1,0 +1,851 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const googleFormId = "1FAIpQLSfoZmv7DYnzYQh66e1kToCF1czcR8GZzuG0L2LB3ZEpBq0vNA";
+const googleFormViewUrl = `https://docs.google.com/forms/d/e/${googleFormId}/viewform`;
+const googleFormActionUrl = `https://docs.google.com/forms/d/e/${googleFormId}/formResponse`;
+const googleFormFbzx = "5793887780826789600";
+---
+
+<Layout title="Anki Challenge 10 - Đăng ký">
+  <main class="page-wrap">
+    <div class="geo geo-1" aria-hidden="true"></div>
+    <div class="geo geo-2" aria-hidden="true"></div>
+
+    <section class="hero card">
+      <p class="eyebrow">Anki Challenge 10 | 100 days</p>
+      <h1>Đăng ký Anki Challenge 10</h1>
+      <p>
+        Frontend tự xử lý form. Dữ liệu được gửi trực tiếp vào Google Form để dùng làm response database.
+      </p>
+    </section>
+
+    <section class="card form-card">
+      <div class="popup-note" role="status">
+        Popup note: Form này submit trực tiếp vào Google Form bằng form POST + iframe ẩn,
+        không redirect khỏi trang hiện tại.
+      </div>
+
+      <form id="ac10Form" action={googleFormActionUrl} method="POST" target="ac10SubmitSink" novalidate>
+        
+        <!-- STEP 1: Cam kết -->
+        <div id="commitmentSection">
+          <div class="grid">
+            <fieldset class="radio-group" style="grid-column: 1 / -1;">
+              <legend>Cam kết</legend>
+              <div class="radio-options">
+                <label class="radio-label">
+                  <input type="radio" name="entry.1772885244" value="Tôi cam kết" id="commitYes" required />
+                  <span>Tôi cam kết</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="entry.1772885244" value="Tôi cần cân nhắc thêm" id="commitNo" required />
+                  <span>Tôi cần cân nhắc thêm</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <!-- STEP 2: Challenge 9 (Path decision) -->
+        <div id="challenge9Section" class="hidden" style="margin-top: 1.2rem;">
+          <div class="grid">
+            <fieldset class="radio-group" style="grid-column: 1 / -1;">
+              <legend>Đã hoàn thành xuất sắc Anki Challenge 9?</legend>
+              <div class="radio-options">
+                <label class="radio-label">
+                  <input 
+                    type="radio" 
+                    name="entry.1782122629" 
+                    value="Chính xác 😎" 
+                    id="challenge9Yes"
+                    required 
+                  />
+                  <span>Chính xác 😎</span>
+                </label>
+                <label class="radio-label">
+                  <input 
+                    type="radio" 
+                    name="entry.1782122629" 
+                    value="Ờm...." 
+                    id="challenge9No"
+                    required 
+                  />
+                  <span>Ờm....</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <!-- PATH A: Congratulatory Banner & QR -->
+        <div id="pathABanner" class="hidden" style="margin-top: 1.5rem;">
+          <div class="success-banner">
+            <h3>🎉 Xuất sắc! Bạn đã hoàn thành Anki Challenge 9!</h3>
+            <p>Bạn có quyền tham gia Challenge 10 mà <strong>không cần đóng tiền</strong>. Tuy nhiên, nếu bạn muốn hỗ trợ để duy trì cộng đồng, chúng tôi rất hoan nghênh!</p>
+            <div class="qr-container">
+              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Chuyen-Khoan-Anki-10" alt="QR Code" width="150" height="150" />
+              <p class="qr-note"><em>Optional: Scan to contribute (Quét để hỗ trợ)</em></p>
+            </div>
+          </div>
+          
+          <div id="discordLookupContainer" style="margin-top: 1rem;">
+            <div class="lookup-section">
+              <h3>Nhập Discord Nickname để tự động lấy thông tin</h3>
+              <div class="input-with-btn">
+                <label>
+                  <span>Discord Nickname</span>
+                  <input 
+                    id="discordLookupInput" 
+                    type="text" 
+                    placeholder="ví dụ: madbear" 
+                    autocomplete="off"
+                  />
+                </label>
+                <button type="button" id="lookupBtn" class="help-btn">Tìm</button>
+              </div>
+              <p id="lookupMessage" class="helper hidden" aria-live="polite"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PATH B: Trạng thái đóng phí -->
+        <div id="feeSection" class="hidden" style="margin-top: 1.2rem;">
+          <div class="grid">
+            <fieldset class="radio-group" style="grid-column: 1 / -1;">
+              <legend>Trạng thái đóng phí</legend>
+              <div class="radio-options">
+                <label class="radio-label">
+                  <input type="radio" name="entry.1998486890" value="Đã đóng phí" id="feePaid" required />
+                  <span>Đã đóng phí</span>
+                </label>
+                <label class="radio-label">
+                  <input type="radio" name="entry.1998486890" value="Chưa đóng phí" id="feeUnpaid" required />
+                  <span>Chưa đóng phí</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <!-- STEP 4: Info Fields -->
+        <div id="infoSection" class="hidden" style="margin-top: 1.2rem;">
+          <div class="grid">
+            <label>
+              <span>Họ và tên</span>
+              <input name="entry.582716327" type="text" placeholder="Lê Hoàng Phúc" required />
+            </label>
+
+            <label>
+              <span>Nam sinh</span>
+              <input name="entry.182062064" type="text" inputmode="numeric" pattern="[0-9]{4}" placeholder="2001" required />
+            </label>
+
+            <label>
+              <span>Khu vực / thành phố</span>
+              <input name="entry.177391751" type="text" placeholder="Chuncheon" required />
+            </label>
+
+            <div class="input-with-btn">
+              <label>
+                <span>Link social</span>
+                <input name="entry.1749653006" type="text" placeholder="fb.com/..." required />
+              </label>
+              <button type="button" class="help-btn" onclick="window.open('https://www.facebook.com/me', '_blank')">
+                Lấy link FB
+              </button>
+            </div>
+
+            <label>
+              <span>Số điện thoại</span>
+              <input name="entry.460661342" type="tel" inputmode="numeric" pattern="0[0-9]{9}" title="Số điện thoại phải bắt đầu với 0 và có đúng 10 số" placeholder="0346598402" required />
+            </label>
+
+            <label>
+              <span>Nickname</span>
+              <input name="entry.2074934601" type="text" placeholder="madbear" required />
+            </label>
+
+            <label>
+              <span>Mục tiêu ngắn</span>
+              <input name="entry.346765928" type="text" placeholder="Học 30 phút/ngày" required />
+            </label>
+
+            <label>
+              <span>Quote (có thể bỏ trống)</span>
+              <input name="entry.909708031" type="text" placeholder="không có quote" />
+            </label>
+
+            <label style="grid-column: 1 / -1;">
+              <span>Ngôn ngữ đang học</span>
+              <input name="entry.1768034029" type="text" placeholder="tiếng Hàn" required />
+            </label>
+          </div>
+        </div>
+
+        <input type="hidden" name="fvv" value="1" />
+        <input type="hidden" name="pageHistory" value="0" />
+        <input type="hidden" name="fbzx" value={googleFormFbzx} />
+        <input type="hidden" name="draftResponse" value="[]" />
+
+        <p class="helper" id="formMessage" aria-live="polite"></p>
+
+        <div class="actions">
+          <button id="submitBtn" type="submit">Gui dang ky</button>
+        </div>
+      </form>
+
+      <iframe name="ac10SubmitSink" class="hidden" title="Submit sink"></iframe>
+    </section>
+
+    <section class="card success-card hidden" id="successCard">
+      <h2>Đăng ký thành công</h2>
+      <p>
+        Hệ thống đã gửi dữ liệu lên Google Form. Bạn có thể chơi tiếp và đợi admin xác nhận trong danh sách.
+      </p>
+      <a class="ghost-btn" href={googleFormViewUrl} target="_blank" rel="noopener noreferrer">
+        Mở lại form gốc
+      </a>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  const form = document.getElementById("ac10Form");
+  const submitBtn = document.getElementById("submitBtn");
+  const message = document.getElementById("formMessage");
+  const successCard = document.getElementById("successCard");
+  const submitSink = document.querySelector('iframe[name="ac10SubmitSink"]');
+  
+  // Auto-fill related elements
+  const challenge9Section = document.getElementById("challenge9Section");
+  const challenge9Yes = document.getElementById("challenge9Yes");
+  const challenge9No = document.getElementById("challenge9No");
+  const discordLookupContainer = document.getElementById("discordLookupContainer");
+  const discordLookupInput = document.getElementById("discordLookupInput");
+  const lookupBtn = document.getElementById("lookupBtn");
+  const lookupMessage = document.getElementById("lookupMessage");
+  
+  // Conditional flow elements
+  const commitYes = document.getElementById("commitYes");
+  const commitNo = document.getElementById("commitNo");
+  const pathABanner = document.getElementById("pathABanner");
+  const feeSection = document.getElementById("feeSection");
+  const feePaid = document.getElementById("feePaid");
+  const feeUnpaid = document.getElementById("feeUnpaid");
+  const infoSection = document.getElementById("infoSection");
+  
+  // Excellence completers data (cached)
+  let excellenceCompleters = null;
+
+  // Fetch excellence completers data
+  async function loadExcellenceCompleters() {
+    if (excellenceCompleters) return excellenceCompleters;
+    try {
+      const response = await fetch('/data/excellence_completers_challenge_9.json');
+      if (!response.ok) throw new Error('Failed to fetch');
+      excellenceCompleters = await response.json();
+      return excellenceCompleters;
+    } catch (error) {
+      console.error('Error loading excellence completers:', error);
+      lookupMessage.textContent = "Lỗi tải dữ liệu. Vui lòng thử lại.";
+      lookupMessage.className = "helper error";
+      lookupMessage.classList.remove("hidden");
+      return null;
+    }
+  }
+
+  // Auto-fill form fields from excellence completer data
+  function autoFillFields(completer) {
+    const nameInput = form.querySelector('input[name="entry.582716327"]');
+    const birthYearInput = form.querySelector('input[name="entry.182062064"]');
+    const facebookInput = form.querySelector('input[name="entry.1749653006"]');
+    const nicknameInput = form.querySelector('input[name="entry.2074934601"]');
+    
+    if (nameInput) nameInput.value = completer.name || '';
+    if (birthYearInput) birthYearInput.value = (completer.birthYear || '').toString();
+    if (facebookInput) facebookInput.value = completer.facebookUrl || '';
+    if (nicknameInput) nicknameInput.value = completer.discordNickname || '';
+    
+    lookupMessage.textContent = `✓ Tìm thấy: ${completer.name}. Bạn có thể chỉnh sửa các trường này.`;
+    lookupMessage.className = "helper success";
+    lookupMessage.classList.remove("hidden");
+    
+    // Disable lookup input/button after successful match
+    discordLookupInput.setAttribute("disabled", "true");
+    lookupBtn.setAttribute("disabled", "true");
+  }
+
+  // Search for excellence completer by Discord nickname (partial match)
+  async function searchCompleter(discordNickname) {
+    if (!discordNickname.trim()) {
+      lookupMessage.textContent = "Vui lòng nhập Discord Nickname.";
+      lookupMessage.className = "helper error";
+      lookupMessage.classList.remove("hidden");
+      return;
+    }
+
+    lookupMessage.textContent = "Đang tìm...";
+    lookupMessage.className = "helper";
+    lookupMessage.classList.remove("hidden");
+
+    const data = await loadExcellenceCompleters();
+    if (!data || !data.data) {
+      lookupMessage.textContent = "Không thể tải dữ liệu.";
+      lookupMessage.className = "helper error";
+      return;
+    }
+
+    const searchTerm = discordNickname.toLowerCase().trim();
+    const matches = data.data.filter(c => 
+      c.discordNickname.toLowerCase().includes(searchTerm)
+    );
+
+    if (matches.length === 0) {
+      lookupMessage.textContent = `Không tìm thấy "${discordNickname}". Kiểm tra lại tên.`;
+      lookupMessage.className = "helper error";
+      lookupMessage.classList.remove("hidden");
+    } else if (matches.length === 1) {
+      autoFillFields(matches[0]);
+    } else {
+      lookupMessage.textContent = `Tìm thấy ${matches.length} kết quả. Hãy nhập tên đầy đủ hơn.`;
+      lookupMessage.className = "helper warning";
+      lookupMessage.classList.remove("hidden");
+    }
+  }
+
+  if (form instanceof HTMLFormElement && submitBtn && message && successCard) {
+    let isSubmitting = false;
+    let submitted = false;
+
+    if (submitSink instanceof HTMLIFrameElement) {
+      submitSink.addEventListener("load", () => {
+        if (!submitted) {
+          return;
+        }
+
+        form.classList.add("hidden");
+        successCard.classList.remove("hidden");
+        submitted = false;
+      });
+    }
+
+    // Commitment selection handlers
+    if (commitYes && commitNo && challenge9Section) {
+      commitYes.addEventListener("change", () => {
+        if (commitYes.checked) {
+          challenge9Section.classList.remove("hidden");
+          // Re-trigger the selected option if any
+          if (challenge9Yes.checked) challenge9Yes.dispatchEvent(new Event('change'));
+          if (challenge9No.checked) challenge9No.dispatchEvent(new Event('change'));
+        }
+      });
+
+      commitNo.addEventListener("change", () => {
+        if (commitNo.checked) {
+          challenge9Section.classList.add("hidden");
+          pathABanner.classList.add("hidden");
+          feeSection.classList.add("hidden");
+          infoSection.classList.add("hidden");
+        }
+      });
+    }
+
+    // Challenge 9 selection handlers
+    if (challenge9Yes && challenge9No) {
+      challenge9Yes.addEventListener("change", () => {
+        if (challenge9Yes.checked) {
+          pathABanner.classList.remove("hidden");
+          infoSection.classList.remove("hidden");
+          feeSection.classList.add("hidden");
+          
+          // Remove required from fee status
+          feePaid.removeAttribute("required");
+          feeUnpaid.removeAttribute("required");
+
+          // Pre-load excellence completers data
+          loadExcellenceCompleters();
+        }
+      });
+
+      challenge9No.addEventListener("change", () => {
+        if (challenge9No.checked) {
+          pathABanner.classList.add("hidden");
+          feeSection.classList.remove("hidden");
+          
+          // Add required back to fee status
+          feePaid.setAttribute("required", "true");
+          feeUnpaid.setAttribute("required", "true");
+
+          // If a fee option wasn't already selected, hide info section
+          if (!feePaid.checked && !feeUnpaid.checked) {
+            infoSection.classList.add("hidden");
+          } else {
+            infoSection.classList.remove("hidden");
+          }
+
+          // Reset lookup state
+          lookupMessage.classList.add("hidden");
+          discordLookupInput.value = "";
+          discordLookupInput.removeAttribute("disabled");
+          lookupBtn.removeAttribute("disabled");
+        }
+      });
+    }
+
+    // Fee status selection handlers (Path B)
+    if (feePaid && feeUnpaid && infoSection) {
+      feePaid.addEventListener("change", () => {
+        if (feePaid.checked) infoSection.classList.remove("hidden");
+      });
+      feeUnpaid.addEventListener("change", () => {
+        if (feeUnpaid.checked) infoSection.classList.remove("hidden");
+      });
+    }
+
+    // Discord lookup button handler
+    if (lookupBtn && discordLookupInput) {
+      lookupBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        searchCompleter(discordLookupInput.value);
+      });
+
+      // Allow Enter key to trigger search
+      discordLookupInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          searchCompleter(discordLookupInput.value);
+        }
+      });
+    }
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      if (isSubmitting) {
+        return;
+      }
+
+      if (!form.reportValidity()) {
+        message.textContent = "Vui lòng điền đầy đủ các trường bắt buộc.";
+        message.className = "helper error";
+        return;
+      }
+
+      isSubmitting = true;
+      submitBtn.setAttribute("disabled", "true");
+      submitBtn.textContent = "Đang gửi...";
+      message.textContent = "Đang gửi dữ liệu lên Google Form...";
+      message.className = "helper";
+
+      try {
+        submitted = true;
+        form.submit();
+      } catch {
+        message.textContent =
+          "Không thể gửi lúc này. Thử lại hoặc bấm Mở lại form gốc để điền trực tiếp.";
+        message.className = "helper error";
+        submitted = false;
+      } finally {
+        isSubmitting = false;
+        submitBtn.removeAttribute("disabled");
+        submitBtn.textContent = "Gửi đăng ký";
+      }
+    });
+  }
+</script>
+
+<style>
+  :global(body) {
+    background: linear-gradient(130deg, #070a15 0%, #121537 45%, #0b1d2c 100%);
+    color: #eaf5ff;
+  }
+
+  .page-wrap {
+    min-height: 100vh;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 1.2rem;
+  }
+
+  .card {
+    border-radius: 22px;
+    border: 1px solid rgba(0, 226, 255, 0.3);
+    background: linear-gradient(160deg, rgba(18, 24, 56, 0.95), rgba(16, 45, 58, 0.9));
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .hero {
+    padding: 1.75rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero h1 {
+    margin: 0.4rem 0;
+    font-size: clamp(2rem, 5vw, 2.9rem);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .hero p {
+    margin: 0;
+    color: #b7d8ff;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    margin: 0;
+    background: rgba(0, 255, 153, 0.16);
+    border: 1px solid rgba(0, 255, 153, 0.5);
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+
+  .popup-note {
+    margin-bottom: 0.9rem;
+    padding: 0.8rem 0.9rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 145, 0, 0.22), rgba(255, 58, 123, 0.2));
+    border: 1px solid rgba(255, 176, 66, 0.42);
+    color: #ffe8c9;
+    font-size: 0.93rem;
+  }
+
+  .form-card {
+    padding: 1rem;
+  }
+
+  .grid {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .input-with-btn {
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .input-with-btn label {
+    grid-column: 1 / -1;
+  }
+
+  .input-with-btn .help-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  label {
+    display: grid;
+    gap: 0.35rem;
+    font-size: 0.9rem;
+    color: #c9e8ff;
+  }
+
+  span {
+    font-weight: 600;
+  }
+
+  input,
+  select {
+    border: 1px solid rgba(152, 215, 255, 0.35);
+    background: rgba(8, 13, 34, 0.84);
+    color: #ecf5ff;
+    border-radius: 12px;
+    padding: 0.7rem 0.75rem;
+    outline: none;
+    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+  }
+
+  input::placeholder {
+    color: #8eb4d7;
+  }
+
+  input:focus,
+  select:focus {
+    border-color: #00d4ff;
+    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.18);
+  }
+
+  /* Hide number input spinners */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  .actions {
+    margin-top: 0.9rem;
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+  }
+
+  button,
+  .ghost-btn {
+    border-radius: 999px;
+    border: 0;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    font-weight: 700;
+  }
+
+  button {
+    cursor: pointer;
+    background: linear-gradient(120deg, #00ff94, #00d9ff);
+    color: #052431;
+    box-shadow: 0 8px 24px rgba(0, 255, 148, 0.3);
+  }
+
+  button[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+
+  .ghost-btn {
+    border: 1px solid rgba(0, 212, 255, 0.46);
+    color: #c6edff;
+    background: rgba(0, 212, 255, 0.11);
+  }
+
+  .help-btn {
+    background: rgba(0, 212, 255, 0.15);
+    color: #7dd3ff;
+    border: 1px solid rgba(0, 212, 255, 0.4);
+    border-radius: 12px !important;
+    padding: 0.6rem 0.8rem !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .help-btn:hover {
+    background: rgba(0, 212, 255, 0.25);
+    border-color: rgba(0, 212, 255, 0.6);
+    box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+  }
+
+  .helper {
+    margin: 0.7rem 0 0;
+    color: #abdfff;
+    min-height: 1.2rem;
+  }
+
+  .helper.error {
+    color: #ffb7b7;
+  }
+
+  .radio-group {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .radio-group legend {
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+    color: #c9e8ff;
+  }
+
+  .radio-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    font-weight: normal;
+    color: #ecf5ff;
+  }
+
+  .radio-label input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #00ff94;
+    margin: 0;
+    padding: 0;
+    border-radius: 50%;
+  }
+
+  .radio-label span {
+    font-weight: 500;
+  }
+
+  .success-card {
+    padding: 1.2rem;
+    border-color: rgba(0, 255, 148, 0.5);
+    background: linear-gradient(160deg, rgba(10, 54, 43, 0.95), rgba(13, 36, 72, 0.95));
+  }
+
+  .success-card h2 {
+    margin: 0;
+  }
+
+  .success-card p {
+    color: #c7ffe7;
+  }
+
+  .success-banner {
+    padding: 1.2rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0, 255, 148, 0.15), rgba(0, 212, 255, 0.1));
+    border: 1px solid rgba(0, 255, 148, 0.4);
+    text-align: center;
+  }
+
+  .success-banner h3 {
+    color: #4affb5;
+    margin: 0 0 0.6rem 0;
+    font-size: 1.15rem;
+  }
+
+  .success-banner p {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  .qr-container {
+    background: rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    padding: 0.8rem;
+    border-radius: 12px;
+    margin-top: 0.5rem;
+  }
+
+  .qr-note {
+    color: #0b1d2c !important;
+    font-size: 0.85rem !important;
+    margin: 0.4rem 0 0 0 !important;
+    font-weight: 600;
+  }
+
+  .lookup-section {
+    padding: 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.12), rgba(0, 255, 148, 0.08));
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    margin: 0.8rem 0;
+  }
+
+  .lookup-section h3 {
+    margin: 0 0 0.8rem 0;
+    font-size: 0.95rem;
+    color: #9dd4ff;
+    font-weight: 600;
+  }
+
+  #discordLookupContainer .input-with-btn {
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-end;
+  }
+
+  #discordLookupContainer .input-with-btn label {
+    flex: 1;
+    margin: 0;
+  }
+
+  #discordLookupContainer .help-btn {
+    flex-shrink: 0;
+    margin: 0 !important;
+  }
+
+  .helper.success {
+    color: #7fffad;
+  }
+
+  .helper.warning {
+    color: #ffd966;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .geo {
+    position: fixed;
+    pointer-events: none;
+    opacity: 0.15;
+    filter: blur(0.3px);
+  }
+
+  .geo-1 {
+    top: 8%;
+    left: 4%;
+    width: 130px;
+    height: 130px;
+    background: linear-gradient(45deg, #00ff99, #00d4ff);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    animation: floatA 8s ease-in-out infinite;
+  }
+
+  .geo-2 {
+    right: 8%;
+    bottom: 12%;
+    width: 92px;
+    height: 92px;
+    background: linear-gradient(120deg, #ff2b77, #ff9e2f);
+    border-radius: 20%;
+    transform: rotate(25deg);
+    animation: floatB 10s ease-in-out infinite;
+  }
+
+  @keyframes floatA {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-18px);
+    }
+  }
+
+  @keyframes floatB {
+    0%,
+    100% {
+      transform: translateY(0) rotate(25deg);
+    }
+
+    50% {
+      transform: translateY(16px) rotate(60deg);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      border-radius: 16px;
+    }
+
+    .hero,
+    .form-card,
+    .success-card {
+      padding: 1rem;
+    }
+  }
+</style>
