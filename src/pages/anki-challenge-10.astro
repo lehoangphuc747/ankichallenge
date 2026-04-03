@@ -21,18 +21,31 @@ const googleFormFbzx = "5793887780826789600";
     </section>
 
     <section class="card form-card">
-      <div class="popup-note" role="status">
-        Popup note: Form này submit trực tiếp vào Google Form bằng form POST + iframe ẩn,
-        không redirect khỏi trang hiện tại.
+      <!-- Step Indicators -->
+      <div class="step-indicators">
+        <div class="step-indicator step-indicator-active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-label">Cam kết</div>
+        </div>
+        <div class="step-indicator-connector"></div>
+        <div class="step-indicator" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-label">Lộ trình</div>
+        </div>
+        <div class="step-indicator-connector"></div>
+        <div class="step-indicator" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-label">Thông tin</div>
+        </div>
       </div>
 
       <form id="ac10Form" action={googleFormActionUrl} method="POST" target="ac10SubmitSink" novalidate>
         
         <!-- STEP 1: Cam kết -->
-        <div id="commitmentSection">
+        <div id="commitmentSection" class="step-container step-active">
           <div class="grid">
             <fieldset class="radio-group" style="grid-column: 1 / -1;">
-              <legend>Cam kết</legend>
+              <legend>Cam kết <span class="required-mark" aria-hidden="true">*</span></legend>
               <div class="radio-options">
                 <label class="radio-label">
                   <input type="radio" name="entry.1772885244" value="Tôi cam kết" id="commitYes" required />
@@ -48,10 +61,10 @@ const googleFormFbzx = "5793887780826789600";
         </div>
 
         <!-- STEP 2: Challenge 9 (Path decision) -->
-        <div id="challenge9Section" class="hidden" style="margin-top: 1.2rem;">
+        <div id="challenge9Section" class="step-container hidden" style="margin-top: 1.2rem;">
           <div class="grid">
             <fieldset class="radio-group" style="grid-column: 1 / -1;">
-              <legend>Đã hoàn thành xuất sắc Anki Challenge 9?</legend>
+              <legend>Bạn đã từng tham gia (và hoàn thành) Anki Challenge trước đây chưa? <span class="required-mark" aria-hidden="true">*</span></legend>
               <div class="radio-options">
                 <label class="radio-label">
                   <input 
@@ -61,7 +74,7 @@ const googleFormFbzx = "5793887780826789600";
                     id="challenge9Yes"
                     required 
                   />
-                  <span>Chính xác 😎</span>
+                  <span>Đã từng hoàn thành 😎</span>
                 </label>
                 <label class="radio-label">
                   <input 
@@ -71,7 +84,7 @@ const googleFormFbzx = "5793887780826789600";
                     id="challenge9No"
                     required 
                   />
-                  <span>Ờm....</span>
+                  <span>Chưa (hoặc tham gia không đầy đủ)</span>
                 </label>
               </div>
             </fieldset>
@@ -80,31 +93,75 @@ const googleFormFbzx = "5793887780826789600";
 
         <!-- PATH A: Congratulatory Banner & QR -->
         <div id="pathABanner" class="hidden" style="margin-top: 1.5rem;">
-          <div class="success-banner">
-            <h3>🎉 Xuất sắc! Bạn đã hoàn thành Anki Challenge 9!</h3>
-            <p>Bạn có quyền tham gia Challenge 10 mà <strong>không cần đóng tiền</strong>. Tuy nhiên, nếu bạn muốn hỗ trợ để duy trì cộng đồng, chúng tôi rất hoan nghênh!</p>
-            <div class="qr-container">
-              <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Chuyen-Khoan-Anki-10" alt="QR Code" width="150" height="150" />
-              <p class="qr-note"><em>Optional: Scan to contribute (Quét để hỗ trợ)</em></p>
+          <div class="success-banner" role="status" aria-live="polite">
+            <h2>🎉 Chào mừng học viên cũ trở lại!</h2>
+            <p>Bạn có quyền tham gia Challenge 10 mà <strong>không cần đóng tiền</strong>. Tuy nhiên, nếu bạn muốn đóng góp hỗ trợ quỹ Nuôi Phúc thì không ai cấm!!!</p>
+            <div class="qr-wrapper">
+              <div class="qr-container">
+                <img src="/images/challenge10-qr.png" alt="QR Code" width="150" height="150" />
+              </div>
+              <div class="bank-details">
+                <p class="stk-row">
+                  <strong>STK:</strong> 
+                  <span class="stk-number">TIMOF8C0F5B5161</span>
+                  <button type="button" class="copy-btn" title="Sao chép số tài khoản" onclick="const btn = event.currentTarget; navigator.clipboard.writeText('TIMOF8C0F5B5161').then(() => { const old = btn.innerText; btn.innerText = 'Đã chép ✓'; setTimeout(() => btn.innerText = old, 2000); })">Copy</button>
+                </p>
+                <p><strong>Tên tài khoản:</strong> LE HOANG PHUC</p>
+                <p><strong>Ngân hàng:</strong> Timo Digital Bank by BVBank</p>
+              </div>
+              <div class="qr-note stk-row" style="color: #98d7ff !important; margin-top: 0 !important;">
+                <em>Nội dung:</em>
+                <span class="stk-number">anki 10</span>
+                <button type="button" class="copy-btn" title="Sao chép nội dung" onclick="const btn = event.currentTarget; navigator.clipboard.writeText('anki 10').then(() => { const old = btn.innerText; btn.innerText = 'Đã chép ✓'; setTimeout(() => btn.innerText = old, 2000); })">Copy</button>
+              </div>
             </div>
           </div>
           
           <div id="discordLookupContainer" style="margin-top: 1rem;">
             <div class="lookup-section">
-              <h3>Nhập Discord Nickname để tự động lấy thông tin</h3>
-              <div class="input-with-btn">
-                <label>
-                  <span>Discord Nickname</span>
-                  <input 
-                    id="discordLookupInput" 
-                    type="text" 
-                    placeholder="ví dụ: madbear" 
-                    autocomplete="off"
-                  />
-                </label>
-                <button type="button" id="lookupBtn" class="help-btn">Tìm</button>
+              <h3>Chọn Discord Nickname để tự động lấy thông tin</h3>
+              <div class="picker-field">
+                <span class="picker-label">Discord Nickname</span>
+                <button
+                  type="button"
+                  id="discordPickerTrigger"
+                  class="picker-trigger"
+                  aria-haspopup="dialog"
+                  aria-expanded="false"
+                  aria-controls="discordPickerModal"
+                >
+                  <span id="discordPickerValue">Nhấn để chọn nickname từ danh sách</span>
+                </button>
               </div>
+              <p id="discordLookupHint" class="hint-text">Mở danh sách, gõ để lọc nhanh rồi chọn đúng nickname đã dùng ở Challenge trước.</p>
               <p id="lookupMessage" class="helper hidden" aria-live="polite"></p>
+            </div>
+
+            <div id="discordPickerModal" class="picker-modal hidden" role="dialog" aria-modal="true" aria-labelledby="discordPickerTitle">
+              <div id="discordPickerOverlay" class="picker-modal-overlay" aria-hidden="true"></div>
+              <div class="picker-modal-panel">
+                <div class="picker-modal-head">
+                  <h4 id="discordPickerTitle">Chọn Discord Nickname</h4>
+                  <button type="button" id="discordPickerClose" class="picker-close-btn" aria-label="Đóng popup chọn nickname">Đóng</button>
+                </div>
+                <div class="picker-search-wrap">
+                  <label for="discordPickerSearch" class="sr-only">Tìm nhanh nickname</label>
+                  <div class="search-input-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input
+                      id="discordPickerSearch"
+                      type="text"
+                      placeholder="Gõ nickname Discord hoặc tên thật..."
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+                <div id="discordPickerList" class="picker-list" role="listbox" aria-label="Danh sách Discord nickname"></div>
+                <div id="discordPickerEmpty" class="picker-empty hidden">
+                  <span style="font-size: 1.5rem; display: block; margin-bottom: 0.5rem;">🔍</span>
+                  Không tìm thấy nickname nào phù hợp.
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -112,8 +169,32 @@ const googleFormFbzx = "5793887780826789600";
         <!-- PATH B: Trạng thái đóng phí -->
         <div id="feeSection" class="hidden" style="margin-top: 1.2rem;">
           <div class="grid">
-            <fieldset class="radio-group" style="grid-column: 1 / -1;">
-              <legend>Trạng thái đóng phí</legend>
+            <div class="payment-banner" style="grid-column: 1 / -1;">
+              <h3>Đóng phí tham gia Challenge 10</h3>
+              <p>Yêu cầu đóng phí <strong>50.000 VNĐ</strong> để tham gia. Vui lòng quét QR bên dưới để chuyển khoản, sau đó chọn <strong>Đã đóng phí</strong> để mở bước nhập thông tin.</p>
+              <div class="qr-wrapper">
+                <div class="qr-container">
+                  <img src="/images/challenge10-qr.png" alt="QR Code thanh toán Challenge 10" width="150" height="150" />
+                </div>
+                <div class="bank-details">
+                  <p class="stk-row">
+                    <strong>STK:</strong> 
+                    <span class="stk-number">TIMOF8C0F5B5161</span>
+                    <button type="button" class="copy-btn" title="Sao chép số tài khoản" onclick="const btn = event.currentTarget; navigator.clipboard.writeText('TIMOF8C0F5B5161').then(() => { const old = btn.innerText; btn.innerText = 'Đã chép ✓'; setTimeout(() => btn.innerText = old, 2000); })">Copy</button>
+                  </p>
+                  <p><strong>Tên tài khoản:</strong> LE HOANG PHUC</p>
+                  <p><strong>Ngân hàng:</strong> Timo Digital Bank by BVBank</p>
+                </div>
+                <div class="qr-note stk-row" style="color: #4affb5 !important; margin-top: 0 !important;">
+                  <em>Nội dung:</em>
+                  <span class="stk-number">anki 10</span>
+                  <button type="button" class="copy-btn" title="Sao chép nội dung" onclick="const btn = event.currentTarget; navigator.clipboard.writeText('anki 10').then(() => { const old = btn.innerText; btn.innerText = 'Đã chép ✓'; setTimeout(() => btn.innerText = old, 2000); })">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <fieldset class="radio-group" style="grid-column: 1 / -1; margin-top: 1rem;">
+              <legend>Trạng thái đóng phí <span id="feeRequiredMark" class="required-mark" aria-hidden="true">*</span></legend>
               <div class="radio-options">
                 <label class="radio-label">
                   <input type="radio" name="entry.1998486890" value="Đã đóng phí" id="feePaid" required />
@@ -128,8 +209,8 @@ const googleFormFbzx = "5793887780826789600";
           </div>
         </div>
 
-        <!-- STEP 4: Info Fields -->
-        <div id="infoSection" class="hidden" style="margin-top: 1.2rem;">
+        <!-- STEP 3: Info Fields -->
+        <div id="infoSection" class="step-container hidden" style="margin-top: 1.2rem;">
           <div class="grid">
             <label>
               <span>Họ và tên</span>
@@ -137,18 +218,18 @@ const googleFormFbzx = "5793887780826789600";
             </label>
 
             <label>
-              <span>Nam sinh</span>
+              <span>Năm sinh</span>
               <input name="entry.182062064" type="text" inputmode="numeric" pattern="[0-9]{4}" placeholder="2001" required />
             </label>
 
             <label>
-              <span>Khu vực / thành phố</span>
+              <span>Nơi sinh sống</span>
               <input name="entry.177391751" type="text" placeholder="Chuncheon" required />
             </label>
 
             <div class="input-with-btn">
               <label>
-                <span>Link social</span>
+                <span>Link Facebook</span>
                 <input name="entry.1749653006" type="text" placeholder="fb.com/..." required />
               </label>
               <button type="button" class="help-btn" onclick="window.open('https://www.facebook.com/me', '_blank')">
@@ -162,22 +243,22 @@ const googleFormFbzx = "5793887780826789600";
             </label>
 
             <label>
-              <span>Nickname</span>
+              <span>Nickname trong Discord</span>
               <input name="entry.2074934601" type="text" placeholder="madbear" required />
             </label>
 
             <label>
-              <span>Mục tiêu ngắn</span>
+              <span>Giới thiệu bản thân</span>
               <input name="entry.346765928" type="text" placeholder="Học 30 phút/ngày" required />
             </label>
 
             <label>
-              <span>Quote (có thể bỏ trống)</span>
-              <input name="entry.909708031" type="text" placeholder="không có quote" />
+              <span>Quote tâm đắc</span>
+              <input name="entry.909708031" type="text" placeholder="Nếu bạn không thay đổi, đó là vì bạn không muốn thay đổi." />
             </label>
 
             <label style="grid-column: 1 / -1;">
-              <span>Ngôn ngữ đang học</span>
+              <span>Chia sẻ lĩnh vực bạn đang dùng anki để học</span>
               <input name="entry.1768034029" type="text" placeholder="tiếng Hàn" required />
             </label>
           </div>
@@ -188,10 +269,14 @@ const googleFormFbzx = "5793887780826789600";
         <input type="hidden" name="fbzx" value={googleFormFbzx} />
         <input type="hidden" name="draftResponse" value="[]" />
 
-        <p class="helper" id="formMessage" aria-live="polite"></p>
+        <p id="flowAnnouncer" class="sr-only" aria-live="polite"></p>
+        <p class="helper" id="formMessage" role="status" aria-live="polite"></p>
 
-        <div class="actions">
-          <button id="submitBtn" type="submit">Gui dang ky</button>
+        <div class="actions hidden" id="submitActions">
+          <button id="submitBtn" type="submit">
+            <span id="submitBtnLabel">Gửi đăng ký</span>
+            <span id="submitBtnSpinner" class="btn-spinner hidden" aria-hidden="true"></span>
+          </button>
         </div>
       </form>
 
@@ -203,120 +288,511 @@ const googleFormFbzx = "5793887780826789600";
       <p>
         Hệ thống đã gửi dữ liệu lên Google Form. Bạn có thể chơi tiếp và đợi admin xác nhận trong danh sách.
       </p>
-      <a class="ghost-btn" href={googleFormViewUrl} target="_blank" rel="noopener noreferrer">
-        Mở lại form gốc
+      <a class="ghost-btn" href="https://www.facebook.com/tui.la.phuc747/" target="_blank" rel="noopener noreferrer">
+        Liên hệ admin để được thêm vào challenge
       </a>
     </section>
   </main>
 </Layout>
 
 <script>
-  const form = document.getElementById("ac10Form");
-  const submitBtn = document.getElementById("submitBtn");
-  const message = document.getElementById("formMessage");
-  const successCard = document.getElementById("successCard");
+  type CompleterRecord = {
+    id?: number;
+    name?: string;
+    birthYear?: number;
+    facebookUrl?: string;
+    discordNickname: string;
+    hidden?: boolean;
+    role?: string;
+    challengeIds?: number[];
+  };
+  type ValidField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+
+  const form = document.getElementById("ac10Form") as HTMLFormElement | null;
+  const submitBtn = document.getElementById("submitBtn") as HTMLButtonElement | null;
+  const submitActions = document.getElementById("submitActions") as HTMLDivElement | null;
+  const submitBtnLabel = document.getElementById("submitBtnLabel") as HTMLSpanElement | null;
+  const submitBtnSpinner = document.getElementById("submitBtnSpinner") as HTMLSpanElement | null;
+  const message = document.getElementById("formMessage") as HTMLParagraphElement | null;
+  const flowAnnouncer = document.getElementById("flowAnnouncer") as HTMLParagraphElement | null;
+  const successCard = document.getElementById("successCard") as HTMLElement | null;
   const submitSink = document.querySelector('iframe[name="ac10SubmitSink"]');
   
   // Auto-fill related elements
-  const challenge9Section = document.getElementById("challenge9Section");
-  const challenge9Yes = document.getElementById("challenge9Yes");
-  const challenge9No = document.getElementById("challenge9No");
-  const discordLookupContainer = document.getElementById("discordLookupContainer");
-  const discordLookupInput = document.getElementById("discordLookupInput");
-  const lookupBtn = document.getElementById("lookupBtn");
-  const lookupMessage = document.getElementById("lookupMessage");
+  const challenge9Section = document.getElementById("challenge9Section") as HTMLElement | null;
+  const challenge9Yes = document.getElementById("challenge9Yes") as HTMLInputElement | null;
+  const challenge9No = document.getElementById("challenge9No") as HTMLInputElement | null;
+  const discordLookupContainer = document.getElementById("discordLookupContainer") as HTMLElement | null;
+  const discordPickerTrigger = document.getElementById("discordPickerTrigger") as HTMLButtonElement | null;
+  const discordPickerValue = document.getElementById("discordPickerValue") as HTMLSpanElement | null;
+  const discordPickerModal = document.getElementById("discordPickerModal") as HTMLDivElement | null;
+  const discordPickerOverlay = document.getElementById("discordPickerOverlay") as HTMLDivElement | null;
+  const discordPickerClose = document.getElementById("discordPickerClose") as HTMLButtonElement | null;
+  const discordPickerSearch = document.getElementById("discordPickerSearch") as HTMLInputElement | null;
+  const discordPickerList = document.getElementById("discordPickerList") as HTMLDivElement | null;
+  const discordPickerEmpty = document.getElementById("discordPickerEmpty") as HTMLParagraphElement | null;
+  const lookupMessage = document.getElementById("lookupMessage") as HTMLParagraphElement | null;
   
   // Conditional flow elements
-  const commitYes = document.getElementById("commitYes");
-  const commitNo = document.getElementById("commitNo");
-  const pathABanner = document.getElementById("pathABanner");
-  const feeSection = document.getElementById("feeSection");
-  const feePaid = document.getElementById("feePaid");
-  const feeUnpaid = document.getElementById("feeUnpaid");
-  const infoSection = document.getElementById("infoSection");
+  const commitmentSection = document.getElementById("commitmentSection") as HTMLElement | null;
+  const commitYes = document.getElementById("commitYes") as HTMLInputElement | null;
+  const commitNo = document.getElementById("commitNo") as HTMLInputElement | null;
+  const pathABanner = document.getElementById("pathABanner") as HTMLElement | null;
+  const feeSection = document.getElementById("feeSection") as HTMLElement | null;
+  const feeRequiredMark = document.getElementById("feeRequiredMark") as HTMLElement | null;
+  const feePaid = document.getElementById("feePaid") as HTMLInputElement | null;
+  const feeUnpaid = document.getElementById("feeUnpaid") as HTMLInputElement | null;
+  const infoSection = document.getElementById("infoSection") as HTMLElement | null;
   
   // Excellence completers data (cached)
-  let excellenceCompleters = null;
+  let excellenceCompleters: CompleterRecord[] | null = null;
+  let pickerFilteredCompleters: CompleterRecord[] = [];
+
+  function showLookupMessage(text: string, tone = "helper") {
+    if (!lookupMessage) {
+      return;
+    }
+
+    lookupMessage.textContent = text;
+    lookupMessage.className = tone;
+    lookupMessage.classList.remove("hidden");
+  }
+
+  function updateFlowAnnouncement(text: string) {
+    if (flowAnnouncer) {
+      flowAnnouncer.textContent = text;
+    }
+  }
+
+  function isValidFacebookLink(value: string) {
+    const normalized = value.trim().toLowerCase();
+
+    if (!normalized) {
+      return false;
+    }
+
+    return normalized.includes("fb.com") || normalized.includes("facebook.com");
+  }
+
+  function syncSpecialFieldValidity(field: ValidField) {
+    field.setCustomValidity("");
+
+    const fieldName = field.getAttribute("name");
+    if (fieldName !== "entry.1749653006" || !(field instanceof HTMLInputElement)) {
+      return;
+    }
+
+    if (!field.value.trim()) {
+      field.setCustomValidity("Trường này là bắt buộc.");
+      return;
+    }
+
+    if (!isValidFacebookLink(field.value)) {
+      field.setCustomValidity("Link Facebook phải chứa fb.com hoặc facebook.com.");
+    }
+  }
+
+  function addRequiredMarkers() {
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    form.querySelectorAll("label").forEach((label) => {
+      const requiredField = label.querySelector("input[required], select[required], textarea[required]");
+      const title = label.querySelector("span");
+
+      if (requiredField && title) {
+        title.classList.add("required-label");
+      }
+    });
+  }
+
+  function syncRadioVisualState(groupName: string) {
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const radios = form.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${groupName}"]`);
+    radios.forEach((radio) => {
+      const label = radio.closest("label");
+      if (!label) {
+        return;
+      }
+      label.classList.toggle("is-selected", radio.checked);
+    });
+  }
+
+  function setupRadioVisualState() {
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    const groupNames = new Set<string>();
+    form.querySelectorAll<HTMLInputElement>('input[type="radio"][name]').forEach((radio) => {
+      groupNames.add(radio.name);
+      radio.addEventListener("change", () => {
+        syncRadioVisualState(radio.name);
+      });
+    });
+
+    groupNames.forEach((groupName) => {
+      syncRadioVisualState(groupName);
+    });
+  }
+
+  function updateStepIndicators() {
+    const indicators = document.querySelectorAll<HTMLElement>('.step-indicator');
+    
+    const step1Active = commitmentSection && !commitmentSection.classList.contains('hidden');
+    const step2Active = challenge9Section && !challenge9Section.classList.contains('hidden');
+    const step3Active = infoSection && !infoSection.classList.contains('hidden');
+
+    indicators.forEach((indicator) => {
+      const step = indicator.getAttribute('data-step');
+      indicator.classList.remove('step-indicator-active');
+      if (step === '1' && step1Active) {
+        indicator.classList.add('step-indicator-active');
+      } else if (step === '2' && step2Active) {
+        indicator.classList.add('step-indicator-active');
+      } else if (step === '3' && step3Active) {
+        indicator.classList.add('step-indicator-active');
+      }
+    });
+  }
+
+  function getFieldErrorElement(field: ValidField): HTMLParagraphElement | null {
+    const fieldset = field.closest("fieldset.radio-group");
+    if (fieldset) {
+      let errorEl = fieldset.querySelector<HTMLParagraphElement>(".field-error");
+      if (!errorEl) {
+        errorEl = document.createElement("p");
+        errorEl.className = "field-error";
+        errorEl.setAttribute("aria-live", "polite");
+        fieldset.appendChild(errorEl);
+      }
+      return errorEl as HTMLParagraphElement;
+    }
+
+    const wrapper = field.closest("label") || field.closest(".input-with-btn") || field.parentElement;
+    if (!wrapper) {
+      return null;
+    }
+
+    let errorEl = wrapper.querySelector<HTMLParagraphElement>(".field-error");
+    if (!errorEl) {
+      errorEl = document.createElement("p");
+      errorEl.className = "field-error";
+      errorEl.setAttribute("aria-live", "polite");
+      wrapper.appendChild(errorEl);
+    }
+    return errorEl as HTMLParagraphElement;
+  }
+
+  function getCustomFieldMessage(field: ValidField): string {
+    const fieldName = field.getAttribute("name");
+
+    if (field.validity.valueMissing) {
+      return "Trường này là bắt buộc.";
+    }
+
+    if (fieldName === "entry.182062064" && field.validity.patternMismatch) {
+      return "Năm sinh cần đúng 4 chữ số (ví dụ: 2001).";
+    }
+
+    if (fieldName === "entry.460661342" && field.validity.patternMismatch) {
+      return "Số điện thoại phải bắt đầu bằng 0 và có đúng 10 số.";
+    }
+
+    if (fieldName === "entry.1749653006" && field.validationMessage) {
+      return field.validationMessage;
+    }
+
+    return field.validationMessage || "Giá trị nhập chưa hợp lệ.";
+  }
+
+  function setFieldError(field: ValidField, text: string) {
+    const errorEl = getFieldErrorElement(field);
+    if (!errorEl) {
+      return;
+    }
+
+    errorEl.textContent = text;
+    errorEl.classList.add("visible");
+    field.setAttribute("aria-invalid", "true");
+  }
+
+  function clearFieldError(field: ValidField) {
+    const errorEl = getFieldErrorElement(field);
+    if (errorEl) {
+      errorEl.textContent = "";
+      errorEl.classList.remove("visible");
+    }
+    field.removeAttribute("aria-invalid");
+  }
+
+  function clearAllFieldErrors() {
+    if (!(form instanceof HTMLFormElement)) {
+      return;
+    }
+
+    form.querySelectorAll(".field-error").forEach((el) => {
+      el.textContent = "";
+      el.classList.remove("visible");
+    });
+
+    form.querySelectorAll("[aria-invalid='true']").forEach((el) => {
+      el.removeAttribute("aria-invalid");
+    });
+  }
+
+  function isElementVisible(element: HTMLElement): boolean {
+    const rect = element.getBoundingClientRect();
+    return element.getClientRects().length > 0 && rect.width > 0 && rect.height > 0;
+  }
+
+  function validateVisibleFields() {
+    if (!(form instanceof HTMLFormElement)) {
+      return true;
+    }
+
+    clearAllFieldErrors();
+
+    const candidates = Array.from(form.querySelectorAll<ValidField>("input, select, textarea"))
+      .filter((field) => {
+        if (!field.willValidate) {
+          return false;
+        }
+
+        if (field instanceof HTMLInputElement && field.type === "hidden") {
+          return false;
+        }
+
+        return isElementVisible(field);
+      });
+
+    const invalidFields = candidates.filter((field) => {
+      syncSpecialFieldValidity(field);
+      return !field.checkValidity();
+    });
+
+    if (invalidFields.length > 0) {
+      invalidFields.forEach((field) => {
+        setFieldError(field, getCustomFieldMessage(field));
+      });
+
+      invalidFields[0].focus();
+      return false;
+    }
+
+    return true;
+  }
 
   // Fetch excellence completers data
   async function loadExcellenceCompleters() {
     if (excellenceCompleters) return excellenceCompleters;
     try {
-      const response = await fetch('/data/excellence_completers_challenge_9.json');
+      const response = await fetch('/data/users.json');
       if (!response.ok) throw new Error('Failed to fetch');
-      excellenceCompleters = await response.json();
+      const json = await response.json();
+      const users = (json.data || []) as CompleterRecord[];
+      excellenceCompleters = users
+        .filter((user) => 
+          typeof user.discordNickname === "string" && 
+          user.discordNickname.trim().length > 0 &&
+          user.challengeIds && 
+          user.challengeIds.includes(2)
+        )
+        .sort((a, b) => a.discordNickname.localeCompare(b.discordNickname, "vi"));
+      pickerFilteredCompleters = [...excellenceCompleters];
       return excellenceCompleters;
     } catch (error) {
       console.error('Error loading excellence completers:', error);
-      lookupMessage.textContent = "Lỗi tải dữ liệu. Vui lòng thử lại.";
-      lookupMessage.className = "helper error";
-      lookupMessage.classList.remove("hidden");
+      showLookupMessage("Lỗi tải dữ liệu. Vui lòng thử lại.", "helper error");
       return null;
     }
   }
 
+  function resetPickerLabel() {
+    if (discordPickerValue) {
+      discordPickerValue.textContent = "Nhấn để chọn nickname từ danh sách";
+    }
+  }
+
+  function openPickerModal() {
+    if (!discordPickerModal || !discordPickerTrigger) {
+      return;
+    }
+
+    discordPickerModal.classList.remove("hidden");
+    discordPickerTrigger.setAttribute("aria-expanded", "true");
+    if (discordPickerSearch) {
+      discordPickerSearch.focus();
+    }
+  }
+
+  function closePickerModal() {
+    if (!discordPickerModal || !discordPickerTrigger) {
+      return;
+    }
+
+    discordPickerModal.classList.add("hidden");
+    discordPickerTrigger.setAttribute("aria-expanded", "false");
+    discordPickerTrigger.focus();
+  }
+
+  function renderPickerList() {
+    if (!discordPickerList || !discordPickerEmpty) {
+      return;
+    }
+
+    discordPickerList.innerHTML = "";
+
+    if (pickerFilteredCompleters.length === 0) {
+      discordPickerEmpty.classList.remove("hidden");
+      return;
+    }
+
+    discordPickerEmpty.classList.add("hidden");
+
+    const fragment = document.createDocumentFragment();
+    pickerFilteredCompleters.forEach((completer) => {
+      const optionBtn = document.createElement("button");
+      optionBtn.type = "button";
+      optionBtn.className = "picker-option";
+      optionBtn.setAttribute("role", "option");
+      optionBtn.innerHTML = `
+        <span class="picker-option-nick">${completer.discordNickname}</span>
+        <span class="picker-option-name">${completer.name || "Không có tên"}</span>
+      `;
+
+      optionBtn.addEventListener("click", () => {
+        if (discordPickerValue) {
+          discordPickerValue.textContent = completer.discordNickname;
+        }
+        autoFillFields(completer);
+        closePickerModal();
+      });
+
+      fragment.appendChild(optionBtn);
+    });
+
+    discordPickerList.appendChild(fragment);
+  }
+
+  function filterPickerList(keyword: string) {
+    const source = excellenceCompleters ?? [];
+    const searchTerm = keyword.trim().toLowerCase();
+
+    if (!searchTerm) {
+      pickerFilteredCompleters = [...source];
+      renderPickerList();
+      return;
+    }
+
+    pickerFilteredCompleters = source.filter((item) => {
+      const nick = item.discordNickname.toLowerCase();
+      const name = (item.name || "").toLowerCase();
+      return nick.includes(searchTerm) || name.includes(searchTerm);
+    });
+    renderPickerList();
+  }
+
   // Auto-fill form fields from excellence completer data
-  function autoFillFields(completer) {
-    const nameInput = form.querySelector('input[name="entry.582716327"]');
-    const birthYearInput = form.querySelector('input[name="entry.182062064"]');
-    const facebookInput = form.querySelector('input[name="entry.1749653006"]');
-    const nicknameInput = form.querySelector('input[name="entry.2074934601"]');
+  function autoFillFields(completer: CompleterRecord) {
+    if (!form) {
+      return;
+    }
+
+    const nameInput = form.querySelector<HTMLInputElement>('input[name="entry.582716327"]');
+    const birthYearInput = form.querySelector<HTMLInputElement>('input[name="entry.182062064"]');
+    const facebookInput = form.querySelector<HTMLInputElement>('input[name="entry.1749653006"]');
+    const nicknameInput = form.querySelector<HTMLInputElement>('input[name="entry.2074934601"]');
     
     if (nameInput) nameInput.value = completer.name || '';
     if (birthYearInput) birthYearInput.value = (completer.birthYear || '').toString();
     if (facebookInput) facebookInput.value = completer.facebookUrl || '';
     if (nicknameInput) nicknameInput.value = completer.discordNickname || '';
     
-    lookupMessage.textContent = `✓ Tìm thấy: ${completer.name}. Bạn có thể chỉnh sửa các trường này.`;
-    lookupMessage.className = "helper success";
-    lookupMessage.classList.remove("hidden");
-    
-    // Disable lookup input/button after successful match
-    discordLookupInput.setAttribute("disabled", "true");
-    lookupBtn.setAttribute("disabled", "true");
+    showLookupMessage(`✓ Đã chọn: ${completer.discordNickname}. Bạn có thể chỉnh sửa các trường này.`, "helper success");
   }
 
-  // Search for excellence completer by Discord nickname (partial match)
-  async function searchCompleter(discordNickname) {
-    if (!discordNickname.trim()) {
-      lookupMessage.textContent = "Vui lòng nhập Discord Nickname.";
-      lookupMessage.className = "helper error";
-      lookupMessage.classList.remove("hidden");
-      return;
-    }
+  if (form instanceof HTMLFormElement && submitBtn && submitBtnLabel && submitBtnSpinner && message && successCard) {
+    addRequiredMarkers();
+    setupRadioVisualState();
+    updateStepIndicators();
 
-    lookupMessage.textContent = "Đang tìm...";
-    lookupMessage.className = "helper";
-    lookupMessage.classList.remove("hidden");
-
-    const data = await loadExcellenceCompleters();
-    if (!data || !data.data) {
-      lookupMessage.textContent = "Không thể tải dữ liệu.";
-      lookupMessage.className = "helper error";
-      return;
-    }
-
-    const searchTerm = discordNickname.toLowerCase().trim();
-    const matches = data.data.filter(c => 
-      c.discordNickname.toLowerCase().includes(searchTerm)
-    );
-
-    if (matches.length === 0) {
-      lookupMessage.textContent = `Không tìm thấy "${discordNickname}". Kiểm tra lại tên.`;
-      lookupMessage.className = "helper error";
-      lookupMessage.classList.remove("hidden");
-    } else if (matches.length === 1) {
-      autoFillFields(matches[0]);
-    } else {
-      lookupMessage.textContent = `Tìm thấy ${matches.length} kết quả. Hãy nhập tên đầy đủ hơn.`;
-      lookupMessage.className = "helper warning";
-      lookupMessage.classList.remove("hidden");
-    }
-  }
-
-  if (form instanceof HTMLFormElement && submitBtn && message && successCard) {
     let isSubmitting = false;
     let submitted = false;
+
+    const isSubmitWorkflowOpen = () => {
+      const choseCommitment = Boolean(commitYes?.checked);
+      const choseChallenge9 = Boolean(challenge9Yes?.checked || challenge9No?.checked);
+      const pathBComplete = challenge9No?.checked ? Boolean(feePaid?.checked) : true;
+      const infoIsOpen = Boolean(infoSection && !infoSection.classList.contains("hidden"));
+
+      return choseCommitment && choseChallenge9 && pathBComplete && infoIsOpen;
+    };
+
+    const hasAllVisibleRequiredFieldsValid = () => {
+      const requiredVisibleFields = Array.from(form.querySelectorAll<ValidField>("input, select, textarea"))
+        .filter((field) => {
+          if (!field.willValidate || !field.required) {
+            return false;
+          }
+
+          if (field instanceof HTMLInputElement && field.type === "hidden") {
+            return false;
+          }
+
+          return isElementVisible(field);
+        })
+        .map((field) => {
+          syncSpecialFieldValidity(field);
+          return field;
+        });
+
+      return requiredVisibleFields.length > 0 && requiredVisibleFields.every((field) => field.checkValidity());
+    };
+
+    const refreshSubmitAvailability = () => {
+      const workflowOpen = isSubmitWorkflowOpen();
+
+      if (submitActions) {
+        submitActions.classList.toggle("hidden", !workflowOpen);
+      }
+
+      if (!workflowOpen || isSubmitting || !hasAllVisibleRequiredFieldsValid()) {
+        submitBtn.setAttribute("disabled", "true");
+        return;
+      }
+
+      submitBtn.removeAttribute("disabled");
+    };
+
+    const interactiveFields = form.querySelectorAll<ValidField>("input, select, textarea");
+    interactiveFields.forEach((field) => {
+      field.addEventListener("input", () => {
+        syncSpecialFieldValidity(field);
+        clearFieldError(field);
+        refreshSubmitAvailability();
+      });
+
+      field.addEventListener("change", () => {
+        syncSpecialFieldValidity(field);
+        clearFieldError(field);
+        refreshSubmitAvailability();
+      });
+
+      field.addEventListener("blur", () => {
+        syncSpecialFieldValidity(field);
+        if (isElementVisible(field) && !field.checkValidity()) {
+          setFieldError(field, getCustomFieldMessage(field));
+        }
+        refreshSubmitAvailability();
+      });
+    });
+
+    refreshSubmitAvailability();
 
     if (submitSink instanceof HTMLIFrameElement) {
       submitSink.addEventListener("load", () => {
@@ -331,14 +807,17 @@ const googleFormFbzx = "5793887780826789600";
     }
 
     // Commitment selection handlers
-    if (commitYes && commitNo && challenge9Section) {
+    if (commitYes && commitNo && challenge9Section && pathABanner && feeSection && infoSection && challenge9Yes && challenge9No) {
       commitYes.addEventListener("change", () => {
         if (commitYes.checked) {
           challenge9Section.classList.remove("hidden");
+          updateFlowAnnouncement("Đã mở bước chọn kết quả Challenge 9.");
+          updateStepIndicators();
           // Re-trigger the selected option if any
           if (challenge9Yes.checked) challenge9Yes.dispatchEvent(new Event('change'));
           if (challenge9No.checked) challenge9No.dispatchEvent(new Event('change'));
         }
+        refreshSubmitAvailability();
       });
 
       commitNo.addEventListener("change", () => {
@@ -347,74 +826,146 @@ const googleFormFbzx = "5793887780826789600";
           pathABanner.classList.add("hidden");
           feeSection.classList.add("hidden");
           infoSection.classList.add("hidden");
+          updateFlowAnnouncement("Bạn đã chọn cần cân nhắc thêm. Các bước đăng ký phía dưới đang được ẩn.");
+          updateStepIndicators();
         }
+        refreshSubmitAvailability();
       });
     }
 
     // Challenge 9 selection handlers
-    if (challenge9Yes && challenge9No) {
+    if (challenge9Yes && challenge9No && pathABanner && infoSection && feeSection && feePaid && feeUnpaid) {
       challenge9Yes.addEventListener("change", () => {
         if (challenge9Yes.checked) {
           pathABanner.classList.remove("hidden");
           infoSection.classList.remove("hidden");
           feeSection.classList.add("hidden");
+          if (feeRequiredMark) {
+            feeRequiredMark.classList.add("hidden");
+          }
           
           // Remove required from fee status
           feePaid.removeAttribute("required");
           feeUnpaid.removeAttribute("required");
+          updateFlowAnnouncement("Bạn đang ở Path A. Đã mở phần tự động điền và thông tin đăng ký.");
+          updateStepIndicators();
 
           // Pre-load excellence completers data
           loadExcellenceCompleters();
         }
+        refreshSubmitAvailability();
       });
 
       challenge9No.addEventListener("change", () => {
         if (challenge9No.checked) {
           pathABanner.classList.add("hidden");
           feeSection.classList.remove("hidden");
+          if (feeRequiredMark) {
+            feeRequiredMark.classList.remove("hidden");
+          }
           
           // Add required back to fee status
           feePaid.setAttribute("required", "true");
           feeUnpaid.setAttribute("required", "true");
 
-          // If a fee option wasn't already selected, hide info section
-          if (!feePaid.checked && !feeUnpaid.checked) {
+          // Chỉ mở form thông tin khi người dùng đã xác nhận đóng phí.
+          if (!feePaid.checked) {
             infoSection.classList.add("hidden");
           } else {
             infoSection.classList.remove("hidden");
           }
+          updateFlowAnnouncement("Bạn đang ở Path B. Vui lòng chọn trạng thái đóng phí để tiếp tục.");
+          updateStepIndicators();
 
           // Reset lookup state
-          lookupMessage.classList.add("hidden");
-          discordLookupInput.value = "";
-          discordLookupInput.removeAttribute("disabled");
-          lookupBtn.removeAttribute("disabled");
+          if (lookupMessage) {
+            lookupMessage.classList.add("hidden");
+          }
+          if (discordPickerSearch) {
+            discordPickerSearch.value = "";
+          }
+          resetPickerLabel();
         }
+        refreshSubmitAvailability();
       });
     }
 
     // Fee status selection handlers (Path B)
     if (feePaid && feeUnpaid && infoSection) {
       feePaid.addEventListener("change", () => {
-        if (feePaid.checked) infoSection.classList.remove("hidden");
+        if (feePaid.checked) {
+          infoSection.classList.remove("hidden");
+          updateFlowAnnouncement("Đã mở các trường thông tin sau khi chọn trạng thái đóng phí.");
+          updateStepIndicators();
+        }
+        refreshSubmitAvailability();
       });
       feeUnpaid.addEventListener("change", () => {
-        if (feeUnpaid.checked) infoSection.classList.remove("hidden");
+        if (feeUnpaid.checked) {
+          infoSection.classList.add("hidden");
+          updateFlowAnnouncement("Bạn cần đóng phí trước khi mở phần nhập thông tin đăng ký.");
+          updateStepIndicators();
+        }
+        refreshSubmitAvailability();
       });
     }
 
-    // Discord lookup button handler
-    if (lookupBtn && discordLookupInput) {
-      lookupBtn.addEventListener("click", (e) => {
-        e.preventDefault();
-        searchCompleter(discordLookupInput.value);
+    if (discordPickerTrigger && discordPickerModal && discordPickerClose && discordPickerOverlay) {
+      discordPickerTrigger.addEventListener("click", async () => {
+        const users = await loadExcellenceCompleters();
+        if (!users) {
+          return;
+        }
+
+        pickerFilteredCompleters = [...users];
+        renderPickerList();
+        if (discordPickerSearch) {
+          discordPickerSearch.value = "";
+        }
+        openPickerModal();
       });
 
-      // Allow Enter key to trigger search
-      discordLookupInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-          e.preventDefault();
-          searchCompleter(discordLookupInput.value);
+      discordPickerClose.addEventListener("click", closePickerModal);
+      discordPickerOverlay.addEventListener("click", closePickerModal);
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !discordPickerModal.classList.contains("hidden")) {
+          closePickerModal();
+        }
+      });
+    }
+
+    if (discordPickerSearch && discordPickerModal && discordPickerList) {
+      discordPickerSearch.addEventListener("input", () => {
+        filterPickerList(discordPickerSearch.value);
+      });
+
+      discordPickerModal.addEventListener("keydown", (event) => {
+        const options = Array.from(discordPickerList.querySelectorAll<HTMLButtonElement>(".picker-option"));
+        const currentIndex = options.indexOf(document.activeElement as HTMLButtonElement);
+        const isSearchFocused = document.activeElement === discordPickerSearch;
+
+        if (event.key === "ArrowDown") {
+          event.preventDefault();
+          if (options.length === 0) return;
+          if (isSearchFocused || currentIndex === -1) {
+            options[0].focus();
+          } else if (currentIndex < options.length - 1) {
+            options[currentIndex + 1].focus();
+          }
+        } else if (event.key === "ArrowUp") {
+          event.preventDefault();
+          if (options.length === 0) return;
+          if (currentIndex > 0) {
+            options[currentIndex - 1].focus();
+          } else if (currentIndex === 0) {
+            discordPickerSearch.focus();
+          }
+        } else if (event.key === "Enter" && isSearchFocused) {
+          event.preventDefault();
+          if (options.length > 0) {
+            options[0].click();
+          }
         }
       });
     }
@@ -426,15 +977,31 @@ const googleFormFbzx = "5793887780826789600";
         return;
       }
 
-      if (!form.reportValidity()) {
-        message.textContent = "Vui lòng điền đầy đủ các trường bắt buộc.";
+      if (!isSubmitWorkflowOpen()) {
+        message.textContent = "Vui lòng hoàn thành các bước workflow trước khi gửi.";
+        message.className = "helper warning";
+        refreshSubmitAvailability();
+        return;
+      }
+
+      if (!hasAllVisibleRequiredFieldsValid()) {
+        message.textContent = "Vui lòng điền đầy đủ và hợp lệ các trường bắt buộc trước khi gửi.";
+        message.className = "helper warning";
+        refreshSubmitAvailability();
+        return;
+      }
+
+      if (!validateVisibleFields()) {
+        message.textContent = "Vui lòng kiểm tra các trường đang báo lỗi.";
         message.className = "helper error";
+        refreshSubmitAvailability();
         return;
       }
 
       isSubmitting = true;
       submitBtn.setAttribute("disabled", "true");
-      submitBtn.textContent = "Đang gửi...";
+      submitBtnLabel.textContent = "Đang gửi...";
+      submitBtnSpinner.classList.remove("hidden");
       message.textContent = "Đang gửi dữ liệu lên Google Form...";
       message.className = "helper";
 
@@ -448,8 +1015,9 @@ const googleFormFbzx = "5793887780826789600";
         submitted = false;
       } finally {
         isSubmitting = false;
-        submitBtn.removeAttribute("disabled");
-        submitBtn.textContent = "Gửi đăng ký";
+        submitBtnLabel.textContent = "Gửi đăng ký";
+        submitBtnSpinner.classList.add("hidden");
+        refreshSubmitAvailability();
       }
     });
   }
@@ -473,10 +1041,10 @@ const googleFormFbzx = "5793887780826789600";
   }
 
   .card {
-    border-radius: 22px;
-    border: 1px solid rgba(0, 226, 255, 0.3);
-    background: linear-gradient(160deg, rgba(18, 24, 56, 0.95), rgba(16, 45, 58, 0.9));
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    border-radius: 20px;
+    border: 2px solid rgba(0, 226, 255, 0.4);
+    background: #0f172a;
+    box-shadow: none;
   }
 
   .hero {
@@ -511,18 +1079,8 @@ const googleFormFbzx = "5793887780826789600";
     font-weight: 700;
   }
 
-  .popup-note {
-    margin-bottom: 0.9rem;
-    padding: 0.8rem 0.9rem;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(255, 145, 0, 0.22), rgba(255, 58, 123, 0.2));
-    border: 1px solid rgba(255, 176, 66, 0.42);
-    color: #ffe8c9;
-    font-size: 0.93rem;
-  }
-
   .form-card {
-    padding: 1rem;
+    padding: 1.5rem;
   }
 
   .grid {
@@ -542,13 +1100,16 @@ const googleFormFbzx = "5793887780826789600";
 
   .input-with-btn .help-btn {
     grid-column: 1 / -1;
-    width: 100%;
+    width: auto;
+    justify-self: start;
+    min-width: 132px;
   }
 
   label {
     display: grid;
     gap: 0.35rem;
     font-size: 0.9rem;
+    line-height: 1.45;
     color: #c9e8ff;
   }
 
@@ -556,25 +1117,52 @@ const googleFormFbzx = "5793887780826789600";
     font-weight: 600;
   }
 
+  .required-mark,
+  .required-label::after {
+    content: " *";
+    color: #ff9ea8;
+    font-weight: 700;
+  }
+
   input,
   select {
-    border: 1px solid rgba(152, 215, 255, 0.35);
+    border: 1.5px solid rgba(152, 215, 255, 0.35);
     background: rgba(8, 13, 34, 0.84);
     color: #ecf5ff;
     border-radius: 12px;
-    padding: 0.7rem 0.75rem;
+    padding: 0.8rem 0.85rem;
+    min-height: 48px;
+    font-size: 1rem;
+    font-family: inherit;
     outline: none;
-    transition: border-color 0.16s ease, box-shadow 0.16s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(4px);
   }
 
   input::placeholder {
-    color: #8eb4d7;
+    color: #8ab2d4;
+    opacity: 0.85;
+    font-style: italic;
   }
 
   input:focus,
   select:focus {
     border-color: #00d4ff;
-    box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.18);
+    background: rgba(8, 13, 34, 0.92);
+    box-shadow: none;
+  }
+
+  input:invalid:not(:placeholder-shown) {
+    border-color: #ff6b9d;
+    background: rgba(255, 107, 157, 0.08);
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  a:focus-visible {
+    outline: 3px solid rgba(0, 255, 148, 0.72);
+    outline-offset: 2px;
   }
 
   /* Hide number input spinners */
@@ -600,20 +1188,35 @@ const googleFormFbzx = "5793887780826789600";
     border-radius: 999px;
     border: 0;
     text-decoration: none;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1.2rem;
     font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   button {
     cursor: pointer;
-    background: linear-gradient(120deg, #00ff94, #00d9ff);
-    color: #052431;
-    box-shadow: 0 8px 24px rgba(0, 255, 148, 0.3);
+    background: #00ff94;
+    color: #061c27;
+    box-shadow: none;
+    letter-spacing: 0.02em;
+    font-size: 1rem;
+  }
+
+  button:hover:not([disabled]) {
+    background: #00e082;
+    transform: translateY(-2px);
+    box-shadow: none;
+  }
+
+  button:active:not([disabled]) {
+    transform: translateY(0);
+    box-shadow: none;
   }
 
   button[disabled] {
-    opacity: 0.65;
+    opacity: 0.6;
     cursor: not-allowed;
+    filter: grayscale(0.6);
   }
 
   .ghost-btn {
@@ -623,8 +1226,8 @@ const googleFormFbzx = "5793887780826789600";
   }
 
   .help-btn {
-    background: rgba(0, 212, 255, 0.15);
-    color: #7dd3ff;
+    background: rgba(0, 212, 255, 0.2);
+    color: #c8ecff;
     border: 1px solid rgba(0, 212, 255, 0.4);
     border-radius: 12px !important;
     padding: 0.6rem 0.8rem !important;
@@ -635,9 +1238,9 @@ const googleFormFbzx = "5793887780826789600";
   }
 
   .help-btn:hover {
-    background: rgba(0, 212, 255, 0.25);
-    border-color: rgba(0, 212, 255, 0.6);
-    box-shadow: 0 0 12px rgba(0, 212, 255, 0.2);
+    background: rgba(0, 212, 255, 0.3);
+    border-color: rgba(0, 212, 255, 0.8);
+    box-shadow: none !important;
   }
 
   .helper {
@@ -647,7 +1250,25 @@ const googleFormFbzx = "5793887780826789600";
   }
 
   .helper.error {
-    color: #ffb7b7;
+    color: #ffd4d8;
+  }
+
+  .field-error {
+    margin: 0.3rem 0 0;
+    color: #ffd4d8;
+    font-size: 0.85rem;
+    min-height: 1.1rem;
+    display: none;
+  }
+
+  .field-error.visible {
+    display: block;
+  }
+
+  .hint-text {
+    margin: 0.35rem 0 0;
+    color: #b7d8ff;
+    font-size: 0.83rem;
   }
 
   .radio-group {
@@ -665,79 +1286,365 @@ const googleFormFbzx = "5793887780826789600";
   .radio-options {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
+    gap: 0.75rem;
+  }
+
+  /* Step Indicators */
+  .step-indicators {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    padding: 1.2rem 0;
+  }
+
+  .step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    position: relative;
+    z-index: 2;
+    flex: 0 0 auto;
+    opacity: 0.5;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .step-indicator.step-indicator-active {
+    opacity: 1;
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(0, 212, 255, 0.18);
+    border: 2px solid rgba(0, 212, 255, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #00d4ff;
+    transition: all 0.3s ease;
+  }
+
+  .step-indicator.step-indicator-active .step-number {
+    background: rgba(0, 255, 148, 0.15);
+    border-color: #00ff94;
+    color: #00ff94;
+    box-shadow: none;
+  }
+
+  .step-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #98d7ff;
+    transition: color 0.3s ease;
+  }
+
+  .step-indicator.step-indicator-active .step-label {
+    color: #4affb5;
+  }
+
+  .step-indicator-connector {
+    flex: 1;
+    max-width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(0, 212, 255, 0.3), rgba(0, 212, 255, 0.1));
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Step Container Animations */
+  .step-container {
+    animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .step-container.hidden {
+    display: none;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .radio-label {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 80px;
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0, 212, 255, 0.32);
+    background: rgba(8, 13, 34, 0.55);
     cursor: pointer;
-    font-weight: normal;
+    font-weight: 500;
     color: #ecf5ff;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+  }
+
+  .radio-label:hover {
+    border-color: rgba(0, 212, 255, 0.8);
+    background: rgba(0, 212, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: none;
+  }
+
+  .radio-label:focus-within {
+    outline: 3px solid rgba(0, 255, 148, 0.72);
+    outline-offset: 2px;
+  }
+
+  .radio-label.is-selected {
+    border-color: #00ff94;
+    background: rgba(0, 255, 148, 0.12);
+    box-shadow: none;
+    transform: translateY(-2px);
   }
 
   .radio-label input[type="radio"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: #00ff94;
+    position: absolute;
+    width: 1px;
+    height: 1px;
     margin: 0;
     padding: 0;
-    border-radius: 50%;
+    border: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
   }
 
   .radio-label span {
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.01em;
   }
 
   .success-card {
-    padding: 1.2rem;
-    border-color: rgba(0, 255, 148, 0.5);
+    padding: 2rem 1.2rem;
+    border-color: rgba(0, 255, 148, 0.6);
     background: linear-gradient(160deg, rgba(10, 54, 43, 0.95), rgba(13, 36, 72, 0.95));
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: successSlideIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .success-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 255, 148, 0.1), transparent 70%);
+    pointer-events: none;
+  }
+
+  @keyframes successSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   .success-card h2 {
-    margin: 0;
+    margin: 0 0 0.8rem 0;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    color: #4affb5;
+    position: relative;
+    z-index: 1;
   }
 
   .success-card p {
-    color: #c7ffe7;
+    color: #a8ffe0;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Confetti Animation */
+  .success-card::after {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 0;
+    right: 0;
+    height: 100%;
+    pointer-events: none;
+    background: 
+      linear-gradient(45deg, transparent 40%, #00ff94 50%, transparent 60%) 0 0 / 60px 60px,
+      linear-gradient(-45deg, transparent 40%, #00d4ff 50%, transparent 60%) 0 0 / 80px 80px,
+      linear-gradient(45deg, transparent 40%, #ff6b9d 50%, transparent 60%) 0 0 / 50px 50px;
+    background-size: 60px 60px, 80px 80px, 50px 50px;
+    background-repeat: repeat;
+    background-position: 0 0, 20px 20px, 10px 30px;
+    opacity: 0;
+    filter: blur(0.5px);
+    animation: confettiFall 2.8s ease-in forwards;
+  }
+
+  @keyframes confettiFall {
+    0% {
+      opacity: 1;
+      transform: translateY(-100%) rotateX(0deg) rotateZ(0deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(120vh) rotateX(720deg) rotateZ(359deg);
+    }
   }
 
   .success-banner {
-    padding: 1.2rem;
-    border-radius: 12px;
-    background: linear-gradient(135deg, rgba(0, 255, 148, 0.15), rgba(0, 212, 255, 0.1));
-    border: 1px solid rgba(0, 255, 148, 0.4);
+    padding: 1.5rem;
+    border-radius: 16px;
+    background: rgba(0, 255, 148, 0.1);
+    border: 2px solid rgba(0, 255, 148, 0.6);
     text-align: center;
+    box-shadow: none;
   }
 
-  .success-banner h3 {
+  .success-banner h2 {
     color: #4affb5;
-    margin: 0 0 0.6rem 0;
-    font-size: 1.15rem;
+    margin: 0 0 0.8rem 0;
+    font-size: 1.3rem;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
 
   .success-banner p {
     font-size: 0.95rem;
     margin-bottom: 1rem;
-    line-height: 1.5;
+    line-height: 1.6;
+    color: #a8ffe0;
+  }
+
+  .qr-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 1rem;
   }
 
   .qr-container {
     background: rgba(255, 255, 255, 0.95);
-    display: inline-block;
-    padding: 0.8rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.25rem;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+    border: 3px solid rgba(0, 212, 255, 0.6);
+  }
+
+  .qr-container img {
+    display: block;
+    border-radius: 6px;
+  }
+
+  .bank-details {
+    background: rgba(8, 13, 34, 0.7);
+    border: 1px solid rgba(152, 215, 255, 0.25);
     border-radius: 12px;
-    margin-top: 0.5rem;
+    padding: 0.8rem 1.2rem;
+    text-align: center;
+    color: #eaf5ff;
+    font-size: 0.9rem;
+    width: min(100%, 320px);
+  }
+
+  .bank-details p {
+    margin: 0.35rem 0;
+    line-height: 1.4;
+  }
+
+  .stk-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0.2rem 0 !important;
+  }
+
+  .stk-number {
+    font-family: monospace;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+  }
+
+  .copy-btn {
+    background: rgba(0, 255, 148, 0.12);
+    border: 1px solid rgba(0, 255, 148, 0.35);
+    color: #4affb5;
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .copy-btn:hover {
+    background: rgba(0, 255, 148, 0.25);
+    border-color: #00ff94;
+    color: #fff;
+    transform: translateY(-1px);
+  }
+
+  .bank-details strong {
+    color: #00ff94;
+    font-weight: 500;
+  }
+
+  .btn-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2.5px solid rgba(5, 36, 49, 0.25);
+    border-top-color: #052431;
+    border-right-color: #052431;
+    border-radius: 50%;
+    margin-left: 0.6rem;
+    animation: spinPulse 0.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    vertical-align: middle;
+  }
+
+  @keyframes spinPulse {
+    0% {
+      transform: rotate(0deg) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(360deg) scale(1);
+      opacity: 1;
+    }
   }
 
   .qr-note {
-    color: #0b1d2c !important;
-    font-size: 0.85rem !important;
-    margin: 0.4rem 0 0 0 !important;
-    font-weight: 600;
+    color: #98d7ff !important;
+    font-size: 0.9rem !important;
+    margin: 0.2rem 0 0 0 !important;
+    font-weight: 500;
   }
 
   .lookup-section {
@@ -755,20 +1662,237 @@ const googleFormFbzx = "5793887780826789600";
     font-weight: 600;
   }
 
-  #discordLookupContainer .input-with-btn {
+  .picker-field {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .picker-label {
+    font-size: 0.9rem;
+    color: #c9e8ff;
+    font-weight: 600;
+  }
+
+  .picker-trigger {
+    width: 100%;
+    border-radius: 12px;
+    border: 1.5px solid rgba(152, 215, 255, 0.35);
+    background: rgba(8, 13, 34, 0.84);
+    color: #ecf5ff;
+    min-height: 48px;
+    padding: 0.8rem 0.85rem;
+    text-align: left;
+    font-weight: 500;
+    box-shadow: none;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .picker-trigger:hover {
+    border-color: rgba(0, 212, 255, 0.8);
+    background: rgba(8, 13, 34, 0.94);
+    transform: none;
+  }
+
+  .picker-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+  }
+
+  .picker-modal.hidden {
+    display: none;
+  }
+
+  .picker-modal-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(3, 9, 22, 0.65);
+    backdrop-filter: blur(6px);
+  }
+
+  .picker-modal-panel {
+    position: relative;
+    width: min(640px, 100%);
+    border-radius: 18px;
+    border: 1.5px solid rgba(0, 212, 255, 0.4);
+    background: #0f172a;
+    padding: 1.25rem;
+    box-shadow: none;
+    animation: modalScaleUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  @keyframes modalScaleUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .picker-modal-head {
     display: flex;
-    gap: 0.6rem;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-bottom: 0.8rem;
   }
 
-  #discordLookupContainer .input-with-btn label {
-    flex: 1;
+  .picker-modal-head h4 {
     margin: 0;
+    font-size: 1rem;
+    color: #c9e8ff;
   }
 
-  #discordLookupContainer .help-btn {
-    flex-shrink: 0;
-    margin: 0 !important;
+  .picker-close-btn {
+    min-height: 40px;
+    padding: 0.5rem 1rem;
+    border-radius: 12px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.1);
+    color: #c9e8ff;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+
+  .picker-close-btn:hover {
+    background: rgba(0, 212, 255, 0.2);
+    border-color: #00d4ff;
+    color: #ffffff;
+  }
+
+  .picker-search-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .search-input-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    color: #8ab2d4;
+    pointer-events: none;
+  }
+
+  .search-input-box input {
+    width: 100%;
+    padding-left: 2.8rem;
+    background: rgba(3, 9, 22, 0.5);
+    border-color: rgba(152, 215, 255, 0.25);
+  }
+
+  .picker-list {
+    display: flex;
+    flex-direction: column;
+    max-height: min(50vh, 320px);
+    overflow-y: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(152, 215, 255, 0.2);
+    background: rgba(3, 9, 22, 0.3);
+    padding: 0.4rem;
+    gap: 4px;
+  }
+
+  /* Custom Scrollbar for list */
+  .picker-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  .picker-list::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .picker-list::-webkit-scrollbar-thumb {
+    background: rgba(0, 212, 255, 0.25);
+    border-radius: 10px;
+  }
+  .picker-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 212, 255, 0.45);
+  }
+
+  :global(.picker-option) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 0.25rem;
+    text-align: left;
+    border: 1px solid transparent;
+    background: transparent;
+    color: #eaf5ff;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    min-height: 56px;
+    transition: all 0.2s;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  :global(.picker-option:hover), :global(.picker-option:focus-visible) {
+    background: rgba(0, 255, 148, 0.15);
+    border-color: rgba(0, 255, 148, 0.5);
+    outline: none;
+    transform: translateX(6px);
+  }
+
+  :global(.picker-option:last-child) {
+    border-bottom: 0;
+  }
+
+  :global(.picker-option-nick) {
+    font-size: 1rem;
+    color: #4affb5;
+    font-weight: 600;
+  }
+
+  :global(.picker-option-name) {
+    font-size: 0.85rem;
+    color: #8ab2d4;
+    font-weight: 500;
+  }
+
+  .picker-empty {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    color: #8ab2d4;
+    font-size: 0.95rem;
+    animation: fadeIn 0.3s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .payment-banner {
+    border-radius: 14px;
+    border: 1px solid rgba(152, 215, 255, 0.35);
+    background: rgba(0, 212, 255, 0.08);
+    padding: 1rem;
+    text-align: center;
+  }
+
+  .payment-banner h3 {
+    margin: 0 0 0.5rem;
+    color: #bce9ff;
+    font-size: 1.02rem;
+  }
+
+  .payment-banner p {
+    margin: 0;
+    color: #c9e8ff;
+    line-height: 1.55;
+    font-size: 0.9rem;
   }
 
   .helper.success {
@@ -777,6 +1901,18 @@ const googleFormFbzx = "5793887780826789600";
 
   .helper.warning {
     color: #ffd966;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   .hidden {
@@ -833,19 +1969,78 @@ const googleFormFbzx = "5793887780826789600";
     }
   }
 
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .geo-1,
+    .geo-2,
+    .btn-spinner,
+    .success-card::after {
+      animation: none !important;
+    }
+
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
   @media (max-width: 760px) {
     .grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
     }
 
     .card {
       border-radius: 16px;
     }
 
+    .step-indicators {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .step-indicator-connector {
+      display: none;
+    }
+
+    .step-indicator {
+      flex: 1;
+      min-width: 80px;
+    }
+
+    .step-number {
+      width: 40px;
+      height: 40px;
+      font-size: 0.95rem;
+    }
+
+    .step-label {
+      font-size: 0.7rem;
+    }
+
     .hero,
     .form-card,
     .success-card {
       padding: 1rem;
+    }
+
+    .radio-options {
+      gap: 0.85rem;
+    }
+
+    .picker-modal-panel {
+      max-height: calc(100dvh - 2rem);
+      overflow: auto;
     }
   }
 </style>
