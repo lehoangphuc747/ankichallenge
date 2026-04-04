@@ -224,7 +224,6 @@ import Layout from "../../layouts/Layout.astro";
         usersData.data?.filter((u) => !u.hidden).length || 0;
 
       // Today's check-ins
-      const today = new Date().toISOString().split("T")[0];
       const todayRecords = studyRecordsData[today] || {};
       const todayCheckins = Object.keys(todayRecords).length;
 
