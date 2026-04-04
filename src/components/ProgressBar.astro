@@ -22,8 +22,8 @@ const challengeConfig = {
   },
   "3": {
     name: "Anki Challenge 10",
-    startDate: "2026-04-01",
-    endDate: "2026-07-09", // 100 days (Day 1: 1/4/2026, Day 100: 9/7/2026)
+    startDate: "2026-04-10",
+    endDate: "2026-07-18", // 100 days (Day 1: 10/4/2026, Day 100: 18/7/2026)
     totalDays: 100,
   },
 };
@@ -73,13 +73,17 @@ const challengeConfig = {
   >
     <div
       id="progressBar"
-      class="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 transition-all duration-1000 flex items-center justify-end pr-3"
+      class="absolute inset-y-0 left-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-indigo-500 transition-all duration-1000 ease-out flex items-center justify-end"
       style="width: 0%"
     >
+      <!-- Highlight 3D effect -->
+      <div class="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none"></div>
+    </div>
+    <!-- Overlay for centered text -->
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
       <span
-        class="text-[10px] font-bold text-white uppercase tracking-widest drop-shadow-md"
-        id="progressPercent">0%</span
-      >
+        class="text-xs font-black uppercase tracking-widest drop-shadow-sm transition-colors duration-500"
+        id="progressPercent" style="color: #475569;">0%</span>
     </div>
   </div>
   <p
@@ -153,8 +157,15 @@ const challengeConfig = {
     document.getElementById("progressBar").style.width = `${progressPercent}%`;
     document.getElementById("progressText").textContent =
       `${daysPassed}/${totalDays} NGÀY`;
-    document.getElementById("progressPercent").textContent =
-      `${progressPercent}%`;
+    
+    // Update percent text and dynamic color
+    const progressPercentEl = document.getElementById("progressPercent");
+    progressPercentEl.textContent = `${progressPercent}%`;
+    if (progressPercent >= 55) {
+      progressPercentEl.style.color = "#ffffff";
+    } else {
+      progressPercentEl.style.color = "#475569"; // slate-600
+    }
 
     const daysRemainingEl = document.getElementById("daysRemaining");
     const memberCountEl = document.getElementById("memberCount");
