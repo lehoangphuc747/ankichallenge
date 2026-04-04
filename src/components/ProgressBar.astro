@@ -7,26 +7,11 @@ interface Props {
 const { challengeId } = Astro.props;
 
 // Challenge configuration
-const challengeConfig = {
-  "1": {
-    name: "Anki Challenge 8",
-    startDate: "2025-09-03",
-    endDate: "2025-12-21", // 110 days (100 + 10 grace days)
-    totalDays: 110,
-  },
-  "2": {
-    name: "Anki Challenge 9",
-    startDate: "2025-12-22",
-    endDate: "2026-03-31",
-    totalDays: 100,
-  },
-  "3": {
-    name: "Anki Challenge 10",
-    startDate: "2026-04-10",
-    endDate: "2026-07-18", // 100 days (Day 1: 10/4/2026, Day 100: 18/7/2026)
-    totalDays: 100,
-  },
-};
+import fs from 'node:fs';
+import path from 'node:path';
+
+const configPath = path.join(process.cwd(), 'public', 'data', 'challenges.json');
+const challengeConfig = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 ---
 
 <div
@@ -100,8 +85,8 @@ const challengeConfig = {
     const config = challengeConfig[challengeId];
     if (!config) return;
 
-    const startDate = new Date(config.startDate);
-    const endDate = new Date(config.endDate);
+    const startDate = new Date(config.start);
+    const endDate = new Date(config.end);
     const today = new Date();
 
     // Đặt thời gian về 00:00:00 để tính chính xác số ngày
@@ -149,10 +134,10 @@ const challengeConfig = {
     };
 
     document.getElementById("startDateText").textContent = formatDate(
-      config.startDate,
+      config.start,
     );
     document.getElementById("endDateText").textContent = formatDate(
-      config.endDate,
+      config.end,
     );
     document.getElementById("progressBar").style.width = `${progressPercent}%`;
     document.getElementById("progressText").textContent =

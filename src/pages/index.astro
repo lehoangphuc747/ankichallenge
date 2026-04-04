@@ -328,19 +328,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 	let displayMode =
 		localStorage.getItem("leaderboardDisplayMode") || "discord";
 
-	// Challenge names mapping
-	const challengeNames = {
-		"1": "Anki Challenge 8",
-		"2": "Anki Challenge 9",
-		"3": "Anki Challenge 10",
-	};
-
-	const challengeDateRanges = {
-		"1": { start: "2025-09-03", end: "2025-12-21" },
-		"2": { start: "2025-12-22", end: "2026-03-31" },
-		"3": { start: "2026-04-10", end: "2026-07-18" },
-	};
-
+	let challengesConfig = {};
 	let studyRecordsData = null;
 	let usersData = null;
 
@@ -370,13 +358,15 @@ import ProgressBar from "../components/ProgressBar.astro";
 			if (challengeId === "2") prefix = '09';
 			if (challengeId === "3") prefix = '10';
 
-			const [studyRecordsResponse, usersResponse] = await Promise.all([
+			const [studyRecordsResponse, usersResponse, challengesResponse] = await Promise.all([
 				fetch(`/data/challenge_${prefix}_records.json` + cacheBuster),
 				fetch("/data/users.json" + cacheBuster),
+				fetch("/data/challenges.json" + cacheBuster)
 			]);
 
 			studyRecordsData = await studyRecordsResponse.json();
 			usersData = await usersResponse.json();
+			challengesConfig = await challengesResponse.json();
 		} catch (error) {
 			console.error("Error loading static data:", error);
 			throw error;
@@ -408,7 +398,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 				[user],
 				studyRecordsData,
 				challengeId,
-				challengeDateRanges,
+				challengesConfig,
 			);
 
 			if (usersWithStats.length === 0 || !usersWithStats[0].currentStat) {
@@ -876,8 +866,10 @@ import ProgressBar from "../components/ProgressBar.astro";
 				window.updateProgressBar(currentChallengeId);
 			const titleEl = document.getElementById("challengeTitle");
 			// Update title logic...
-			if (titleEl)
-				titleEl.textContent = `${challengeNames[currentChallengeId]} - 100 ngày thử thách`;
+			if (titleEl) {
+				const challengeName = challengesConfig[currentChallengeId]?.name || `Challenge ${currentChallengeId}`;
+				titleEl.textContent = `${challengeName} - 100 ngày thử thách`;
+			}
 			
 			await loadStaticData(currentChallengeId);
 			updateMemberCount(currentChallengeId);

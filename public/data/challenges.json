@@ -2,19 +2,23 @@
   "1": {
     "name": "Anki Challenge 8",
     "start": "2025-09-03",
-    "end": "2025-12-11",
-    "description": "100 ngày thử thách"
+    "end": "2025-12-21",
+    "certEnd": "2025-12-11",
+    "totalDays": 110,
+    "description": "100 ngày + 10 ngày gia hạn"
   },
   "2": {
     "name": "Anki Challenge 9",
     "start": "2025-12-22",
     "end": "2026-03-31",
+    "totalDays": 100,
     "description": "100 ngày thử thách"
   },
   "3": {
     "name": "Anki Challenge 10",
     "start": "2026-04-10",
     "end": "2026-07-18",
+    "totalDays": 100,
     "description": "100 ngày thử thách"
   }
 }

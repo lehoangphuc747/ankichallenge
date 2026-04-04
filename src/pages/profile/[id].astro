@@ -163,18 +163,9 @@ export function getStaticPaths() {
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const userId = pathParts[pathParts.length - 1];
 
-  // Challenge date ranges for certificate calculation (excludes grace period)
-  const challengeDateRanges = {
-    '1': { start: '2025-09-03', end: '2025-12-11' },
-    '2': { start: '2025-12-22', end: '2026-03-31' },
-    '3': { start: '2026-04-10', end: '2026-07-18' }
-  };
-
-  const challengeNames = {
-    '1': 'Anki Challenge 8',
-    '2': 'Anki Challenge 9',
-    '3': 'Anki Challenge 10'
-  };
+  let challengesConfig = {};
+  let challengeDateRanges = {};
+  let challengeNames = {};
 
   async function loadProfile() {
     try {
@@ -183,8 +174,25 @@ export function getStaticPaths() {
 
       // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
       const cacheBuster = '?v=' + Date.now();
-      const usersResponse = await fetch('/data/users.json' + cacheBuster);
+      const [usersResponse, challengesResponse] = await Promise.all([
+        fetch('/data/users.json' + cacheBuster),
+        fetch('/data/challenges.json' + cacheBuster)
+      ]);
       const usersData = await usersResponse.json();
+      challengesConfig = await challengesResponse.json();
+
+      // Determine date ranges and names dynamically
+      challengeDateRanges = Object.fromEntries(
+        Object.entries(challengesConfig).map(([id, config]) => [
+          id, 
+          { start: config.start, end: config.certEnd || config.end }
+        ])
+      );
+
+      challengeNames = Object.fromEntries(
+        Object.entries(challengesConfig).map(([id, config]) => [id, config.name])
+      );
+
       
       console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
       
