@@ -10,6 +10,7 @@ import {
 import { toggleCheckin, copyDiscordNames } from './actions';
 import { renderCheckinList, updateChallengeSelector } from './ui';
 import { formatDate, updateDayCounter } from './utils';
+import { loadData } from './api';
 
 // Setup event listeners
 export function setupEventListeners(): void {
@@ -48,11 +49,12 @@ export function setupEventListeners(): void {
   // Challenge selector
   const challengeSelect = document.getElementById('challengeSelect') as HTMLSelectElement;
   if (challengeSelect) {
-    challengeSelect.addEventListener('change', (e) => {
+    challengeSelect.addEventListener('change', async (e) => {
       const target = e.target as HTMLSelectElement;
       const newChallengeId = parseInt(target.value);
       setCurrentChallengeId(newChallengeId);
       console.log('🎯 [DEBUG] Challenge changed to:', newChallengeId);
+      await loadData(newChallengeId);
       updateDayCounter();
       renderCheckinList();
     });

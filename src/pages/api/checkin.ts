@@ -99,13 +99,14 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    const { date, userId, isChecked } = body as {
+    const { date, userId, challengeId, isChecked } = body as {
       date?: string;
       userId?: number | string;
+      challengeId?: number | string;
       isChecked?: boolean;
     };
 
-    console.log('[checkin API] 📥 Nhận request:', { date, userId, isChecked, bodyType: typeof body });
+    console.log('[checkin API] 📥 Nhận request:', { date, userId, challengeId, isChecked, bodyType: typeof body });
     console.log('[checkin API] 📥 Chi tiết types:', {
       dateType: typeof date,
       dateValue: date,
@@ -142,6 +143,17 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    if (challengeId === undefined || challengeId === null) {
+      console.error('[checkin API] ❌ challengeId không hợp lệ:', challengeId);
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: 'Thiếu hoặc challengeId không hợp lệ'
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+
     if (typeof isChecked !== 'boolean') {
       console.error('[checkin API] ❌ isChecked không phải boolean:', isChecked, 'type:', typeof isChecked);
       return new Response(
@@ -153,8 +165,16 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
+    // Map challengeId to format like '08', '09', '10'
+    const cid = parseInt(String(challengeId));
+    let challengePrefix = '08';
+    if (cid === 1) challengePrefix = '08';
+    if (cid === 2) challengePrefix = '09';
+    if (cid === 3) challengePrefix = '10';
+
     // Đường dẫn tới file lưu lịch sử check-in
-    const DATA_FILE_PATH = path.join(process.cwd(), 'public', 'data', 'studyRecords.json');
+    const fileName = `challenge_${challengePrefix}_records.json`;
+    const DATA_FILE_PATH = path.join(process.cwd(), 'public', 'data', fileName);
     console.log('[checkin API] 📁 File path:', DATA_FILE_PATH);
 
     type StudyRecords = Record<string, Record<string, boolean>>;

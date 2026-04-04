@@ -344,7 +344,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 	let studyRecordsData = null;
 	let usersData = null;
 
-	async function loadStaticData() {
+	async function loadStaticData(challengeId = "2") {
 		try {
 			const metadataResponse = await fetch(
 				"/data/metadata.json?v=" + Date.now(),
@@ -365,8 +365,13 @@ import ProgressBar from "../components/ProgressBar.astro";
 				});
 			}
 
+			let prefix = '08';
+			if (challengeId === "1") prefix = '08';
+			if (challengeId === "2") prefix = '09';
+			if (challengeId === "3") prefix = '10';
+
 			const [studyRecordsResponse, usersResponse] = await Promise.all([
-				fetch("/data/studyRecords.json" + cacheBuster),
+				fetch(`/data/challenge_${prefix}_records.json` + cacheBuster),
 				fetch("/data/users.json" + cacheBuster),
 			]);
 
@@ -860,7 +865,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 
 	const challengeSelect = document.getElementById("challengeSelect");
 	if (challengeSelect) {
-		challengeSelect.addEventListener("change", (e) => {
+		challengeSelect.addEventListener("change", async (e) => {
 			currentChallengeId = e.target.value;
 			currentSearchQuery = "";
 			const searchInput = document.getElementById("searchInput");
@@ -873,6 +878,8 @@ import ProgressBar from "../components/ProgressBar.astro";
 			// Update title logic...
 			if (titleEl)
 				titleEl.textContent = `${challengeNames[currentChallengeId]} - 100 ngày thử thách`;
+			
+			await loadStaticData(currentChallengeId);
 			updateMemberCount(currentChallengeId);
 			loadLeaderboard(currentChallengeId);
 		});
@@ -929,7 +936,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 	if ("requestIdleCallback" in window) {
 		requestIdleCallback(
 			async () => {
-				await loadStaticData();
+				await loadStaticData(currentChallengeId);
 				updateMemberCount(currentChallengeId);
 				loadLeaderboard(currentChallengeId);
 			},
@@ -937,7 +944,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 		);
 	} else {
 		setTimeout(async () => {
-			await loadStaticData();
+			await loadStaticData(currentChallengeId);
 			updateMemberCount(currentChallengeId);
 			loadLeaderboard(currentChallengeId);
 		}, 0);

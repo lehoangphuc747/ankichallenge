@@ -183,13 +183,8 @@ export function getStaticPaths() {
 
       // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
       const cacheBuster = '?v=' + Date.now();
-      const [usersResponse, studyRecordsResponse] = await Promise.all([
-        fetch('/data/users.json' + cacheBuster),
-        fetch('/data/studyRecords.json' + cacheBuster)
-      ]);
-
+      const usersResponse = await fetch('/data/users.json' + cacheBuster);
       const usersData = await usersResponse.json();
-      const allRecords = await studyRecordsResponse.json();
       
       console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
       
@@ -211,6 +206,28 @@ export function getStaticPaths() {
         if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy thành viên</p>';
         return;
       }
+
+      const userChallengeIds = user.challengeIds || ['1'];
+      // Fetch only the relevant challenge records
+      const recordsArray = await Promise.all(userChallengeIds.map(async (cid) => {
+        let prefix = '08';
+        if (cid == 1) prefix = '08';
+        if (cid == 2) prefix = '09';
+        if (cid == 3) prefix = '10';
+        try {
+          const res = await fetch(`/data/challenge_${prefix}_records.json` + cacheBuster);
+          if (res.ok) return await res.json();
+        } catch (e) {}
+        return {};
+      }));
+
+      const allRecords = {};
+      recordsArray.forEach(records => {
+        Object.keys(records).forEach(date => {
+          if (!allRecords[date]) allRecords[date] = {};
+          Object.assign(allRecords[date], records[date]);
+        });
+      });
 
       console.log('📚 [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
 
@@ -556,27 +573,33 @@ export function getStaticPaths() {
     try {
       // Fetch data từ JSON files (thêm cache-busting)
       const cb = '?v=' + Date.now();
-      const [usersRes, challengesRes, recordsRes] = await Promise.all([
+      const [usersRes, challengesRes] = await Promise.all([
         fetch('/data/users.json' + cb),
-        fetch('/data/challenges.json' + cb),
-        fetch('/data/studyRecords.json' + cb)
+        fetch('/data/challenges.json' + cb)
       ]);
 
-      if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
+      if (!usersRes.ok || !challengesRes.ok) {
         throw new Error('Không thể tải dữ liệu');
       }
 
       const usersData = await usersRes.json();
       const challengesData = await challengesRes.json();
-      const studyRecordsData = await recordsRes.json();
 
-      // Tìm user
+      // Find user
       const user = usersData.data.find((u: any) => u.id === parseInt(userId));
       if (!user) throw new Error('Không tìm thấy người dùng');
 
-      // Tìm challenge
+      // Find challenge
       const challenge = challengesData[challengeId];
       if (!challenge) throw new Error('Không tìm thấy challenge');
+
+      // Fetch specific records
+      let prefix = '08';
+      if (challengeId == 1) prefix = '08';
+      if (challengeId == 2) prefix = '09';
+      if (challengeId == 3) prefix = '10';
+      const recordsRes = await fetch(`/data/challenge_${prefix}_records.json` + cb);
+      const studyRecordsData = await recordsRes.json();
 
       // Tính toán stats
       const startDate = new Date(challenge.start);

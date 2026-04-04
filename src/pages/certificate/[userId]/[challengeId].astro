@@ -133,18 +133,27 @@ const { userId, challengeId } = Astro.params;
       
       // Fetch data từ JSON files thay vì API (thêm cache-busting)
       const cb = '?v=' + Date.now();
-      const [usersRes, challengesRes, recordsRes] = await Promise.all([
+      const [usersRes, challengesRes] = await Promise.all([
         fetch('/data/users.json' + cb),
-        fetch('/data/challenges.json' + cb),
-        fetch('/data/studyRecords.json' + cb)
+        fetch('/data/challenges.json' + cb)
       ]);
 
-      if (!usersRes.ok || !challengesRes.ok || !recordsRes.ok) {
+      if (!usersRes.ok || !challengesRes.ok) {
         throw new Error('Không thể tải dữ liệu');
       }
 
       const usersData = await usersRes.json();
       const challengesData = await challengesRes.json();
+
+      let prefix = '08';
+      if (challengeId == 1) prefix = '08';
+      if (challengeId == 2) prefix = '09';
+      if (challengeId == 3) prefix = '10';
+
+      const recordsRes = await fetch(`/data/challenge_${prefix}_records.json` + cb);
+      if (!recordsRes.ok) {
+        throw new Error('Không thể tải dữ liệu records');
+      }
       const studyRecordsData = await recordsRes.json();
 
       // Tìm user

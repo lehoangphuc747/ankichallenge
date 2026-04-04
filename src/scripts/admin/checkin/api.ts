@@ -16,21 +16,19 @@ import type { ChallengeDateRanges } from './types';
 
 // Load data từ API và JSON files
 // ⚠️ Hàm này chứa debug logs - KHÔNG XÓA mà không hỏi người dùng
-export async function loadData(): Promise<void> {
+export async function loadData(targetChallengeId?: number): Promise<void> {
   console.log('🔄 [DEBUG] loadData() được gọi!');
   try {
     // Load challenges, users and records
     // Thêm cache-busting
     const cb = '?v=' + Date.now();
-    const [challengesRes, usersRes, recordsRes] = await Promise.all([
+    const [challengesRes, usersRes] = await Promise.all([
       fetch('/api/challenges' + cb),
-      fetch('/data/users.json' + cb),
-      fetch('/data/studyRecords.json' + cb)
+      fetch('/data/users.json' + cb)
     ]);
 
     const challenges = await challengesRes.json();
     const usersData = await usersRes.json();
-    const studyRecordsData = await recordsRes.json();
     
     // Convert challenges to format expected by rest of code
     const challengeDateRanges: ChallengeDateRanges = {};
@@ -43,21 +41,30 @@ export async function loadData(): Promise<void> {
     });
     console.log('✅ Loaded challenges:', challengeDateRanges);
     
+    // Tự động chọn challenge đang diễn ra dựa vào ngày hiện tại
+    // currentDate đã được set trong init() trước khi gọi loadData()
+    const currentDate = getCurrentDate();
+    let activeChallengeId = targetChallengeId || findActiveChallenge(currentDate, challengeDateRanges) || getCurrentChallengeId();
+    setCurrentChallengeId(activeChallengeId);
+
+    let challengePrefix = '08';
+    if (activeChallengeId === 1) challengePrefix = '08';
+    if (activeChallengeId === 2) challengePrefix = '09';
+    if (activeChallengeId === 3) challengePrefix = '10';
+
+    let studyRecordsData = {};
+    const recordsRes = await Promise.resolve(fetch(`/data/challenge_${challengePrefix}_records.json` + cb));
+    const recordsResp = await recordsRes;
+    if (recordsResp.ok) {
+        studyRecordsData = await recordsResp.json();
+    }
+
     // Update state
     setUsersData(usersData);
     setStudyRecordsData(studyRecordsData);
     setChallengeDateRanges(challengeDateRanges);
     
-    // Tự động chọn challenge đang diễn ra dựa vào ngày hiện tại
-    // currentDate đã được set trong init() trước khi gọi loadData()
-    const currentDate = getCurrentDate();
-    const activeChallengeId = findActiveChallenge(currentDate, challengeDateRanges);
-    if (activeChallengeId) {
-      setCurrentChallengeId(activeChallengeId);
-      console.log('🎯 [DEBUG] Đã tự động chọn challenge đang diễn ra:', activeChallengeId);
-    } else {
-      console.log('⚠️ [DEBUG] Không tìm thấy challenge phù hợp, giữ nguyên:', getCurrentChallengeId());
-    }
+    console.log('🎯 [DEBUG] Challenge ID selected:', activeChallengeId);
     
     console.log('✅ Data loaded successfully');
   } catch (error) {
@@ -73,8 +80,9 @@ export async function saveToServer(date: string, userId: number, isChecked: bool
   if (getIsSaving()) return false;
   setIsSaving(true);
 
+  const challengeId = getCurrentChallengeId();
   // Log giá trị trước khi gửi
-  const payload = { date, userId, isChecked };
+  const payload = { date, userId, challengeId, isChecked };
   console.log('📤 [DEBUG] Gửi request với payload:', payload);
   console.log('📤 [DEBUG] Kiểm tra types:', {
     date: typeof date,

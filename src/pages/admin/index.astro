@@ -192,12 +192,30 @@ import Layout from "../../layouts/Layout.astro";
         ? "?v=" + new Date(metadata.lastUpdated).getTime()
         : "?v=" + Date.now();
 
-      const [usersResponse, studyRecordsResponse] = await Promise.all([
+      const [usersResponse, challengesResponse] = await Promise.all([
         fetch("/data/users.json" + cacheBuster),
-        fetch("/data/studyRecords.json" + cacheBuster),
+        fetch("/data/challenges.json" + cacheBuster),
       ]);
 
       const usersData = await usersResponse.json();
+      const challengesData = await challengesResponse.json();
+
+      const today = new Date().toISOString().split("T")[0];
+      
+      let activeChallengeId = '2'; // fallback
+      for (const [id, data] of Object.entries(challengesData as Record<string, any>)) {
+          if (today >= data.start && today <= data.end) {
+              activeChallengeId = id;
+              break;
+          }
+      }
+
+      let prefix = '08';
+      if (activeChallengeId === '1') prefix = '08';
+      if (activeChallengeId === '2') prefix = '09';
+      if (activeChallengeId === '3') prefix = '10';
+
+      const studyRecordsResponse = await fetch(`/data/challenge_${prefix}_records.json` + cacheBuster);
       const studyRecordsData = await studyRecordsResponse.json();
 
       // Total members
