@@ -5,6 +5,19 @@
 import type { APIRoute } from 'astro';
 
 export const POST: APIRoute = async ({ request }) => {
+  // Kiểm tra môi trường: API này chỉ hoạt động trên Node.js (dev local)
+  // Cloudflare Workers không hỗ trợ ghi file vào disk
+  const isNodeEnv = typeof process !== 'undefined' && process.versions && !!process.versions.node;
+  if (!isNodeEnv) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'API này chỉ hoạt động trên Node.js (dev local). Trên Cloudflare, dữ liệu được cập nhật trực tiếp qua git.'
+      }),
+      { status: 501, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   // Dynamic import để tránh lỗi khi build
   let fs: typeof import('node:fs/promises') | null = null;
   let path: typeof import('node:path') | null = null;
