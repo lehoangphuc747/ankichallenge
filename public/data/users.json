@@ -4,7 +4,7 @@
       "name": "Tiếng Hàn Phúc Lee",
       "email": "erk9308@gmail.com",
       "streak": 97,
-      "learningLanguage": "tiếng hàn",
+      "learningLanguage": "Tiếng Hàn",
       "major": "Hàn Quốc học",
       "bio": "Học tiếng Hàn với Anki thì ới tui nha",
       "facebookUrl": "tuilaphuc747",
@@ -17,8 +17,12 @@
       "role": "admin",
       "challengeIds": [
         1,
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "chuncheon",
+      "goals": "Hellooooooo",
+      "quotes": "Regrets is Poison."
     },
     {
       "hidden": false,
@@ -63,12 +67,12 @@
       "facebookUrl": "Nope",
       "major": "Tự do",
       "email": "",
-      "learningLanguage": "Tiếng Anh",
+      "learningLanguage": "Kiến thức học thuật",
       "birthYear": 1990,
       "streak": 0,
       "role": "member",
       "previousRank": 5,
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0908140240",
       "id": 13,
       "discordNickname": "ethanhocdi",
       "bio": "",
@@ -76,8 +80,12 @@
       "hidden": true,
       "challengeIds": [
         1,
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Việt Nam",
+      "goals": "Học 50 thẻ mới mỗi ngày",
+      "quotes": "Cố gắng"
     },
     {
       "hidden": true,
@@ -296,7 +304,7 @@
       "zaloUrl": "https://zalo.me/0818664375",
       "email": "",
       "facebookUrl": "https://www.facebook.com/phanthuy333/",
-      "learningLanguage": "",
+      "learningLanguage": "Tiếng Trung",
       "hidden": false,
       "discordNickname": "pthuy3x3",
       "previousRank": 27,
@@ -309,8 +317,12 @@
       "bio": "Mình sinh năm 2003, hiện là Purchasing Executive mảng F&B :D Tiếng Anh đủ dùng trong công việc và đang tự học thêm tiếng Trung.\nHard work beats talent when talent doesn't work hard.",
       "challengeIds": [
         1,
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Trong tim của bố mẹ :D",
+      "goals": "Học vì muốn cho bản thân có nhiều lựa chọn hơn",
+      "quotes": ""
     },
     {
       "previousRank": 28,
@@ -384,11 +396,15 @@
       "birthYear": 1996,
       "hidden": false,
       "facebookUrl": "https://www.facebook.com/Gin.Shiro025",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0707585787",
       "challengeIds": [
         1,
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Nhật Bản",
+      "goals": "Mình mong được may mắn như tên",
+      "quotes": ""
     },
     {
       "major": "Công nghệ Sinh học",
@@ -434,38 +450,46 @@
       "name": "Nguyễn Trần Anh Vũ",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "Y khoa",
       "major": "Y Khoa Mình đang học BSNT năm 1",
       "bio": "",
       "facebookUrl": "https://www.facebook.com/nguyen.vu.2804/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0776750434",
       "discordNickname": "vu.nguyen2804 (Vu)",
       "birthYear": 2001,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "TP.HCM",
+      "goals": "Mình đang là NT1",
+      "quotes": "“Ask, and it will be given to you; seek, and you will find; knock, and it will be opened to you” - Matthew 7:7–11"
     },
     {
       "id": 34,
       "name": "Nguyễn Ngọc Quỳnh Trâm",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng Anh, Tiếng Nhật",
+      "learningLanguage": "tiếng Anh, tiếng Nhật",
       "major": "Khác",
       "bio": "",
       "facebookUrl": "https://www.facebook.com/quynhtram.nguyen.75491/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0983832059",
       "discordNickname": "tram160105 (Tram)",
       "birthYear": 2005,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Tp. Hồ Chí Minh",
+      "goals": "Khác",
+      "quotes": ""
     },
     {
       "id": 35,
@@ -495,53 +519,65 @@
       "major": "Khác",
       "bio": "Tôi thích nghiên cứu các công thức hiểu về cách thức hoạt động của chúng, tôi thường hay sưu tầm các nguồn tài lại và sắp xếp chúng một cách khoa học.  Tôi rất thích nghiên cứu về các phương pháp học tập\n\"Não chúng ta luôn luôn khao khát sự quen thuộc\" ( Roxie Nafousi, 2025. Manifest,do Bạc Hà dịch (2025), nhà xuất bản thế giới)",
       "facebookUrl": "https://www.facebook.com/share/1BoFJYMn2h/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0819238866",
       "discordNickname": "taitran11103",
       "birthYear": 2003,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Tiền Giang",
+      "goals": "Thích nghiên cứu giao diện đẹp",
+      "quotes": "Não chúng ta luôn khao khát sự quen thuộc"
     },
     {
       "id": 37,
       "name": "Nguyễn Hữu Duy",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "Công nghệ thông tin!",
       "major": "Khác",
       "bio": "Sở thích : học ngoại ngữ, chơi Trống, piano,...\nChuyên ngành : Khoa học máy tính\nKhông phải bây giờ thì bao giờ!",
       "facebookUrl": "https://www.facebook.com/duy.sanji.640714/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0899731290",
       "discordNickname": "duysanji",
       "birthYear": 2005,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Hà Nội",
+      "goals": "Computer science engineer !",
+      "quotes": "Không phải bây giờ thì bao giờ !"
     },
     {
       "id": 38,
       "name": "Lê Đức Tuấn",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "Tiếng Anh",
       "major": "Khác",
       "bio": "Em chào các anh/chị và tất cả mọi người trong nhóm. Em tên là Lê Đức Tuấn, hiện tại em đang học ngôn ngữ trên Anki. Rất mong nhận được sự hỗ trợ của các anh/chị và mọi người ạ.\nKỉ luật và thời gian sẽ không bao giờ lừa dối bạn.",
       "facebookUrl": "https://web.facebook.com/trungsotcachua73/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0845822847",
       "discordNickname": "leductuan73 (Tuấn)",
       "birthYear": 2004,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "HCM City",
+      "goals": "Học 30 phút/ngày",
+      "quotes": ""
     },
     {
       "id": 39,
@@ -605,38 +641,46 @@
       "name": "NGUYỄN VŨ NHƯ BÍCH",
       "email": "",
       "streak": 0,
-      "learningLanguage": "TIẾNG NHẬT",
+      "learningLanguage": "Tiếng Nhật",
       "major": "Khác",
       "bio": "MỤC TIÊU N1\nMÌNH CÓ THỂ LÀM ĐƯỢC. MÌNH SẼ LÀM ĐƯỢC.",
       "facebookUrl": "KHÔNG CÓ",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0905377341",
       "discordNickname": "BICH",
       "birthYear": 1982,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Japan",
+      "goals": "Mình tên Bích. 44tuổi và đang học tiếng Nhật.",
+      "quotes": "Khi bạn khát khao 1 điều gì đó, cả vũ trụ sẽ hợp lực giúp bạn đạt được điều đó."
     },
     {
       "id": 43,
       "name": "TRẦN THỊ YẾN NHI",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "tiếng anh, y khoa",
       "major": "Y Khoa Y4",
       "bio": "mình khá lười, mục tiêu IELTS 6.5 trong vòng 1 năm tới. Mình đang là sinh viên Y4, PNT. Mình đang tìm cách để dùng anki trong việc học Y nhưng mà anki là cần thời gian từ từ để ghi nhớ trong khi chương trình học Y ở Việt Nam thì khá ngắn với thời gian của từng môn nên mình còn rất chật vật ở khoảng này\nchỉ cần cải thiện hơn 1% mỗi ngày",
       "facebookUrl": "https://www.facebook.com/profile.php?id=100091669917894&locale=vi_VN",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0903372077",
       "discordNickname": "nothinn_39086",
       "birthYear": 2004,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Hồ Chí Minh",
+      "goals": "hãy để việc học thành 1 thói quen, bản năng chứ không phải trách nhiệm",
+      "quotes": "Chỉ cần cố gắng tốt hơn 1% so với ngày hôm qua, và hãy duy trì điều đó MỖI NGÀY"
     },
     {
       "id": 44,
@@ -662,38 +706,46 @@
       "name": "Trần Thị Kiều Trinh",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Anh, Trung",
+      "learningLanguage": "tiếng Anh, Trung",
       "major": "Khác",
       "bio": "",
       "facebookUrl": "fb.com/kizrinx",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0345678901",
       "discordNickname": "kizrin (Kirstin)",
       "birthYear": 2004,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "HCM",
+      "goals": "give it a try",
+      "quotes": ""
     },
     {
       "id": 46,
       "name": "Đặng Quỳnh Châu",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng Hàn",
+      "learningLanguage": "tiếng Hàn",
       "major": "Khác",
       "bio": "",
       "facebookUrl": "https://bit.ly/chauvegas",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0905060632",
       "discordNickname": "chauvegas",
       "birthYear": 2005,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Seoul",
+      "goals": "90+",
+      "quotes": ""
     },
     {
       "id": 47,
@@ -795,19 +847,23 @@
       "name": "Bồ Câu",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng Anh",
+      "learningLanguage": "THPT",
       "major": "Khác",
       "bio": "",
       "facebookUrl": "https://www.facebook.com/cua.a.640167",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0935146899",
       "discordNickname": "dulgi_kun",
       "birthYear": 2008,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Việt Nam",
+      "goals": "hi",
+      "quotes": ""
     },
     {
       "id": 53,
@@ -871,19 +927,23 @@
       "name": "Nguyễn Phúc Chiến",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng Hàn",
+      "learningLanguage": "Tiếng Hàn, ôn thi tốt nghiệp",
       "major": "Khác",
       "bio": " mục tiêu topik 3-4, sở thích đá bóng",
       "facebookUrl": "https://www.facebook.com/N.PhucChien/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0982004241",
       "discordNickname": "phucschiens (NPChieens)",
       "birthYear": 2008,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Phường Quy Nhơn",
+      "goals": "Ko thích yên tĩnh, cũng ko thích ồn ào, yêu hoà bình, ghét chiến tranh, chửi thì được. Mưa bt chạy vào nhà.",
+      "quotes": "học hành là hành những gì đã học"
     },
     {
       "id": 57,
@@ -1004,19 +1064,23 @@
       "name": "Lê Thị Diệu Linh",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng Hàn",
+      "learningLanguage": "tiếng Hàn",
       "major": "Khác",
       "bio": "We all need people who will give us feedback. That's how we improve. - Bill Gates",
       "facebookUrl": "",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0393006661",
       "discordNickname": "linh0101 (Linh)",
       "birthYear": 1996,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Suwon",
+      "goals": "Học 30p/ ngày",
+      "quotes": "We all need people you give us feedback, that's how we improve"
     },
     {
       "id": 64,
@@ -1061,19 +1125,23 @@
       "name": "Hà Lưu Thanh Bình",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "Tiếng Anh",
       "major": "Khác",
       "bio": "Em là một đứa học sinh vì làm biếng nên luôn muốn tìm cách học hiệu quả nhất :D\n\"Mọi thứ trong cuộc sống đáng đạt được cần phải luyện tập.\" - App Focus Mode Oppo",
       "facebookUrl": "https://www.facebook.com/thanh.binh.364948/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0931797863",
       "discordNickname": "afkgamerdn123 (Serene Flow)",
       "birthYear": 2008,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Việt Nam",
+      "goals": "\"Tôi tư duy, tôi tồn tại\" - René Descartes. Cách tư duy điển hình nhất là học và đọc. Mình đang nỗ lực duy trì điều này với Anki.",
+      "quotes": "\"Cuộc sống sẽ dừng lại khi việc học dừng lại\" - D. Foroux (5 bước kiến tạo thói quen)"
     },
     {
       "id": 67,
@@ -1099,19 +1167,23 @@
       "name": "Lê Đức Lương",
       "email": "",
       "streak": 0,
-      "learningLanguage": "Tiếng anh",
+      "learningLanguage": "English, Y",
       "major": "Y4",
       "bio": "E 2k4, tham gia thử thách với mục tiêu làm động lực chăm học do đã bỏ bê việc học 1 thời gian dài :v\nDeath is like the wind, always by my side",
       "facebookUrl": "https://www.facebook.com/hanh.thichan.1/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0868220804",
       "discordNickname": "6969jj (Johny L)",
       "birthYear": 2004,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Vietnam",
+      "goals": "Vẫn quá lười, cần cố gắng thêm",
+      "quotes": ""
     },
     {
       "id": 69,
@@ -1122,15 +1194,19 @@
       "major": "Khác",
       "bio": "Vui vẻ, hòa đồng, thân thiện\nMong mọi người giúp đỡ\nWhere there is a way, there is a will!",
       "facebookUrl": "https://www.facebook.com/ann.cao.62340/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0372200473",
       "discordNickname": "adrewvn_91234 (andrew)",
       "birthYear": 2003,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Đồng Nai",
+      "goals": "Học 30 phút /ngày",
+      "quotes": ""
     },
     {
       "id": 70,
@@ -1441,19 +1517,221 @@
       "name": "Hanhbui",
       "email": "",
       "streak": 0,
-      "learningLanguage": "",
+      "learningLanguage": "Thi topik",
       "major": "Khác",
       "bio": "",
       "facebookUrl": "https://www.facebook.com/hanh.bui.271267/",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0865947141",
       "discordNickname": "luxultm",
       "birthYear": 1999,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
-      ]
+        2,
+        3
+      ],
+      "place": "Việt Nam",
+      "goals": "30-60 phút/ ngày",
+      "quotes": ""
+    },
+    {
+      "name": "Nguyễn Thị Thanh Lam",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "tiếng anh",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/cay.xanh.hoa.o",
+      "id": 87,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "abcxyz",
+      "zaloUrl": "https://zalo.me/0869651291",
+      "birthYear": 1998,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "saigon",
+      "goals": "học ít nhất 10ph/ngày",
+      "quotes": ""
+    },
+    {
+      "name": "Ngô Minh Đăng",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "tiếng Thụy Điển và tiếng Anh",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/dangngooooo",
+      "id": 88,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "jag_heter_paul",
+      "zaloUrl": "https://zalo.me/0373691303",
+      "birthYear": 2009,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Thành Phố Hồ Chí Minh",
+      "goals": "học tới ngưỡng thất bại",
+      "quotes": "Muốn thì sẽ tìm cách, không muốn sẽ tìm lí do"
+    },
+    {
+      "name": "Tạ Quốc Việt",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng Anh",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/vi3tlouis",
+      "id": 89,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "vietlouis2509",
+      "zaloUrl": "https://zalo.me/0342294111",
+      "birthYear": 1998,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Hà Nội",
+      "goals": "Đang quyết thâm thay đổi bản thân cần hội nhóm giúp thay đổi thói quen và tạo động lực",
+      "quotes": "Khó khăn xuất hiện là biết chắc chắn mình có thể vượt qua nên nó mới xuất hiện."
+    },
+    {
+      "name": "ha uyen tam",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "tiếng anh",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/minh.phung.696035/",
+      "id": 90,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "drinkwaterpls",
+      "zaloUrl": "https://zalo.me/0359518399",
+      "birthYear": 1997,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "HCM",
+      "goals": "học ít nhất 10 từ mới mỗi ngày. kiên trì đến khi giỏi tiếng Anh!",
+      "quotes": "mong tự yêu lấy bản thân ngày một nhiều hơn"
+    },
+    {
+      "name": "Nguyễn Thiên Tranh",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Ielts",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/15.thangMot/",
+      "id": 91,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "thientrng.if not now, then when?",
+      "zaloUrl": "https://zalo.me/0363083744",
+      "birthYear": 2005,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Đà Nẵng",
+      "goals": "Mình muốn cày xong bộ C1 Des",
+      "quotes": ""
+    },
+    {
+      "name": "Đặng Quang Nhật",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Y khoa.",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/",
+      "id": 92,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "momkuro9392",
+      "zaloUrl": "https://zalo.me/0931234931",
+      "birthYear": 2001,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Tây Ninh",
+      "goals": "Hiện tại đang trên đường trở thành bác sĩ (đã tốt nghiệp). Muốn biết thêm về nhiều kiến thức.",
+      "quotes": "Hạnh phúc là được học"
+    },
+    {
+      "name": "Phạm Trần Huệ Phi",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "tiếng Hàn",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "www.facebook.com/hananeuve",
+      "id": 93,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "hana_93501",
+      "zaloUrl": "https://zalo.me/0903643820",
+      "birthYear": 1999,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "HCM",
+      "goals": "Học 30p/ ngày",
+      "quotes": ""
+    },
+    {
+      "name": "Nguyễn Khánh Linh",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "tiếng Hàn",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/rosa.jessica.39/",
+      "id": 94,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "112001khanhlinh",
+      "zaloUrl": "https://zalo.me/0383566726",
+      "birthYear": 2007,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Thái Bình",
+      "goals": "Mình tên Linh, một cô gái đam mê với tiếng hàn và muốn được đặt chân đến đất nước xinh dẹp hàn quốc và hiện đang là sinh viên khoa ngôn ngữ hàn",
+      "quotes": "kiên trì, nỗ lược để đạt được ước mơ"
+    },
+    {
+      "name": "Tran Ha Vy",
+      "email": "",
+      "streak": 0,
+      "learningLanguage": "Tiếng Trung",
+      "major": "Khác",
+      "bio": "",
+      "facebookUrl": "https://www.facebook.com/duy.sanji.640714/",
+      "id": 95,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "HaVy",
+      "zaloUrl": "https://zalo.me/0899731290",
+      "birthYear": 2006,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Hà Nội",
+      "goals": "I am big fan of Messi , not Ronaldo !",
+      "quotes": "Messi is the Goat !"
     }
   ]
 }

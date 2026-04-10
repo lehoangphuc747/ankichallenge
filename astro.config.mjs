@@ -22,8 +22,8 @@ export default defineConfig({
     plugins: [tailwindcss()],
     server: {
       watch: {
-        // Ignore changes in public/data to prevent page reload when JSON files are updated
-        ignored: ['**/public/data/**']
+        // Ignore generated and frequently updated folders to reduce watcher churn.
+        ignored: ['**/public/data/**', '**/output/**', '**/tmp/**']
       }
     }
   },
