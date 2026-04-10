@@ -43,8 +43,8 @@ import ProgressBar from "../components/ProgressBar.astro";
 						class="appearance-none bg-white/70 border-2 border-slate-200 text-slate-900 text-base md:text-lg font-bold py-2 pl-5 pr-12 rounded-xl backdrop-blur-xl focus:outline-none focus:ring-4 focus:ring-cyan-500/20 hover:bg-white/90 focus:border-cyan-500 transition-all cursor-pointer shadow-sm tracking-tight"
 					>
 						<option value="1" class="text-slate-600">Anki Challenge 8</option>
-						<option value="2" selected class="text-slate-900 font-bold">Anki Challenge 9</option>
-						<option value="3" class="text-slate-600">Anki Challenge 10</option>
+						<option value="2" class="text-slate-600">Anki Challenge 9</option>
+						<option value="3" selected class="text-slate-900 font-bold">Anki Challenge 10</option>
 					</select>
 					<div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-600">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -58,7 +58,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 			<div
 				class="mb-6 transform hover:scale-[1.01] transition-transform duration-500"
 			>
-				<ProgressBar challengeId="2" />
+				<ProgressBar challengeId="3" />
 			</div>
 
 			<!-- Controls Bar -->
@@ -228,7 +228,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 <script>
 	import { calculateUserStats } from "../utils/calculateStats.js";
 
-	let currentChallengeId = "2";
+	let currentChallengeId = "3";
 	let currentSearchQuery = "";
 	let allMembersWithStats = [];
 	// Default to Discord, toggle checked state implies "Name" if unchecked or checked?
@@ -242,7 +242,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 	let studyRecordsData = null;
 	let usersData = null;
 
-	async function loadStaticData(challengeId = "2") {
+	async function loadStaticData(challengeId = "3") {
 		try {
 			const metadataResponse = await fetch(
 				"/data/metadata.json?v=" + Date.now(),
