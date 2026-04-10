@@ -5,48 +5,33 @@ import ProgressBar from "../components/ProgressBar.astro";
 
 <Layout title="Anki Challenge - Bảng xếp hạng">
 	<main
-		class="min-h-screen bg-slate-50 text-slate-900 relative overflow-hidden font-sans selection:bg-cyan-500/30"
+		class="min-h-screen relative overflow-x-hidden selection:bg-cyan-500/30 text-slate-100"
 	>
-		<!-- Light Aurora/Mesh Gradient Background (Vibrant) -->
-		<div class="fixed inset-0 z-0 pointer-events-none opacity-80">
-			<div
-				class="absolute top-[-20%] left-[-20%] w-[70%] h-[70%] rounded-full bg-gradient-to-r from-cyan-300/40 to-blue-300/40 blur-[120px] animate-pulse-slow"
-			>
-			</div>
-			<div
-				class="absolute bottom-[-20%] right-[-20%] w-[70%] h-[70%] rounded-full bg-gradient-to-l from-orange-200/50 to-amber-200/50 blur-[120px] animate-pulse-slow"
-				style="animation-delay: 2s"
-			>
-			</div>
-			<div
-				class="absolute top-[30%] left-[50%] transform -translate-x-1/2 w-[60%] h-[60%] rounded-full bg-gradient-to-b from-purple-200/40 to-pink-200/40 blur-[140px] animate-pulse-slow"
-				style="animation-delay: 4s"
-			>
-			</div>
-		</div>
+		<div class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+		<div class="fixed bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
-		<div class="max-w-6xl mx-auto px-4 py-4 md:py-8 relative z-10">
+		<div class="max-w-5xl mx-auto px-4 py-8 relative z-10 min-h-screen flex flex-col">
 			<!-- Header Section (Compact) -->
-			<div class="flex flex-col md:flex-row items-center justify-between mb-6 gap-4">
+			<div class="flex flex-col md:flex-row items-center justify-between mb-8 gap-6">
 				<div class="flex flex-col items-center md:items-start gap-1">
-					<h1 class="text-4xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 pb-1">
+					<h1 class="text-4xl md:text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 pb-1">
 						Leaderboard
 					</h1>
-					<p class="text-slate-500 font-bold tracking-widest uppercase text-[10px] md:text-xs" id="challengeTitle">
+					<p class="text-cyan-400/80 font-bold tracking-widest uppercase text-xs mt-1" id="challengeTitle">
 						100 ngày thử thách
 					</p>
 				</div>
 
-				<div class="relative group">
+				<div class="relative group w-full md:w-auto">
 					<select
 						id="challengeSelect"
-						class="appearance-none bg-white/70 border-2 border-slate-200 text-slate-900 text-base md:text-lg font-bold py-2 pl-5 pr-12 rounded-xl backdrop-blur-xl focus:outline-none focus:ring-4 focus:ring-cyan-500/20 hover:bg-white/90 focus:border-cyan-500 transition-all cursor-pointer shadow-sm tracking-tight"
+						class="w-full md:w-auto appearance-none bg-white/5 border border-white/10 text-white text-sm font-semibold py-3 pl-5 pr-12 rounded-2xl focus:outline-none focus:ring-2 focus:ring-cyan-500/50 hover:bg-white/10 transition-all cursor-pointer backdrop-blur-md shadow-lg"
 					>
-						<option value="1" class="text-slate-600">Anki Challenge 8</option>
-						<option value="2" class="text-slate-600">Anki Challenge 9</option>
-						<option value="3" selected class="text-slate-900 font-bold">Anki Challenge 10</option>
+						<option value="1" class="bg-zinc-900 text-white">Anki Challenge 8</option>
+						<option value="2" class="bg-zinc-900 text-white">Anki Challenge 9</option>
+						<option value="3" selected class="bg-zinc-900 text-white">Anki Challenge 10</option>
 					</select>
-					<div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-slate-600">
+					<div class="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none text-cyan-400">
 						<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 							<path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
 						</svg>
@@ -56,18 +41,17 @@ import ProgressBar from "../components/ProgressBar.astro";
 
 			<!-- Progress Bar (Clean - Removed Inner Wrapper) -->
 			<div
-				class="mb-6 transform hover:scale-[1.01] transition-transform duration-500"
+				class="mb-8"
 			>
 				<ProgressBar challengeId="3" />
 			</div>
 
 			<!-- Controls Bar -->
-			<div class="sticky top-2 z-40 mb-6 backdrop-blur-2xl bg-white/70 rounded-2xl border border-slate-200/60 shadow-lg shadow-slate-200/30 p-2 lg:p-3 transition-all duration-300">
-				<div class="flex flex-col sm:flex-row items-center gap-3 justify-between">
+			<div class="sticky top-4 z-40 mb-6 bg-zinc-950/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 flex flex-col sm:flex-row gap-2 shadow-xl">
+				<div class="relative flex-1 group">
 					<!-- Search -->
-					<div class="relative w-full sm:max-w-xs md:max-w-md group">
-						<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-							<svg class="h-4 w-4 text-slate-400 group-focus-within:text-cyan-500 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+					<div class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-slate-500 group-focus-within:text-cyan-400 transition-colors">
+						<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
 							</svg>
 						</div>
@@ -76,44 +60,43 @@ import ProgressBar from "../components/ProgressBar.astro";
 							id="searchInput"
 							spellcheck="false"
 							autocomplete="off"
-							class="block w-full pl-10 pr-8 py-2 md:py-2.5 bg-white/60 backdrop-blur-md border border-slate-200/80 rounded-xl text-slate-800 placeholder-slate-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400 hover:bg-white/80 transition-all duration-300 text-sm font-semibold shadow-sm"
-							placeholder="Tìm kiếm..."
+							class="w-full pl-11 pr-8 py-2.5 bg-white/5 border border-transparent rounded-xl text-white placeholder-slate-500 focus:bg-white/10 focus:border-cyan-500/50 focus:outline-none transition-all text-sm font-medium"
+							placeholder="Tìm kiếm thành viên..."
 						/>
-						<button id="clearSearch" class="absolute inset-y-0 right-0 pr-2.5 flex items-center opacity-0 pointer-events-none text-slate-400 hover:text-slate-600 hover:scale-110 active:scale-95 transition-all duration-300">
+						<button id="clearSearch" class="absolute inset-y-0 right-0 pr-3 flex items-center opacity-0 pointer-events-none text-slate-500 hover:text-cyan-300 transition-all duration-300">
 							<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
 								<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
 							</svg>
 						</button>
-					</div>
+				</div>
 
 					<!-- Toggle Display Mode -->
-					<div class="flex items-center gap-2 lg:gap-3 bg-slate-50/50 px-3 py-2 rounded-xl border border-slate-200 shadow-sm w-full sm:w-auto hover:bg-white transition-colors duration-300">
-						<span class="text-[10px] md:text-xs font-semibold text-slate-500 uppercase tracking-widest hidden sm:inline-block">Hiển thị</span>
+					<div class="flex items-center gap-3 bg-black/50 px-4 py-2 rounded-xl border border-white/5 shrink-0">
+						<span class="text-xs font-bold text-slate-400 uppercase tracking-wider hidden sm:inline-block">Hiển thị</span>
 						<label for="displayModeToggle" class="relative inline-flex items-center cursor-pointer ml-auto sm:ml-0">
 							<input type="checkbox" id="displayModeToggle" class="sr-only peer" />
-							<div class="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-300 rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500 after:shadow-sm"></div>
-							<span class="ml-2 text-xs font-semibold text-slate-700 w-14 lg:w-16 text-center select-none" id="toggleLabel">Discord</span>
+							<div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-500/50 rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
+							<span class="ml-3 text-sm font-bold text-white w-20 text-center select-none" id="toggleLabel">Discord</span>
 						</label>
 					</div>
-				</div>
 			</div>
 
 			<!-- Loading State -->
 			<div id="loading" class="text-center py-24">
 				<div
-					class="inline-flex items-center gap-4 px-8 py-5 rounded-3xl bg-white/80 border border-white shadow-xl backdrop-blur-md"
+					class="inline-flex items-center gap-4 px-8 py-5 rounded-3xl bg-[#0f172a] border-2 border-cyan-400/35"
 				>
 					<div class="relative w-7 h-7">
 						<div
-							class="absolute inset-0 rounded-full border-4 border-slate-100"
+							class="absolute inset-0 rounded-full border-4 border-slate-700"
 						>
 						</div>
 						<div
-							class="absolute inset-0 rounded-full border-4 border-cyan-600 border-t-transparent animate-spin"
+							class="absolute inset-0 rounded-full border-4 border-cyan-300 border-t-transparent animate-spin"
 						>
 						</div>
 					</div>
-					<span class="text-lg font-bold text-slate-700"
+					<span class="text-lg font-bold text-cyan-100"
 						>Đang tải dữ liệu...</span
 					>
 				</div>
@@ -129,45 +112,26 @@ import ProgressBar from "../components/ProgressBar.astro";
 					<div id="leaderboardCardsBody" class="space-y-4"></div>
 				</div>
 
-				<!-- Desktop Table -->
-				<div class="hidden md:block overflow-hidden rounded-2xl border border-slate-200/80 bg-white/70 backdrop-blur-3xl shadow-xl shadow-slate-200/40">
-					<table class="w-full text-left border-collapse">
-						<thead class="bg-slate-50/80 text-[10px] md:text-xs uppercase tracking-widest text-slate-500 border-b border-slate-200/80 backdrop-blur-md sticky top-0 z-10 w-full">
-							<tr>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold">Hạng</th>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold">Thành viên</th>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold text-center">Chuỗi</th>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold text-center">Kỷ lục</th>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold text-center">Tổng ngày</th>
-								<th class="px-4 py-3 md:px-6 md:py-4 font-bold text-center">Kỷ luật</th>
-							</tr>
-						</thead>
-						<tbody
-							id="leaderboardBody"
-							class="divide-y divide-slate-100 text-sm font-medium text-slate-700"
-						>
-							<!-- Rows injected here -->
-						</tbody>
-					</table>
+				<!-- Desktop Cards -->
+				<div class="hidden md:block space-y-3" id="leaderboardDesktopBody">
+					<!-- Desktop cards injected here -->
 				</div>
 			</div>
 
-			<div
-				class="mt-16 text-center pb-8 opacity-80 hover:opacity-100 transition-opacity"
-			>
+			<div class="mt-12 text-center pb-8 opacity-60 hover:opacity-100 transition-opacity">
 				<p
-					class="inline-flex items-center px-4 py-2 rounded-full bg-white/60 border border-white/60 text-slate-500 text-xs font-bold uppercase tracking-widest shadow-sm"
+					class="inline-flex items-center px-5 py-2.5 rounded-full bg-white/5 border border-white/10 text-slate-400 text-xs font-bold uppercase tracking-widest backdrop-blur-sm"
 					id="dataInfo"
 				>
 					<span
-						class="w-2.5 h-2.5 rounded-full bg-emerald-500 mr-2 animate-pulse shadow-sm shadow-emerald-200"
+						class="w-2 h-2 rounded-full bg-emerald-400 mr-2.5 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"
 					></span>
 					Cập nhật: <span
 						id="lastUpdateStr"
-						class="ml-1 text-slate-800">--</span
+						class="ml-1.5 text-white">--</span
 					>
-					<span class="mx-3 text-slate-300">|</span>
-					<span id="memberCount" class="text-slate-800"
+					<span class="mx-3 text-white/20">|</span>
+					<span id="memberCountSummary" class="text-white"
 						>-- thành viên</span
 					>
 				</p>
@@ -177,19 +141,18 @@ import ProgressBar from "../components/ProgressBar.astro";
 </Layout>
 
 <style>
-	@keyframes pulse-slow {
-		0%,
-		100% {
-			opacity: 0.5;
-			transform: scale(1);
-		}
-		50% {
-			opacity: 0.8;
-			transform: scale(1.1);
-		}
+	@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&display=swap");
+
+	:global(*) {
+		font-family: "Space Grotesk", sans-serif;
+		-webkit-font-smoothing: antialiased;
 	}
-	.animate-pulse-slow {
-		animation: pulse-slow 8s ease-in-out infinite;
+
+	:global(body) {
+		background-color: #09090b;
+		color: #e2e8f0;
+		margin: 0;
+		min-height: 100vh;
 	}
 
 	@keyframes fade-in-up {
@@ -202,26 +165,36 @@ import ProgressBar from "../components/ProgressBar.astro";
 			transform: translateY(0);
 		}
 	}
+
 	.animate-fade-in-up {
 		animation: fade-in-up 0.6s ease-out forwards;
 	}
 
-	/* Custom Scrollbar */
 	::-webkit-scrollbar {
-		width: 10px;
-		height: 10px;
+		width: 8px;
+		height: 8px;
 	}
+
 	::-webkit-scrollbar-track {
-		background: #f1f5f9;
-		border-radius: 5px;
+		background: #09090b;
 	}
+
 	::-webkit-scrollbar-thumb {
-		background: #cbd5e1;
-		border-radius: 5px;
-		border: 2px solid #f1f5f9;
+		background: #27272a;
+		border-radius: 4px;
 	}
+
 	::-webkit-scrollbar-thumb:hover {
-		background: #94a3b8;
+		background: #3f3f46;
+	}
+
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none;
+		scrollbar-width: none;
 	}
 </style>
 
@@ -230,7 +203,26 @@ import ProgressBar from "../components/ProgressBar.astro";
 
 	let currentChallengeId = "3";
 	let currentSearchQuery = "";
-	let allMembersWithStats = [];
+	type LeaderboardUser = {
+		id: number;
+		name?: string;
+		discordNickname?: string;
+		hidden?: boolean;
+		role?: string;
+		challengeIds?: number[];
+	};
+	type LeaderboardMember = LeaderboardUser & {
+		streak: number;
+		longestStreak: number;
+		totalDays: number;
+		disciplinePercentage: number;
+		rank?: number;
+	};
+	type UsersPayload = { data?: LeaderboardUser[] };
+	type ChallengeMeta = { name?: string };
+	type ChallengesConfig = Record<string, ChallengeMeta>;
+	type SearchTimer = ReturnType<typeof setTimeout>;
+	let allMembersWithStats: LeaderboardMember[] = [];
 	// Default to Discord, toggle checked state implies "Name" if unchecked or checked?
 	// Let's say CHECKED = Name (On), UNCHECKED = Discord (Off) or vice versa.
 	// User said "Switch Name and Discord".
@@ -238,9 +230,12 @@ import ProgressBar from "../components/ProgressBar.astro";
 	let displayMode =
 		localStorage.getItem("leaderboardDisplayMode") || "discord";
 
-	let challengesConfig = {};
-	let studyRecordsData = null;
-	let usersData = null;
+	let challengesConfig: ChallengesConfig = {};
+	let studyRecordsData: unknown = null;
+	let usersData: UsersPayload | null = null;
+	const leaderboardWindow = window as Window & {
+		updateProgressBar?: (challengeId: string) => void;
+	};
 
 	async function loadStaticData(challengeId = "3") {
 		try {
@@ -283,7 +278,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 		}
 	}
 
-	function calculateUserStatsForLeaderboard(userId, challengeId) {
+	function calculateUserStatsForLeaderboard(userId: number, challengeId: string) {
 		try {
 			if (!studyRecordsData || !usersData)
 				return {
@@ -294,7 +289,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 				};
 
 			const users = usersData.data || [];
-			const user = users.find((u) => u.id === userId);
+			const user = users.find((u: LeaderboardUser) => u.id === userId);
 
 			if (!user)
 				return {
@@ -340,32 +335,34 @@ import ProgressBar from "../components/ProgressBar.astro";
 	}
 
 	// --- OPTIMIZED RENDER LOGIC WITH CSS TOGGLE ---
-	function getDisplayNameHTML(member) {
+	function getDisplayNameHTML(member: LeaderboardMember) {
 		const name = member.name || "Không có tên";
 		const discord = member.discordNickname || name;
 		// Render both, toggle visibility via CSS
 		// Default show-discord is set on parent.
 		// If .show-name on parent -> .name-display: block, .discord-display: hidden
 		return `
-			<span class="name-display hidden group-[.show-name]:inline text-ellipsis overflow-hidden whitespace-nowrap text-slate-900 font-bold">${name}</span>
-			<span class="discord-display hidden group-[.show-discord]:inline text-ellipsis overflow-hidden whitespace-nowrap text-indigo-700 font-bold font-mono text-sm">${discord}</span>
+			<span class="name-display hidden group-[.show-name]:inline text-ellipsis overflow-hidden whitespace-nowrap text-slate-100 font-bold">${name}</span>
+			<span class="discord-display hidden group-[.show-discord]:inline text-ellipsis overflow-hidden whitespace-nowrap text-cyan-300 font-bold font-mono text-sm">${discord}</span>
 		`;
 	}
 
-	function getMobileDisplayNameHTML(member) {
+	function getMobileDisplayNameHTML(member: LeaderboardMember) {
 		const name = member.name || "Không có tên";
 		const discord = member.discordNickname || name;
 		return `
-			<span class="name-display hidden group-[.show-name]:inline text-ellipsis overflow-hidden whitespace-nowrap text-slate-900 font-bold">${name}</span>
-			<span class="discord-display hidden group-[.show-discord]:inline text-ellipsis overflow-hidden whitespace-nowrap text-indigo-700 font-bold font-mono text-sm">${discord}</span>
+			<span class="name-display hidden group-[.show-name]:inline text-ellipsis overflow-hidden whitespace-nowrap text-slate-100 font-bold">${name}</span>
+			<span class="discord-display hidden group-[.show-discord]:inline text-ellipsis overflow-hidden whitespace-nowrap text-cyan-300 font-bold font-mono text-sm">${discord}</span>
 		`;
 	}
 
-	function updateMemberCount(challengeId) {
+	function updateMemberCount(challengeId: string) {
 		try {
 			if (!usersData || !usersData.data) {
-				const memberCountEl = document.getElementById("memberCount");
-				if (memberCountEl) memberCountEl.textContent = "-- thành viên";
+				const progressMemberCountEl = document.getElementById("progressMemberCount");
+				const summaryMemberCountEl = document.getElementById("memberCountSummary");
+				if (progressMemberCountEl) progressMemberCountEl.textContent = "-- thành viên";
+				if (summaryMemberCountEl) summaryMemberCountEl.textContent = "-- thành viên";
 				return;
 			}
 			const members = usersData.data || [];
@@ -377,17 +374,18 @@ import ProgressBar from "../components/ProgressBar.astro";
 					m.challengeIds.includes(challengeIdNum),
 			);
 
-			const memberCountEl = document.getElementById("memberCount");
-			if (memberCountEl) {
-				memberCountEl.textContent = `${challengeMembers.length} thành viên`;
-			}
+			const memberCountText = `${challengeMembers.length} thành viên`;
+			const progressMemberCountEl = document.getElementById("progressMemberCount");
+			const summaryMemberCountEl = document.getElementById("memberCountSummary");
+			if (progressMemberCountEl) progressMemberCountEl.textContent = memberCountText;
+			if (summaryMemberCountEl) summaryMemberCountEl.textContent = memberCountText;
 		} catch (error) {
 			console.error("Error updating member count:", error);
 		}
 	}
 
 	function updateDisplayModeConfig() {
-		const toggle = document.getElementById("displayModeToggle");
+		const toggle = document.getElementById("displayModeToggle") as HTMLInputElement | null;
 		const label = document.getElementById("toggleLabel");
 		const leaderboard = document.getElementById("leaderboard");
 
@@ -400,8 +398,8 @@ import ProgressBar from "../components/ProgressBar.astro";
 			label.textContent = displayMode === "name" ? "Tên thật" : "Discord";
 			label.className =
 				displayMode === "name"
-					? "ml-3 text-sm font-bold text-slate-900 w-20 text-center select-none transition-colors"
-					: "ml-3 text-sm font-bold text-slate-500 w-20 text-center select-none transition-colors";
+					? "ml-3 text-sm font-bold text-cyan-100 w-20 text-center select-none transition-colors"
+					: "ml-3 text-sm font-bold text-cyan-100/55 w-20 text-center select-none transition-colors";
 		}
 
 		// Update CSS classes
@@ -415,11 +413,11 @@ import ProgressBar from "../components/ProgressBar.astro";
 		}
 	}
 
-	async function loadLeaderboard(challengeId) {
+	async function loadLeaderboard(challengeId: string) {
 		try {
 			const loadingDiv = document.getElementById("loading");
 			const leaderboardDiv = document.getElementById("leaderboard");
-			const leaderboardBody = document.getElementById("leaderboardBody");
+			const leaderboardDesktopBody = document.getElementById("leaderboardDesktopBody");
 			const leaderboardCardsBody = document.getElementById(
 				"leaderboardCardsBody",
 			);
@@ -427,7 +425,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 			if (loadingDiv) loadingDiv.classList.remove("hidden");
 			if (leaderboardDiv) leaderboardDiv.classList.add("hidden");
 
-			if (!usersData || !studyRecordsData) await loadStaticData();
+			if (!usersData || !studyRecordsData) await loadStaticData(challengeId);
 
 			if (!usersData || !usersData.data) {
 				if (loadingDiv)
@@ -439,7 +437,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 			const members = usersData.data || [];
 			const challengeIdNum = parseInt(challengeId);
 			const challengeMembers = members.filter(
-				(m) =>
+				(m: LeaderboardUser) =>
 					!m.hidden &&
 					m.challengeIds &&
 					m.challengeIds.includes(challengeIdNum),
@@ -447,7 +445,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 
 			updateMemberCount(challengeId);
 
-			const membersWithStats = challengeMembers.map((member) => {
+			const membersWithStats: LeaderboardMember[] = challengeMembers.map((member: LeaderboardUser) => {
 				const stats = calculateUserStatsForLeaderboard(
 					member.id,
 					challengeId,
@@ -471,21 +469,21 @@ import ProgressBar from "../components/ProgressBar.astro";
 			// Apply display mode classes immediately
 			updateDisplayModeConfig();
 
-			if (!leaderboardBody && !leaderboardCardsBody) return;
+			if (!leaderboardDesktopBody && !leaderboardCardsBody) return;
 
 			if (filteredMembers.length === 0) {
 				const emptyMessage = currentSearchQuery
 					? `Không tìm thấy thành viên nào với từ khóa "${currentSearchQuery}"`
 					: "Chưa có thành viên nào trong challenge này";
-				if (leaderboardBody)
-					leaderboardBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-500">${emptyMessage}</td></tr>`;
+				if (leaderboardDesktopBody)
+					leaderboardDesktopBody.innerHTML = `<div class="text-center text-slate-500 py-8 text-base bg-white/[0.02] border border-white/10 rounded-2xl">${emptyMessage}</div>`;
 				if (leaderboardCardsBody)
 					leaderboardCardsBody.innerHTML = `<div class="text-center text-slate-500 py-8 text-base">${emptyMessage}</div>`;
 				return;
 			}
 
 			let currentRank = 1;
-			allMembersWithStats.forEach((member, index) => {
+			allMembersWithStats.forEach((member: LeaderboardMember, index: number) => {
 				if (
 					index > 0 &&
 					member.disciplinePercentage <
@@ -496,236 +494,109 @@ import ProgressBar from "../components/ProgressBar.astro";
 				member.rank = currentRank;
 			});
 
-			// --- LIGHT MODE RENDERING HELPERS (High Contrast) ---
+			// --- Challenge 10 style rendering helpers ---
 
-			function getRankBadge(rank) {
-				if (rank === 1) return '<span class="text-xl mr-1.5 filter drop-shadow-md hover:scale-110 transition-transform cursor-help">👑</span>';
-				if (rank === 2) return '<span class="text-xl mr-1.5 filter drop-shadow-md hover:scale-110 transition-transform cursor-help">🥈</span>';
-				if (rank === 3) return '<span class="text-xl mr-1.5 filter drop-shadow-md hover:scale-110 transition-transform cursor-help">🥉</span>';
-				return "";
+			function getRankBadge(rank: number) {
+				return String(rank || 0);
 			}
 
-			function getTopRowClass(rank) {
+			function getRankCircleClass(rank: number) {
 				if (rank === 1)
-					return "bg-gradient-to-r from-amber-50 via-yellow-50/50 to-white hover:to-amber-100/30 border-l-[6px] border-amber-400";
+					return "bg-[rgba(251,191,36,0.12)] border-[rgba(251,191,36,0.65)] text-[#facc15]";
 				if (rank === 2)
-					return "bg-gradient-to-r from-slate-100 via-slate-50/50 to-white hover:to-slate-200/30 border-l-[6px] border-slate-400";
+					return "bg-[rgba(148,163,184,0.18)] border-[rgba(203,213,225,0.55)] text-[#cbd5e1]";
 				if (rank === 3)
-					return "bg-gradient-to-r from-orange-50 via-orange-50/50 to-white hover:to-orange-100/30 border-l-[6px] border-orange-400";
+					return "bg-[rgba(34,211,238,0.12)] border-[rgba(34,211,238,0.55)] text-[#67e8f9]";
+				return "bg-black/35 border-white/10 text-slate-400";
+			}
+
+			function getDesktopCardClass(rank: number) {
+				if (rank === 1)
+					return "border-[rgba(251,191,36,0.72)] bg-[linear-gradient(100deg,rgba(251,191,36,0.17)_0%,rgba(6,15,24,0.96)_40%,rgba(10,30,24,0.94)_100%)]";
+				if (rank === 2)
+					return "border-[rgba(148,163,184,0.62)] bg-[linear-gradient(100deg,rgba(148,163,184,0.12)_0%,rgba(8,13,22,0.97)_42%,rgba(11,22,24,0.95)_100%)]";
+				return "border-white/8 bg-[linear-gradient(100deg,rgba(2,6,16,0.95)_0%,rgba(2,10,22,0.95)_50%,rgba(4,20,20,0.92)_100%)]";
+			}
+
+			function getTopRowClass(_rank: number) {
 				return "";
 			}
 
-			function getTotalDaysHighlightClass(totalDays) {
+			function getTotalDaysHighlightClass(totalDays: number) {
 				const tier = Math.floor(totalDays / 10);
 				const colorTiers = [
 					{ bg: "", border: "" },
-					{
-						bg: "bg-cyan-50/50",
-						border: "border-l-[3px] border-cyan-400",
-					},
-					{
-						bg: "bg-teal-50/50",
-						border: "border-l-[3px] border-teal-400",
-					},
-					{
-						bg: "bg-emerald-50/50",
-						border: "border-l-[3px] border-emerald-400",
-					},
-					{
-						bg: "bg-green-50/50",
-						border: "border-l-[3px] border-green-500",
-					},
-					{
-						bg: "bg-lime-50/50",
-						border: "border-l-[3px] border-lime-500",
-					},
-					{
-						bg: "bg-yellow-50/50",
-						border: "border-l-[3px] border-yellow-400",
-					},
-					{
-						bg: "bg-amber-50/50",
-						border: "border-l-[3px] border-amber-500",
-					},
-					{
-						bg: "bg-orange-50/50",
-						border: "border-l-[3px] border-orange-500",
-					},
-					{
-						bg: "bg-red-50/50",
-						border: "border-l-[3px] border-red-500",
-					},
+					{ bg: "bg-cyan-400/5", border: "border-l-[3px] border-cyan-300/45" },
+					{ bg: "bg-cyan-400/6", border: "border-l-[3px] border-cyan-300/45" },
+					{ bg: "bg-emerald-400/5", border: "border-l-[3px] border-emerald-300/45" },
+					{ bg: "bg-green-400/5", border: "border-l-[3px] border-green-400/45" },
+					{ bg: "bg-green-400/5", border: "border-l-[3px] border-green-400/45" },
+					{ bg: "bg-[rgba(255,217,102,0.08)]", border: "border-l-[3px] border-[#ffd966]" },
+					{ bg: "bg-[rgba(255,217,102,0.1)]", border: "border-l-[3px] border-[#ffd966]" },
+					{ bg: "bg-[rgba(255,212,216,0.08)]", border: "border-l-[3px] border-[#ffd4d8]" },
+					{ bg: "bg-[rgba(255,212,216,0.1)]", border: "border-l-[3px] border-[#ffd4d8]" },
 				];
 				if (tier >= 10)
 					return {
-						bg: "bg-purple-50",
-						border: "border-l-[4px] border-purple-500 shadow-[inset_0_0_15px_rgba(168,85,247,0.08)]",
+						bg: "bg-[rgba(0,255,148,0.08)]",
+						border: "border-l-[4px] border-[#00ff94]",
 					};
 				return colorTiers[tier] || { bg: "", border: "" };
 			}
 
-			// Render Desktop Table (Light Mode - High Contrast)
-			if (leaderboardBody) {
-				leaderboardBody.innerHTML = filteredMembers
-					.map((member) => {
-						const rankBadge = getRankBadge(member.rank);
-						const topRowClass = getTopRowClass(member.rank);
-						const daysHighlight = getTotalDaysHighlightClass(
-							member.totalDays,
-						);
-						const rowClass =
-							topRowClass ||
-							`${daysHighlight.bg} ${daysHighlight.border}`;
+			// Render Desktop Blocks
+			if (leaderboardDesktopBody) {
+				leaderboardDesktopBody.innerHTML = filteredMembers
+					.map((member: LeaderboardMember) => {
+						const memberRank = member.rank ?? 0;
+						const rankBadge = getRankBadge(memberRank);
+						const topCardClass = getTopRowClass(memberRank);
+						const baseCardClass = getDesktopCardClass(memberRank);
+						const cardClass = topCardClass || baseCardClass;
 
-						let disciplineColor = "text-emerald-700";
-						let barColor =
-							"bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.4)]";
-						if (member.disciplinePercentage < 50) {
-							disciplineColor = "text-rose-700";
-							barColor =
-								"bg-rose-500 shadow-[0_0_10px_rgba(244,63,94,0.4)]";
-						} else if (member.disciplinePercentage < 80) {
-							disciplineColor = "text-amber-700";
-							barColor =
-								"bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.4)]";
+						let disciplineColor = "text-cyan-300";
+						let barColor = "bg-cyan-300";
+						if (memberRank === 1) {
+							disciplineColor = "text-[#facc15]";
+							barColor = "bg-[#facc15]";
+						} else if (member.disciplinePercentage < 50) {
+							disciplineColor = "text-rose-400";
+							barColor = "bg-rose-500";
 						}
 
-						return `
-						<tr class="group hover:bg-cyan-50/40 transition-colors duration-300 ${rowClass}">
-							<td class="px-4 py-3 md:px-6 md:py-3.5">
-								<span class="font-bold text-base md:text-lg text-slate-800 tabular-nums flex items-center">
-									${member.rank <= 3 ? rankBadge : ""}<span class="${member.rank <= 3 ? "text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-orange-600 font-black" : "text-slate-500"}">#${member.rank}</span>
-								</span>
-							</td>
-							<td class="px-4 py-3 md:px-6 md:py-3.5">
-								<div class="flex items-center">
-									<a href="/profile/${member.id}" target="_blank" class="font-bold text-slate-800 text-sm md:text-base hover:text-cyan-600 transition-colors flex items-center gap-2 max-w-[150px] md:max-w-[200px]">
-										${getDisplayNameHTML(member)}
-									</a>
-									${member.role === "admin" ? '<span class="ml-2 text-[9px] uppercase font-black bg-purple-100 text-purple-700 px-1.5 py-0.5 rounded shadow-sm border border-purple-200/50 tracking-wider">Admin</span>' : ""}
-								</div>
-							</td>
-							<td class="px-4 py-3 md:px-6 md:py-3.5 text-center">
-								<span class="font-black text-cyan-700 tabular-nums text-lg md:text-xl">${member.streak}</span>
-								<span class="text-[9px] text-slate-400 block font-bold uppercase tracking-wider mt-1">ngày</span>
-							</td>
-							<td class="px-4 py-3 md:px-6 md:py-3.5 text-center">
-								<span class="font-bold text-slate-600 tabular-nums text-sm md:text-base">${member.longestStreak}</span>
-							</td>
-							<td class="px-4 py-3 md:px-6 md:py-3.5 text-center">
-								<span class="font-bold text-slate-800 tabular-nums text-sm md:text-base">${member.totalDays}</span>
-							</td>
-							<td class="px-4 py-3 md:px-6 md:py-3.5 text-center">
-								<div class="flex items-center justify-center gap-2">
-									<div class="w-16 md:w-20 h-1.5 md:h-2 rounded-full overflow-hidden bg-slate-200 shadow-inner ring-1 ring-slate-100/50">
-										<div class="h-full ${barColor} transition-all duration-1000 ease-out" style="width: ${member.disciplinePercentage}%"></div>
-									</div>
-									<span class="font-black ${disciplineColor} tabular-nums text-xs md:text-sm w-9 md:w-11 text-right">${member.disciplinePercentage}%</span>
-								</div>
-							</td>
-						</tr>
-					`;
-					})
-					.join("");
-			}
-
-			// Render Mobile Cards (Light Mode - High Contrast)
-			function getTopCardClass(rank) {
-				if (rank === 1)
-					return "ring-4 ring-amber-400/50 bg-gradient-to-br from-amber-50 to-white";
-				if (rank === 2)
-					return "ring-4 ring-slate-400/50 bg-gradient-to-br from-slate-50 to-white";
-				if (rank === 3)
-					return "ring-4 ring-orange-400/50 bg-gradient-to-br from-orange-50 to-white";
-				return "bg-white border border-slate-200";
-			}
-
-			function getTotalDaysCardClass(totalDays) {
-				const tier = Math.floor(totalDays / 10);
-				// Mobile uses subtle backgrounds
-				if (tier >= 10)
-					return "bg-purple-50/80 border-2 border-purple-300";
-
-				const tiers = [
-					"bg-white border border-slate-200",
-					"bg-cyan-50/80 border border-cyan-200",
-					"bg-teal-50/80 border border-teal-200",
-					"bg-emerald-50/80 border border-emerald-200",
-					"bg-green-50/80 border border-green-200",
-					"bg-lime-50/80 border border-lime-200",
-					"bg-yellow-50/80 border border-yellow-200",
-					"bg-amber-50/80 border border-amber-200",
-					"bg-orange-50/80 border border-orange-200",
-					"bg-red-50/80 border border-red-200",
-				];
-				return tiers[tier] || "bg-white border border-slate-200";
-			}
-
-			if (leaderboardCardsBody) {
-				leaderboardCardsBody.innerHTML = filteredMembers
-					.map((member) => {
-						const rankBadge = getRankBadge(member.rank);
-
-						let cardClass = "";
-						const topClass = getTopCardClass(member.rank);
-
-						// If top 3, use top class, else use days highlight
-						if (member.rank <= 3) {
-							cardClass = topClass;
-						} else {
-							const daysClass = getTotalDaysCardClass(
-								member.totalDays,
-							);
-							// Need to ensure border class is present
-							if (daysClass.includes("border"))
-								cardClass = daysClass;
-							else
-								cardClass = `${daysClass} border border-slate-200`;
-						}
-
-						let disciplineColor = "text-emerald-700";
-						if (member.disciplinePercentage < 50)
-							disciplineColor = "text-rose-700";
-						else if (member.disciplinePercentage < 80)
-							disciplineColor = "text-amber-700";
+						const rankCircleClass = getRankCircleClass(memberRank);
 
 						return `
-						<a
-							href="/profile/${member.id}"
-							target="_blank"
-							class="block rounded-2xl p-4 ${cardClass} shadow-lg shadow-slate-200/50 active:scale-[0.98] transition-all"
-						>
-							<div class="flex items-start justify-between gap-2 max-w-full">
-								<div class="flex items-center gap-3 max-w-[75%]">
-									<div class="flex items-center justify-center w-10 h-10 rounded-xl bg-white border border-slate-100 font-black text-base md:text-lg text-slate-800 shadow-sm shrink-0">
-										${member.rank <= 3 ? rankBadge : "#" + member.rank}
+						<a href="/profile/${member.id}" target="_blank" class="relative block rounded-[22px] px-6 py-5 ${cardClass} transition-all duration-200 hover:border-cyan-300/35 overflow-hidden border">
+							<div class="flex items-center gap-5">
+								<div class="flex items-center justify-center w-12 h-12 rounded-full border text-2xl leading-none font-black shrink-0 ${rankCircleClass}">${rankBadge}</div>
+								<div class="min-w-0 w-[21rem] lg:w-[24rem]">
+									<div class="flex items-center gap-2 overflow-hidden">
+										<div class="font-bold text-2xl leading-tight text-slate-100 truncate">${displayMode === "name" ? (member.name || "Không có tên") : (member.discordNickname || member.name || "Không có tên")}</div>
+										${member.role === "admin" ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wide bg-cyan-500/25 text-cyan-300 border border-cyan-400/35 shrink-0">Admin</span>' : ""}
 									</div>
-									<div class="min-w-0">
-										<div class="font-bold text-base md:text-lg text-slate-900 leading-tight flex items-center gap-1.5 overflow-hidden">
-											${getMobileDisplayNameHTML(member)}
-											${member.role === "admin" ? '<span class="text-[9px] uppercase font-black bg-purple-100 text-purple-700 px-1 py-0.5 rounded shrink-0">Admin</span>' : ""}
+									<div class="text-sm text-slate-400 font-medium mt-1.5 tracking-wide">ID: ${member.id} <span class="mx-1.5">•</span> ${member.discordNickname || "--"}</div>
+								</div>
+								<div class="flex-1 grid grid-cols-4 gap-5 items-center">
+									<div class="text-center">
+										<div class="text-xs text-slate-500 uppercase font-bold mb-1 tracking-widest">Chuỗi</div>
+										<div class="text-4xl font-black ${memberRank === 1 ? "text-[#facc15]" : "text-cyan-300"} leading-none tabular-nums">${member.streak}</div>
+									</div>
+									<div class="text-center">
+										<div class="text-xs text-slate-500 uppercase font-bold mb-1 tracking-widest">Kỷ lục</div>
+										<div class="text-3xl font-bold text-slate-300 leading-none tabular-nums">${member.longestStreak}</div>
+									</div>
+									<div class="text-center">
+										<div class="text-xs text-slate-500 uppercase font-bold mb-1 tracking-widest">Tổng ngày</div>
+										<div class="text-3xl font-bold text-slate-300 leading-none tabular-nums">${member.totalDays}</div>
+									</div>
+									<div class="text-right pr-2">
+										<div class="text-xs text-slate-500 uppercase font-bold mb-1 tracking-widest">Kỷ luật</div>
+										<div class="text-3xl leading-none font-black ${disciplineColor} tabular-nums mb-2">${member.disciplinePercentage}%</div>
+										<div class="w-28 h-2 bg-black/55 rounded-full overflow-hidden ml-auto">
+											<div class="h-full ${barColor}" style="width: ${member.disciplinePercentage}%"></div>
 										</div>
-										<div class="text-[10px] text-slate-400 font-mono mt-0.5 font-bold">ID: ${member.id}</div>
 									</div>
-								</div>
-								<div class="text-right shrink-0">
-									<div class="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-br from-cyan-600 to-blue-700 tabular-nums leading-none drop-shadow-sm">${member.streak}</div>
-									<div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold mt-1">Chuỗi</div>
-								</div>
-							</div>
-
-							<div class="grid grid-cols-3 gap-1 py-2 border-t border-black/5 bg-black/[0.02] -mx-4 px-4 mt-3 rounded-b-2xl">
-								<div class="text-center">
-									<div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Kỷ lục</div>
-									<div class="font-bold text-slate-600 tabular-nums text-sm">${member.longestStreak}</div>
-								</div>
-								<div class="text-center border-l border-black/5">
-									<div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Tổng</div>
-									<div class="font-bold text-slate-800 tabular-nums text-sm">${member.totalDays}</div>
-								</div>
-								<div class="text-center border-l border-black/5">
-									<div class="text-[9px] uppercase tracking-wider text-slate-400 font-bold mb-0.5">Kỷ luật</div>
-									<div class="font-black ${disciplineColor} tabular-nums text-sm rounded bg-white/50">${member.disciplinePercentage}%</div>
 								</div>
 							</div>
 						</a>
@@ -733,18 +604,87 @@ import ProgressBar from "../components/ProgressBar.astro";
 					})
 					.join("");
 			}
-		} catch (error) {
+
+			if (leaderboardCardsBody) {
+				leaderboardCardsBody.innerHTML = filteredMembers
+					.map((member: LeaderboardMember) => {
+						const memberRank = member.rank ?? 0;
+						const rankBadge = getRankBadge(memberRank);
+						const cardClass = getDesktopCardClass(memberRank);
+						const rankCircleClass = getRankCircleClass(memberRank);
+
+						let disciplineColor = "text-cyan-300";
+						let barColor = "bg-cyan-300";
+						if (memberRank === 1) {
+							disciplineColor = "text-[#facc15]";
+							barColor = "bg-[#facc15]";
+						} else if (member.disciplinePercentage < 50) {
+							disciplineColor = "text-rose-400";
+							barColor = "bg-rose-500";
+						}
+
+						return `
+						<a
+							href="/profile/${member.id}"
+							target="_blank"
+							class="block rounded-2xl p-4 border ${cardClass} active:scale-[0.98] transition-all"
+						>
+							<div class="flex items-start justify-between gap-3 max-w-full">
+								<div class="flex items-center gap-3 min-w-0">
+									<div class="flex items-center justify-center w-11 h-11 rounded-full border text-xl leading-none font-black shrink-0 ${rankCircleClass}">
+										${rankBadge}
+									</div>
+									<div class="min-w-0">
+										<div class="font-bold text-lg text-slate-100 leading-tight flex items-center gap-1.5 overflow-hidden">
+											${displayMode === "name" ? (member.name || "Không có tên") : (member.discordNickname || member.name || "Không có tên")}
+											${member.role === "admin" ? '<span class="text-[9px] uppercase font-black bg-cyan-500/20 text-cyan-300 px-1 py-0.5 rounded shrink-0 border border-cyan-500/30">Admin</span>' : ""}
+										</div>
+										<div class="text-xs text-slate-400 mt-0.5">ID: ${member.id} <span class="mx-1">•</span> ${member.discordNickname || "--"}</div>
+									</div>
+								</div>
+								<div class="text-right shrink-0">
+									<div class="text-3xl font-black ${memberRank === 1 ? "text-[#facc15]" : "text-cyan-300"} tabular-nums leading-none">${member.streak}</div>
+									<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mt-1">Chuỗi</div>
+								</div>
+							</div>
+
+							<div class="grid grid-cols-3 gap-2 py-2.5 border-t border-white/10 mt-3">
+								<div class="text-center">
+									<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-0.5">Kỷ lục</div>
+									<div class="font-bold text-slate-300 tabular-nums text-xl leading-none">${member.longestStreak}</div>
+								</div>
+								<div class="text-center border-l border-white/10">
+									<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-0.5">Tổng ngày</div>
+									<div class="font-bold text-slate-100 tabular-nums text-xl leading-none">${member.totalDays}</div>
+								</div>
+								<div class="text-center border-l border-white/10">
+									<div class="text-[10px] uppercase tracking-wider text-slate-500 font-bold mb-0.5">Kỷ luật</div>
+									<div class="font-black ${disciplineColor} tabular-nums text-xl leading-none">${member.disciplinePercentage}%</div>
+								</div>
+							</div>
+
+							<div class="mt-1.5 w-full h-2 bg-black/55 rounded-full overflow-hidden">
+								<div class="h-full ${barColor}" style="width: ${member.disciplinePercentage}%"></div>
+							</div>
+						</a>
+					`;
+					})
+					.join("");
+			}
+		} catch (error: unknown) {
 			console.error("Error loading leaderboard:", error);
 			const loadingDiv = document.getElementById("loading");
-			if (loadingDiv)
-				loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
+			if (loadingDiv) {
+				const errorMessage = error instanceof Error ? error.message : String(error);
+				loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${errorMessage}</p>`;
+			}
 		}
 	}
 
-	function applySearchFilter(members, searchQuery) {
+	function applySearchFilter(members: LeaderboardMember[], searchQuery: string) {
 		if (!searchQuery || searchQuery.trim() === "") return members;
 		const query = searchQuery.trim().toLowerCase();
-		return members.filter((member) => {
+		return members.filter((member: LeaderboardMember) => {
 			const id = String(member.id || "").toLowerCase();
 			const name = (member.name || "").toLowerCase();
 			const discord = (member.discordNickname || "").toLowerCase();
@@ -760,20 +700,21 @@ import ProgressBar from "../components/ProgressBar.astro";
 		loadLeaderboard(currentChallengeId);
 	}
 
-	const challengeSelect = document.getElementById("challengeSelect");
+	const challengeSelect = document.getElementById("challengeSelect") as HTMLSelectElement | null;
 	if (challengeSelect) {
 		challengeSelect.addEventListener("change", async (e) => {
-			currentChallengeId = e.target.value;
+			const target = e.currentTarget as HTMLSelectElement | null;
+			if (!target) return;
+			currentChallengeId = target.value;
 			currentSearchQuery = "";
-			const searchInput = document.getElementById("searchInput");
+			const searchInput = document.getElementById("searchInput") as HTMLInputElement | null;
 			if (searchInput) searchInput.value = "";
-			const clearSearchBtn = document.getElementById("clearSearch");
+			const clearSearchBtn = document.getElementById("clearSearch") as HTMLButtonElement | null;
 			if (clearSearchBtn) {
 				clearSearchBtn.classList.remove("opacity-100");
 				clearSearchBtn.classList.add("opacity-0", "pointer-events-none");
 			}
-			if (window.updateProgressBar)
-				window.updateProgressBar(currentChallengeId);
+			leaderboardWindow.updateProgressBar?.(currentChallengeId);
 			const titleEl = document.getElementById("challengeTitle");
 			// Update title logic...
 			if (titleEl) {
@@ -787,13 +728,14 @@ import ProgressBar from "../components/ProgressBar.astro";
 		});
 	}
 
-	const searchInput = document.getElementById("searchInput");
-	const clearSearchBtn = document.getElementById("clearSearch");
+	const searchInput = document.getElementById("searchInput") as HTMLInputElement | null;
+	const clearSearchBtn = document.getElementById("clearSearch") as HTMLButtonElement | null;
 	if (searchInput) {
-		let searchTimeout;
+		let searchTimeout: SearchTimer | undefined;
 		searchInput.addEventListener("input", (e) => {
 			clearTimeout(searchTimeout);
-			currentSearchQuery = e.target.value;
+			const target = e.currentTarget as HTMLInputElement | null;
+			currentSearchQuery = target?.value || "";
 			if (clearSearchBtn) {
 				if (currentSearchQuery.trim() !== "") {
 					clearSearchBtn.classList.remove("opacity-0", "pointer-events-none");
@@ -822,18 +764,19 @@ import ProgressBar from "../components/ProgressBar.astro";
 		});
 	}
 
-	const displayModeToggle = document.getElementById("displayModeToggle");
+	const displayModeToggle = document.getElementById("displayModeToggle") as HTMLInputElement | null;
 
-	function switchDisplayMode(isNameMode) {
+	function switchDisplayMode(isNameMode: boolean) {
 		displayMode = isNameMode ? "name" : "discord";
 		localStorage.setItem("leaderboardDisplayMode", displayMode);
 		updateDisplayModeConfig();
-		// No re-render needed
+		renderFilteredLeaderboard();
 	}
 
 	if (displayModeToggle) {
 		displayModeToggle.addEventListener("change", (e) => {
-			switchDisplayMode(e.target.checked);
+			const target = e.currentTarget as HTMLInputElement | null;
+			switchDisplayMode(Boolean(target?.checked));
 		});
 	}
 

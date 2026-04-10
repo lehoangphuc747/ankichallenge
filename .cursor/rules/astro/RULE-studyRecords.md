@@ -1,11 +1,11 @@
-## Quy tắc chỉnh `public/data/studyRecords.json`
+## Quy tắc chỉnh `public/data/challenge_10_records.json`
 
 1. **Không tự suy luận người học**
    - Chỉ thêm/bỏ user **khi người dùng gõ rõ tên** trong chat.
    - Không tự động thêm "core team" hoặc người "thường xuất hiện" nếu người dùng không nhắc.
 
 2. **Cách thêm cho từng ngày**
-   - Mỗi ngày trong `studyRecords.json` có dạng:
+   - Mỗi ngày trong `challenge_10_records.json` có dạng:
      - `"YYYY-MM-DD": { "<userId>": true, ... }`
    - Khi người dùng bảo:  
      - `Dxx: tên1, tên2, ...`  
@@ -31,12 +31,12 @@
    - Khi không chắc, **không tự quyết**, mà giữ nguyên và hỏi lại (nếu người dùng cho phép).
 
 5. **Quy tắc map Dxx -> ngày (siêu quan trọng)**
-   - Nếu người dùng **chốt mốc rõ ràng** (ví dụ: `D86 = 17/03/2026`), phải dùng mốc đó làm chuẩn.
+   - Nếu người dùng **chốt mốc rõ ràng** (ví dụ: `D10 = 19/04/2026`), phải dùng mốc đó làm chuẩn.
    - Suy ra các ngày khác theo offset:
-     - `D85 = D86 - 1 ngày`, `D84 = D86 - 2 ngày`, ...
+       - `D9 = D10 - 1 ngày`, `D8 = D10 - 2 ngày`, ...
    - **Không tự map theo challenge cũ hoặc dữ liệu lịch sử** khi người dùng đã chốt mốc mới.
    - Nếu người dùng chưa chốt mốc ngày cho Dxx thì hỏi lại trước khi sửa.
-   - **Mốc mặc định hiện tại (khi chưa có mốc mới trong chat):** `D89 = 20/03/2026`.
+   - **Mốc mặc định hiện tại (khi chưa có mốc mới trong chat):** `D1 = 10/04/2026` (Challenge 10 start date).
    - Khi xuất hiện mốc mới trong chat, phải ưu tiên mốc mới và bỏ mốc mặc định này.
 
 6. **Chuẩn hóa nickname trước khi map ID**
