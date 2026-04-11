@@ -318,27 +318,28 @@
       "quotes": "Hành tây có vị ngọt, xào trứng ăn ngon. Ớt chuông cũng ngọt, bắp cải luộc cũng ngọt, cơm nhai lâu cũng ngọt. Cà rốt nhất định xào cùng một ít dầu ăn mới hấp thụ tốt. Thật sự ko có quote nào ở đây cả, chỉ có bụng đói thôi"
     },
     {
-      "name": "Hana",
-      "major": "Hospitality and Tourism Management at Singapore",
-      "zaloUrl": "https://zalo.me/81970975",
+      "name": "Chan Quỳnh",
+      "major": "Khác",
+      "zaloUrl": "https://zalo.me/0773132433",
       "email": "",
       "role": "member",
       "hidden": false,
       "discordNickname": "hana.112",
       "id": 25,
-      "facebookUrl": "https://www.facebook.com/quynhss.chan/",
+      "facebookUrl": "https://www.facebook.com/share/16y33Qy9r6/?mibextid=wwXIfr",
       "previousRank": 26,
       "streak": 55,
       "birthYear": 2002,
       "learning": "Tiếng Anh",
-      "bio": "Always remember your ''Why'' để không bỏ cuộc.\nThe mess is part of the grow journey, embrace it and grow from there 💚",
+      "bio": "Học Anki mỗi ngày",
       "challengeIds": [
         1,
-        2
+        2,
+        3
       ],
-      "place": "",
-      "goals": "",
-      "quotes": ""
+      "place": "Singapore",
+      "goals": "Học Anki mỗi ngày",
+      "quotes": "Bạn đã thật sự cố gắng chưa???"
     },
     {
       "zaloUrl": "https://zalo.me/0818664375",
@@ -391,6 +392,7 @@
       "learning": "Tiếng Anh",
       "major": "THPT Lớp 12",
       "id": 28,
+      "discordNickname": "ha
       "email": "",
       "hidden": false,
       "discordNickname": "moetimchai (Dieu Nhan)",
@@ -483,22 +485,23 @@
       "name": "Nguyễn Ngọc Dung",
       "email": "",
       "streak": 0,
-      "learning": "Chính là Tiếng Anh, hiện đang bập bẹ 1 xíu Tiếng Hàn",
+      "learning": "Tiếng Anh",
       "major": "Khác",
-      "bio": "Quên ăn quên ngủ nhưng không quên được phải lật thẻ ANKI🐮\n\" Kì thực trên mặt đất vốn làm gì có đường, người ta đi mãi thì thành đường thôi. \" - Lỗ Tấn",
+      "bio": "100 ngày cày xong Anki TOEIC 605-990, Cambridge IELTS (~9000 thẻ)",
       "facebookUrl": "https://www.facebook.com/serendipity4you",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0397689256",
       "discordNickname": "13november._",
       "birthYear": 2009,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
+        2,
+        3
       ],
-      "place": "",
-      "goals": "",
-      "quotes": ""
+      "place": "Vĩnh Yên - Phú Thọ",
+      "goals": "100 ngày cày xong Anki TOEIC 605-990, Cambridge IELTS (~9000 thẻ)",
+      "quotes": "Được chọn hay bị chọn?"
     },
     {
       "id": 33,
@@ -593,11 +596,11 @@
     },
     {
       "id": 37,
-      "name": "Nguyễn Hữu Duy",
+      "name": "Duy Sanji",
       "email": "",
       "streak": 0,
       "learning": "Công nghệ thông tin!",
-      "major": "Khác",
+      "major": "Đầu bếp tài ba",
       "bio": "Computer science engineer !",
       "facebookUrl": "https://www.facebook.com/duy.sanji.640714/",
       "zaloUrl": "https://zalo.me/0899731290",
@@ -877,7 +880,8 @@
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
+        2,
+        3
       ],
       "place": "",
       "goals": "",
@@ -1686,9 +1690,9 @@
       "name": "Hanhbui",
       "email": "",
       "streak": 0,
-      "learning": "Thi topik",
+      "learning": "Tieng Han",
       "major": "Khác",
-      "bio": "30-60 phút/ ngày",
+      "bio": "Moi ngay hoc 30phut",
       "facebookUrl": "https://www.facebook.com/hanh.bui.271267/",
       "zaloUrl": "https://zalo.me/0865947141",
       "discordNickname": "luxultm",
@@ -1700,9 +1704,9 @@
         2,
         3
       ],
-      "place": "Việt Nam",
-      "goals": "30-60 phút/ ngày",
-      "quotes": ""
+      "place": "Viet Nam",
+      "goals": "Moi ngay hoc 30phut",
+      "quotes": "오늘의 작은 노력들이 내일의 큰 변화를 만든다."
     },
     {
       "name": "Nguyễn Thị Thanh Lam",
