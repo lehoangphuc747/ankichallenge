@@ -1,12 +1,12 @@
-{
+﻿{
   "challenge": "Anki Challenge 9",
   "totalExcellentCompleters": 22,
   "data": [
     {
       "id": 33,
-      "name": "Nguyễn Trần Anh Vũ",
+      "name": "Nguyá»…n Tráº§n Anh VÅ©",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/nguyen.vu.2804/",
       "discordNickname": "vu.nguyen2804 (Vu)",
@@ -15,9 +15,9 @@
     },
     {
       "id": 34,
-      "name": "Nguyễn Ngọc Quỳnh Trâm",
+      "name": "Nguyá»…n Ngá»c Quá»³nh TrÃ¢m",
       "email": "",
-      "learningLanguage": "Tiếng Anh",
+      "learning": "Tiáº¿ng Anh",
       "birthYear": 2005,
       "facebookUrl": "https://www.facebook.com/quynhtram.nguyen.75491/",
       "discordNickname": "tram160105 (Tram)",
@@ -26,9 +26,9 @@
     },
     {
       "id": 35,
-      "name": "Lê Hoàng Phúc",
+      "name": "LÃª HoÃ ng PhÃºc",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/lehoangphuc.aio/",
       "discordNickname": "madbear",
@@ -39,7 +39,7 @@
       "id": 36,
       "name": "Phan Minh Thu",
       "email": "",
-      "learningLanguage": "Tiếng Hàn",
+      "learning": "Tiáº¿ng HÃ n",
       "birthYear": 2000,
       "facebookUrl": "https://www.facebook.com/minh.thu.5437/",
       "discordNickname": "phan.minh.thu",
@@ -48,9 +48,9 @@
     },
     {
       "id": 37,
-      "name": "Trần Việt Tùng",
+      "name": "Tráº§n Viá»‡t TÃ¹ng",
       "email": "",
-      "learningLanguage": "Tiếng Trung",
+      "learning": "Tiáº¿ng Trung",
       "birthYear": 1998,
       "facebookUrl": "https://www.facebook.com/viet.tung.5491/",
       "discordNickname": "tung98",
@@ -59,9 +59,9 @@
     },
     {
       "id": 38,
-      "name": "Võ Thị Hương Giang",
+      "name": "VÃµ Thá»‹ HÆ°Æ¡ng Giang",
       "email": "",
-      "learningLanguage": "Tiếng Đức",
+      "learning": "Tiáº¿ng Äá»©c",
       "birthYear": 2002,
       "facebookUrl": "https://www.facebook.com/huong.giang.2002/",
       "discordNickname": "giang.vo",
@@ -70,9 +70,9 @@
     },
     {
       "id": 39,
-      "name": "Dương Minh Khánh",
+      "name": "DÆ°Æ¡ng Minh KhÃ¡nh",
       "email": "",
-      "learningLanguage": "Tiếng Pháp",
+      "learning": "Tiáº¿ng PhÃ¡p",
       "birthYear": 2003,
       "facebookUrl": "https://www.facebook.com/minh.khanh.566/",
       "discordNickname": "khanh.duong",
@@ -81,9 +81,9 @@
     },
     {
       "id": 40,
-      "name": "Hồ Thị Cẩm Linh",
+      "name": "Há»“ Thá»‹ Cáº©m Linh",
       "email": "",
-      "learningLanguage": "Tiếng Tây Ban Nha",
+      "learning": "Tiáº¿ng TÃ¢y Ban Nha",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/cam.linh.5633/",
       "discordNickname": "linh.ho",
@@ -92,9 +92,9 @@
     },
     {
       "id": 41,
-      "name": "Ngô Văn Hùng",
+      "name": "NgÃ´ VÄƒn HÃ¹ng",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 1999,
       "facebookUrl": "https://www.facebook.com/van.hung.5829/",
       "discordNickname": "hung99",
@@ -103,9 +103,9 @@
     },
     {
       "id": 42,
-      "name": "Cao Thị Yến Nhi",
+      "name": "Cao Thá»‹ Yáº¿n Nhi",
       "email": "",
-      "learningLanguage": "Tiếng Anh",
+      "learning": "Tiáº¿ng Anh",
       "birthYear": 2004,
       "facebookUrl": "https://www.facebook.com/yen.nhi.2004/",
       "discordNickname": "nhi.cao",
@@ -114,9 +114,9 @@
     },
     {
       "id": 43,
-      "name": "Bùi Thanh Hải",
+      "name": "BÃ¹i Thanh Háº£i",
       "email": "",
-      "learningLanguage": "Tiếng Hàn",
+      "learning": "Tiáº¿ng HÃ n",
       "birthYear": 2000,
       "facebookUrl": "https://www.facebook.com/thanh.hai.5274/",
       "discordNickname": "hai.bui",
@@ -125,9 +125,9 @@
     },
     {
       "id": 44,
-      "name": "Tạ Quốc Huy",
+      "name": "Táº¡ Quá»‘c Huy",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 2002,
       "facebookUrl": "https://www.facebook.com/quoc.huy.352/",
       "discordNickname": "huy.ta",
@@ -136,9 +136,9 @@
     },
     {
       "id": 45,
-      "name": "Lý Thị Thanh Hương",
+      "name": "LÃ½ Thá»‹ Thanh HÆ°Æ¡ng",
       "email": "",
-      "learningLanguage": "Tiếng Anh",
+      "learning": "Tiáº¿ng Anh",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/thanh.huong.5681/",
       "discordNickname": "huong.ly",
@@ -147,9 +147,9 @@
     },
     {
       "id": 46,
-      "name": "Vũ Minh Tú",
+      "name": "VÅ© Minh TÃº",
       "email": "",
-      "learningLanguage": "Tiếng Trung",
+      "learning": "Tiáº¿ng Trung",
       "birthYear": 2003,
       "facebookUrl": "https://www.facebook.com/minh.tu.567/",
       "discordNickname": "tu.vu",
@@ -158,9 +158,9 @@
     },
     {
       "id": 47,
-      "name": "Đặng Thị Loan",
+      "name": "Äáº·ng Thá»‹ Loan",
       "email": "",
-      "learningLanguage": "Tiếng Đức",
+      "learning": "Tiáº¿ng Äá»©c",
       "birthYear": 2000,
       "facebookUrl": "https://www.facebook.com/thi.loan.5482/",
       "discordNickname": "loan.dang",
@@ -169,9 +169,9 @@
     },
     {
       "id": 48,
-      "name": "Phạm Văn Đạt",
+      "name": "Pháº¡m VÄƒn Äáº¡t",
       "email": "",
-      "learningLanguage": "Tiếng Pháp",
+      "learning": "Tiáº¿ng PhÃ¡p",
       "birthYear": 2002,
       "facebookUrl": "https://www.facebook.com/van.dat.5937/",
       "discordNickname": "dat.pham",
@@ -180,9 +180,9 @@
     },
     {
       "id": 49,
-      "name": "Đinh Thị Hạnh",
+      "name": "Äinh Thá»‹ Háº¡nh",
       "email": "",
-      "learningLanguage": "Tiếng Tây Ban Nha",
+      "learning": "Tiáº¿ng TÃ¢y Ban Nha",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/thi.hanh.5738/",
       "discordNickname": "hanh.dinh",
@@ -191,9 +191,9 @@
     },
     {
       "id": 50,
-      "name": "Hoàng Kim Dung",
+      "name": "HoÃ ng Kim Dung",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 1999,
       "facebookUrl": "https://www.facebook.com/kim.dung.567/",
       "discordNickname": "dung.hoang",
@@ -202,9 +202,9 @@
     },
     {
       "id": 51,
-      "name": "Tô Thái Bảo",
+      "name": "TÃ´ ThÃ¡i Báº£o",
       "email": "",
-      "learningLanguage": "Tiếng Anh",
+      "learning": "Tiáº¿ng Anh",
       "birthYear": 2003,
       "facebookUrl": "https://www.facebook.com/thai.bao.5829/",
       "discordNickname": "bao.to",
@@ -213,9 +213,9 @@
     },
     {
       "id": 52,
-      "name": "Chử Việt Hùng",
+      "name": "Chá»­ Viá»‡t HÃ¹ng",
       "email": "",
-      "learningLanguage": "Tiếng Hàn",
+      "learning": "Tiáº¿ng HÃ n",
       "birthYear": 2000,
       "facebookUrl": "https://www.facebook.com/viet.hung.5482/",
       "discordNickname": "viet.hung",
@@ -224,9 +224,9 @@
     },
     {
       "id": 53,
-      "name": "Mạc Tuấn Tài",
+      "name": "Máº¡c Tuáº¥n TÃ i",
       "email": "",
-      "learningLanguage": "Tiếng Nhật",
+      "learning": "Tiáº¿ng Nháº­t",
       "birthYear": 2002,
       "facebookUrl": "https://www.facebook.com/tuan.tai.5273/",
       "discordNickname": "tai.mac",
@@ -235,9 +235,9 @@
     },
     {
       "id": 54,
-      "name": "Lê Văn Hoanh",
+      "name": "LÃª VÄƒn Hoanh",
       "email": "",
-      "learningLanguage": "Tiếng Trung",
+      "learning": "Tiáº¿ng Trung",
       "birthYear": 2001,
       "facebookUrl": "https://www.facebook.com/van.hoanh.5637/",
       "discordNickname": "hoanh.le",
@@ -246,3 +246,4 @@
     }
   ]
 }
+

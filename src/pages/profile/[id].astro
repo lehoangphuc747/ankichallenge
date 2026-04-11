@@ -1,44 +1,43 @@
----
+﻿---
 import Layout from '../../layouts/Layout.astro';
 import CertificateCardStyles from '../../components/CertificateCardStyles.astro';
 
-// Import dữ liệu người dùng để Astro biết trước danh sách `id` khi build static
+// Import dá»¯ liá»‡u ngÆ°á»i dÃ¹ng Ä‘á»ƒ Astro biáº¿t trÆ°á»›c danh sÃ¡ch `id` khi build static
 import usersData from '../../../public/data/users.json';
 
-// Astro yêu cầu dynamic route phải khai báo getStaticPaths() để build tĩnh
+// Astro yÃªu cáº§u dynamic route pháº£i khai bÃ¡o getStaticPaths() Ä‘á»ƒ build tÄ©nh
 export function getStaticPaths() {
   const members = (usersData && usersData.data) ? usersData.data : [];
   
-  // Trả về danh sách đường dẫn: /profile/9, /profile/10, ...
+  // Tráº£ vá» danh sÃ¡ch Ä‘Æ°á»ng dáº«n: /profile/9, /profile/10, ...
   return members.map((member: any) => ({
     params: { id: String(member.id) }
   }));
 }
 ---
 
-<Layout title="Chi tiết thành viên">
-  <main class="min-h-screen aurora-bg py-12 px-4 relative">
-    <!-- Aurora Atmospheric Layers -->
-    <div class="absolute inset-0 aurora-layer-1 pointer-events-none"></div>
-    <div class="absolute inset-0 aurora-layer-2 pointer-events-none"></div>
+<Layout title="Chi tiáº¿t thÃ nh viÃªn">
+  <main class="profile-shell min-h-screen bg-[#09090b] text-slate-100 flex flex-col md:flex-row relative">
+    <div class="absolute top-[-8%] left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-10%] right-[-8%] w-[520px] h-[520px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
     
     <!-- Sidebar Overlay (Mobile) -->
     <div 
       id="sidebarOverlay" 
-      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden transition-opacity"
+      class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"
     ></div>
 
     <!-- Sidebar -->
     <aside 
       id="profileSidebar" 
-      class="fixed left-0 top-0 h-full w-80 bg-white border-r-2 border-black z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto"
+      class="fixed left-0 top-0 bottom-0 w-80 max-w-[86vw] z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto border-r border-white/5"
     >
-      <div class="p-4 sticky top-0 bg-white border-b-2 border-black z-10">
-        <div class="flex items-center justify-between mb-4">
-          <h2 class="text-xl font-bold aurora-text">Danh sách thành viên</h2>
+      <div class="p-5 sticky top-0 bg-[#05070c]/95 border-b border-white/10 z-10 backdrop-blur-xl">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-[2rem] leading-none font-bold tracking-tight text-slate-100">ThÃ nh viÃªn</h2>
           <button 
             id="sidebarClose" 
-            class="md:hidden p-2 hover:bg-gray-100 rounded-lg"
+            class="md:hidden p-2 rounded-xl bg-white/5 text-slate-300 hover:bg-white/10 transition-colors"
             aria-label="Close sidebar"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -49,41 +48,45 @@ export function getStaticPaths() {
         </div>
         <!-- Challenge Filter -->
         <div class="mb-3">
-          <label for="sidebarChallengeFilter" class="block text-sm font-semibold text-gray-700 mb-2">
-            Lọc theo Challenge:
-          </label>
           <select 
             id="sidebarChallengeFilter" 
-            class="w-full px-4 py-2 border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white font-semibold text-gray-900"
+            class="sidebar-control sidebar-select"
           >
-            <option value="all">Tất cả</option>
+            <option value="all">Táº¥t cáº£</option>
             <option value="1">Anki Challenge 8</option>
             <option value="2">Anki Challenge 9</option>
             <option value="3">Anki Challenge 10</option>
           </select>
         </div>
         <!-- Search Input -->
-        <input 
-          type="text" 
-          id="sidebarSearch" 
-          placeholder="Tìm kiếm thành viên..." 
-          class="w-full px-4 py-2 border-2 border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black bg-white text-gray-900 placeholder-gray-500"
-        />
+        <div class="sidebar-search-wrap">
+          <svg class="sidebar-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </svg>
+          <input 
+            type="text" 
+            id="sidebarSearch" 
+            placeholder="TÃ¬m kiáº¿m..." 
+            class="sidebar-control sidebar-search"
+          />
+        </div>
       </div>
-      <div id="sidebarUserList" class="p-4 space-y-2">
+      <div id="sidebarUserList" class="p-2.5 space-y-2.5">
         <!-- User list will be populated by JavaScript -->
-        <div class="text-center py-8 text-gray-500">Đang tải...</div>
+        <div class="text-center py-8 text-slate-400">Äang táº£i...</div>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <div class="max-w-5xl mx-auto relative z-10 md:ml-80 transition-all duration-300">
+    <div class="relative z-10 w-full md:w-[calc(100%-20rem)] md:ml-80 transition-all duration-300 min-h-screen py-6 md:py-8 px-4">
+      <div class="max-w-5xl mx-auto w-full md:px-6">
       <!-- Top Bar with Toggle and Back Button (Mobile) -->
       <div class="mb-6 flex items-center gap-3 md:block">
         <!-- Sidebar Toggle Button (Mobile) -->
         <button 
           id="sidebarToggle" 
-          class="aurora-button p-3 rounded-lg md:hidden flex-shrink-0"
+          class="profile-action p-3 rounded-xl md:hidden flex-shrink-0"
           aria-label="Toggle sidebar"
         >
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -93,24 +96,25 @@ export function getStaticPaths() {
           </svg>
         </button>
         <!-- Back Button -->
-        <a href="/" class="aurora-button inline-flex items-center gap-2 flex-1 md:flex-none">
-          ← Quay lại
+        <a href="/" class="profile-action inline-flex items-center justify-center gap-2 flex-1 md:flex-none">
+          â† Quay láº¡i BXH
         </a>
       </div>
 
       <div id="loading" class="text-center py-12">
-        <div class="aurora-card inline-block px-8 py-6 rounded-2xl">
-          <p class="aurora-text text-xl font-bold">✨ Đang tải dữ liệu...</p>
+        <div class="aurora-card inline-block px-8 py-6 rounded-[28px]">
+          <p class="text-xl font-bold text-slate-100">Äang táº£i dá»¯ liá»‡u...</p>
         </div>
       </div>
 
       <!-- Profile Content -->
       <div id="profileContent" class="hidden space-y-6">
         <!-- Header Card -->
-        <div class="aurora-card rounded-2xl p-8">
+        <div class="aurora-card profile-hero-card rounded-3xl p-6 md:p-10 relative overflow-hidden">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
           <div class="text-center">
-            <h1 class="text-5xl font-bold aurora-text mb-2" id="userName"></h1>
-            <p class="text-lg text-gray-600 mb-4" id="userBio"></p>
+            <h1 class="text-4xl md:text-5xl font-black text-slate-100 mb-2" id="userName"></h1>
+            <p class="text-sm md:text-base text-slate-400 mb-4 max-w-3xl mx-auto leading-relaxed" id="userBio"></p>
             <div class="flex gap-3 justify-center flex-wrap" id="userMeta"></div>
           </div>
         </div>
@@ -125,32 +129,40 @@ export function getStaticPaths() {
         </div>
 
         <!-- Certificates Section -->
-        <div class="aurora-card rounded-2xl p-6" id="certificatesSection">
+        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8" id="certificatesSection">
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-            <h2 class="text-2xl sm:text-3xl font-bold aurora-text m-0">🏆 Chứng chỉ & Thành tích</h2>
-            <!-- Decorative line -->
-            <div class="h-1 bg-gray-200 w-full sm:flex-1 rounded-full hidden sm:block"></div>
+            <h2 class="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-slate-100 m-0">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-300/25">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="8" r="6"></circle>
+                  <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
+                </svg>
+              </span>
+              Chá»©ng chá»‰ & ThÃ nh tÃ­ch
+            </h2>
+            <div class="h-px bg-white/10 w-full sm:flex-1 rounded-full hidden sm:block"></div>
           </div>
           <div id="certificatesList" class="cert-grid">
             <!-- Certificates will be rendered here by JavaScript -->
           </div>
-          <div id="noCertificates" class="hidden text-center py-8 text-gray-500">
-            Chưa có chứng chỉ nào. Hãy hoàn thành các thử thách để nhận chứng chỉ! 🎯
+          <div id="noCertificates" class="hidden text-center py-8 text-slate-400">
+            ChÆ°a cÃ³ chá»©ng chá»‰ nÃ o. HÃ£y hoÃ n thÃ nh cÃ¡c thá»­ thÃ¡ch Ä‘á»ƒ nháº­n chá»©ng chá»‰.
           </div>
         </div>
 
         <!-- Calendar History -->
-        <div class="aurora-card rounded-2xl p-6">
-          <h2 class="text-2xl font-bold aurora-text mb-6">📅 Lịch sử Check-in</h2>
+        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
+          <h2 class="text-2xl font-bold text-slate-100 mb-6">Lá»‹ch sá»­ Check-in</h2>
           <div id="calendar" class="space-y-8">
           </div>
         </div>
 
         <!-- Detailed History -->
-        <div class="aurora-card rounded-2xl p-6">
-          <h2 class="text-2xl font-bold aurora-text mb-6">📊 Chi tiết theo tháng</h2>
+        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
+          <h2 class="text-2xl font-bold text-slate-100 mb-6">Chi tiáº¿t theo thÃ¡ng</h2>
           <div id="monthlyStats"></div>
         </div>
+      </div>
       </div>
     </div>
   </main>
@@ -159,7 +171,7 @@ export function getStaticPaths() {
 <script>
   import { calculateUserStats } from '../../utils/calculateStats.js';
 
-  // Lấy userId từ URL nhưng chống lỗi dấu "/" ở cuối (Cloudflare thường redirect thành /profile/9/)
+  // Láº¥y userId tá»« URL nhÆ°ng chá»‘ng lá»—i dáº¥u "/" á»Ÿ cuá»‘i (Cloudflare thÆ°á»ng redirect thÃ nh /profile/9/)
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const userId = pathParts[pathParts.length - 1];
 
@@ -172,7 +184,7 @@ export function getStaticPaths() {
       const loadingDiv = document.getElementById('loading');
       const profileContent = document.getElementById('profileContent');
 
-      // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
+      // Load user data and study records (thÃªm cache-busting Ä‘á»ƒ CDN khÃ´ng cache data cÅ©)
       const cacheBuster = '?v=' + Date.now();
       const [usersResponse, challengesResponse] = await Promise.all([
         fetch('/data/users.json' + cacheBuster),
@@ -194,16 +206,16 @@ export function getStaticPaths() {
       );
 
       
-      console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
+      console.log('ðŸ“¦ [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
       
       if (!usersData || !usersData.data) {
-        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dữ liệu người dùng không hợp lệ</p>';
-        console.error('❌ [PROFILE] usersData or usersData.data is null/undefined');
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ´ng há»£p lá»‡</p>';
+        console.error('âŒ [PROFILE] usersData or usersData.data is null/undefined');
         return;
       }
       
       const members = usersData.data || [];
-      console.log('👥 [PROFILE] Found', members.length, 'members');
+      console.log('ðŸ‘¥ [PROFILE] Found', members.length, 'members');
       
       // Store all users for sidebar
       allUsers = members;
@@ -211,7 +223,7 @@ export function getStaticPaths() {
       const user = members.find(m => m.id.toString() === userId);
 
       if (!user) {
-        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy thành viên</p>';
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">KhÃ´ng tÃ¬m tháº¥y thÃ nh viÃªn</p>';
         return;
       }
 
@@ -237,24 +249,24 @@ export function getStaticPaths() {
         });
       });
 
-      console.log('📚 [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
+      console.log('ðŸ“š [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
 
       // Get user's challenges
       const challengeIds = user.challengeIds || ['1'];
 
-      console.log('🎯 [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
-      console.log('🎯 [PROFILE] Challenges:', challengeIds);
+      console.log('ðŸŽ¯ [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
+      console.log('ðŸŽ¯ [PROFILE] Challenges:', challengeIds);
 
       // Calculate stats for each challenge using shared utility
       const challengeStats = [];
-      console.log('🔄 [PROFILE] Starting to process', challengeIds.length, 'challenges');
+      console.log('ðŸ”„ [PROFILE] Starting to process', challengeIds.length, 'challenges');
       
       for (const challengeId of challengeIds) {
-        console.log(`\n📊 [PROFILE] Processing Challenge ${challengeId}...`);
+        console.log(`\nðŸ“Š [PROFILE] Processing Challenge ${challengeId}...`);
         
         // Use the shared calculateUserStats function
         const usersWithStats = calculateUserStats([user], allRecords, challengeId, challengeDateRanges);
-        console.log('📊 [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
+        console.log('ðŸ“Š [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
         
         if (usersWithStats.length > 0 && usersWithStats[0].currentStat) {
           const stat = usersWithStats[0].currentStat;
@@ -267,7 +279,7 @@ export function getStaticPaths() {
             disciplinePercentage: stat.disciplinePercentage
           });
           
-          console.log(`✅ [PROFILE] Challenge ${challengeId} stats:`, {
+          console.log(`âœ… [PROFILE] Challenge ${challengeId} stats:`, {
             streak: stat.streak,
             longestStreak: stat.longestStreak,
             totalDays: stat.totalDays,
@@ -275,11 +287,11 @@ export function getStaticPaths() {
             datesCount: stat.dates?.length || 0
           });
         } else {
-          console.warn(`⚠️ [PROFILE] No stats returned for Challenge ${challengeId}`);
+          console.warn(`âš ï¸ [PROFILE] No stats returned for Challenge ${challengeId}`);
         }
       }
       
-      console.log('✅ [PROFILE] Total challenges with stats:', challengeStats.length);
+      console.log('âœ… [PROFILE] Total challenges with stats:', challengeStats.length);
 
       // Display profile
       displayProfile(user, challengeStats, allRecords);
@@ -311,7 +323,7 @@ export function getStaticPaths() {
       console.error('Error loading profile:', error);
       const loadingDiv = document.getElementById('loading');
       if (loadingDiv) {
-        loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
+        loadingDiv.innerHTML = `<p class="text-red-500">Lá»—i: ${error.message}</p>`;
       }
     }
   }
@@ -319,11 +331,11 @@ export function getStaticPaths() {
   // Function removed - now using shared calculateUserStats from utils
 
   // Store current view state
-  let currentUser = null;
-  let allChallengeStats = [];
-  let currentViewChallengeId = null;
-  let allUsers = []; // Store all users for sidebar
-  let currentSidebarChallengeFilter = null; // Store current challenge filter
+  let currentUser: any = null;
+  let allChallengeStats: any[] = [];
+  let currentViewChallengeId: number | null = null;
+  let allUsers: any[] = []; // Store all users for sidebar
+  let currentSidebarChallengeFilter: string | null = null; // Store current challenge filter
 
   function displayProfile(user, challengeStats, allRecords) {
     currentUser = user;
@@ -346,16 +358,16 @@ export function getStaticPaths() {
 
     if (userNameEl) userNameEl.textContent = user.name;
     if (userBioEl) {
-      // Thay \n thành <br> để hiển thị xuống dòng đúng cách
-      const bioWithBreaks = (user.bio || 'Không có bio').replace(/\n/g, '<br>');
+      // Thay \n thÃ nh <br> Ä‘á»ƒ hiá»ƒn thá»‹ xuá»‘ng dÃ²ng Ä‘Ãºng cÃ¡ch
+      const bioWithBreaks = (user.bio || 'KhÃ´ng cÃ³ bio').replace(/\n/g, '<br>');
       userBioEl.innerHTML = bioWithBreaks;
     }
     if (userMetaEl) {
       userMetaEl.innerHTML = `
-        ${user.learningLanguage ? `<span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-semibold">🌐 ${user.learningLanguage}</span>` : ''}
-        ${user.major ? `<span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-semibold">🎓 ${user.major}</span>` : ''}
-        ${user.birthYear ? `<span class="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">📅 ${user.birthYear}</span>` : ''}
-        ${user.discordNickname ? `<span class="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-semibold">💬 ${user.discordNickname}</span>` : ''}
+        ${user.learning ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-cyan-500/10 text-cyan-200 border border-cyan-400/20">ðŸŒ ${user.learning}</span>` : ''}
+        ${user.major ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-fuchsia-500/10 text-fuchsia-200 border border-fuchsia-400/20">ðŸŽ“ ${user.major}</span>` : ''}
+        ${user.birthYear ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-emerald-500/10 text-emerald-200 border border-emerald-400/20">ðŸ“… ${user.birthYear}</span>` : ''}
+        ${user.discordNickname ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-white/5 text-slate-200 border border-white/10">ðŸ’¬ ${user.discordNickname}</span>` : ''}
       `;
     }
 
@@ -399,8 +411,8 @@ export function getStaticPaths() {
     if (noCertificatesEl) noCertificatesEl.classList.add('hidden');
     
     // DEBUG MODE: Log certificate data
-    console.log('🔍 [CERT DEBUG] Starting certificate rendering...');
-    console.log('🔍 [CERT DEBUG] Eligible challenges:', eligibleChallenges.length);
+    console.log('ðŸ” [CERT DEBUG] Starting certificate rendering...');
+    console.log('ðŸ” [CERT DEBUG] Eligible challenges:', eligibleChallenges.length);
 
     certificatesListEl.innerHTML = eligibleChallenges.map((stat: any) => {
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
@@ -413,17 +425,35 @@ export function getStaticPaths() {
       const daysSoFar = Math.ceil((new Date(effectiveEndDate) - startDate) / (1000 * 60 * 60 * 24)) + 1;
       const disciplinePercentage = Math.round((stat.totalDays / daysSoFar) * 100);
       
-      // Xác định trạng thái: completed nếu đã kết thúc hoặc đạt 100%, progress nếu đang diễn ra
+      // XÃ¡c Ä‘á»‹nh tráº¡ng thÃ¡i: completed náº¿u Ä‘Ã£ káº¿t thÃºc hoáº·c Ä‘áº¡t 100%, progress náº¿u Ä‘ang diá»…n ra
       const isCompleted = todayStr >= dateRange.end || disciplinePercentage >= 100;
       const cardClass = isCompleted ? 'cert-card completed' : 'cert-card progress';
       const statusBadge = isCompleted 
-        ? '<span class="cert-status-badge status-done">Hoàn thành</span>'
-        : '<span class="cert-status-badge status-doing">Đang diễn ra</span>';
-      const statusText = isCompleted ? 'Hoàn thành xuất sắc' : 'Đang tham gia';
-      const watermark = isCompleted ? '🏆' : '⏳';
+        ? '<span class="cert-status-badge status-done">HoÃ n thÃ nh</span>'
+        : '<span class="cert-status-badge status-doing">Äang diá»…n ra</span>';
+      const statusText = isCompleted ? 'HoÃ n thÃ nh xuáº¥t sáº¯c' : 'Äang tham gia';
+      const watermarkSvg = isCompleted
+        ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v2a5 5 0 0 1-10 0V4z"></path><path d="M5 6H3a3 3 0 0 0 3 3"></path><path d="M19 6h2a3 3 0 0 1-3 3"></path></svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 2v6.5a5 5 0 0 1-1.46 3.54L12 15.59l-3.54-3.55A5 5 0 0 1 7 8.5V2"></path><path d="M7 22v-6.5a5 5 0 0 1 1.46-3.54L12 8.41l3.54 3.55A5 5 0 0 1 17 15.5V22"></path></svg>`;
+      const buttonHtml = isCompleted
+        ? `<button class="btn-download-cert" onclick="downloadCertificate(${user.id}, ${stat.challengeId}, 'html')">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Táº£i chá»©ng chá»‰
+            </button>`
+        : `<button class="btn-download-cert cert-button-disabled" disabled>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              ChÆ°a Ä‘á»§ Ä‘iá»u kiá»‡n
+            </button>`;
 
       // DEBUG: Log certificate data
-      console.log(`🔍 [CERT DEBUG] Challenge ${stat.challengeId}:`, {
+      console.log(`ðŸ” [CERT DEBUG] Challenge ${stat.challengeId}:`, {
         challengeName,
         isCompleted,
         totalDays: stat.totalDays,
@@ -435,43 +465,32 @@ export function getStaticPaths() {
 
       return `
         <div class="${cardClass}" data-user-id="${user.id}" data-challenge-id="${stat.challengeId}" data-debug-challenge="${challengeName}">
-          <div class="cert-watermark">${watermark}</div>
+          <div class="cert-accent" aria-hidden="true"></div>
+          <div class="cert-watermark" aria-hidden="true">${watermarkSvg}</div>
           ${statusBadge}
           
           <div class="cert-body">
             <div class="cert-header">
-              <div class="cert-icon-bg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
-                </svg>
-              </div>
               <div>
-                <h3 class="cert-title text-lg sm:text-xl font-bold text-gray-800 m-0 leading-tight">${challengeName}</h3>
-                <p class="cert-subtitle text-xs sm:text-sm text-gray-500 m-0 mt-1">${statusText}</p>
+                <h3 class="cert-title text-lg sm:text-xl font-bold text-slate-100 m-0 leading-tight">${challengeName}</h3>
+                <p class="cert-subtitle text-xs sm:text-sm text-slate-400 m-0 mt-1">${statusText}</p>
               </div>
             </div>
 
             <div class="cert-stats-row">
               <div class="cert-stat">
-                <div class="cert-stat-val ${isCompleted ? 'text-green-600' : 'text-gray-800'}">${stat.totalDays}<span class="text-xs sm:text-sm text-gray-400 font-normal">/${daysSoFar}</span></div>
-                <div class="cert-stat-label">Ngày học</div>
+                <div class="cert-stat-val text-slate-100">${stat.totalDays}<span class="text-xs sm:text-sm text-slate-500 font-semibold">/${daysSoFar}</span></div>
+                <div class="cert-stat-label">NgÃ y há»c</div>
               </div>
               <div class="cert-stat">
-                <div class="cert-stat-val ${isCompleted ? 'text-blue-600' : 'text-gray-800'}">${disciplinePercentage}<span class="text-xs sm:text-sm text-gray-400 font-normal">%</span></div>
-                <div class="cert-stat-label">Kỷ luật</div>
+                <div class="cert-stat-val ${isCompleted ? 'text-emerald-300' : 'text-yellow-300'}">${disciplinePercentage}<span class="text-xs sm:text-sm text-slate-500 font-semibold">%</span></div>
+                <div class="cert-stat-label">Ká»· luáº­t</div>
               </div>
             </div>
           </div>
 
           <div class="cert-footer">
-            <button class="btn-download-cert" onclick="downloadCertificate(${user.id}, ${stat.challengeId}, 'html')">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-              Tải chứng chỉ (HTML)
-            </button>
+            ${buttonHtml}
           </div>
         </div>
       `;
@@ -479,15 +498,15 @@ export function getStaticPaths() {
     
     // DEBUG MODE: After rendering, analyze computed styles
     setTimeout(() => {
-      console.log('🔍 [CERT DEBUG] Analyzing rendered certificates...');
+      console.log('ðŸ” [CERT DEBUG] Analyzing rendered certificates...');
       const cards = certificatesListEl.querySelectorAll('.cert-card');
       cards.forEach((card, index) => {
         const challengeName = card.getAttribute('data-debug-challenge');
-        console.log(`\n🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
+        console.log(`\nðŸ” [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
         
         // Check card styles
         const cardStyles = window.getComputedStyle(card);
-        console.log('  📦 Card:');
+        console.log('  ðŸ“¦ Card:');
         console.log('    - padding:', cardStyles.padding);
         console.log('    - borderRadius:', cardStyles.borderRadius);
         console.log('    - borderLeft:', cardStyles.borderLeft);
@@ -498,7 +517,7 @@ export function getStaticPaths() {
         const iconBg = card.querySelector('.cert-icon-bg');
         if (iconBg) {
           const iconStyles = window.getComputedStyle(iconBg);
-          console.log('  🎨 Icon BG:');
+          console.log('  ðŸŽ¨ Icon BG:');
           console.log('    - width:', iconStyles.width, '(expected: 48px)');
           console.log('    - height:', iconStyles.height, '(expected: 48px)');
           console.log('    - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
@@ -510,7 +529,7 @@ export function getStaticPaths() {
         const title = card.querySelector('.cert-title');
         if (title) {
           const titleStyles = window.getComputedStyle(title);
-          console.log('  📝 Title:');
+          console.log('  ðŸ“ Title:');
           console.log('    - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
           console.log('    - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
           console.log('    - color:', titleStyles.color, '(expected: rgb(31, 41, 55) / #1f2937)');
@@ -524,7 +543,7 @@ export function getStaticPaths() {
         const subtitle = card.querySelector('.cert-subtitle');
         if (subtitle) {
           const subtitleStyles = window.getComputedStyle(subtitle);
-          console.log('  📝 Subtitle:');
+          console.log('  ðŸ“ Subtitle:');
           console.log('    - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
           console.log('    - color:', subtitleStyles.color, '(expected: rgb(107, 114, 128) / #6b7280)');
           console.log('    - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
@@ -537,7 +556,7 @@ export function getStaticPaths() {
           const statStyles = window.getComputedStyle(statVal);
           const isFirst = i === 0;
           const expectedColor = isFirst ? 'rgb(22, 163, 74) / #16a34a (green-600)' : 'rgb(37, 99, 235) / #2563eb (blue-600)';
-          console.log(`  📊 Stat ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
+          console.log(`  ðŸ“Š Stat ${i + 1} (${isFirst ? 'NgÃ y há»c' : 'Ká»· luáº­t'}):`);
           console.log('    - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
           console.log('    - fontWeight:', statStyles.fontWeight, '(expected: 700)');
           console.log('    - color:', statStyles.color, `(expected: ${expectedColor})`);
@@ -549,7 +568,7 @@ export function getStaticPaths() {
         const statsRow = card.querySelector('.cert-stats-row');
         if (statsRow) {
           const statsRowStyles = window.getComputedStyle(statsRow);
-          console.log('  📊 Stats Row:');
+          console.log('  ðŸ“Š Stats Row:');
           console.log('    - padding:', statsRowStyles.padding, '(expected: 16px / 1rem)');
           console.log('    - backgroundColor:', statsRowStyles.backgroundColor, '(expected: rgb(248, 250, 252) / #f8fafc)');
           console.log('    - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
@@ -559,13 +578,13 @@ export function getStaticPaths() {
         const body = card.querySelector('.cert-body');
         if (body) {
           const bodyStyles = window.getComputedStyle(body);
-          console.log('  📦 Body:');
+          console.log('  ðŸ“¦ Body:');
           console.log('    - padding:', bodyStyles.padding, '(expected: 20px mobile, 24px desktop)');
         }
       });
       
       // Compare with Gemini expected values
-      console.log('\n🎯 [CERT DEBUG] Expected values from Gemini design:');
+      console.log('\nðŸŽ¯ [CERT DEBUG] Expected values from Gemini design:');
       console.log('  Icon BG: width=48px, height=48px, borderRadius=12px');
       console.log('  Title: fontSize=1.125rem (mobile), 1.25rem (desktop), color=#1f2937 (gray-800)');
       console.log('  Subtitle: fontSize=0.75rem (mobile), 0.875rem (desktop), color=#6b7280 (gray-500)');
@@ -576,10 +595,10 @@ export function getStaticPaths() {
     }, 500); // Wait for rendering
   }
 
-  // Function to download certificate - tính toán từ JSON files thay vì gọi API
+  // Function to download certificate - tÃ­nh toÃ¡n tá»« JSON files thay vÃ¬ gá»i API
   (window as any).downloadCertificate = async function(userId: any, challengeId: any, format: any) {
     try {
-      // Fetch data từ JSON files (thêm cache-busting)
+      // Fetch data tá»« JSON files (thÃªm cache-busting)
       const cb = '?v=' + Date.now();
       const [usersRes, challengesRes] = await Promise.all([
         fetch('/data/users.json' + cb),
@@ -587,7 +606,7 @@ export function getStaticPaths() {
       ]);
 
       if (!usersRes.ok || !challengesRes.ok) {
-        throw new Error('Không thể tải dữ liệu');
+        throw new Error('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u');
       }
 
       const usersData = await usersRes.json();
@@ -595,11 +614,11 @@ export function getStaticPaths() {
 
       // Find user
       const user = usersData.data.find((u: any) => u.id === parseInt(userId));
-      if (!user) throw new Error('Không tìm thấy người dùng');
+      if (!user) throw new Error('KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng');
 
       // Find challenge
       const challenge = challengesData[challengeId];
-      if (!challenge) throw new Error('Không tìm thấy challenge');
+      if (!challenge) throw new Error('KhÃ´ng tÃ¬m tháº¥y challenge');
 
       // Fetch specific records
       let prefix = '08';
@@ -609,7 +628,7 @@ export function getStaticPaths() {
       const recordsRes = await fetch(`/data/challenge_${prefix}_records.json` + cb);
       const studyRecordsData = await recordsRes.json();
 
-      // Tính toán stats
+      // TÃ­nh toÃ¡n stats
       const startDate = new Date(challenge.start);
       const endDate = new Date(challenge.end);
       
@@ -656,7 +675,7 @@ export function getStaticPaths() {
       }
     } catch (error) {
       console.error('Error downloading certificate:', error);
-      alert('Không thể tải chứng chỉ. Vui lòng thử lại sau.');
+      alert('KhÃ´ng thá»ƒ táº£i chá»©ng chá»‰. Vui lÃ²ng thá»­ láº¡i sau.');
     }
   };
 
@@ -934,13 +953,13 @@ export function getStaticPaths() {
         <div class="corner-decor bottom-left"></div>
         <div class="corner-decor bottom-right"></div>
 
-        <div class="header">GIẤY CHỨNG NHẬN</div>
+        <div class="header">GIáº¤Y CHá»¨NG NHáº¬N</div>
         <h1>Certificate of<br>Achievement</h1>
         
-        <div class="presented-to">Trân trọng trao tặng cho</div>
+        <div class="presented-to">TrÃ¢n trá»ng trao táº·ng cho</div>
         <div class="user-name">${data.userName.toUpperCase()}</div>
         
-        <div class="description">Đã nỗ lực và hoàn thành xuất sắc thử thách</div>
+        <div class="description">ÄÃ£ ná»— lá»±c vÃ  hoÃ n thÃ nh xuáº¥t sáº¯c thá»­ thÃ¡ch</div>
         
         <div class="challenge-name">${data.challengeName.toUpperCase()}</div>
 
@@ -950,7 +969,7 @@ export function getStaticPaths() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                 </div>
                 <div class="stat-value">${data.studyDays}/${data.totalDays}</div>
-                <div class="stat-label">Ngày học</div>
+                <div class="stat-label">NgÃ y há»c</div>
             </div>
             
             <div class="stat-item">
@@ -958,22 +977,22 @@ export function getStaticPaths() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                 </div>
                 <div class="stat-value">${data.attendanceRate}%</div>
-                <div class="stat-label">Kỷ luật</div>
+                <div class="stat-label">Ká»· luáº­t</div>
             </div>
         </div>
 
         <div class="footer">
             <div class="footer-col col-date">
-                <div class="signature-title">Ngày cấp</div>
+                <div class="signature-title">NgÃ y cáº¥p</div>
                 <div class="signature-line"></div>
                 <div class="signature-content">${data.completionDate}</div>
             </div>
 
             <div class="footer-col col-org">
-                <div class="signature-title">Ban tổ chức</div>
+                <div class="signature-title">Ban tá»• chá»©c</div>
                 <div class="signed-hph">Hph</div>
                 <div class="signature-line"></div>
-                <div class="signature-content" style="color: #1e3a8a;">Anki Việt Nam</div>
+                <div class="signature-content" style="color: #1e3a8a;">Anki Viá»‡t Nam</div>
             </div>
         </div>
 
@@ -1034,24 +1053,24 @@ export function getStaticPaths() {
   function displayCalendars(challengeStats) {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) {
-      console.warn('⚠️ [PROFILE] calendar element not found');
+      console.warn('âš ï¸ [PROFILE] calendar element not found');
       return;
     }
 
-    console.log('📅 [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
+    console.log('ðŸ“… [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
-      console.warn('⚠️ [PROFILE] No challenge stats to display');
-      calendarEl.innerHTML = '<p class="text-gray-500 text-center py-8">Không có dữ liệu thống kê</p>';
+      console.warn('âš ï¸ [PROFILE] No challenge stats to display');
+      calendarEl.innerHTML = '<p class="text-slate-400 text-center py-8">KhÃ´ng cÃ³ dá»¯ liá»‡u thá»‘ng kÃª</p>';
       return;
     }
 
     const html = challengeStats.map(stat => {
       if (!stat) {
-        console.warn('⚠️ [PROFILE] Null stat object');
+        console.warn('âš ï¸ [PROFILE] Null stat object');
         return '';
       }
-      console.log('📅 [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
+      console.log('ðŸ“… [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
       
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
       const dateRange = challengeDateRanges[stat.challengeId];
@@ -1097,9 +1116,9 @@ export function getStaticPaths() {
       });
       
       return `
-        <div class="border-t border-gray-200 first:border-t-0 pt-6 first:pt-0">
-          <h3 class="text-xl font-bold text-gray-800 mb-2">${challengeName}</h3>
-          <p class="text-sm text-gray-600 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngày, ${disciplinePercentage}% kỷ luật)</p>
+        <div class="border-t border-white/10 first:border-t-0 pt-6 first:pt-0">
+          <h3 class="text-xl font-bold text-slate-100 mb-2">${challengeName}</h3>
+          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngÃ y, ${disciplinePercentage}% ká»· luáº­t)</p>
           
           <div class="space-y-6">
             ${Object.entries(daysByMonth).map(([monthKey, days]) => {
@@ -1113,15 +1132,15 @@ export function getStaticPaths() {
               return `
                 <div>
                   <div class="flex items-center justify-between mb-3">
-                    <h4 class="font-semibold text-gray-700">${monthName}</h4>
-                    <span class="text-xs text-gray-600">${checkedInMonth}/${totalInMonth} ngày (${monthPercent}%)</span>
+                    <h4 class="font-semibold text-slate-200">${monthName}</h4>
+                    <span class="text-xs text-slate-400">${checkedInMonth}/${totalInMonth} ngÃ y (${monthPercent}%)</span>
                   </div>
                   <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 gap-2">
                     ${days.map(day => `
-                      <div class="flex items-center justify-center aspect-square rounded text-xs font-medium ${
+                      <div class="flex items-center justify-center aspect-square rounded-lg text-xs font-medium ${
                         day.isChecked 
-                          ? 'bg-green-500 text-white' 
-                          : 'bg-red-500 text-white'
+                          ? 'bg-emerald-500/20 text-emerald-100 border border-emerald-400/20' 
+                          : 'bg-white/5 text-slate-300 border border-white/5'
                       }" title="Day ${day.dayNumber}: ${day.displayDate}">
                         <div class="text-center">
                           <div class="text-[10px] leading-tight">D${day.dayNumber}</div>
@@ -1147,25 +1166,24 @@ export function getStaticPaths() {
     if (!selectorEl) return;
 
     if (challengeStats.length === 0) {
-      selectorEl.innerHTML = '<p class="text-gray-500 text-sm">Chưa tham gia challenge nào</p>';
+      selectorEl.innerHTML = '<p class="text-slate-400 text-sm">ChÆ°a tham gia challenge nÃ o</p>';
       return;
     }
 
     const html = challengeStats.map(stat => {
       const challengeName = challengeNames[stat.challengeId] || `Challenge ${stat.challengeId}`;
       const isActive = currentViewChallengeId === stat.challengeId;
-      // Dùng aurora-button style cho active state, Swiss style cho inactive
       const buttonClass = isActive 
-        ? 'aurora-button bg-primary' // Active: dùng aurora-button với background primary
-        : 'bg-white text-black swiss-border swiss-shadow-sm hover:bg-gray-50'; // Inactive: white background, border đen
+        ? 'challenge-selector-btn challenge-selector-btn-active' 
+        : 'challenge-selector-btn challenge-selector-btn-inactive';
       
       return `
         <button 
           class="${buttonClass} challenge-btn"
           data-challenge-id="${stat.challengeId}"
         >
-          ${challengeName}
-          <span class="text-xs opacity-80 ml-2">(${stat.totalDays} ngày)</span>
+          <span class="challenge-selector-title">${challengeName}</span>
+          <span class="challenge-selector-days">${stat.totalDays}d</span>
         </button>
       `;
     }).join('');
@@ -1186,11 +1204,11 @@ export function getStaticPaths() {
     const stat = allChallengeStats.find(s => s.challengeId === challengeId);
     
     if (!stat) {
-      console.warn('⚠️ [PROFILE] Challenge not found:', challengeId);
+      console.warn('âš ï¸ [PROFILE] Challenge not found:', challengeId);
       return;
     }
 
-    console.log('🔄 [PROFILE] Switching to Challenge', challengeId);
+    console.log('ðŸ”„ [PROFILE] Switching to Challenge', challengeId);
     
     // Re-render with selected challenge
     renderChallengeSelector(currentUser, allChallengeStats);
@@ -1204,25 +1222,21 @@ export function getStaticPaths() {
     if (statsGridEl && challengeStats.length > 0) {
       const mainStats = challengeStats[0];
       statsGridEl.innerHTML = `
-        <div class="aurora-card rounded-xl p-6 text-center">
-          <div class="text-4xl mb-2">🔥</div>
-          <div class="text-3xl font-bold aurora-text">${mainStats.streak}</div>
-          <div class="text-sm text-gray-600 mt-1">Chuỗi hiện tại</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center">
+          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.streak}</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Chuá»—i hiá»‡n táº¡i</div>
         </div>
-        <div class="aurora-card rounded-xl p-6 text-center">
-          <div class="text-4xl mb-2">🏆</div>
-          <div class="text-3xl font-bold aurora-text">${mainStats.longestStreak}</div>
-          <div class="text-sm text-gray-600 mt-1">Kỷ lục</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center">
+          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.longestStreak}</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Ká»· lá»¥c</div>
         </div>
-        <div class="aurora-card rounded-xl p-6 text-center">
-          <div class="text-4xl mb-2">📅</div>
-          <div class="text-3xl font-bold aurora-text">${mainStats.totalDays}</div>
-          <div class="text-sm text-gray-600 mt-1">Tổng ngày</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center">
+          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.totalDays}</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Tá»•ng ngÃ y</div>
         </div>
-        <div class="aurora-card rounded-xl p-6 text-center">
-          <div class="text-4xl mb-2">💪</div>
-          <div class="text-3xl font-bold aurora-text">${mainStats.disciplinePercentage}%</div>
-          <div class="text-sm text-gray-600 mt-1">Kỷ luật</div>
+        <div class="profile-stat-card profile-stat-card-discipline rounded-2xl p-5 text-center relative overflow-hidden">
+          <div class="text-3xl md:text-4xl font-black text-emerald-400 mb-1">${mainStats.disciplinePercentage}%</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Ká»· luáº­t</div>
         </div>
       `;
     }
@@ -1320,13 +1334,13 @@ export function getStaticPaths() {
     const heatmapHTML = `
       <div class="flex gap-1">
         <!-- Day labels -->
-        <div class="flex flex-col justify-around text-xs text-gray-600 pr-2">
+        <div class="flex flex-col justify-around text-xs text-slate-500 pr-2">
           ${daysOfWeek.map((day, i) => i % 2 === 1 ? `<div class="h-3">${day}</div>` : '<div class="h-3"></div>').join('')}
         </div>
         
         <!-- Month labels -->
         <div class="flex-1">
-          <div class="flex gap-1 mb-1 text-xs text-gray-600" style="padding-left: ${weeks.length > 0 ? '0' : '0'}">
+          <div class="flex gap-1 mb-1 text-xs text-slate-500" style="padding-left: ${weeks.length > 0 ? '0' : '0'}">
             ${monthLabels.map(ml => `<div style="width: ${14 * 7}px">${ml.month}</div>`).join('')}
           </div>
           
@@ -1344,14 +1358,14 @@ export function getStaticPaths() {
                   const streak = dateStreaks.get(dateStr) || 0;
                   
                   // Calculate color intensity based on streak
-                  let colorClass = 'bg-gray-200';
+                  let colorClass = 'bg-white/10 border border-white/5';
                   if (isChecked) {
                     const intensity = Math.min(Math.floor((streak / maxStreak) * 4) + 1, 4);
                     const colors = [
-                      'bg-green-200',
-                      'bg-green-400',
-                      'bg-green-600',
-                      'bg-green-800'
+                      'bg-cyan-500/20 border border-cyan-400/20',
+                      'bg-cyan-500/35 border border-cyan-400/25',
+                      'bg-emerald-500/35 border border-emerald-400/25',
+                      'bg-emerald-500/55 border border-emerald-300/25'
                     ];
                     colorClass = colors[intensity - 1];
                   }
@@ -1360,8 +1374,8 @@ export function getStaticPaths() {
                   const monthName = date.toLocaleDateString('vi-VN', { month: 'short', day: 'numeric' });
                   
                   return `
-                    <div class="w-3 h-3 rounded-sm ${colorClass} cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" 
-                         title="${monthName}: ${isChecked ? `✅ Check-in (Chuỗi: ${streak})` : 'Chưa check-in'}"
+                    <div class="w-3 h-3 rounded-sm ${colorClass} cursor-pointer hover:ring-2 hover:ring-cyan-400 transition-all" 
+                         title="${monthName}: ${isChecked ? `âœ… Check-in (Chuá»—i: ${streak})` : 'ChÆ°a check-in'}"
                          data-date="${dateStr}">
                     </div>
                   `;
@@ -1379,20 +1393,20 @@ export function getStaticPaths() {
   function displayMonthlyStats(challengeStats) {
     const monthlyStatsEl = document.getElementById('monthlyStats');
     if (!monthlyStatsEl) {
-      console.warn('⚠️ [PROFILE] monthlyStats element not found');
+      console.warn('âš ï¸ [PROFILE] monthlyStats element not found');
       return;
     }
 
-    console.log('📊 [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
+    console.log('ðŸ“Š [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
-      monthlyStatsEl.innerHTML = '<p class="text-gray-500 text-center py-8">Chưa có dữ liệu thống kê theo tháng</p>';
+      monthlyStatsEl.innerHTML = '<p class="text-slate-400 text-center py-8">ChÆ°a cÃ³ dá»¯ liá»‡u thá»‘ng kÃª theo thÃ¡ng</p>';
       return;
     }
 
     const html = challengeStats.map(stat => {
       if (!stat || !stat.dates) {
-        console.warn('⚠️ [PROFILE] Invalid stat object:', stat);
+        console.warn('âš ï¸ [PROFILE] Invalid stat object:', stat);
         return '';
       }
 
@@ -1410,19 +1424,19 @@ export function getStaticPaths() {
         const count = monthlyData[month];
         const monthName = new Date(month + '-01').toLocaleDateString('vi-VN', { year: 'numeric', month: 'long' });
         return `
-          <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-            <span class="font-semibold text-gray-700">${monthName}</span>
-            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-bold">${count} ngày</span>
+          <div class="flex justify-between items-center p-3 rounded-2xl bg-white/5 border border-white/10">
+            <span class="font-semibold text-slate-200">${monthName}</span>
+            <span class="px-3 py-1 bg-cyan-500/10 text-cyan-200 rounded-full font-bold border border-cyan-400/20">${count} ngÃ y</span>
           </div>
         `;
       }).join('');
 
       return `
         <div class="mb-6">
-          <h3 class="text-xl font-bold text-gray-800 mb-3">${challengeName}</h3>
-          <p class="text-sm text-gray-600 mb-4">${dateRange.start} - ${dateRange.end}</p>
+          <h3 class="text-xl font-bold text-slate-100 mb-3">${challengeName}</h3>
+          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end}</p>
           <div class="space-y-2">
-            ${monthsHTML || '<p class="text-gray-500">Chưa có dữ liệu</p>'}
+            ${monthsHTML || '<p class="text-slate-400">ChÆ°a cÃ³ dá»¯ liá»‡u</p>'}
           </div>
         </div>
       `;
@@ -1431,32 +1445,32 @@ export function getStaticPaths() {
     monthlyStatsEl.innerHTML = html;
   }
 
-  // DEBUG MODE: Helper function để debug certificates từ console
+  // DEBUG MODE: Helper function Ä‘á»ƒ debug certificates tá»« console
   (window as any).debugCertificates = function() {
-    console.log('🔍 [CERT DEBUG] Starting manual debug...');
+    console.log('ðŸ” [CERT DEBUG] Starting manual debug...');
     const certificatesListEl = document.getElementById('certificatesList');
     if (!certificatesListEl) {
-      console.error('❌ [CERT DEBUG] certificatesList element not found');
+      console.error('âŒ [CERT DEBUG] certificatesList element not found');
       return;
     }
     
     const cards = certificatesListEl.querySelectorAll('.cert-card');
     if (cards.length === 0) {
-      console.warn('⚠️ [CERT DEBUG] No certificate cards found');
+      console.warn('âš ï¸ [CERT DEBUG] No certificate cards found');
       return;
     }
     
-    console.log(`🔍 [CERT DEBUG] Found ${cards.length} certificate card(s)\n`);
+    console.log(`ðŸ” [CERT DEBUG] Found ${cards.length} certificate card(s)\n`);
     
     cards.forEach((card, index) => {
       const challengeName = card.getAttribute('data-debug-challenge') || `Card ${index + 1}`;
       console.log(`\n${'='.repeat(60)}`);
-      console.log(`🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
+      console.log(`ðŸ” [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
       console.log(`${'='.repeat(60)}`);
       
       // Card styles
       const cardStyles = window.getComputedStyle(card);
-      console.log('\n📦 CARD STYLES:');
+      console.log('\nðŸ“¦ CARD STYLES:');
       console.log('  - padding:', cardStyles.padding);
       console.log('  - borderRadius:', cardStyles.borderRadius, '(expected: 16px)');
       console.log('  - borderLeft:', cardStyles.borderLeft);
@@ -1469,7 +1483,7 @@ export function getStaticPaths() {
       const iconBg = card.querySelector('.cert-icon-bg');
       if (iconBg) {
         const iconStyles = window.getComputedStyle(iconBg);
-        console.log('\n🎨 ICON BACKGROUND:');
+        console.log('\nðŸŽ¨ ICON BACKGROUND:');
         console.log('  - width:', iconStyles.width, '(expected: 48px)');
         console.log('  - height:', iconStyles.height, '(expected: 48px)');
         console.log('  - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
@@ -1482,7 +1496,7 @@ export function getStaticPaths() {
       const title = card.querySelector('.cert-title');
       if (title) {
         const titleStyles = window.getComputedStyle(title);
-        console.log('\n📝 TITLE:');
+        console.log('\nðŸ“ TITLE:');
         console.log('  - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
         console.log('  - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
         console.log('  - color:', titleStyles.color, '(expected: #1f2937 / gray-800)');
@@ -1496,7 +1510,7 @@ export function getStaticPaths() {
       const subtitle = card.querySelector('.cert-subtitle');
       if (subtitle) {
         const subtitleStyles = window.getComputedStyle(subtitle);
-        console.log('\n📝 SUBTITLE:');
+        console.log('\nðŸ“ SUBTITLE:');
         console.log('  - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
         console.log('  - color:', subtitleStyles.color, '(expected: #6b7280 / gray-500)');
         console.log('  - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
@@ -1509,7 +1523,7 @@ export function getStaticPaths() {
         const statStyles = window.getComputedStyle(statVal);
         const isFirst = i === 0;
         const expectedColor = isFirst ? '#16a34a (green-600)' : '#2563eb (blue-600)';
-        console.log(`\n📊 STAT VALUE ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
+        console.log(`\nðŸ“Š STAT VALUE ${i + 1} (${isFirst ? 'NgÃ y há»c' : 'Ká»· luáº­t'}):`);
         console.log('  - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
         console.log('  - fontWeight:', statStyles.fontWeight, '(expected: 700)');
         console.log('  - color:', statStyles.color, `(expected: ${expectedColor})`);
@@ -1521,7 +1535,7 @@ export function getStaticPaths() {
       const statsRow = card.querySelector('.cert-stats-row');
       if (statsRow) {
         const statsRowStyles = window.getComputedStyle(statsRow);
-        console.log('\n📊 STATS ROW:');
+        console.log('\nðŸ“Š STATS ROW:');
         console.log('  - padding:', statsRowStyles.padding, '(expected: 1rem)');
         console.log('  - backgroundColor:', statsRowStyles.backgroundColor, '(expected: #f8fafc)');
         console.log('  - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
@@ -1531,14 +1545,14 @@ export function getStaticPaths() {
       const body = card.querySelector('.cert-body');
       if (body) {
         const bodyStyles = window.getComputedStyle(body);
-        console.log('\n📦 BODY:');
+        console.log('\nðŸ“¦ BODY:');
         console.log('  - padding:', bodyStyles.padding, '(expected: 1.25rem mobile, 1.5rem desktop)');
       }
     });
     
     // Expected values summary
     console.log(`\n${'='.repeat(60)}`);
-    console.log('🎯 EXPECTED VALUES (Gemini Design):');
+    console.log('ðŸŽ¯ EXPECTED VALUES (Gemini Design):');
     console.log(`${'='.repeat(60)}`);
     console.log('Icon BG: width=48px, height=48px, borderRadius=12px');
     console.log('Title: fontSize=1.125rem (mobile) / 1.25rem (desktop), color=#1f2937 (gray-800)');
@@ -1551,8 +1565,8 @@ export function getStaticPaths() {
   };
 
   // Sidebar functions
-  function renderSidebar(currentUserId, challengeFilterId = 'all') {
-    const sidebarListEl = document.getElementById('sidebarUserList');
+  function renderSidebar(currentUserId: string | number, challengeFilterId: string = 'all') {
+    const sidebarListEl = document.getElementById('sidebarUserList') as HTMLDivElement | null;
     if (!sidebarListEl || !allUsers || allUsers.length === 0) {
       return;
     }
@@ -1576,11 +1590,11 @@ export function getStaticPaths() {
     if (sortedUsers.length === 0) {
       const challengeName = challengeFilterId && challengeFilterId !== 'all' 
         ? challengeNames[challengeFilterId] || `Challenge ${challengeFilterId}`
-        : 'challenge này';
+        : 'challenge nÃ y';
       sidebarListEl.innerHTML = `
-        <div class="text-center py-8 text-gray-500">
-          <p class="font-semibold mb-2">Không có thành viên nào</p>
-          <p class="text-sm">Chưa có ai tham gia ${challengeName}</p>
+        <div class="text-center py-8 text-slate-400">
+          <p class="font-semibold mb-2">KhÃ´ng cÃ³ thÃ nh viÃªn nÃ o</p>
+          <p class="text-sm">ChÆ°a cÃ³ ai tham gia ${challengeName}</p>
         </div>
       `;
       return;
@@ -1588,32 +1602,40 @@ export function getStaticPaths() {
 
     sidebarListEl.innerHTML = sortedUsers.map(user => {
       const isActive = user.id.toString() === currentUserId.toString();
-      const activeClass = isActive 
-        ? 'bg-primary text-white border-primary' 
-        : 'bg-white hover:bg-gray-50 border-black';
+      const safeName = user.name || 'KhÃ´ng tÃªn';
+      const safeLanguage = user.learning || '';
+      const safeDiscord = user.discordNickname || '';
       
       return `
         <a 
           href="/profile/${user.id}" 
-          class="block p-3 rounded-lg border-2 ${activeClass} transition-all duration-200 ${isActive ? 'shadow-lg' : 'shadow-sm hover:shadow-md'}"
+          class="sidebar-member-card ${isActive ? 'sidebar-member-card-active' : ''}"
           data-user-id="${user.id}"
+          data-user-name="${safeName.toLowerCase()}"
+          data-user-language="${safeLanguage.toLowerCase()}"
+          data-user-discord="${safeDiscord.toLowerCase()}"
         >
-          <div class="flex items-center gap-3">
-            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center font-bold ${isActive ? 'bg-white text-primary' : 'text-gray-600'}">
-              ${user.name ? user.name.charAt(0).toUpperCase() : '?'}
+          <div class="sidebar-member-row">
+            <div class="sidebar-member-avatar ${isActive ? 'sidebar-member-avatar-active' : ''}">
+              ${safeName ? safeName.charAt(0).toUpperCase() : '?'}
             </div>
-            <div class="flex-1 min-w-0">
-              <div class="font-semibold truncate ${isActive ? 'text-white' : 'text-gray-900'}">
-                ${user.name || 'Không tên'}
+            <div class="sidebar-member-main">
+              <div class="sidebar-member-name">
+                ${safeName}
               </div>
-              ${user.learningLanguage ? `
-                <div class="text-xs ${isActive ? 'text-white opacity-90' : 'text-gray-500'} truncate">
-                  🌐 ${user.learningLanguage}
+              ${safeLanguage ? `
+                <div class="sidebar-member-language">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M2 12h20"></path>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                  <span>${safeLanguage}</span>
                 </div>
               ` : ''}
             </div>
             ${isActive ? `
-              <div class="flex-shrink-0">
+              <div class="sidebar-member-check" aria-hidden="true">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
@@ -1635,17 +1657,19 @@ export function getStaticPaths() {
 
   // Sidebar search functionality
   function setupSidebarSearch() {
-    const searchInput = document.getElementById('sidebarSearch');
+    const searchInput = document.getElementById('sidebarSearch') as HTMLInputElement | null;
     if (!searchInput) return;
 
     const performSearch = () => {
       const query = searchInput.value.toLowerCase().trim();
-      const userLinks = document.querySelectorAll('#sidebarUserList a[data-user-id]');
+      const userLinks = document.querySelectorAll<HTMLAnchorElement>('#sidebarUserList a[data-user-id]');
       
       userLinks.forEach(link => {
-        const userName = link.textContent.toLowerCase();
+        const userName = link.dataset.userName || '';
+        const userLanguage = link.dataset.userLanguage || '';
+        const userDiscord = link.dataset.userDiscord || '';
         
-        if (query === '' || userName.includes(query)) {
+        if (query === '' || userName.includes(query) || userLanguage.includes(query) || userDiscord.includes(query)) {
           link.style.display = 'block';
         } else {
           link.style.display = 'none';
@@ -1658,7 +1682,7 @@ export function getStaticPaths() {
 
   // Sidebar challenge filter functionality
   function setupSidebarChallengeFilter() {
-    const challengeFilter = document.getElementById('sidebarChallengeFilter');
+    const challengeFilter = document.getElementById('sidebarChallengeFilter') as HTMLSelectElement | null;
     if (!challengeFilter) return;
 
     // Set default value
@@ -1667,7 +1691,7 @@ export function getStaticPaths() {
     }
 
     challengeFilter.addEventListener('change', (e) => {
-      const selectedChallengeId = e.target.value;
+      const selectedChallengeId = (e.target as HTMLSelectElement).value;
       currentSidebarChallengeFilter = selectedChallengeId;
       
       // Re-render sidebar with new filter
@@ -1676,7 +1700,7 @@ export function getStaticPaths() {
       renderSidebar(currentUserId, selectedChallengeId);
       
       // Clear search input when filter changes
-      const searchInput = document.getElementById('sidebarSearch');
+      const searchInput = document.getElementById('sidebarSearch') as HTMLInputElement | null;
       if (searchInput) {
         searchInput.value = '';
       }
@@ -1712,7 +1736,8 @@ export function getStaticPaths() {
     const sidebarListEl = document.getElementById('sidebarUserList');
     if (sidebarListEl) {
       sidebarListEl.addEventListener('click', (e) => {
-        const link = e.target.closest('a[data-user-id]');
+        const target = e.target as HTMLElement | null;
+        const link = target?.closest('a[data-user-id]');
         if (link && window.innerWidth < 768) {
           closeSidebar();
         }
@@ -1737,26 +1762,45 @@ export function getStaticPaths() {
   loadProfile();
 </script>
 
-<!-- Import CSS từ CertificateCardStyles component -->
+<!-- Import CSS tá»« CertificateCardStyles component -->
 <CertificateCardStyles />
 
 <style>
-  /* Certificate Grid Layout - chỉ giữ grid layout ở đây */
+  /* Certificate Grid Layout - chá»‰ giá»¯ grid layout á»Ÿ Ä‘Ã¢y */
   .cert-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
   @media (min-width: 768px) {
     .cert-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 2rem;
     }
   }
 
-  /* Sidebar Styles */
+  :global(body) {
+    background: #09090b;
+    color: #e2e8f0;
+  }
+
+  .profile-shell {
+    background:
+      radial-gradient(circle at top, rgba(34, 211, 238, 0.09), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 32%),
+      #09090b;
+  }
+
+  #sidebarOverlay {
+    transition: all 0.3s ease-in-out;
+  }
+
   #profileSidebar {
-    box-shadow: 4px 0 0 var(--color-black);
+    background: rgba(9, 9, 11, 0.94) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    backdrop-filter: blur(24px);
+    box-shadow: 16px 0 40px rgba(0, 0, 0, 0.45);
   }
 
   #profileSidebar::-webkit-scrollbar {
@@ -1764,16 +1808,473 @@ export function getStaticPaths() {
   }
 
   #profileSidebar::-webkit-scrollbar-track {
-    background: var(--color-grey-light);
+    background: rgba(255, 255, 255, 0.04);
   }
 
   #profileSidebar::-webkit-scrollbar-thumb {
-    background: var(--color-grey);
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 9999px;
   }
 
   #profileSidebar::-webkit-scrollbar-thumb:hover {
-    background: var(--color-grey-dark);
+    background: rgba(34, 211, 238, 0.28);
+  }
+
+  .profile-action {
+    background: rgba(30, 41, 59, 0.4); /* Darker gray/blue */
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.08); /* subtle border */
+    border-radius: 9999px; /* Fully rounded */
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    box-shadow: none;
+    transition: all 0.2s ease;
+  }
+
+  .profile-action:hover {
+    background: rgba(30, 41, 59, 0.7);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-1px);
+  }
+
+  .sidebar-control {
+    width: 100%;
+    min-height: 50px;
+    border-radius: 14px;
+    border: 1px solid rgba(148, 163, 184, 0.22);
+    background: rgba(2, 6, 23, 0.7);
+    color: #e2e8f0;
+    font-size: 1rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    outline: none;
+  }
+
+  .sidebar-control:focus {
+    border-color: rgba(34, 211, 238, 0.5);
+    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14);
+  }
+
+  .sidebar-select {
+    padding: 0 0.95rem;
+    font-weight: 700;
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
+    background-position: calc(100% - 18px) 21px, calc(100% - 12px) 21px;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    padding-right: 2.6rem;
+  }
+
+  .sidebar-search-wrap {
+    position: relative;
+  }
+
+  .sidebar-search-icon {
+    position: absolute;
+    left: 0.9rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+    pointer-events: none;
+  }
+
+  .sidebar-search {
+    padding: 0 0.95rem 0 2.7rem;
+    font-weight: 500;
+  }
+
+  .sidebar-search::placeholder {
+    color: #64748b;
+  }
+
+  :global(.sidebar-member-card) {
+    display: block;
+    border-radius: 16px;
+    border: 1px solid transparent;
+    background: rgba(2, 6, 23, 0.36);
+    padding: 0.85rem 0.95rem;
+    transition: all 0.18s ease;
+  }
+
+  :global(.sidebar-member-card:hover) {
+    background: rgba(15, 23, 42, 0.74);
+    border-color: rgba(148, 163, 184, 0.2);
+  }
+
+  :global(.sidebar-member-card-active) {
+    background: linear-gradient(90deg, rgba(8, 47, 73, 0.5), rgba(5, 52, 56, 0.45));
+    border-color: rgba(6, 182, 212, 0.45);
+    box-shadow: inset 0 0 0 1px rgba(6, 182, 212, 0.14);
+  }
+
+  :global(.sidebar-member-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+
+  :global(.sidebar-member-avatar) {
+    width: 48px;
+    height: 48px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 800;
+    font-size: 1.75rem;
+    background: rgba(148, 163, 184, 0.17);
+    color: #d1d5db;
+  }
+
+  :global(.sidebar-member-avatar-active) {
+    background: rgba(6, 182, 212, 0.22);
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    color: #7dd3fc;
+  }
+
+  :global(.sidebar-member-main) {
+    min-width: 0;
+    flex: 1;
+  }
+
+  :global(.sidebar-member-name) {
+    font-size: 1.05rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #e2e8f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.sidebar-member-language) {
+    margin-top: 0.22rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.86rem;
+    color: #94a3b8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+
+  :global(.sidebar-member-check) {
+    color: #22d3ee;
+    flex-shrink: 0;
+  }
+
+  :global(.challenge-selector-btn) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.55rem;
+    min-height: 52px;
+    min-width: 208px;
+    padding: 0.8rem 1.1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.028));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    transition: all 0.18s ease;
+    cursor: pointer;
+    white-space: nowrap;
+    backdrop-filter: blur(14px);
+  }
+
+  :global(.challenge-selector-btn:hover) {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(34, 211, 238, 0.18);
+    transform: translateY(-1px);
+  }
+
+  :global(.challenge-selector-btn-inactive .challenge-selector-title) {
+    color: #cbd5e1;
+  }
+
+  :global(.challenge-selector-btn-inactive .challenge-selector-days) {
+    color: #64748b;
+  }
+
+  :global(.challenge-selector-btn-active) {
+    background: linear-gradient(180deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.05));
+    border-color: rgba(34, 211, 238, 0.28);
+    box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.08), 0 0 0 1px rgba(34, 211, 238, 0.05);
+  }
+
+  :global(.challenge-selector-title) {
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #cbd5e1;
+    letter-spacing: -0.01em;
+  }
+
+  :global(.challenge-selector-btn-active .challenge-selector-title) {
+    color: #67e8f9;
+  }
+
+  :global(.challenge-selector-days) {
+    font-size: 0.86rem;
+    font-weight: 600;
+    line-height: 1;
+    color: #64748b;
+  }
+
+  :global(.challenge-selector-btn-active .challenge-selector-days) {
+    color: #94a3b8;
+  }
+
+  .aurora-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(12px);
+    color: #e2e8f0;
+  }
+
+  .aurora-card:hover {
+    transform: none;
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24);
+  }
+
+  .profile-hero-card {
+    border-radius: 24px;
+  }
+
+  .profile-section-card {
+    border-radius: 24px;
+  }
+
+  :global(.profile-stat-card) {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.profile-stat-card:hover) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.09);
+  }
+
+  :global(.profile-stat-card-discipline::after) {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(16, 185, 129, 0.9);
+  }
+
+  .aurora-text {
+    color: #e2e8f0 !important;
+    text-transform: none;
+    letter-spacing: -0.02em;
+  }
+
+  .aurora-button {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    border-radius: 9999px;
+  }
+
+  .aurora-button:hover {
+    background: rgba(34, 211, 238, 0.12);
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: none;
+    transform: translateY(-1px);
+  }
+
+  #sidebarUserList {
+    border-top: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  :global(.cert-card) {
+    position: relative;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px;
+    overflow: hidden;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+  }
+
+  :global(.cert-card:hover) {
+    transform: translateY(-1px);
+  }
+
+  :global(.cert-card.completed) {
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+  
+  :global(.cert-card.progress) {
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  :global(.cert-card.completed:hover) {
+    border-color: rgba(234, 179, 8, 0.32);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+  }
+
+  :global(.cert-card.progress:hover) {
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+  }
+
+  :global(.cert-accent) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    z-index: 2;
+  }
+
+  :global(.cert-card.completed .cert-accent) {
+    background: linear-gradient(to bottom, #d97706, #eab308); /* Amber to Yellow */
+    box-shadow: 2px 0 15px rgba(234, 179, 8, 0.6);
+  }
+
+  :global(.cert-card.progress .cert-accent) {
+    background: linear-gradient(to bottom, #0891b2, #06b6d4); /* Cyan dark to Cyan light */
+    box-shadow: 2px 0 15px rgba(34, 211, 238, 0.6);
+  }
+
+  :global(.cert-watermark) {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: 88px;
+    height: 88px;
+    opacity: 0.12;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  :global(.cert-card.completed .cert-watermark) {
+    color: rgba(234, 179, 8, 0.35);
+  }
+
+  :global(.cert-card.progress .cert-watermark) {
+    color: rgba(34, 211, 238, 0.28);
+  }
+
+  :global(.cert-watermark svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(.cert-body) {
+    position: relative;
+    z-index: 2;
+    padding: 1.25rem;
+  }
+
+  :global(.cert-header) {
+    margin-bottom: 1rem;
+  }
+
+  :global(.cert-title) {
+    color: #f8fafc !important;
+  }
+
+  :global(.cert-subtitle) {
+    color: #94a3b8 !important;
+  }
+
+  :global(.cert-stats-row) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-bottom: 1.15rem;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 0.75rem 0.9rem;
+  }
+
+  :global(.cert-stat-label) {
+    color: #94a3b8 !important;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-top: 0.24rem;
+  }
+
+  :global(.cert-footer) {
+    position: relative;
+    z-index: 2;
+    padding: 0 1.25rem 1.25rem;
+    background: transparent;
+    border-top: 0;
+  }
+
+  :global(.btn-download-cert) {
+    width: 100%;
+    min-height: 44px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: #f8fafc;
+    font-weight: 700;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+
+  :global(.btn-download-cert:hover) {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.16);
+  }
+
+  :global(.cert-button-disabled) {
+    color: #64748b;
+    border-color: rgba(255, 255, 255, 0.07);
+    cursor: not-allowed;
+  }
+
+  :global(.cert-button-disabled:hover) {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.07);
+  }
+
+  :global(.cert-status-badge) {
+    position: absolute;
+    top: 0.95rem;
+    right: 1rem;
+    padding: 0.26rem 0.62rem;
+    border-radius: 8px;
+    font-size: 0.64rem;
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid;
+    z-index: 3;
+  }
+
+  :global(.cert-status-badge.status-done) {
+    color: #facc15;
+    background: rgba(234, 179, 8, 0.1);
+    border-color: rgba(234, 179, 8, 0.28);
+  }
+
+  :global(.cert-status-badge.status-doing) {
+    color: #22d3ee;
+    background: rgba(34, 211, 238, 0.1);
+    border-color: rgba(34, 211, 238, 0.26);
   }
 
   /* Ensure main content doesn't overlap sidebar on mobile */
@@ -1782,18 +2283,12 @@ export function getStaticPaths() {
       margin-left: 0;
     }
     
-    /* Ensure toggle button doesn't overlap with back button */
     #sidebarToggle {
       top: 1rem;
       left: 1rem;
       z-index: 50;
     }
   }
-
-  /* Smooth transitions */
-  #profileSidebar,
-  #sidebarOverlay {
-    transition: all 0.3s ease-in-out;
-  }
 </style>
 </Layout>
+
