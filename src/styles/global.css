@@ -1,113 +1,113 @@
 @import "tailwindcss";
 
-/* Dark leaderboard design system */
+/* Swiss Style & Minimalism Design System */
 
+/* Typography - Swiss International Style */
 * {
+  /* Typography-first (không dùng system fonts/Arial/Roboto/Inter) */
   font-family: "Space Grotesk", sans-serif;
   font-feature-settings: "kern" 1, "liga" 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Color System - Monochromatic with Primary Accents */
 :root {
-  --color-primary: #22d3ee;
-  --color-secondary: #10b981;
-  --color-accent: #facc15;
-  --color-black: #09090b;
-  --color-grey-dark: #94a3b8;
-  --color-grey: #334155;
-  --color-grey-light: #111827;
-  --color-white: #e2e8f0;
-  --color-surface: #0f172a;
-  --color-surface-2: #111827;
+  --color-primary: #E63946;      /* Red accent */
+  --color-secondary: #457B9D;    /* Blue accent */
+  --color-accent: #F1FAEE;       /* Off-white */
+  --color-black: #1D3557;        /* Deep blue-black */
+  --color-grey-dark: #6B7280;
+  --color-grey: #D1D5DB;
+  --color-grey-light: #F3F4F6;
+  --color-white: #FFFFFF;
 }
 
-html,
-body {
-  background: #09090b;
-  color: #e2e8f0;
-}
-
+/* Base Background - Clean White */
 .aurora-bg {
-  background:
-    radial-gradient(circle at top, rgba(34, 211, 238, 0.08), transparent 35%),
-    radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 32%),
-    #09090b;
+  background: var(--color-white);
 }
 
 .aurora-bg-subtle {
-  background: #0f172a;
+  background: var(--color-grey-light);
 }
 
+/* Grid Container */
 .aurora-mesh {
   position: relative;
-  background: #09090b;
+  background: var(--color-white);
 }
 
 .aurora-mesh::before {
   display: none;
 }
 
+/* Card - Minimal Box with Sharp Shadow */
 .aurora-card {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96));
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  transition: all 0.2s ease;
-  backdrop-filter: blur(18px);
+  background: var(--color-white);
+  border: 2px solid var(--color-black);
+  box-shadow: 8px 8px 0 var(--color-black);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .aurora-card:hover {
-  border-color: rgba(34, 211, 238, 0.2);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.42);
-  transform: translateY(-2px);
+  box-shadow: 12px 12px 0 var(--color-black);
+  transform: translate(-2px, -2px);
 }
 
+/* Tắt hover effect cho card chứa bảng leaderboard */
 .leaderboard-table-card:hover {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  box-shadow: 8px 8px 0 var(--color-black);
   transform: none;
 }
 
+/* Typography - High Contrast */
 .aurora-text {
-  color: #e2e8f0;
+  color: var(--color-primary);
   font-weight: 700;
   letter-spacing: -0.02em;
-  text-transform: none;
+  text-transform: uppercase;
 }
 
+/* Layers - Minimal Geometric Blocks */
 .aurora-layer-1,
 .aurora-layer-2,
 .aurora-layer-3 {
   display: none;
 }
 
+/* Buttons - Swiss Brutalist Style */
 .aurora-button {
-  background: rgba(255, 255, 255, 0.05);
-  color: #e2e8f0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1.25rem;
-  border-radius: 9999px;
+  background: var(--color-black);
+  color: var(--color-white);
+  border: 2px solid var(--color-black);
+  padding: 0.75rem 2rem;
+  border-radius: 0;
   font-weight: 700;
   font-size: 0.875rem;
-  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   transition: all 0.15s ease;
-  box-shadow: none;
+  box-shadow: 4px 4px 0 var(--color-primary);
   cursor: pointer;
 }
 
 .aurora-button:hover {
-  background: rgba(34, 211, 238, 0.12);
-  border-color: rgba(34, 211, 238, 0.3);
-  box-shadow: none;
-  transform: translateY(-1px);
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 6px 6px 0 var(--color-black);
+  transform: translate(-2px, -2px);
 }
 
 .aurora-button:active {
-  transform: translateY(0);
+  box-shadow: 2px 2px 0 var(--color-black);
+  transform: translate(0, 0);
 }
 
+/* Depth - Geometric Layers */
 .aurora-depth {
   position: relative;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-grey-light);
   border-left: 4px solid var(--color-primary);
 }
 
@@ -116,6 +116,7 @@ body {
   display: none;
 }
 
+/* Utility Classes - Swiss Grid System */
 .swiss-grid {
   display: grid;
   gap: 2rem;
@@ -123,18 +124,22 @@ body {
 }
 
 .swiss-border {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 2px solid var(--color-black);
 }
 
 .swiss-border-accent {
   border-left: 4px solid var(--color-primary);
 }
 
-.swiss-shadow,
-.swiss-shadow-sm {
-  box-shadow: none;
+.swiss-shadow {
+  box-shadow: 6px 6px 0 var(--color-black);
 }
 
+.swiss-shadow-sm {
+  box-shadow: 3px 3px 0 var(--color-black);
+}
+
+/* High Contrast Text */
 .text-primary {
   color: var(--color-primary);
 }
@@ -144,7 +149,7 @@ body {
 }
 
 .bg-primary {
-  background-color: rgba(34, 211, 238, 0.12);
+  background-color: var(--color-primary);
 }
 
 .border-primary {
@@ -152,15 +157,17 @@ body {
 }
 
 .bg-secondary {
-  background-color: rgba(16, 185, 129, 0.12);
+  background-color: var(--color-secondary);
 }
 
+/* Minimalist Divider */
 .swiss-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.1);
+  height: 2px;
+  background: var(--color-black);
   margin: 2rem 0;
 }
 
+/* Clean Hover State */
 .hover-lift {
   transition: transform 0.2s ease;
 }
@@ -169,78 +176,88 @@ body {
   transform: translateY(-4px);
 }
 
+/* Typography Hierarchy */
 h1, h2, h3, h4, h5, h6 {
   font-family: "Fraunces", serif;
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.2;
-  color: #e2e8f0;
 }
 
 p {
   line-height: 1.6;
-  color: #94a3b8;
+  color: var(--color-grey-dark);
 }
 
+/* Functional Focus States */
 *:focus-visible {
-  outline: 3px solid rgba(34, 211, 238, 0.85);
+  outline: 3px solid var(--color-primary);
   outline-offset: 2px;
 }
 
+/* ===== MOBILE RESPONSIVE ===== */
 @media (max-width: 768px) {
+  /* Typography */
   h1 {
     font-size: 2rem !important;
   }
-
+  
   h2 {
     font-size: 1.5rem !important;
   }
-
+  
+  /* Cards */
   .aurora-card {
     border-width: 1px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    box-shadow: 4px 4px 0 var(--color-black);
   }
-
+  
   .aurora-card:hover {
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+    box-shadow: 4px 4px 0 var(--color-black);
     transform: none;
   }
-
+  
+  /* Buttons */
   .aurora-button {
-    padding: 0.55rem 0.9rem;
+    padding: 0.5rem 1rem;
     font-size: 0.75rem;
+    box-shadow: 2px 2px 0 var(--color-primary);
   }
-
+  
   .aurora-button:hover {
+    box-shadow: 2px 2px 0 var(--color-black);
     transform: none;
   }
-
+  
+  /* Tables - Scroll horizontally */
   table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
-
+  
   thead, tbody, tr {
     display: table;
     width: 100%;
     table-layout: fixed;
   }
-
+  
+  /* Padding adjustments */
   .px-6 {
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
-
+  
   .py-12 {
     padding-top: 2rem !important;
     padding-bottom: 2rem !important;
   }
-
+  
+  /* Grid responsive */
   .grid-cols-4 {
     grid-template-columns: repeat(2, 1fr) !important;
   }
-
+  
   .swiss-grid {
     grid-template-columns: repeat(1, 1fr);
     gap: 1rem;

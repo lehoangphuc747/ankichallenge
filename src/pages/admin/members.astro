@@ -1,18 +1,18 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 ---
 
-<Layout title="Admin - Danh sÃ¡ch thÃ nh viÃªn">
+<Layout title="Admin - Danh sách thành viên">
   <main class="p-8 max-w-7xl mx-auto">
     <div class="flex items-center justify-between mb-8">
-      <h1 class="text-4xl font-bold">ðŸ” Admin - Danh sÃ¡ch thÃ nh viÃªn</h1>
+      <h1 class="text-4xl font-bold">🔐 Admin - Danh sách thành viên</h1>
       <button id="toggleHiddenBtn" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
-        ðŸ‘ï¸ Hiá»‡n thÃ nh viÃªn áº©n
+        👁️ Hiện thành viên ẩn
       </button>
     </div>
     
     <div id="loading" class="text-center py-8">
-      <p class="text-gray-500 text-lg">Äang táº£i dá»¯ liá»‡u...</p>
+      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
     </div>
     
     <div class="overflow-x-auto shadow-md rounded-lg">
@@ -20,12 +20,12 @@ import Layout from '../../layouts/Layout.astro';
         <thead class="text-xs uppercase bg-gray-100 text-gray-700">
           <tr>
             <th class="px-6 py-3">#</th>
-            <th class="px-6 py-3">TÃªn</th>
+            <th class="px-6 py-3">Tên</th>
             <th class="px-6 py-3">Discord</th>
-            <th class="px-6 py-3">NgÃ´n ngá»¯</th>
-            <th class="px-6 py-3">ChuyÃªn ngÃ nh</th>
-            <th class="px-6 py-3">LiÃªn há»‡</th>
-            <th class="px-6 py-3">Thao tÃ¡c</th>
+            <th class="px-6 py-3">Ngôn ngữ</th>
+            <th class="px-6 py-3">Chuyên ngành</th>
+            <th class="px-6 py-3">Liên hệ</th>
+            <th class="px-6 py-3">Thao tác</th>
           </tr>
         </thead>
         <tbody id="membersBody">
@@ -36,12 +36,12 @@ import Layout from '../../layouts/Layout.astro';
     <!-- Edit Modal -->
     <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <h2 class="text-2xl font-bold mb-6">Chá»‰nh sá»­a thÃ nh viÃªn</h2>
+        <h2 class="text-2xl font-bold mb-6">Chỉnh sửa thành viên</h2>
         <form id="edit, setDocForm" class="space-y-4">
           <input type="hidden" id="editId" />
           
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">TÃªn *</label>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Tên *</label>
             <input type="text" id="editName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
           </div>
 
@@ -52,24 +52,24 @@ import Layout from '../../layouts/Layout.astro';
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">NgÃ´n ngá»¯ há»c</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Ngôn ngữ học</label>
               <input type="text" id="editLanguage" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">ChuyÃªn ngÃ nh</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Chuyên ngành</label>
               <input type="text" id="editMajor" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
             </div>
           </div>
 
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">NÄƒm sinh</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Năm sinh</label>
               <input type="number" id="editBirthYear" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
             </div>
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Vai trÃ²</label>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Vai trò</label>
               <select id="editRole" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500">
-                <option value="member">ThÃ nh viÃªn</option>
+                <option value="member">Thành viên</option>
                 <option value="admin">Admin</option>
               </select>
             </div>
@@ -98,15 +98,15 @@ import Layout from '../../layouts/Layout.astro';
 
           <div class="flex items-center gap-2">
             <input type="checkbox" id="editHidden" class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500" />
-            <label for="editHidden" class="text-sm font-medium text-gray-700">áº¨n thÃ nh viÃªn</label>
+            <label for="editHidden" class="text-sm font-medium text-gray-700">Ẩn thành viên</label>
           </div>
 
           <div class="flex gap-3 justify-end pt-4">
             <button type="button" id="cancelEdit" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-              Há»§y
+              Hủy
             </button>
             <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              LÆ°u thay Ä‘á»•i
+              Lưu thay đổi
             </button>
           </div>
         </form>
@@ -145,12 +145,12 @@ import Layout from '../../layouts/Layout.astro';
       const loadingDiv = document.getElementById('loading');
       const membersBody = document.getElementById('membersBody');
       
-      // Load users data (thÃªm cache-busting)
+      // Load users data (thêm cache-busting)
       const usersResponse = await fetch('/data/users.json?v=' + Date.now());
       const usersData = await usersResponse.json();
       
       if (!usersData || !usersData.data) {
-        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">KhÃ´ng tÃ¬m tháº¥y dá»¯ liá»‡u</p>';
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy dữ liệu</p>';
         return;
       }
       
@@ -173,7 +173,7 @@ import Layout from '../../layouts/Layout.astro';
           <td class="px-6 py-4">
             <div class="font-semibold text-gray-900">${member.name}</div>
             ${member.role === 'admin' ? '<span class="text-xs bg-blue-100 text-blue-800 px-2 py-0.5 rounded">Admin</span>' : ''}
-            ${member.hidden ? '<span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded ml-2">áº¨n</span>' : ''}
+            ${member.hidden ? '<span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded ml-2">Ẩn</span>' : ''}
           </td>
           <td class="px-6 py-4">
             <span class="text-sm text-gray-600">${member.discordNickname || '-'}</span>
@@ -188,7 +188,7 @@ import Layout from '../../layouts/Layout.astro';
           </td>
           <td class="px-6 py-4">
             <button class="edit-btn px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors text-xs" data-id="${member.id}">
-              âœï¸ Edit
+              ✏️ Edit
             </button>
           </td>
         </tr>
@@ -207,7 +207,7 @@ import Layout from '../../layouts/Layout.astro';
       console.error('Error loading members:', error);
       const loadingDiv = document.getElementById('loading');
       if (loadingDiv) {
-        loadingDiv.innerHTML = `<p class="text-red-500">Lá»—i: ${error.message}</p>`;
+        loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
       }
     }
   }
@@ -244,7 +244,7 @@ import Layout from '../../layouts/Layout.astro';
     // Find and update member in array
     const memberIndex = allMembers.findIndex(m => m.id === memberId);
     if (memberIndex === -1) {
-      alert('KhÃ´ng tÃ¬m tháº¥y thÃ nh viÃªn');
+      alert('Không tìm thấy thành viên');
       return;
     }
 
@@ -275,14 +275,14 @@ import Layout from '../../layouts/Layout.astro';
       const result = await response.json();
       if (!result.success) throw new Error('Failed to save');
 
-      alert('ÄÃ£ lÆ°u thay Ä‘á»•i!');
+      alert('Đã lưu thay đổi!');
       modal?.classList.add('hidden');
       
       // Reload members
       loadMembers();
     } catch (error) {
       console.error('Error saving:', error);
-      alert('Lá»—i khi lÆ°u: ' + error.message);
+      alert('Lỗi khi lưu: ' + error.message);
     }
   }
 
@@ -311,7 +311,7 @@ import Layout from '../../layouts/Layout.astro';
   document.getElementById('toggleHiddenBtn')?.addEventListener('click', (e) => {
     window.showHiddenMembers = !window.showHiddenMembers;
     const btn = e.target as HTMLButtonElement;
-    btn.textContent = window.showHiddenMembers ? 'ðŸ™ˆ áº¨n thÃ nh viÃªn Ä‘Ã£ áº©n' : 'ðŸ‘ï¸ Hiá»‡n thÃ nh viÃªn áº©n';
+    btn.textContent = window.showHiddenMembers ? '🙈 Ẩn thành viên đã ẩn' : '👁️ Hiện thành viên ẩn';
     btn.className = window.showHiddenMembers 
       ? 'px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors'
       : 'px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors';
@@ -327,4 +327,3 @@ import Layout from '../../layouts/Layout.astro';
     overflow: hidden;
   }
 </style>
-

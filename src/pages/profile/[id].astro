@@ -1,22 +1,22 @@
-﻿---
+---
 import Layout from '../../layouts/Layout.astro';
 import CertificateCardStyles from '../../components/CertificateCardStyles.astro';
 
-// Import dá»¯ liá»‡u ngÆ°á»i dÃ¹ng Ä‘á»ƒ Astro biáº¿t trÆ°á»›c danh sÃ¡ch `id` khi build static
+// Import dữ liệu người dùng để Astro biết trước danh sách `id` khi build static
 import usersData from '../../../public/data/users.json';
 
-// Astro yÃªu cáº§u dynamic route pháº£i khai bÃ¡o getStaticPaths() Ä‘á»ƒ build tÄ©nh
+// Astro yêu cầu dynamic route phải khai báo getStaticPaths() để build tĩnh
 export function getStaticPaths() {
   const members = (usersData && usersData.data) ? usersData.data : [];
   
-  // Tráº£ vá» danh sÃ¡ch Ä‘Æ°á»ng dáº«n: /profile/9, /profile/10, ...
+  // Trả về danh sách đường dẫn: /profile/9, /profile/10, ...
   return members.map((member: any) => ({
     params: { id: String(member.id) }
   }));
 }
 ---
 
-<Layout title="Chi tiáº¿t thÃ nh viÃªn">
+<Layout title="Chi tiết thành viên">
   <main class="profile-shell min-h-screen bg-[#09090b] text-slate-100 flex flex-col md:flex-row relative">
     <div class="absolute top-[-8%] left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none z-0"></div>
     <div class="absolute bottom-[-10%] right-[-8%] w-[520px] h-[520px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
@@ -34,7 +34,7 @@ export function getStaticPaths() {
     >
       <div class="p-5 sticky top-0 bg-[#05070c]/95 border-b border-white/10 z-10 backdrop-blur-xl">
         <div class="flex items-center justify-between mb-5">
-          <h2 class="text-[2rem] leading-none font-bold tracking-tight text-slate-100">ThÃ nh viÃªn</h2>
+          <h2 class="text-[2rem] leading-none font-bold tracking-tight text-slate-100">Thành viên</h2>
           <button 
             id="sidebarClose" 
             class="md:hidden p-2 rounded-xl bg-white/5 text-slate-300 hover:bg-white/10 transition-colors"
@@ -52,7 +52,7 @@ export function getStaticPaths() {
             id="sidebarChallengeFilter" 
             class="sidebar-control sidebar-select"
           >
-            <option value="all">Táº¥t cáº£</option>
+            <option value="all">Tất cả</option>
             <option value="1">Anki Challenge 8</option>
             <option value="2">Anki Challenge 9</option>
             <option value="3">Anki Challenge 10</option>
@@ -67,14 +67,14 @@ export function getStaticPaths() {
           <input 
             type="text" 
             id="sidebarSearch" 
-            placeholder="TÃ¬m kiáº¿m..." 
+            placeholder="Tìm kiếm..." 
             class="sidebar-control sidebar-search"
           />
         </div>
       </div>
       <div id="sidebarUserList" class="p-2.5 space-y-2.5">
         <!-- User list will be populated by JavaScript -->
-        <div class="text-center py-8 text-slate-400">Äang táº£i...</div>
+        <div class="text-center py-8 text-slate-400">Đang tải...</div>
       </div>
     </aside>
 
@@ -97,13 +97,13 @@ export function getStaticPaths() {
         </button>
         <!-- Back Button -->
         <a href="/" class="profile-action inline-flex items-center justify-center gap-2 flex-1 md:flex-none">
-          â† Quay láº¡i BXH
+          ← Quay lại BXH
         </a>
       </div>
 
       <div id="loading" class="text-center py-12">
         <div class="aurora-card inline-block px-8 py-6 rounded-[28px]">
-          <p class="text-xl font-bold text-slate-100">Äang táº£i dá»¯ liá»‡u...</p>
+          <p class="text-xl font-bold text-slate-100">Đang tải dữ liệu...</p>
         </div>
       </div>
 
@@ -138,7 +138,7 @@ export function getStaticPaths() {
                   <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
                 </svg>
               </span>
-              Chá»©ng chá»‰ & ThÃ nh tÃ­ch
+              Chứng chỉ & Thành tích
             </h2>
             <div class="h-px bg-white/10 w-full sm:flex-1 rounded-full hidden sm:block"></div>
           </div>
@@ -146,20 +146,20 @@ export function getStaticPaths() {
             <!-- Certificates will be rendered here by JavaScript -->
           </div>
           <div id="noCertificates" class="hidden text-center py-8 text-slate-400">
-            ChÆ°a cÃ³ chá»©ng chá»‰ nÃ o. HÃ£y hoÃ n thÃ nh cÃ¡c thá»­ thÃ¡ch Ä‘á»ƒ nháº­n chá»©ng chá»‰.
+            Chưa có chứng chỉ nào. Hãy hoàn thành các thử thách để nhận chứng chỉ.
           </div>
         </div>
 
         <!-- Calendar History -->
         <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
-          <h2 class="text-2xl font-bold text-slate-100 mb-6">Lá»‹ch sá»­ Check-in</h2>
+          <h2 class="text-2xl font-bold text-slate-100 mb-6">Lịch sử Check-in</h2>
           <div id="calendar" class="space-y-8">
           </div>
         </div>
 
         <!-- Detailed History -->
         <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
-          <h2 class="text-2xl font-bold text-slate-100 mb-6">Chi tiáº¿t theo thÃ¡ng</h2>
+          <h2 class="text-2xl font-bold text-slate-100 mb-6">Chi tiết theo tháng</h2>
           <div id="monthlyStats"></div>
         </div>
       </div>
@@ -171,7 +171,7 @@ export function getStaticPaths() {
 <script>
   import { calculateUserStats } from '../../utils/calculateStats.js';
 
-  // Láº¥y userId tá»« URL nhÆ°ng chá»‘ng lá»—i dáº¥u "/" á»Ÿ cuá»‘i (Cloudflare thÆ°á»ng redirect thÃ nh /profile/9/)
+  // Lấy userId từ URL nhưng chống lỗi dấu "/" ở cuối (Cloudflare thường redirect thành /profile/9/)
   const pathParts = window.location.pathname.split('/').filter(Boolean);
   const userId = pathParts[pathParts.length - 1];
 
@@ -184,7 +184,7 @@ export function getStaticPaths() {
       const loadingDiv = document.getElementById('loading');
       const profileContent = document.getElementById('profileContent');
 
-      // Load user data and study records (thÃªm cache-busting Ä‘á»ƒ CDN khÃ´ng cache data cÅ©)
+      // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
       const cacheBuster = '?v=' + Date.now();
       const [usersResponse, challengesResponse] = await Promise.all([
         fetch('/data/users.json' + cacheBuster),
@@ -206,16 +206,16 @@ export function getStaticPaths() {
       );
 
       
-      console.log('ðŸ“¦ [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
+      console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
       
       if (!usersData || !usersData.data) {
-        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dá»¯ liá»‡u ngÆ°á»i dÃ¹ng khÃ´ng há»£p lá»‡</p>';
-        console.error('âŒ [PROFILE] usersData or usersData.data is null/undefined');
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dữ liệu người dùng không hợp lệ</p>';
+        console.error('❌ [PROFILE] usersData or usersData.data is null/undefined');
         return;
       }
       
       const members = usersData.data || [];
-      console.log('ðŸ‘¥ [PROFILE] Found', members.length, 'members');
+      console.log('👥 [PROFILE] Found', members.length, 'members');
       
       // Store all users for sidebar
       allUsers = members;
@@ -223,7 +223,7 @@ export function getStaticPaths() {
       const user = members.find(m => m.id.toString() === userId);
 
       if (!user) {
-        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">KhÃ´ng tÃ¬m tháº¥y thÃ nh viÃªn</p>';
+        if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Không tìm thấy thành viên</p>';
         return;
       }
 
@@ -249,24 +249,24 @@ export function getStaticPaths() {
         });
       });
 
-      console.log('ðŸ“š [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
+      console.log('📚 [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
 
       // Get user's challenges
       const challengeIds = user.challengeIds || ['1'];
 
-      console.log('ðŸŽ¯ [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
-      console.log('ðŸŽ¯ [PROFILE] Challenges:', challengeIds);
+      console.log('🎯 [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
+      console.log('🎯 [PROFILE] Challenges:', challengeIds);
 
       // Calculate stats for each challenge using shared utility
       const challengeStats = [];
-      console.log('ðŸ”„ [PROFILE] Starting to process', challengeIds.length, 'challenges');
+      console.log('🔄 [PROFILE] Starting to process', challengeIds.length, 'challenges');
       
       for (const challengeId of challengeIds) {
-        console.log(`\nðŸ“Š [PROFILE] Processing Challenge ${challengeId}...`);
+        console.log(`\n📊 [PROFILE] Processing Challenge ${challengeId}...`);
         
         // Use the shared calculateUserStats function
         const usersWithStats = calculateUserStats([user], allRecords, challengeId, challengeDateRanges);
-        console.log('ðŸ“Š [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
+        console.log('📊 [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
         
         if (usersWithStats.length > 0 && usersWithStats[0].currentStat) {
           const stat = usersWithStats[0].currentStat;
@@ -279,7 +279,7 @@ export function getStaticPaths() {
             disciplinePercentage: stat.disciplinePercentage
           });
           
-          console.log(`âœ… [PROFILE] Challenge ${challengeId} stats:`, {
+          console.log(`✅ [PROFILE] Challenge ${challengeId} stats:`, {
             streak: stat.streak,
             longestStreak: stat.longestStreak,
             totalDays: stat.totalDays,
@@ -287,11 +287,11 @@ export function getStaticPaths() {
             datesCount: stat.dates?.length || 0
           });
         } else {
-          console.warn(`âš ï¸ [PROFILE] No stats returned for Challenge ${challengeId}`);
+          console.warn(`⚠️ [PROFILE] No stats returned for Challenge ${challengeId}`);
         }
       }
       
-      console.log('âœ… [PROFILE] Total challenges with stats:', challengeStats.length);
+      console.log('✅ [PROFILE] Total challenges with stats:', challengeStats.length);
 
       // Display profile
       displayProfile(user, challengeStats, allRecords);
@@ -323,7 +323,7 @@ export function getStaticPaths() {
       console.error('Error loading profile:', error);
       const loadingDiv = document.getElementById('loading');
       if (loadingDiv) {
-        loadingDiv.innerHTML = `<p class="text-red-500">Lá»—i: ${error.message}</p>`;
+        loadingDiv.innerHTML = `<p class="text-red-500">Lỗi: ${error.message}</p>`;
       }
     }
   }
@@ -358,16 +358,16 @@ export function getStaticPaths() {
 
     if (userNameEl) userNameEl.textContent = user.name;
     if (userBioEl) {
-      // Thay \n thÃ nh <br> Ä‘á»ƒ hiá»ƒn thá»‹ xuá»‘ng dÃ²ng Ä‘Ãºng cÃ¡ch
-      const bioWithBreaks = (user.bio || 'KhÃ´ng cÃ³ bio').replace(/\n/g, '<br>');
+      // Thay \n thành <br> để hiển thị xuống dòng đúng cách
+      const bioWithBreaks = (user.bio || 'Không có bio').replace(/\n/g, '<br>');
       userBioEl.innerHTML = bioWithBreaks;
     }
     if (userMetaEl) {
       userMetaEl.innerHTML = `
-        ${user.learning ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-cyan-500/10 text-cyan-200 border border-cyan-400/20">ðŸŒ ${user.learning}</span>` : ''}
-        ${user.major ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-fuchsia-500/10 text-fuchsia-200 border border-fuchsia-400/20">ðŸŽ“ ${user.major}</span>` : ''}
-        ${user.birthYear ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-emerald-500/10 text-emerald-200 border border-emerald-400/20">ðŸ“… ${user.birthYear}</span>` : ''}
-        ${user.discordNickname ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-white/5 text-slate-200 border border-white/10">ðŸ’¬ ${user.discordNickname}</span>` : ''}
+        ${user.learningLanguage ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-cyan-500/10 text-cyan-200 border border-cyan-400/20">🌐 ${user.learningLanguage}</span>` : ''}
+        ${user.major ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-fuchsia-500/10 text-fuchsia-200 border border-fuchsia-400/20">🎓 ${user.major}</span>` : ''}
+        ${user.birthYear ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-emerald-500/10 text-emerald-200 border border-emerald-400/20">📅 ${user.birthYear}</span>` : ''}
+        ${user.discordNickname ? `<span class="px-3 py-1 rounded-full text-sm font-semibold bg-white/5 text-slate-200 border border-white/10">💬 ${user.discordNickname}</span>` : ''}
       `;
     }
 
@@ -411,8 +411,8 @@ export function getStaticPaths() {
     if (noCertificatesEl) noCertificatesEl.classList.add('hidden');
     
     // DEBUG MODE: Log certificate data
-    console.log('ðŸ” [CERT DEBUG] Starting certificate rendering...');
-    console.log('ðŸ” [CERT DEBUG] Eligible challenges:', eligibleChallenges.length);
+    console.log('🔍 [CERT DEBUG] Starting certificate rendering...');
+    console.log('🔍 [CERT DEBUG] Eligible challenges:', eligibleChallenges.length);
 
     certificatesListEl.innerHTML = eligibleChallenges.map((stat: any) => {
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
@@ -425,13 +425,13 @@ export function getStaticPaths() {
       const daysSoFar = Math.ceil((new Date(effectiveEndDate) - startDate) / (1000 * 60 * 60 * 24)) + 1;
       const disciplinePercentage = Math.round((stat.totalDays / daysSoFar) * 100);
       
-      // XÃ¡c Ä‘á»‹nh tráº¡ng thÃ¡i: completed náº¿u Ä‘Ã£ káº¿t thÃºc hoáº·c Ä‘áº¡t 100%, progress náº¿u Ä‘ang diá»…n ra
+      // Xác định trạng thái: completed nếu đã kết thúc hoặc đạt 100%, progress nếu đang diễn ra
       const isCompleted = todayStr >= dateRange.end || disciplinePercentage >= 100;
       const cardClass = isCompleted ? 'cert-card completed' : 'cert-card progress';
       const statusBadge = isCompleted 
-        ? '<span class="cert-status-badge status-done">HoÃ n thÃ nh</span>'
-        : '<span class="cert-status-badge status-doing">Äang diá»…n ra</span>';
-      const statusText = isCompleted ? 'HoÃ n thÃ nh xuáº¥t sáº¯c' : 'Äang tham gia';
+        ? '<span class="cert-status-badge status-done">Hoàn thành</span>'
+        : '<span class="cert-status-badge status-doing">Đang diễn ra</span>';
+      const statusText = isCompleted ? 'Hoàn thành xuất sắc' : 'Đang tham gia';
       const watermarkSvg = isCompleted
         ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v2a5 5 0 0 1-10 0V4z"></path><path d="M5 6H3a3 3 0 0 0 3 3"></path><path d="M19 6h2a3 3 0 0 1-3 3"></path></svg>`
         : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 2v6.5a5 5 0 0 1-1.46 3.54L12 15.59l-3.54-3.55A5 5 0 0 1 7 8.5V2"></path><path d="M7 22v-6.5a5 5 0 0 1 1.46-3.54L12 8.41l3.54 3.55A5 5 0 0 1 17 15.5V22"></path></svg>`;
@@ -442,18 +442,18 @@ export function getStaticPaths() {
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
               </svg>
-              Táº£i chá»©ng chá»‰
+              Tải chứng chỉ
             </button>`
         : `<button class="btn-download-cert cert-button-disabled" disabled>
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                 <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
               </svg>
-              ChÆ°a Ä‘á»§ Ä‘iá»u kiá»‡n
+              Chưa đủ điều kiện
             </button>`;
 
       // DEBUG: Log certificate data
-      console.log(`ðŸ” [CERT DEBUG] Challenge ${stat.challengeId}:`, {
+      console.log(`🔍 [CERT DEBUG] Challenge ${stat.challengeId}:`, {
         challengeName,
         isCompleted,
         totalDays: stat.totalDays,
@@ -480,11 +480,11 @@ export function getStaticPaths() {
             <div class="cert-stats-row">
               <div class="cert-stat">
                 <div class="cert-stat-val text-slate-100">${stat.totalDays}<span class="text-xs sm:text-sm text-slate-500 font-semibold">/${daysSoFar}</span></div>
-                <div class="cert-stat-label">NgÃ y há»c</div>
+                <div class="cert-stat-label">Ngày học</div>
               </div>
               <div class="cert-stat">
                 <div class="cert-stat-val ${isCompleted ? 'text-emerald-300' : 'text-yellow-300'}">${disciplinePercentage}<span class="text-xs sm:text-sm text-slate-500 font-semibold">%</span></div>
-                <div class="cert-stat-label">Ká»· luáº­t</div>
+                <div class="cert-stat-label">Kỷ luật</div>
               </div>
             </div>
           </div>
@@ -498,15 +498,15 @@ export function getStaticPaths() {
     
     // DEBUG MODE: After rendering, analyze computed styles
     setTimeout(() => {
-      console.log('ðŸ” [CERT DEBUG] Analyzing rendered certificates...');
+      console.log('🔍 [CERT DEBUG] Analyzing rendered certificates...');
       const cards = certificatesListEl.querySelectorAll('.cert-card');
       cards.forEach((card, index) => {
         const challengeName = card.getAttribute('data-debug-challenge');
-        console.log(`\nðŸ” [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
+        console.log(`\n🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
         
         // Check card styles
         const cardStyles = window.getComputedStyle(card);
-        console.log('  ðŸ“¦ Card:');
+        console.log('  📦 Card:');
         console.log('    - padding:', cardStyles.padding);
         console.log('    - borderRadius:', cardStyles.borderRadius);
         console.log('    - borderLeft:', cardStyles.borderLeft);
@@ -517,7 +517,7 @@ export function getStaticPaths() {
         const iconBg = card.querySelector('.cert-icon-bg');
         if (iconBg) {
           const iconStyles = window.getComputedStyle(iconBg);
-          console.log('  ðŸŽ¨ Icon BG:');
+          console.log('  🎨 Icon BG:');
           console.log('    - width:', iconStyles.width, '(expected: 48px)');
           console.log('    - height:', iconStyles.height, '(expected: 48px)');
           console.log('    - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
@@ -529,7 +529,7 @@ export function getStaticPaths() {
         const title = card.querySelector('.cert-title');
         if (title) {
           const titleStyles = window.getComputedStyle(title);
-          console.log('  ðŸ“ Title:');
+          console.log('  📝 Title:');
           console.log('    - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
           console.log('    - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
           console.log('    - color:', titleStyles.color, '(expected: rgb(31, 41, 55) / #1f2937)');
@@ -543,7 +543,7 @@ export function getStaticPaths() {
         const subtitle = card.querySelector('.cert-subtitle');
         if (subtitle) {
           const subtitleStyles = window.getComputedStyle(subtitle);
-          console.log('  ðŸ“ Subtitle:');
+          console.log('  📝 Subtitle:');
           console.log('    - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
           console.log('    - color:', subtitleStyles.color, '(expected: rgb(107, 114, 128) / #6b7280)');
           console.log('    - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
@@ -556,7 +556,7 @@ export function getStaticPaths() {
           const statStyles = window.getComputedStyle(statVal);
           const isFirst = i === 0;
           const expectedColor = isFirst ? 'rgb(22, 163, 74) / #16a34a (green-600)' : 'rgb(37, 99, 235) / #2563eb (blue-600)';
-          console.log(`  ðŸ“Š Stat ${i + 1} (${isFirst ? 'NgÃ y há»c' : 'Ká»· luáº­t'}):`);
+          console.log(`  📊 Stat ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
           console.log('    - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
           console.log('    - fontWeight:', statStyles.fontWeight, '(expected: 700)');
           console.log('    - color:', statStyles.color, `(expected: ${expectedColor})`);
@@ -568,7 +568,7 @@ export function getStaticPaths() {
         const statsRow = card.querySelector('.cert-stats-row');
         if (statsRow) {
           const statsRowStyles = window.getComputedStyle(statsRow);
-          console.log('  ðŸ“Š Stats Row:');
+          console.log('  📊 Stats Row:');
           console.log('    - padding:', statsRowStyles.padding, '(expected: 16px / 1rem)');
           console.log('    - backgroundColor:', statsRowStyles.backgroundColor, '(expected: rgb(248, 250, 252) / #f8fafc)');
           console.log('    - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
@@ -578,13 +578,13 @@ export function getStaticPaths() {
         const body = card.querySelector('.cert-body');
         if (body) {
           const bodyStyles = window.getComputedStyle(body);
-          console.log('  ðŸ“¦ Body:');
+          console.log('  📦 Body:');
           console.log('    - padding:', bodyStyles.padding, '(expected: 20px mobile, 24px desktop)');
         }
       });
       
       // Compare with Gemini expected values
-      console.log('\nðŸŽ¯ [CERT DEBUG] Expected values from Gemini design:');
+      console.log('\n🎯 [CERT DEBUG] Expected values from Gemini design:');
       console.log('  Icon BG: width=48px, height=48px, borderRadius=12px');
       console.log('  Title: fontSize=1.125rem (mobile), 1.25rem (desktop), color=#1f2937 (gray-800)');
       console.log('  Subtitle: fontSize=0.75rem (mobile), 0.875rem (desktop), color=#6b7280 (gray-500)');
@@ -595,10 +595,10 @@ export function getStaticPaths() {
     }, 500); // Wait for rendering
   }
 
-  // Function to download certificate - tÃ­nh toÃ¡n tá»« JSON files thay vÃ¬ gá»i API
+  // Function to download certificate - tính toán từ JSON files thay vì gọi API
   (window as any).downloadCertificate = async function(userId: any, challengeId: any, format: any) {
     try {
-      // Fetch data tá»« JSON files (thÃªm cache-busting)
+      // Fetch data từ JSON files (thêm cache-busting)
       const cb = '?v=' + Date.now();
       const [usersRes, challengesRes] = await Promise.all([
         fetch('/data/users.json' + cb),
@@ -606,7 +606,7 @@ export function getStaticPaths() {
       ]);
 
       if (!usersRes.ok || !challengesRes.ok) {
-        throw new Error('KhÃ´ng thá»ƒ táº£i dá»¯ liá»‡u');
+        throw new Error('Không thể tải dữ liệu');
       }
 
       const usersData = await usersRes.json();
@@ -614,11 +614,11 @@ export function getStaticPaths() {
 
       // Find user
       const user = usersData.data.find((u: any) => u.id === parseInt(userId));
-      if (!user) throw new Error('KhÃ´ng tÃ¬m tháº¥y ngÆ°á»i dÃ¹ng');
+      if (!user) throw new Error('Không tìm thấy người dùng');
 
       // Find challenge
       const challenge = challengesData[challengeId];
-      if (!challenge) throw new Error('KhÃ´ng tÃ¬m tháº¥y challenge');
+      if (!challenge) throw new Error('Không tìm thấy challenge');
 
       // Fetch specific records
       let prefix = '08';
@@ -628,7 +628,7 @@ export function getStaticPaths() {
       const recordsRes = await fetch(`/data/challenge_${prefix}_records.json` + cb);
       const studyRecordsData = await recordsRes.json();
 
-      // TÃ­nh toÃ¡n stats
+      // Tính toán stats
       const startDate = new Date(challenge.start);
       const endDate = new Date(challenge.end);
       
@@ -675,7 +675,7 @@ export function getStaticPaths() {
       }
     } catch (error) {
       console.error('Error downloading certificate:', error);
-      alert('KhÃ´ng thá»ƒ táº£i chá»©ng chá»‰. Vui lÃ²ng thá»­ láº¡i sau.');
+      alert('Không thể tải chứng chỉ. Vui lòng thử lại sau.');
     }
   };
 
@@ -953,13 +953,13 @@ export function getStaticPaths() {
         <div class="corner-decor bottom-left"></div>
         <div class="corner-decor bottom-right"></div>
 
-        <div class="header">GIáº¤Y CHá»¨NG NHáº¬N</div>
+        <div class="header">GIẤY CHỨNG NHẬN</div>
         <h1>Certificate of<br>Achievement</h1>
         
-        <div class="presented-to">TrÃ¢n trá»ng trao táº·ng cho</div>
+        <div class="presented-to">Trân trọng trao tặng cho</div>
         <div class="user-name">${data.userName.toUpperCase()}</div>
         
-        <div class="description">ÄÃ£ ná»— lá»±c vÃ  hoÃ n thÃ nh xuáº¥t sáº¯c thá»­ thÃ¡ch</div>
+        <div class="description">Đã nỗ lực và hoàn thành xuất sắc thử thách</div>
         
         <div class="challenge-name">${data.challengeName.toUpperCase()}</div>
 
@@ -969,7 +969,7 @@ export function getStaticPaths() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                 </div>
                 <div class="stat-value">${data.studyDays}/${data.totalDays}</div>
-                <div class="stat-label">NgÃ y há»c</div>
+                <div class="stat-label">Ngày học</div>
             </div>
             
             <div class="stat-item">
@@ -977,22 +977,22 @@ export function getStaticPaths() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                 </div>
                 <div class="stat-value">${data.attendanceRate}%</div>
-                <div class="stat-label">Ká»· luáº­t</div>
+                <div class="stat-label">Kỷ luật</div>
             </div>
         </div>
 
         <div class="footer">
             <div class="footer-col col-date">
-                <div class="signature-title">NgÃ y cáº¥p</div>
+                <div class="signature-title">Ngày cấp</div>
                 <div class="signature-line"></div>
                 <div class="signature-content">${data.completionDate}</div>
             </div>
 
             <div class="footer-col col-org">
-                <div class="signature-title">Ban tá»• chá»©c</div>
+                <div class="signature-title">Ban tổ chức</div>
                 <div class="signed-hph">Hph</div>
                 <div class="signature-line"></div>
-                <div class="signature-content" style="color: #1e3a8a;">Anki Viá»‡t Nam</div>
+                <div class="signature-content" style="color: #1e3a8a;">Anki Việt Nam</div>
             </div>
         </div>
 
@@ -1053,24 +1053,24 @@ export function getStaticPaths() {
   function displayCalendars(challengeStats) {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) {
-      console.warn('âš ï¸ [PROFILE] calendar element not found');
+      console.warn('⚠️ [PROFILE] calendar element not found');
       return;
     }
 
-    console.log('ðŸ“… [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
+    console.log('📅 [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
-      console.warn('âš ï¸ [PROFILE] No challenge stats to display');
-      calendarEl.innerHTML = '<p class="text-slate-400 text-center py-8">KhÃ´ng cÃ³ dá»¯ liá»‡u thá»‘ng kÃª</p>';
+      console.warn('⚠️ [PROFILE] No challenge stats to display');
+      calendarEl.innerHTML = '<p class="text-slate-400 text-center py-8">Không có dữ liệu thống kê</p>';
       return;
     }
 
     const html = challengeStats.map(stat => {
       if (!stat) {
-        console.warn('âš ï¸ [PROFILE] Null stat object');
+        console.warn('⚠️ [PROFILE] Null stat object');
         return '';
       }
-      console.log('ðŸ“… [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
+      console.log('📅 [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
       
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
       const dateRange = challengeDateRanges[stat.challengeId];
@@ -1118,7 +1118,7 @@ export function getStaticPaths() {
       return `
         <div class="border-t border-white/10 first:border-t-0 pt-6 first:pt-0">
           <h3 class="text-xl font-bold text-slate-100 mb-2">${challengeName}</h3>
-          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngÃ y, ${disciplinePercentage}% ká»· luáº­t)</p>
+          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngày, ${disciplinePercentage}% kỷ luật)</p>
           
           <div class="space-y-6">
             ${Object.entries(daysByMonth).map(([monthKey, days]) => {
@@ -1133,7 +1133,7 @@ export function getStaticPaths() {
                 <div>
                   <div class="flex items-center justify-between mb-3">
                     <h4 class="font-semibold text-slate-200">${monthName}</h4>
-                    <span class="text-xs text-slate-400">${checkedInMonth}/${totalInMonth} ngÃ y (${monthPercent}%)</span>
+                    <span class="text-xs text-slate-400">${checkedInMonth}/${totalInMonth} ngày (${monthPercent}%)</span>
                   </div>
                   <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 gap-2">
                     ${days.map(day => `
@@ -1166,7 +1166,7 @@ export function getStaticPaths() {
     if (!selectorEl) return;
 
     if (challengeStats.length === 0) {
-      selectorEl.innerHTML = '<p class="text-slate-400 text-sm">ChÆ°a tham gia challenge nÃ o</p>';
+      selectorEl.innerHTML = '<p class="text-slate-400 text-sm">Chưa tham gia challenge nào</p>';
       return;
     }
 
@@ -1204,11 +1204,11 @@ export function getStaticPaths() {
     const stat = allChallengeStats.find(s => s.challengeId === challengeId);
     
     if (!stat) {
-      console.warn('âš ï¸ [PROFILE] Challenge not found:', challengeId);
+      console.warn('⚠️ [PROFILE] Challenge not found:', challengeId);
       return;
     }
 
-    console.log('ðŸ”„ [PROFILE] Switching to Challenge', challengeId);
+    console.log('🔄 [PROFILE] Switching to Challenge', challengeId);
     
     // Re-render with selected challenge
     renderChallengeSelector(currentUser, allChallengeStats);
@@ -1224,19 +1224,19 @@ export function getStaticPaths() {
       statsGridEl.innerHTML = `
         <div class="profile-stat-card rounded-2xl p-5 text-center">
           <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.streak}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Chuá»—i hiá»‡n táº¡i</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Chuỗi hiện tại</div>
         </div>
         <div class="profile-stat-card rounded-2xl p-5 text-center">
           <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.longestStreak}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Ká»· lá»¥c</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Kỷ lục</div>
         </div>
         <div class="profile-stat-card rounded-2xl p-5 text-center">
           <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.totalDays}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Tá»•ng ngÃ y</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Tổng ngày</div>
         </div>
         <div class="profile-stat-card profile-stat-card-discipline rounded-2xl p-5 text-center relative overflow-hidden">
           <div class="text-3xl md:text-4xl font-black text-emerald-400 mb-1">${mainStats.disciplinePercentage}%</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Ká»· luáº­t</div>
+          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Kỷ luật</div>
         </div>
       `;
     }
@@ -1375,7 +1375,7 @@ export function getStaticPaths() {
                   
                   return `
                     <div class="w-3 h-3 rounded-sm ${colorClass} cursor-pointer hover:ring-2 hover:ring-cyan-400 transition-all" 
-                         title="${monthName}: ${isChecked ? `âœ… Check-in (Chuá»—i: ${streak})` : 'ChÆ°a check-in'}"
+                         title="${monthName}: ${isChecked ? `✅ Check-in (Chuỗi: ${streak})` : 'Chưa check-in'}"
                          data-date="${dateStr}">
                     </div>
                   `;
@@ -1393,20 +1393,20 @@ export function getStaticPaths() {
   function displayMonthlyStats(challengeStats) {
     const monthlyStatsEl = document.getElementById('monthlyStats');
     if (!monthlyStatsEl) {
-      console.warn('âš ï¸ [PROFILE] monthlyStats element not found');
+      console.warn('⚠️ [PROFILE] monthlyStats element not found');
       return;
     }
 
-    console.log('ðŸ“Š [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
+    console.log('📊 [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
-      monthlyStatsEl.innerHTML = '<p class="text-slate-400 text-center py-8">ChÆ°a cÃ³ dá»¯ liá»‡u thá»‘ng kÃª theo thÃ¡ng</p>';
+      monthlyStatsEl.innerHTML = '<p class="text-slate-400 text-center py-8">Chưa có dữ liệu thống kê theo tháng</p>';
       return;
     }
 
     const html = challengeStats.map(stat => {
       if (!stat || !stat.dates) {
-        console.warn('âš ï¸ [PROFILE] Invalid stat object:', stat);
+        console.warn('⚠️ [PROFILE] Invalid stat object:', stat);
         return '';
       }
 
@@ -1426,7 +1426,7 @@ export function getStaticPaths() {
         return `
           <div class="flex justify-between items-center p-3 rounded-2xl bg-white/5 border border-white/10">
             <span class="font-semibold text-slate-200">${monthName}</span>
-            <span class="px-3 py-1 bg-cyan-500/10 text-cyan-200 rounded-full font-bold border border-cyan-400/20">${count} ngÃ y</span>
+            <span class="px-3 py-1 bg-cyan-500/10 text-cyan-200 rounded-full font-bold border border-cyan-400/20">${count} ngày</span>
           </div>
         `;
       }).join('');
@@ -1436,7 +1436,7 @@ export function getStaticPaths() {
           <h3 class="text-xl font-bold text-slate-100 mb-3">${challengeName}</h3>
           <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end}</p>
           <div class="space-y-2">
-            ${monthsHTML || '<p class="text-slate-400">ChÆ°a cÃ³ dá»¯ liá»‡u</p>'}
+            ${monthsHTML || '<p class="text-slate-400">Chưa có dữ liệu</p>'}
           </div>
         </div>
       `;
@@ -1445,32 +1445,32 @@ export function getStaticPaths() {
     monthlyStatsEl.innerHTML = html;
   }
 
-  // DEBUG MODE: Helper function Ä‘á»ƒ debug certificates tá»« console
+  // DEBUG MODE: Helper function để debug certificates từ console
   (window as any).debugCertificates = function() {
-    console.log('ðŸ” [CERT DEBUG] Starting manual debug...');
+    console.log('🔍 [CERT DEBUG] Starting manual debug...');
     const certificatesListEl = document.getElementById('certificatesList');
     if (!certificatesListEl) {
-      console.error('âŒ [CERT DEBUG] certificatesList element not found');
+      console.error('❌ [CERT DEBUG] certificatesList element not found');
       return;
     }
     
     const cards = certificatesListEl.querySelectorAll('.cert-card');
     if (cards.length === 0) {
-      console.warn('âš ï¸ [CERT DEBUG] No certificate cards found');
+      console.warn('⚠️ [CERT DEBUG] No certificate cards found');
       return;
     }
     
-    console.log(`ðŸ” [CERT DEBUG] Found ${cards.length} certificate card(s)\n`);
+    console.log(`🔍 [CERT DEBUG] Found ${cards.length} certificate card(s)\n`);
     
     cards.forEach((card, index) => {
       const challengeName = card.getAttribute('data-debug-challenge') || `Card ${index + 1}`;
       console.log(`\n${'='.repeat(60)}`);
-      console.log(`ðŸ” [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
+      console.log(`🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
       console.log(`${'='.repeat(60)}`);
       
       // Card styles
       const cardStyles = window.getComputedStyle(card);
-      console.log('\nðŸ“¦ CARD STYLES:');
+      console.log('\n📦 CARD STYLES:');
       console.log('  - padding:', cardStyles.padding);
       console.log('  - borderRadius:', cardStyles.borderRadius, '(expected: 16px)');
       console.log('  - borderLeft:', cardStyles.borderLeft);
@@ -1483,7 +1483,7 @@ export function getStaticPaths() {
       const iconBg = card.querySelector('.cert-icon-bg');
       if (iconBg) {
         const iconStyles = window.getComputedStyle(iconBg);
-        console.log('\nðŸŽ¨ ICON BACKGROUND:');
+        console.log('\n🎨 ICON BACKGROUND:');
         console.log('  - width:', iconStyles.width, '(expected: 48px)');
         console.log('  - height:', iconStyles.height, '(expected: 48px)');
         console.log('  - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
@@ -1496,7 +1496,7 @@ export function getStaticPaths() {
       const title = card.querySelector('.cert-title');
       if (title) {
         const titleStyles = window.getComputedStyle(title);
-        console.log('\nðŸ“ TITLE:');
+        console.log('\n📝 TITLE:');
         console.log('  - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
         console.log('  - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
         console.log('  - color:', titleStyles.color, '(expected: #1f2937 / gray-800)');
@@ -1510,7 +1510,7 @@ export function getStaticPaths() {
       const subtitle = card.querySelector('.cert-subtitle');
       if (subtitle) {
         const subtitleStyles = window.getComputedStyle(subtitle);
-        console.log('\nðŸ“ SUBTITLE:');
+        console.log('\n📝 SUBTITLE:');
         console.log('  - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
         console.log('  - color:', subtitleStyles.color, '(expected: #6b7280 / gray-500)');
         console.log('  - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
@@ -1523,7 +1523,7 @@ export function getStaticPaths() {
         const statStyles = window.getComputedStyle(statVal);
         const isFirst = i === 0;
         const expectedColor = isFirst ? '#16a34a (green-600)' : '#2563eb (blue-600)';
-        console.log(`\nðŸ“Š STAT VALUE ${i + 1} (${isFirst ? 'NgÃ y há»c' : 'Ká»· luáº­t'}):`);
+        console.log(`\n📊 STAT VALUE ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
         console.log('  - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
         console.log('  - fontWeight:', statStyles.fontWeight, '(expected: 700)');
         console.log('  - color:', statStyles.color, `(expected: ${expectedColor})`);
@@ -1535,7 +1535,7 @@ export function getStaticPaths() {
       const statsRow = card.querySelector('.cert-stats-row');
       if (statsRow) {
         const statsRowStyles = window.getComputedStyle(statsRow);
-        console.log('\nðŸ“Š STATS ROW:');
+        console.log('\n📊 STATS ROW:');
         console.log('  - padding:', statsRowStyles.padding, '(expected: 1rem)');
         console.log('  - backgroundColor:', statsRowStyles.backgroundColor, '(expected: #f8fafc)');
         console.log('  - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
@@ -1545,14 +1545,14 @@ export function getStaticPaths() {
       const body = card.querySelector('.cert-body');
       if (body) {
         const bodyStyles = window.getComputedStyle(body);
-        console.log('\nðŸ“¦ BODY:');
+        console.log('\n📦 BODY:');
         console.log('  - padding:', bodyStyles.padding, '(expected: 1.25rem mobile, 1.5rem desktop)');
       }
     });
     
     // Expected values summary
     console.log(`\n${'='.repeat(60)}`);
-    console.log('ðŸŽ¯ EXPECTED VALUES (Gemini Design):');
+    console.log('🎯 EXPECTED VALUES (Gemini Design):');
     console.log(`${'='.repeat(60)}`);
     console.log('Icon BG: width=48px, height=48px, borderRadius=12px');
     console.log('Title: fontSize=1.125rem (mobile) / 1.25rem (desktop), color=#1f2937 (gray-800)');
@@ -1590,11 +1590,11 @@ export function getStaticPaths() {
     if (sortedUsers.length === 0) {
       const challengeName = challengeFilterId && challengeFilterId !== 'all' 
         ? challengeNames[challengeFilterId] || `Challenge ${challengeFilterId}`
-        : 'challenge nÃ y';
+        : 'challenge này';
       sidebarListEl.innerHTML = `
         <div class="text-center py-8 text-slate-400">
-          <p class="font-semibold mb-2">KhÃ´ng cÃ³ thÃ nh viÃªn nÃ o</p>
-          <p class="text-sm">ChÆ°a cÃ³ ai tham gia ${challengeName}</p>
+          <p class="font-semibold mb-2">Không có thành viên nào</p>
+          <p class="text-sm">Chưa có ai tham gia ${challengeName}</p>
         </div>
       `;
       return;
@@ -1602,8 +1602,8 @@ export function getStaticPaths() {
 
     sidebarListEl.innerHTML = sortedUsers.map(user => {
       const isActive = user.id.toString() === currentUserId.toString();
-      const safeName = user.name || 'KhÃ´ng tÃªn';
-      const safeLanguage = user.learning || '';
+      const safeName = user.name || 'Không tên';
+      const safeLanguage = user.learningLanguage || '';
       const safeDiscord = user.discordNickname || '';
       
       return `
@@ -1762,11 +1762,11 @@ export function getStaticPaths() {
   loadProfile();
 </script>
 
-<!-- Import CSS tá»« CertificateCardStyles component -->
+<!-- Import CSS từ CertificateCardStyles component -->
 <CertificateCardStyles />
 
 <style>
-  /* Certificate Grid Layout - chá»‰ giá»¯ grid layout á»Ÿ Ä‘Ã¢y */
+  /* Certificate Grid Layout - chỉ giữ grid layout ở đây */
   .cert-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -2291,4 +2291,3 @@ export function getStaticPaths() {
   }
 </style>
 </Layout>
-
