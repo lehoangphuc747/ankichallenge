@@ -24,6 +24,7 @@
 | Tôi cam kết | phucschiens (NPChieens) |  | Nguyễn Phúc Chiến | 2008 | Phường Quy Nhơn | https://www.facebook.com/N.PhucChien/ | 0982004241 | Có | Ko thích yên tĩnh, cũng ko thích ồn ào, yêu hoà bình, ghét chiến tranh, chửi thì được. Mưa bt chạy vào nhà. | học hành là hành những gì đã học | Tiếng Hàn, ôn thi tốt nghiệp |
 | Tôi cam kết | linh0101 (Linh) |  | Lê Thị Diệu Linh | 1996 | Suwon | https://www.facebook.com/d.linh1196/ | 0393006661 | Có | Học 30p/ ngày | We all need people you give us feedback, that's how we improve | tiếng Hàn |
 | Tôi cam kết | leductuan73 (Tuấn) |  | Lê Đức Tuấn | 2004 | HCM City | https://web.facebook.com/trungsotcachua73/ | 0845822847 | Có | Học 30 phút/ngày |  | Tiếng Anh |
+| Tôi cam kết | meoxinhdep5470 |  | Nguyễn Vân Anh | 1997 | Hà Nội | https://www.facebook.com/share/19oxEwTeLk/?mibextid=wwXIfr | 0984548697 | Có | Đang suy nghĩ về sự vận hành của vũ trụ và ý nghĩa kiếp mèo | Trên đời này chuyện quái gì cũng có thể xảy ra | Y hihi |
 
 ## Người mới
 
@@ -38,3 +39,6 @@
 | Tôi cam kết | momkuro9392 | Đã đóng phí | Đặng Quang Nhật | 2001 | Tây Ninh | https://www.facebook.com/ | 0931234931 | Không | Hiện tại đang trên đường trở thành bác sĩ (đã tốt nghiệp). Muốn biết thêm về nhiều kiến thức. | Hạnh phúc là được học | Y khoa. |
 | Tôi cam kết | hana_93501 | Đã đóng phí | Phạm Trần Huệ Phi | 1999 | HCM | www.facebook.com/hananeuve | 0903643820 | Không | Học 30p/ ngày |  | tiếng Hàn |
 | Tôi cam kết | 112001khanhlinh | Đã đóng phí | Nguyễn Khánh Linh | 2007 | Thái Bình | https://www.facebook.com/rosa.jessica.39/ | 0383566726 | Không | Mình tên Linh, một cô gái đam mê với tiếng hàn và muốn được đặt chân đến đất nước xinh dẹp hàn quốc và hiện đang là sinh viên khoa ngôn ngữ hàn | kiên trì, nỗ lược để đạt được ước mơ | tiếng Hàn |
+| Tôi cam kết | themink4550 |  | Nguyễn Nhật Minh | 2003 | Hà Nội | https://www.facebook.com/minh.nhatminh.7982/ | 0355415995 | Có | Bằng cách nào đó mà mình khá thích học ngôn ngữ, hiện có Anh, Trung. Sắp tới sẽ có thêm vài ngôn ngữ vào giỏ hàng. Mọi người đều nhận xét là mình khá thoải mái và thân thiện | Bạn không thể thay đổi tất cả, nhưng có thể ảnh hưởng lên mọi thứ | Tiếng Trung, kiến thức chuyên ngành |
+| Tôi cam kết | thuy.tracy.seni |  | Lê Thu Thủy | 2000 | Ha noi | https://www.facebook.com/tracyle0111 | 0375081023 | Có | Học 1 tiếng 1 ngày, 30phuts tiếng trung 30phut tiếng anh trên anki |  | tiếng trung, tiếng anh |
+| Tôi cam kết | hoangct0 | Đã đóng phí | Phạm Minh Hoàng | 2007 | Hưng Yên | https://www.facebook.com/minhhoangdz102.102?locale=vi_VN | 0387561007 | Không | Minh muốn học một ngôn ngữ thứ hai để có thể giúp ích dù một phần rất rất nhỏ trong công việc của mình sau này | Minh hy vọng khi tham gia cộng đồng này mình có thể học tập và biết được thêm thật nhiều điều hữu ích | chưa có |

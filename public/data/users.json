@@ -869,11 +869,11 @@
       "name": "Nguyễn Vân Anh",
       "email": "",
       "streak": 0,
-      "learning": "",
-      "major": "Y Khoa Đã đi làm",
-      "bio": "Thích vẽ \nTính cách linh hoạt \nMục tiêu xâm chiếm thế giới\nTrên đời này chuyện quái gì cũng có thể xảy ra",
+      "learning": "Y hihi",
+      "major": "Khác",
+      "bio": "Đang suy nghĩ về sự vận hành của vũ trụ và ý nghĩa kiếp mèo",
       "facebookUrl": "https://www.facebook.com/share/19oxEwTeLk/?mibextid=wwXIfr",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0984548697",
       "discordNickname": "meoxinhdep5470",
       "birthYear": 1997,
       "role": "member",
@@ -883,9 +883,9 @@
         2,
         3
       ],
-      "place": "",
-      "goals": "",
-      "quotes": ""
+      "place": "Hà Nội",
+      "goals": "Đang suy nghĩ về sự vận hành của vũ trụ và ý nghĩa kiếp mèo",
+      "quotes": "Trên đời này chuyện quái gì cũng có thể xảy ra"
     },
     {
       "id": 50,
@@ -1492,21 +1492,22 @@
       "name": "Lê Thu Thủy",
       "email": "",
       "streak": 0,
-      "learning": "",
+      "learning": "tiếng trung, tiếng anh",
       "major": "Khác",
-      "bio": ".",
+      "bio": "Học 1 tiếng 1 ngày, 30phuts tiếng trung 30phut tiếng anh trên anki",
       "facebookUrl": "https://www.facebook.com/tracyle0111",
-      "zaloUrl": "",
+      "zaloUrl": "https://zalo.me/0375081023",
       "discordNickname": "thuy.tracy.seni",
       "birthYear": 2000,
       "role": "member",
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
+        2,
+        3
       ],
-      "place": "",
-      "goals": "",
+      "place": "Ha noi",
+      "goals": "Học 1 tiếng 1 ngày, 30phuts tiếng trung 30phut tiếng anh trên anki",
       "quotes": ""
     },
     {
@@ -1613,11 +1614,12 @@
       "hidden": false,
       "previousRank": 0,
       "challengeIds": [
-        2
+        2,
+        3
       ],
-      "place": "",
-      "goals": "",
-      "quotes": ""
+      "place": "Hà Nội",
+      "goals": "Bằng cách nào đó mà mình khá thích học ngôn ngữ, hiện có Anh, Trung. Sắp tới sẽ có thêm vài ngôn ngữ vào giỏ hàng. Mọi người đều nhận xét là mình khá thoải mái và thân thiện",
+      "quotes": "Bạn không thể thay đổi tất cả, nhưng có thể ảnh hưởng lên mọi thứ"
     },
     {
       "id": 83,
@@ -1905,6 +1907,28 @@
       "place": "Hà Nội",
       "goals": "I am big fan of Messi , not Ronaldo !",
       "quotes": "Messi is the Goat !"
+    },
+    {
+      "name": "Phạm Minh Hoàng",
+      "email": "",
+      "streak": 0,
+      "learning": "chưa có",
+      "major": "Khác",
+      "bio": "Minh muốn học một ngôn ngữ thứ hai để có thể giúp ích dù một phần rất rất nhỏ trong công việc của mình sau này",
+      "facebookUrl": "https://www.facebook.com/minhhoangdz102.102?locale=vi_VN",
+      "id": 96,
+      "hidden": false,
+      "previousRank": 0,
+      "discordNickname": "hoangct0",
+      "zaloUrl": "https://zalo.me/0387561007",
+      "birthYear": 2007,
+      "role": "member",
+      "challengeIds": [
+        3
+      ],
+      "place": "Hưng Yên",
+      "goals": "Minh muốn học một ngôn ngữ thứ hai để có thể giúp ích dù một phần rất rất nhỏ trong công việc của mình sau này",
+      "quotes": "Minh hy vọng khi tham gia cộng đồng này mình có thể học tập và biết được thêm thật nhiều điều hữu ích"
     }
   ]
 }
