@@ -83,7 +83,7 @@
       "discordNickname": "ethanhocdi",
       "bio": "Học 50 thẻ mới mỗi ngày",
       "name": "Ethan",
-      "hidden": true,
+      "hidden": false,
       "challengeIds": [
         1,
         2,
