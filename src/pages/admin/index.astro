@@ -1,186 +1,301 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+
+// Lấy password từ env (hỗ trợ cả Astro env và Node process env)
+const adminPassword = import.meta.env.ADMIN_PASSWORD || 
+                      (typeof process !== 'undefined' ? process.env.ADMIN_PASSWORD : undefined) || 
+                      'admin123';
+
+let error = "";
+const method = Astro.request.method;
+
+if (method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    const action = data.get("action");
+    
+    if (action === "logout") {
+      Astro.cookies.delete("admin_session", { path: "/" });
+      return Astro.redirect("/admin");
+    } else {
+      const password = data.get("password");
+      if (password === adminPassword) {
+        // Thiết lập cookie session có thời hạn 7 ngày
+        Astro.cookies.set("admin_session", adminPassword, {
+          path: "/",
+          httpOnly: true,
+          secure: true,
+          sameSite: "strict",
+          maxAge: 60 * 60 * 24 * 7,
+        });
+        return Astro.redirect("/admin");
+      } else {
+        error = "Mật khẩu quản trị không chính xác!";
+      }
+    }
+  } catch (e) {
+    error = "Đã xảy ra lỗi hệ thống, vui lòng thử lại!";
+  }
+}
+
+const sessionCookie = Astro.cookies.get("admin_session")?.value;
+const isAuthenticated = sessionCookie === adminPassword;
 ---
 
-<Layout title="Admin Dashboard - Anki Challenge">
-  <main class="min-h-screen bg-gray-50/50 py-10 px-6">
-    <div class="max-w-5xl mx-auto space-y-10">
-      <!-- Header -->
-      <div class="flex items-center justify-between">
-        <div>
-          <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight">
-            Admin Dashboard
-          </h1>
-          <p class="text-gray-500 font-medium">Chào mừng trở lại! 👋</p>
+{isAuthenticated ? (
+  <Layout title="Admin Dashboard - Anki Challenge">
+    <main class="min-h-screen bg-gray-50/50 py-10 px-6">
+      <div class="max-w-5xl mx-auto space-y-10">
+        <!-- Header -->
+        <div class="flex items-center justify-between border-b-2 border-black pb-6 mb-6">
+          <div>
+            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight uppercase">
+              Admin Dashboard
+            </h1>
+            <p class="text-gray-500 font-medium mt-1">Chào mừng trở lại! 👋</p>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="text-right hidden md:block">
+              <p class="text-xs text-gray-400 font-mono" id="lastUpdate">
+                Updating...
+              </p>
+            </div>
+            <form method="POST">
+              <input type="hidden" name="action" value="logout" />
+              <button
+                type="submit"
+                class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 border-2 border-red-700 hover:border-red-800 transition-colors text-sm font-bold uppercase tracking-wider cursor-pointer"
+              >
+                Đăng xuất ➔
+              </button>
+            </form>
+          </div>
         </div>
-        <div class="text-right hidden sm:block">
-          <p class="text-sm text-gray-400 font-mono" id="lastUpdate">
-            Updating...
-          </p>
-        </div>
-      </div>
 
-      <!-- Quick Stats Row (Compact) -->
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div
-          class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-purple-200 transition-colors"
-        >
+        <!-- Quick Stats Row (Compact) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div
-            class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-          >
-            Thành viên
-          </div>
-          <div class="flex items-end justify-between">
-            <span class="text-4xl font-black text-gray-900" id="totalMembers"
-              >--</span
-            >
-            <span class="text-2xl opacity-20">👥</span>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-pink-200 transition-colors"
-        >
-          <div
-            class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-          >
-            Hoạt động
-          </div>
-          <div class="flex items-end justify-between">
-            <span class="text-4xl font-black text-gray-900" id="activeMembers"
-              >--</span
-            >
-            <span class="text-2xl opacity-20">🔥</span>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-blue-200 transition-colors"
-        >
-          <div
-            class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-          >
-            Check-in
-          </div>
-          <div class="flex items-end justify-between">
-            <span class="text-4xl font-black text-gray-900" id="todayCheckins"
-              >--</span
-            >
-            <span class="text-2xl opacity-20">✅</span>
-          </div>
-        </div>
-
-        <div
-          class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-green-200 transition-colors"
-        >
-          <div
-            class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-          >
-            Ngày còn lại
-          </div>
-          <div class="flex items-end justify-between">
-            <span class="text-4xl font-black text-gray-900" id="daysLeft"
-              >--</span
-            >
-            <span class="text-2xl opacity-20">⏳</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Main Navigation (Focused Grid) -->
-      <div>
-        <h2 class="text-lg font-bold text-gray-800 mb-4 px-1">Menu Quản Lý</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-          <!-- Check-in (Most Used - Highlighted) -->
-          <a
-            href="/admin/checkin"
-            class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col items-center text-center"
+            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-purple-200 transition-colors"
           >
             <div
-              class="absolute inset-0 bg-gradient-to-br from-pink-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative z-10 w-20 h-20 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-            >
-              ✅
-            </div>
-            <h3
-              class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-pink-700 transition-colors"
-            >
-              Check-in
-            </h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-              Quản lý điểm danh hàng ngày
-            </p>
-          </a>
-
-          <!-- Members -->
-          <a
-            href="/admin/members"
-            class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-purple-300 transition-all duration-300 flex flex-col items-center text-center"
-          >
-            <div
-              class="absolute inset-0 bg-gradient-to-br from-purple-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-            </div>
-            <div
-              class="relative z-10 w-20 h-20 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-            >
-              👥
-            </div>
-            <h3
-              class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors"
+              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
             >
               Thành viên
-            </h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-              Danh sách & thông tin người chơi
-            </p>
-          </a>
+            </div>
+            <div class="flex items-end justify-between">
+              <span class="text-4xl font-black text-gray-900" id="totalMembers"
+                >--</span
+              >
+              <span class="text-2xl opacity-20">👥</span>
+            </div>
+          </div>
 
-          <!-- Challenges & Config -->
-          <a
-            href="/admin/challenges"
-            class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col items-center text-center"
+          <div
+            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-pink-200 transition-colors"
           >
             <div
-              class="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 opacity-0 group-hover:opacity-100 transition-opacity"
+              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
             >
+              Hoạt động
             </div>
+            <div class="flex items-end justify-between">
+              <span class="text-4xl font-black text-gray-900" id="activeMembers"
+                >--</span
+              >
+              <span class="text-2xl opacity-20">🔥</span>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-blue-200 transition-colors"
+          >
             <div
-              class="relative z-10 w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
+              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
             >
-              ⚙️
+              Check-in
             </div>
-            <h3
-              class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors"
+            <div class="flex items-end justify-between">
+              <span class="text-4xl font-black text-gray-900" id="todayCheckins"
+                >--</span
+              >
+              <span class="text-2xl opacity-20">✅</span>
+            </div>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-green-200 transition-colors"
+          >
+            <div
+              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
             >
-              Cấu hình
-            </h3>
-            <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-              Challenge & Cài đặt hệ thống
-            </p>
+              Ngày còn lại
+            </div>
+            <div class="flex items-end justify-between">
+              <span class="text-4xl font-black text-gray-900" id="daysLeft"
+                >--</span
+              >
+              <span class="text-2xl opacity-20">⏳</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Navigation (Focused Grid) -->
+        <div>
+          <h2 class="text-lg font-bold text-gray-800 mb-4 px-1">Menu Quản Lý</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <!-- Check-in (Most Used - Highlighted) -->
+            <a
+              href="/admin/checkin"
+              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col items-center text-center"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-pink-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+              <div
+                class="relative z-10 w-20 h-20 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
+              >
+                ✅
+              </div>
+              <h3
+                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-pink-700 transition-colors"
+              >
+                Check-in
+              </h3>
+              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
+                Quản lý điểm danh hàng ngày
+              </p>
+            </a>
+
+            <!-- Members -->
+            <a
+              href="/admin/members"
+              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-purple-300 transition-all duration-300 flex flex-col items-center text-center"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-purple-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+              <div
+                class="relative z-10 w-20 h-20 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
+              >
+                👥
+              </div>
+              <h3
+                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors"
+              >
+                Thành viên
+              </h3>
+              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
+                Danh sách & thông tin người chơi
+              </p>
+            </a>
+
+            <!-- Challenges & Config -->
+            <a
+              href="/admin/challenges"
+              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col items-center text-center"
+            >
+              <div
+                class="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+              </div>
+              <div
+                class="relative z-10 w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
+              >
+                ⚙️
+              </div>
+              <h3
+                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors"
+              >
+                Cấu hình
+              </h3>
+              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
+                Challenge & Cài đặt hệ thống
+              </p>
+            </a>
+          </div>
+        </div>
+
+        <!-- Public Link -->
+        <div class="text-center pt-8 border-t border-gray-200 border-dashed">
+          <a
+            href="/"
+            class="inline-flex items-center gap-2 text-gray-500 hover:text-indigo-600 font-semibold transition-colors px-4 py-2 rounded-lg hover:bg-white"
+          >
+            <span>🏆</span> Xem Bảng Xếp Hạng Công Khai
           </a>
         </div>
       </div>
+    </main>
+  </Layout>
+) : (
+  <Layout title="Đăng nhập Admin - Anki Challenge">
+    <main class="min-h-screen bg-gray-50/50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div class="max-w-md w-full space-y-8">
+        <div class="aurora-card p-8 bg-white relative">
+          <!-- Accent indicator -->
+          <div class="absolute top-0 left-0 right-0 h-2 bg-primary"></div>
+          
+          <div class="text-center mb-6">
+            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-2 uppercase">
+              ADMIN LOGIN
+            </h2>
+            <p class="text-sm font-semibold uppercase tracking-wider text-secondary">
+              Anki Challenge Dashboard
+            </p>
+          </div>
 
-      <!-- Public Link -->
-      <div class="text-center pt-8 border-t border-gray-200 border-dashed">
-        <a
-          href="/"
-          class="inline-flex items-center gap-2 text-gray-500 hover:text-indigo-600 font-semibold transition-colors px-4 py-2 rounded-lg hover:bg-white"
-        >
-          <span>🏆</span> Xem Bảng Xếp Hạng Công Khai
-        </a>
+          {error && (
+            <div class="bg-red-50 border-2 border-red-500 text-red-700 px-4 py-3 rounded-none relative mb-6 font-medium text-sm flex items-center gap-2 swiss-shadow-sm">
+              <span>❌</span>
+              <span>{error}</span>
+            </div>
+          )}
+
+          <form method="POST" class="space-y-6">
+            <div>
+              <label for="password" class="block text-sm font-bold uppercase text-gray-700 mb-2 tracking-wider">
+                Mật khẩu Admin
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                class="w-full px-4 py-3 border-2 border-black focus:outline-none focus:ring-3 focus:ring-primary/20 text-lg font-medium text-gray-900 bg-white tracking-widest"
+                placeholder="••••••••"
+              />
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                class="w-full aurora-button font-black tracking-wider text-base cursor-pointer"
+              >
+                Xác thực ➔
+              </button>
+            </div>
+          </form>
+          
+          <div class="text-center mt-6">
+            <a href="/" class="text-sm font-bold text-gray-500 hover:text-primary transition-colors tracking-wider uppercase">
+              ← Quay lại Trang chủ
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
-  </main>
-</Layout>
+    </main>
+  </Layout>
+)}
 
 <script>
   // Load and display stats
   async function loadStats() {
+    // Chỉ chạy nếu phần tử tồn tại trên trang (người dùng đã đăng nhập)
+    const totalMembersEl = document.getElementById("totalMembers");
+    if (!totalMembersEl) return;
+
     try {
       // Load metadata trước để lấy lastUpdated làm cache-buster
       // Đảm bảo luôn lấy dữ liệu mới nhất từ server
@@ -238,19 +353,22 @@ import Layout from "../../layouts/Layout.astro";
       );
 
       // Update UI
-      document.getElementById("totalMembers")!.textContent =
-        totalMembers.toString();
-      document.getElementById("activeMembers")!.textContent =
-        activeMembers.toString();
-      document.getElementById("todayCheckins")!.textContent =
-        todayCheckins.toString();
-      document.getElementById("daysLeft")!.textContent = daysLeft.toString();
+      totalMembersEl.textContent = totalMembers.toString();
+      
+      const activeMembersEl = document.getElementById("activeMembers");
+      if (activeMembersEl) activeMembersEl.textContent = activeMembers.toString();
+      
+      const todayCheckinsEl = document.getElementById("todayCheckins");
+      if (todayCheckinsEl) todayCheckinsEl.textContent = todayCheckins.toString();
+      
+      const daysLeftEl = document.getElementById("daysLeft");
+      if (daysLeftEl) daysLeftEl.textContent = daysLeft.toString();
 
       // Last update
-      if (metadata.lastUpdated) {
+      const lastUpdateEl = document.getElementById("lastUpdate");
+      if (lastUpdateEl && metadata.lastUpdated) {
         const lastUpdateDate = new Date(metadata.lastUpdated);
-        document.getElementById("lastUpdate")!.textContent =
-          lastUpdateDate.toLocaleString("vi-VN");
+        lastUpdateEl.textContent = lastUpdateDate.toLocaleString("vi-VN");
       }
     } catch (error) {
       console.error("Error loading stats:", error);
@@ -280,3 +398,4 @@ import Layout from "../../layouts/Layout.astro";
     animation: gradient 3s ease infinite;
   }
 </style>
+
