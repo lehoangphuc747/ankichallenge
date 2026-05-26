@@ -1,12 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import AdminCalendar from "../../components/admin/AdminCalendar";
-
-// 🔒 BẢO VỆ: Chỉ cho phép truy cập khi chạy localhost (dev)
-// Khi deploy lên production, sẽ tự động redirect về trang chủ
-if (import.meta.env.PROD) {
-  return Astro.redirect("/", 302);
-}
 ---
 
 <Layout title="Admin Check-in - Anki Challenge">
