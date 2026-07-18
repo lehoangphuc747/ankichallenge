@@ -6,18 +6,16 @@ interface Props {
 
 const { challengeId } = Astro.props;
 
-// Challenge configuration — fetch from static file (compatible with Cloudflare Workers)
+// Challenge configuration — fetch từ API (Cloudflare KV)
 let challengeConfig: Record<string, any> = {};
 try {
-  // On server-side (Cloudflare Workers / SSR), we use the Astro.url to build absolute URL
   const baseUrl = Astro.url.origin;
-  const response = await fetch(`${baseUrl}/data/challenges.json`);
+  const response = await fetch(`${baseUrl}/api/data/challenges`);
   if (response.ok) {
     challengeConfig = await response.json();
   }
 } catch (e) {
-  // Fallback: challengeConfig stays as empty object, JS client will handle rendering
-  console.error('[ProgressBar] Failed to fetch challenges.json:', e);
+  console.error('[ProgressBar] Failed to fetch challenges:', e);
 }
 ---
 

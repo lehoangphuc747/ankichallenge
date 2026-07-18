@@ -187,8 +187,8 @@ export function getStaticPaths() {
       // Load user data and study records (thêm cache-busting để CDN không cache data cũ)
       const cacheBuster = '?v=' + Date.now();
       const [usersResponse, challengesResponse] = await Promise.all([
-        fetch('/data/users.json' + cacheBuster),
-        fetch('/data/challenges.json' + cacheBuster)
+        fetch('/api/data/users' + cacheBuster),
+        fetch('/api/data/challenges' + cacheBuster)
       ]);
       const usersData = await usersResponse.json();
       challengesConfig = await challengesResponse.json();
@@ -235,7 +235,7 @@ export function getStaticPaths() {
         if (cid == 2) prefix = '09';
         if (cid == 3) prefix = '10';
         try {
-          const res = await fetch(`/data/challenge_${prefix}_records.json` + cacheBuster);
+          const res = await fetch(`/api/data/records_${prefix}` + cacheBuster);
           if (res.ok) return await res.json();
         } catch (e) {}
         return {};
@@ -601,8 +601,8 @@ export function getStaticPaths() {
       // Fetch data từ JSON files (thêm cache-busting)
       const cb = '?v=' + Date.now();
       const [usersRes, challengesRes] = await Promise.all([
-        fetch('/data/users.json' + cb),
-        fetch('/data/challenges.json' + cb)
+        fetch('/api/data/users' + cb),
+        fetch('/api/data/challenges' + cb)
       ]);
 
       if (!usersRes.ok || !challengesRes.ok) {
@@ -625,7 +625,7 @@ export function getStaticPaths() {
       if (challengeId == 1) prefix = '08';
       if (challengeId == 2) prefix = '09';
       if (challengeId == 3) prefix = '10';
-      const recordsRes = await fetch(`/data/challenge_${prefix}_records.json` + cb);
+      const recordsRes = await fetch(`/api/data/records_${prefix}` + cb);
       const studyRecordsData = await recordsRes.json();
 
       // Tính toán stats

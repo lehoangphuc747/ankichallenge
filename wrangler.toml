@@ -6,3 +6,8 @@ compatibility_flags = ["nodejs_compat"]
 # Astro mặc định build ra thư mục `dist`.
 pages_build_output_dir = "dist"
 
+# KV namespace cho data (users, challenges, records, metadata)
+[[kv_namespaces]]
+binding = "DATA"
+id = "c1daf39f23bf4427974ed5a7c76c2e9a"
+

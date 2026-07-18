@@ -7,3 +7,7 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+type CloudflareEnv = {
+  DATA: KVNamespace;
+};

@@ -240,7 +240,7 @@ import ProgressBar from "../components/ProgressBar.astro";
 	async function loadStaticData(challengeId = "3") {
 		try {
 			const metadataResponse = await fetch(
-				"/data/metadata.json?v=" + Date.now(),
+				"/api/data/metadata?v=" + Date.now(),
 			);
 			const metadata = await metadataResponse.json();
 			const cacheBuster = metadata?.lastUpdated
@@ -264,9 +264,9 @@ import ProgressBar from "../components/ProgressBar.astro";
 			if (challengeId === "3") prefix = '10';
 
 			const [studyRecordsResponse, usersResponse, challengesResponse] = await Promise.all([
-				fetch(`/data/challenge_${prefix}_records.json` + cacheBuster),
-				fetch("/data/users.json" + cacheBuster),
-				fetch("/data/challenges.json" + cacheBuster)
+				fetch(`/api/data/records_${prefix}` + cacheBuster),
+				fetch("/api/data/users" + cacheBuster),
+				fetch("/api/data/challenges" + cacheBuster)
 			]);
 
 			studyRecordsData = await studyRecordsResponse.json();

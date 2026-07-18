@@ -146,7 +146,7 @@ import Layout from '../../layouts/Layout.astro';
       const membersBody = document.getElementById('membersBody');
       
       // Load users data (thêm cache-busting)
-      const usersResponse = await fetch('/data/users.json?v=' + Date.now());
+      const usersResponse = await fetch('/api/data/users?v=' + Date.now());
       const usersData = await usersResponse.json();
       
       if (!usersData || !usersData.data) {

@@ -1,6 +1,6 @@
 // @ts-check
 // Cấu hình Astro cho site hybrid (static pages + dynamic API routes), deploy lên Cloudflare Pages.
-// Admin /api/checkin chỉ hoạt động khi dev local (không có trên production).
+// Data được lưu trong Cloudflare KV, truy cập qua /api/data/* endpoints.
 
 import { defineConfig } from 'astro/config';
 import cloudflare from '@astrojs/cloudflare';

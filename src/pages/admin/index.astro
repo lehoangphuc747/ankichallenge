@@ -300,7 +300,7 @@ const isAuthenticated = sessionCookie === adminPassword;
       // Load metadata trước để lấy lastUpdated làm cache-buster
       // Đảm bảo luôn lấy dữ liệu mới nhất từ server
       const metadataResponse = await fetch(
-        "/data/metadata.json?v=" + Date.now(),
+        "/api/data/metadata?v=" + Date.now(),
       );
       const metadata = await metadataResponse.json();
       const cacheBuster = metadata?.lastUpdated
@@ -308,8 +308,8 @@ const isAuthenticated = sessionCookie === adminPassword;
         : "?v=" + Date.now();
 
       const [usersResponse, challengesResponse] = await Promise.all([
-        fetch("/data/users.json" + cacheBuster),
-        fetch("/data/challenges.json" + cacheBuster),
+        fetch("/api/data/users" + cacheBuster),
+        fetch("/api/data/challenges" + cacheBuster),
       ]);
 
       const usersData = await usersResponse.json();
@@ -330,7 +330,7 @@ const isAuthenticated = sessionCookie === adminPassword;
       if (activeChallengeId === '2') prefix = '09';
       if (activeChallengeId === '3') prefix = '10';
 
-      const studyRecordsResponse = await fetch(`/data/challenge_${prefix}_records.json` + cacheBuster);
+      const studyRecordsResponse = await fetch(`/api/data/records_${prefix}` + cacheBuster);
       const studyRecordsData = await studyRecordsResponse.json();
 
       // Total members

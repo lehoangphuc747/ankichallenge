@@ -24,7 +24,7 @@ export async function loadData(targetChallengeId?: number): Promise<void> {
     const cb = '?v=' + Date.now();
     const [challengesRes, usersRes] = await Promise.all([
       fetch('/api/challenges' + cb),
-      fetch('/data/users.json' + cb)
+      fetch('/api/data/users' + cb)
     ]);
 
     const challenges = await challengesRes.json();
@@ -53,7 +53,7 @@ export async function loadData(targetChallengeId?: number): Promise<void> {
     if (activeChallengeId === 3) challengePrefix = '10';
 
     let studyRecordsData = {};
-    const recordsRes = await Promise.resolve(fetch(`/data/challenge_${challengePrefix}_records.json` + cb));
+    const recordsRes = await Promise.resolve(fetch(`/api/data/records_${challengePrefix}` + cb));
     const recordsResp = await recordsRes;
     if (recordsResp.ok) {
         studyRecordsData = await recordsResp.json();

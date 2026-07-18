@@ -593,7 +593,7 @@ const googleFormFbzx = "5793887780826789600";
   async function loadExcellenceCompleters() {
     if (excellenceCompleters) return excellenceCompleters;
     try {
-      const response = await fetch('/data/users.json');
+      const response = await fetch('/api/data/users');
       if (!response.ok) throw new Error('Failed to fetch');
       const json = await response.json();
       const users = (json.data || []) as CompleterRecord[];
