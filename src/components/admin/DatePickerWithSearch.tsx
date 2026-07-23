@@ -2,15 +2,36 @@ import React, { useState, useEffect, useRef } from 'react';
 
 interface DatePickerWithSearchProps {
     initialDate?: string;
+    challengeStartDate?: string;
 }
 
-export default function DatePickerWithSearch({ initialDate }: DatePickerWithSearchProps) {
+export default function DatePickerWithSearch({ initialDate, challengeStartDate = '2026-04-10' }: DatePickerWithSearchProps) {
     const [selectedDate, setSelectedDate] = useState<Date>(
         initialDate ? new Date(initialDate) : new Date()
     );
+    const [startDateStr, setStartDateStr] = useState<string>(challengeStartDate);
     const [isOpen, setIsOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const searchInputRef = useRef<HTMLInputElement>(null);
+
+    // Read active challenge start date from DOM or state if available
+    useEffect(() => {
+        const updateStartDate = () => {
+            const selector = document.getElementById('challengeSelect') as HTMLSelectElement | null;
+            if (selector && selector.value) {
+                if (selector.value === '1') setStartDateStr('2025-09-03');
+                else if (selector.value === '2') setStartDateStr('2025-12-22');
+                else if (selector.value === '3') setStartDateStr('2026-04-10');
+            }
+        };
+
+        updateStartDate();
+        const selector = document.getElementById('challengeSelect');
+        if (selector) {
+            selector.addEventListener('change', updateStartDate);
+            return () => selector.removeEventListener('change', updateStartDate);
+        }
+    }, []);
 
     // Format date YYYY-MM-DD for app logic
     const formatDateForApp = (date: Date) => {
@@ -26,6 +47,16 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
             month: '2-digit',
             year: 'numeric'
         });
+    };
+
+    // Calculate Day number from challenge start date
+    const calculateDayNumber = (date: Date, startStr: string) => {
+        const start = new Date(startStr);
+        // Reset hours to start of day for clean calculation
+        const d1 = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        const d2 = new Date(start.getFullYear(), start.getMonth(), start.getDate());
+        const diffTime = d1.getTime() - d2.getTime();
+        return Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
     };
 
     // Handle selecting a new date
@@ -93,13 +124,28 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
         };
     }, [selectedDate]);
 
-    // Generate search quick suggestions based on search term
+    // Generate search quick suggestions based on search term (supports DAY 99, 98, date DD/MM/YYYY)
     const getSearchResults = () => {
         if (!searchTerm.trim()) return [];
         const term = searchTerm.trim().toLowerCase();
-        const results: { date: Date; label: string }[] = [];
+        const results: { date: Date; label: string; badge?: string }[] = [];
 
-        // Try parsing full date DD/MM/YYYY or DD/MM
+        // 1. Check for DAY search (vd: "DAY 99", "day 98", "d99", "d 99", "99")
+        const dayMatch = term.match(/^(?:day|d)?\s*(\d{1,3})$/i);
+        if (dayMatch) {
+            const dayNum = parseInt(dayMatch[1], 10);
+            if (dayNum >= 1 && dayNum <= 200) {
+                const start = new Date(startDateStr);
+                const dayDate = new Date(start.getFullYear(), start.getMonth(), start.getDate() + (dayNum - 1));
+                results.push({
+                    date: dayDate,
+                    label: `DAY ${dayNum} ➔ ${formatDateForDisplay(dayDate)} (${dayDate.toLocaleDateString('vi-VN', { weekday: 'short' })})`,
+                    badge: `DAY ${dayNum}`
+                });
+            }
+        }
+
+        // 2. Try parsing full date DD/MM/YYYY or DD/MM
         const parts = term.split(/[\/\-\.]/);
         if (parts.length >= 2) {
             const day = parseInt(parts[0], 10);
@@ -109,26 +155,29 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
             if (!isNaN(day) && !isNaN(month) && day >= 1 && day <= 31 && month >= 0 && month <= 11) {
                 const parsedDate = new Date(year, month, day);
                 if (!isNaN(parsedDate.getTime())) {
+                    const dayNum = calculateDayNumber(parsedDate, startDateStr);
                     results.push({
                         date: parsedDate,
-                        label: `Chuyển đến: ${formatDateForDisplay(parsedDate)} (${parsedDate.toLocaleDateString('vi-VN', { weekday: 'short' })})`
+                        label: `${formatDateForDisplay(parsedDate)} (${parsedDate.toLocaleDateString('vi-VN', { weekday: 'short' })}) - DAY ${dayNum}`,
+                        badge: `DAY ${dayNum}`
                     });
                 }
             }
         }
 
-        // Search days in current month matching term
+        // 3. Search days in current month matching term
         const daysInMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + 1, 0).getDate();
         for (let d = 1; d <= daysInMonth; d++) {
             const dStr = String(d).padStart(2, '0');
             const fullStr = `${dStr}/${String(selectedDate.getMonth() + 1).padStart(2, '0')}/${selectedDate.getFullYear()}`;
             if (dStr.includes(term) || fullStr.includes(term)) {
                 const date = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), d);
-                // Avoid duplicate
+                const dayNum = calculateDayNumber(date, startDateStr);
                 if (!results.some(r => formatDateForApp(r.date) === formatDateForApp(date))) {
                     results.push({
                         date,
-                        label: `Ngày ${dStr} tháng ${selectedDate.getMonth() + 1} (${date.toLocaleDateString('vi-VN', { weekday: 'short' })})`
+                        label: `Ngày ${dStr}/${String(selectedDate.getMonth() + 1).padStart(2, '0')} (${date.toLocaleDateString('vi-VN', { weekday: 'short' })}) - DAY ${dayNum}`,
+                        badge: `DAY ${dayNum}`
                     });
                 }
             }
@@ -138,6 +187,7 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
     };
 
     const searchResults = getSearchResults();
+    const currentDayNumber = calculateDayNumber(selectedDate, startDateStr);
 
     return (
         <div className="relative font-sans inline-block text-left">
@@ -157,12 +207,13 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
                         onClick={() => setIsOpen(!isOpen)}
                         className="bg-white border-2 border-indigo-200 hover:border-indigo-500 rounded-xl px-4 py-2 shadow-sm hover:shadow-md transition-all flex items-center gap-3 group cursor-pointer"
                     >
-                        <div className="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
-                            📅
+                        <div className="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex flex-col items-center justify-center shrink-0 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                            <span className="text-[9px] font-black uppercase leading-none">DAY</span>
+                            <span className="text-xs font-black leading-none mt-0.5">{currentDayNumber}</span>
                         </div>
                         <div className="flex flex-col text-left">
                             <span className="text-[10px] font-extrabold text-indigo-600 uppercase tracking-wider leading-none">
-                                {selectedDate.toLocaleDateString('vi-VN', { weekday: 'long' })}
+                                DAY {currentDayNumber} • {selectedDate.toLocaleDateString('vi-VN', { weekday: 'long' })}
                             </span>
                             <span className="text-lg font-black text-gray-800 tabular-nums leading-tight mt-0.5">
                                 {formatDateForDisplay(selectedDate)}
@@ -175,7 +226,7 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
 
                     {/* Calendar & Search Popup */}
                     {isOpen && (
-                        <div className="absolute top-full left-0 mt-2 p-3.5 bg-white rounded-2xl shadow-2xl border border-indigo-100 z-50 w-[310px] animate-in fade-in slide-in-from-top-2 duration-200">
+                        <div className="absolute top-full left-0 mt-2 p-3.5 bg-white rounded-2xl shadow-2xl border border-indigo-100 z-50 w-[320px] animate-in fade-in slide-in-from-top-2 duration-200">
                             {/* Mini Search Input */}
                             <div className="relative mb-3">
                                 <div className="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-gray-400 text-xs">
@@ -191,7 +242,7 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
                                             handleDateChange(searchResults[0].date);
                                         }
                                     }}
-                                    placeholder="Tìm ngày (VD: 24/07, 15)..."
+                                    placeholder="Tìm DAY (VD: DAY 99, 98) hoặc Ngày (24/07)..."
                                     className="w-full pl-8 pr-7 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-xs font-semibold text-gray-800 placeholder-gray-400 focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all"
                                 />
                                 {searchTerm && (
@@ -206,7 +257,7 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
 
                             {/* Mini Search Results List if user is searching */}
                             {searchTerm.trim() ? (
-                                <div className="mb-3 space-y-1 max-h-[160px] overflow-y-auto pr-1">
+                                <div className="mb-3 space-y-1 max-h-[180px] overflow-y-auto pr-1">
                                     <div className="text-[10px] font-bold text-gray-400 uppercase px-1 mb-1">Kết quả tìm kiếm ({searchResults.length}):</div>
                                     {searchResults.length > 0 ? (
                                         searchResults.map((res, idx) => (
@@ -215,21 +266,28 @@ export default function DatePickerWithSearch({ initialDate }: DatePickerWithSear
                                                 onClick={() => handleDateChange(res.date)}
                                                 className="w-full text-left px-2.5 py-1.5 rounded-lg bg-indigo-50/70 hover:bg-indigo-600 hover:text-white text-indigo-950 text-xs font-bold transition-all flex items-center justify-between group cursor-pointer"
                                             >
-                                                <span>{res.label}</span>
-                                                <span className="text-[10px] opacity-70 group-hover:opacity-100">Chọn ↵</span>
+                                                <span className="truncate pr-2">{res.label}</span>
+                                                <span className="text-[10px] bg-indigo-200/60 text-indigo-800 group-hover:bg-white group-hover:text-indigo-700 px-1.5 py-0.5 rounded font-black shrink-0">
+                                                    Chọn ↵
+                                                </span>
                                             </button>
                                         ))
                                     ) : (
-                                        <div className="text-xs text-gray-400 text-center py-2 italic">Không tìm thấy ngày phù hợp</div>
+                                        <div className="text-xs text-gray-400 text-center py-2 italic">Không tìm thấy ngày hoặc DAY tương ứng</div>
                                     )}
                                 </div>
                             ) : null}
 
                             {/* Month Header & Quick Today Button */}
                             <div className="mb-3 flex justify-between items-center bg-gray-50 p-2 rounded-xl border border-gray-100">
-                                <span className="font-extrabold text-sm capitalize text-gray-800">
-                                    {selectedDate.toLocaleString('vi-VN', { month: 'long', year: 'numeric' })}
-                                </span>
+                                <div className="flex items-center gap-1.5">
+                                    <span className="font-extrabold text-sm capitalize text-gray-800">
+                                        {selectedDate.toLocaleString('vi-VN', { month: 'long', year: 'numeric' })}
+                                    </span>
+                                    <span className="text-[10px] font-black text-indigo-600 bg-indigo-100 px-1.5 py-0.5 rounded-md">
+                                        DAY {currentDayNumber}
+                                    </span>
+                                </div>
                                 <button
                                     onClick={() => handleDateChange(new Date())}
                                     className="text-[11px] font-extrabold text-indigo-600 bg-white border border-indigo-200 px-2.5 py-1 rounded-lg hover:bg-indigo-600 hover:text-white transition-all shadow-xs cursor-pointer"
