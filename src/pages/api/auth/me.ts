@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { verifySession } from '../../../utils/session';
 
 export const GET: APIRoute = async ({ cookies }) => {
   const session = cookies.get('user_session')?.value;
@@ -9,16 +10,24 @@ export const GET: APIRoute = async ({ cookies }) => {
     });
   }
 
-  try {
-    const user = JSON.parse(session);
-    return new Response(JSON.stringify({ authenticated: true, user }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (e) {
+  const sessionSecret = import.meta.env.SESSION_SECRET;
+  if (!sessionSecret) {
     return new Response(JSON.stringify({ authenticated: false, user: null }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
   }
+
+  const user = await verifySession(session, sessionSecret);
+  if (!user) {
+    return new Response(JSON.stringify({ authenticated: false, user: null }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  return new Response(JSON.stringify({ authenticated: true, user }), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
 };

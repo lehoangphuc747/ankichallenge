@@ -2,15 +2,15 @@
 import Layout from "../layouts/Layout.astro";
 import ProgressBar from "../components/ProgressBar.astro";
 import DiscordAuthButton from "../components/DiscordAuthButton.astro";
+import { verifySession } from "../utils/session";
 
 const sessionCookie = Astro.cookies.get('user_session')?.value;
 let loggedUser: { id: string; username: string; displayName: string; avatar: string; memberId?: number | null; memberName?: string | null } | null = null;
 
 if (sessionCookie) {
-  try {
-    loggedUser = JSON.parse(sessionCookie);
-  } catch (e) {
-    loggedUser = null;
+  const sessionSecret = import.meta.env.SESSION_SECRET;
+  if (sessionSecret) {
+    loggedUser = await verifySession<typeof loggedUser>(sessionCookie, sessionSecret) ?? null;
   }
 }
 ---

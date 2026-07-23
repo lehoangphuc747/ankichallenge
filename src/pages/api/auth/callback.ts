@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getFromKV } from '../../../utils/kv';
+import { signSession } from '../../../utils/session';
 
 /**
  * Thuật toán đối chiếu tài khoản Discord với danh sách thành viên Anki Challenge.
@@ -77,10 +78,16 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
   // Xóa cookie state sau khi kiểm tra xong
   cookies.delete('oauth_state', { path: '/' });
 
-  const clientId = import.meta.env.DISCORD_CLIENT_ID || (typeof process !== 'undefined' ? process.env.DISCORD_CLIENT_ID : undefined) || '1396026461118267443';
-  const clientSecret = import.meta.env.DISCORD_CLIENT_SECRET || (typeof process !== 'undefined' ? process.env.DISCORD_CLIENT_SECRET : undefined) || 'wR5dYpTlMN8-4qwi8R-7s6TpRGV8Fkqf';
-  
-  const envRedirectUri = import.meta.env.DISCORD_REDIRECT_URI || (typeof process !== 'undefined' ? process.env.DISCORD_REDIRECT_URI : undefined);
+  const clientId = import.meta.env.DISCORD_CLIENT_ID;
+  const clientSecret = import.meta.env.DISCORD_CLIENT_SECRET;
+  const sessionSecret = import.meta.env.SESSION_SECRET;
+
+  if (!clientId || !clientSecret || !sessionSecret) {
+    console.error('[Auth Error] Thiếu biến môi trường: DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET hoặc SESSION_SECRET');
+    return new Response('Lỗi cấu hình máy chủ. Vui lòng liên hệ admin.', { status: 500 });
+  }
+
+  const envRedirectUri = import.meta.env.DISCORD_REDIRECT_URI;
   const redirectUri = envRedirectUri || `${url.origin}/api/auth/callback`;
 
   try {
@@ -156,8 +163,9 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       loggedAt: new Date().toISOString(),
     };
 
-    // 6. Lưu session vào HTTP-only Cookie
-    cookies.set('user_session', JSON.stringify(userData), {
+    // 6. Ký session bằng HMAC-SHA256 và lưu vào HTTP-only Cookie
+    const signedSession = await signSession(userData, sessionSecret);
+    cookies.set('user_session', signedSession, {
       path: '/',
       httpOnly: true,
       secure: true,
