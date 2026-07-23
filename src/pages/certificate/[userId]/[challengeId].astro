@@ -62,21 +62,48 @@ const { userId, challengeId } = Astro.params;
       <!-- Certificate Content -->
       <div id="certificateContent" class="hidden">
         <!-- Action Buttons -->
-        <div class="flex justify-center gap-4 mb-8 flex-wrap">
-          <button id="downloadHtml" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-lg flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <div class="flex justify-center gap-3 mb-8 flex-wrap items-center">
+          <button id="downloadHtml" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
             </svg>
-            Tải xuống HTML
+            <span>Tải HTML</span>
           </button>
-          <button id="printBtn" class="px-6 py-3 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-colors shadow-lg flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+          <button id="downloadPdf" class="px-4 py-2.5 bg-rose-600 hover:bg-rose-700 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 7h6M9 11h6M9 15h4" />
+            </svg>
+            <span id="pdfBtnText">Tải PDF</span>
+          </button>
+
+          <button id="downloadPng" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span id="pngBtnText">Tải Ảnh PNG (HD)</span>
+          </button>
+
+          <button id="downloadJpg" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span id="jpgBtnText">Tải Ảnh JPG</span>
+          </button>
+
+          <button id="printBtn" class="px-4 py-2.5 bg-slate-700 hover:bg-slate-800 active:scale-95 text-white font-extrabold text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <polyline points="6 9 6 2 18 2 18 9"/>
               <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
               <rect x="6" y="14" width="12" height="8"/>
             </svg>
-            In chứng chỉ
+            <span>In chứng chỉ</span>
           </button>
         </div>
 
@@ -663,7 +690,22 @@ const { userId, challengeId } = Astro.params;
     viewport.setAttribute('style', `height:${baseHeight * scale}px;`);
   }
 
-  // Download handlers
+  // Helper to load external CDN scripts dynamically
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) {
+        resolve();
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => resolve();
+      script.onerror = (err) => reject(err);
+      document.head.appendChild(script);
+    });
+  }
+
+  // HTML Download
   document.getElementById('downloadHtml')?.addEventListener('click', () => {
     const runtimeStyle = document.getElementById('runtime-certificate-style');
     const htmlContent = `<!DOCTYPE html>
@@ -732,6 +774,105 @@ const { userId, challengeId } = Astro.params;
     a.download = `certificate_${certificateData.userName.replace(/\s/g, '_')}_${certificateData.challengeName.replace(/\s/g, '_')}.html`;
     a.click();
     URL.revokeObjectURL(url);
+  });
+
+  // PDF Download
+  document.getElementById('downloadPdf')?.addEventListener('click', async () => {
+    const btnText = document.getElementById('pdfBtnText');
+    if (btnText) btnText.textContent = '⏳ Đang tạo PDF...';
+    try {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
+      const certContainer = document.querySelector('.certificate-container');
+      if (!certContainer) throw new Error('Container not found');
+
+      const origTransform = certContainer.style.transform;
+      certContainer.style.transform = 'none';
+
+      const opt = {
+        margin: 0,
+        filename: `certificate_${certificateData.userName.replace(/\s/g, '_')}_${certificateData.challengeName.replace(/\s/g, '_')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 3, useCORS: true, logging: false },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      await window.html2pdf().set(opt).from(certContainer).save();
+      certContainer.style.transform = origTransform;
+    } catch (err) {
+      console.error('[PDF Export Error]', err);
+      alert('Không thể xuất file PDF. Bạn cũng có thể dùng nút "In chứng chỉ" -> "Lưu dạng PDF"!');
+    } finally {
+      if (btnText) btnText.textContent = 'Tải PDF';
+    }
+  });
+
+  // PNG Image Download (HD)
+  document.getElementById('downloadPng')?.addEventListener('click', async () => {
+    const btnText = document.getElementById('pngBtnText');
+    if (btnText) btnText.textContent = '⏳ Đang tạo PNG...';
+    try {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      const certContainer = document.querySelector('.certificate-container');
+      if (!certContainer) throw new Error('Container not found');
+
+      const origTransform = certContainer.style.transform;
+      certContainer.style.transform = 'none';
+
+      const canvas = await window.html2canvas(certContainer, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      });
+
+      certContainer.style.transform = origTransform;
+
+      const link = document.createElement('a');
+      link.download = `certificate_${certificateData.userName.replace(/\s/g, '_')}_${certificateData.challengeName.replace(/\s/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.error('[PNG Export Error]', err);
+      alert('Không thể tạo file ảnh PNG. Vui lòng thử lại!');
+    } finally {
+      if (btnText) btnText.textContent = 'Tải Ảnh PNG (HD)';
+    }
+  });
+
+  // JPG Image Download
+  document.getElementById('downloadJpg')?.addEventListener('click', async () => {
+    const btnText = document.getElementById('jpgBtnText');
+    if (btnText) btnText.textContent = '⏳ Đang tạo JPG...';
+    try {
+      await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      const certContainer = document.querySelector('.certificate-container');
+      if (!certContainer) throw new Error('Container not found');
+
+      const origTransform = certContainer.style.transform;
+      certContainer.style.transform = 'none';
+
+      const canvas = await window.html2canvas(certContainer, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: '#ffffff'
+      });
+
+      certContainer.style.transform = origTransform;
+
+      const link = document.createElement('a');
+      link.download = `certificate_${certificateData.userName.replace(/\s/g, '_')}_${certificateData.challengeName.replace(/\s/g, '_')}.jpg`;
+      link.href = canvas.toDataURL('image/jpeg', 0.95);
+      link.click();
+    } catch (err) {
+      console.error('[JPG Export Error]', err);
+      alert('Không thể tạo file ảnh JPG. Vui lòng thử lại!');
+    } finally {
+      if (btnText) btnText.textContent = 'Tải Ảnh JPG';
+    }
+  });
+
+  // Print Button
+  document.getElementById('printBtn')?.addEventListener('click', () => {
+    window.print();
   });
 
   window.addEventListener('resize', fitCertificateToViewport);
