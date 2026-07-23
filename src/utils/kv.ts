@@ -33,8 +33,14 @@ export async function getFromKV<T = any>(
 ): Promise<T | null> {
   // Có KV binding → đọc từ KV
   if (env.DATA) {
-    const value = await env.DATA.get(key, 'json');
-    return value as T | null;
+    try {
+      const value = await env.DATA.get(key, 'json');
+      if (value !== null) {
+        return value as T | null;
+      }
+    } catch (e) {
+      console.warn(`[KV] Error getting key "${key}" from KV, falling back to static file:`, e);
+    }
   }
 
   // Fallback: fetch file tĩnh (local dev với npm run dev)

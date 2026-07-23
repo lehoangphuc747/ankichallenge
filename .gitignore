@@ -26,3 +26,6 @@ pnpm-debug.log*
 # wrangler cache/state
 .wrangler/
 
+# KV backup (contains member data)
+backup_kv.json
+

@@ -10,7 +10,8 @@
     "astro": "astro",
     "fetch-data": "node scripts/fetch-data.js",
     "process-backup": "node scripts/process-backup.js",
-    "export-certs-ch9": "node scripts/export-certs-ch9.js"
+    "export-certs-ch9": "node scripts/export-certs-ch9.js",
+    "backup-kv": "node scripts/backup-kv.js"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.6.12",
