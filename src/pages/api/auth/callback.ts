@@ -146,8 +146,19 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         memberId = matchedMember.id;
         memberName = matchedMember.name;
 
-        // Tự động kiểm tra và sync thông tin mới từ Discord vào KV
-        let isModified = false;
+        // Đồng bộ Tên hiển thị (name) theo Tên trên Discord (Global Name hoặc Username)
+        const discordDisplayName = discordUser.global_name || discordUser.username;
+        if (discordDisplayName && matchedMember.name !== discordDisplayName) {
+          matchedMember.name = discordDisplayName;
+          memberName = discordDisplayName;
+          isModified = true;
+        }
+
+        // Đồng bộ Discord Nickname/Username
+        if (discordUser.username && matchedMember.discordNickname !== discordUser.username) {
+          matchedMember.discordNickname = discordUser.username;
+          isModified = true;
+        }
 
         // Gắn Discord ID cố định để các lần đăng nhập sau khớp 100% siêu nhanh
         if (!matchedMember.discordId || String(matchedMember.discordId) !== String(discordUser.id)) {
