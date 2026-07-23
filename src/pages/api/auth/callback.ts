@@ -146,6 +146,9 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         memberId = matchedMember.id;
         memberName = matchedMember.name;
 
+        // Tự động kiểm tra và sync thông tin mới từ Discord vào KV
+        let isModified = false;
+
         // Đồng bộ Tên hiển thị (name) theo Tên trên Discord (Global Name hoặc Username)
         const discordDisplayName = discordUser.global_name || discordUser.username;
         if (discordDisplayName && matchedMember.name !== discordDisplayName) {

@@ -1,13 +1,14 @@
 ---
 // src/components/DiscordAuthButton.astro
+import { verifySession } from '../utils/session';
+
 const sessionCookie = Astro.cookies.get('user_session')?.value;
 let user: { id: string; username: string; displayName: string; avatar: string; email?: string } | null = null;
 
 if (sessionCookie) {
-  try {
-    user = JSON.parse(sessionCookie);
-  } catch (e) {
-    user = null;
+  const sessionSecret = import.meta.env.SESSION_SECRET;
+  if (sessionSecret) {
+    user = await verifySession<typeof user>(sessionCookie, sessionSecret) ?? null;
   }
 }
 ---
