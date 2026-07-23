@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { getFromKV } from '../../../utils/kv';
+import { getFromKV, putToKV } from '../../../utils/kv';
 import { signSession } from '../../../utils/session';
 
 /**
@@ -131,12 +131,13 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       );
     }
 
-    // 4. Đối chiếu (Account Mapping) với danh sách thành viên Anki Challenge
+    // 4. Đối chiếu (Account Mapping) và tự động cập nhật thông tin vào KV
     let memberId: number | null = null;
     let memberName: string | null = null;
 
     try {
-      const usersData = await getFromKV((locals as any).runtime?.env ?? {}, 'users', url.origin);
+      const env = (locals as any).runtime?.env ?? {};
+      const usersData = await getFromKV(env, 'users', url.origin);
       const userList = Array.isArray(usersData?.data) ? usersData.data : (Array.isArray(usersData) ? usersData : []);
 
       const matchedMember = userList.find((u: any) => matchMemberByDiscord(u, discordUser));
@@ -144,6 +145,27 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       if (matchedMember) {
         memberId = matchedMember.id;
         memberName = matchedMember.name;
+
+        // Tự động kiểm tra và sync thông tin mới từ Discord vào KV
+        let isModified = false;
+
+        // Gắn Discord ID cố định để các lần đăng nhập sau khớp 100% siêu nhanh
+        if (!matchedMember.discordId || String(matchedMember.discordId) !== String(discordUser.id)) {
+          matchedMember.discordId = String(discordUser.id);
+          isModified = true;
+        }
+
+        // Đồng bộ email từ Discord nếu thành viên chưa có hoặc email thay đổi
+        if (discordUser.email && matchedMember.email !== discordUser.email) {
+          matchedMember.email = discordUser.email;
+          isModified = true;
+        }
+
+        // Lưu lại dữ liệu mới vào KV Store
+        if (isModified) {
+          await putToKV(env, 'users', usersData);
+          console.log(`[Auto Sync] Đã đồng bộ thông tin Discord mới cho thành viên ID #${memberId}`);
+        }
       }
     } catch (e) {
       console.warn('[Account Mapping Warning]', e);
