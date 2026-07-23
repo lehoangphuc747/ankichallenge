@@ -87,8 +87,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     return new Response('Lỗi cấu hình máy chủ. Vui lòng liên hệ admin.', { status: 500 });
   }
 
-  const envRedirectUri = import.meta.env.DISCORD_REDIRECT_URI;
-  const redirectUri = envRedirectUri || `${url.origin}/api/auth/callback`;
+  const redirectUri = `${url.origin}/api/auth/callback`;
 
   try {
     // 2. Đổi OAuth Code lấy Access Token từ Discord
