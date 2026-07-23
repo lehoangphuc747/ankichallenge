@@ -7,10 +7,11 @@ import usersData from '../../../public/data/users.json';
 import { verifySession } from '../../utils/session';
 
 const sessionCookie = Astro.cookies.get('user_session')?.value;
-const sessionSecret = import.meta.env.SESSION_SECRET;
 let loggedUser: { id: string; username: string; displayName: string; avatar: string; memberId?: number | null; memberName?: string | null } | null = null;
 
-if (sessionCookie && sessionSecret) {
+if (sessionCookie) {
+  const env = (Astro.locals as any).runtime?.env ?? {};
+  const sessionSecret = env.SESSION_SECRET || import.meta.env.SESSION_SECRET || 'anki_challenge_secret_key_2026_super_secure';
   loggedUser = await verifySession<typeof loggedUser>(sessionCookie, sessionSecret) ?? null;
 }
 
