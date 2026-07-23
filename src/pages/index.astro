@@ -131,7 +131,7 @@ if (sessionCookie) {
 						<label for="displayModeToggle" class="relative inline-flex items-center cursor-pointer ml-auto sm:ml-0">
 							<input type="checkbox" id="displayModeToggle" class="sr-only peer" />
 							<div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-cyan-500/50 rounded-full peer peer-checked:after:translate-x-5 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-cyan-500"></div>
-							<span class="ml-3 text-sm font-bold text-white w-20 text-center select-none" id="toggleLabel">Discord</span>
+							<span class="ml-3 text-sm font-bold text-white w-20 text-center select-none" id="toggleLabel">Tên</span>
 						</label>
 					</div>
 			</div>
@@ -284,7 +284,7 @@ if (sessionCookie) {
 	// User said "Switch Name and Discord".
 	// Let's implement: OFF (Left) = Discord, ON (Right) = Name.
 	let displayMode =
-		localStorage.getItem("leaderboardDisplayMode") || "discord";
+		localStorage.getItem("leaderboardDisplayMode") || "name";
 
 	let challengesConfig: ChallengesConfig = {};
 	let studyRecordsData: unknown = null;
@@ -446,16 +446,16 @@ if (sessionCookie) {
 		const leaderboard = document.getElementById("leaderboard");
 
 		if (toggle) {
-			// If mode is 'name', toggle should be CHECKED (ON)
-			toggle.checked = displayMode === "name";
+			// Toggle CHECKED (ON) = Username (discord), UNCHECKED (OFF) = Tên (name)
+			toggle.checked = displayMode === "discord";
 		}
 
 		if (label) {
-			label.textContent = displayMode === "name" ? "Tên thật" : "Discord";
+			label.textContent = displayMode === "discord" ? "Username" : "Tên";
 			label.className =
-				displayMode === "name"
-					? "ml-3 text-sm font-bold text-cyan-100 w-20 text-center select-none transition-colors"
-					: "ml-3 text-sm font-bold text-cyan-100/55 w-20 text-center select-none transition-colors";
+				displayMode === "discord"
+					? "ml-3 text-sm font-bold text-cyan-300 w-20 text-center select-none transition-colors"
+					: "ml-3 text-sm font-bold text-slate-300 w-20 text-center select-none transition-colors";
 		}
 
 		// Update CSS classes
@@ -834,8 +834,8 @@ if (sessionCookie) {
 
 	const displayModeToggle = document.getElementById("displayModeToggle") as HTMLInputElement | null;
 
-	function switchDisplayMode(isNameMode: boolean) {
-		displayMode = isNameMode ? "name" : "discord";
+	function switchDisplayMode(isUsernameMode: boolean) {
+		displayMode = isUsernameMode ? "discord" : "name";
 		localStorage.setItem("leaderboardDisplayMode", displayMode);
 		updateDisplayModeConfig();
 		renderFilteredLeaderboard();
