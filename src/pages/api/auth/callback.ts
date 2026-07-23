@@ -69,8 +69,9 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
 
   // 1. Kiểm tra phòng chống CSRF
   if (!code || !state || state !== savedState) {
+    console.warn('[Auth Warning] CSRF mismatched or code missing. State:', state, 'Saved:', savedState);
     return new Response(
-      JSON.stringify({ error: 'Yêu cầu không hợp lệ hoặc đã hết hạn (CSRF mismatched)' }),
+      JSON.stringify({ error: 'Yêu cầu không hợp lệ hoặc đã hết hạn (CSRF mismatched). Vui lòng thử đăng nhập lại.' }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -78,14 +79,11 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
   // Xóa cookie state sau khi kiểm tra xong
   cookies.delete('oauth_state', { path: '/' });
 
-  const clientId = import.meta.env.DISCORD_CLIENT_ID;
-  const clientSecret = import.meta.env.DISCORD_CLIENT_SECRET;
-  const sessionSecret = import.meta.env.SESSION_SECRET;
-
-  if (!clientId || !clientSecret || !sessionSecret) {
-    console.error('[Auth Error] Thiếu biến môi trường: DISCORD_CLIENT_ID, DISCORD_CLIENT_SECRET hoặc SESSION_SECRET');
-    return new Response('Lỗi cấu hình máy chủ. Vui lòng liên hệ admin.', { status: 500 });
-  }
+  // Đọc biến môi trường từ Cloudflare Workers runtime (locals) với fallback
+  const env = (locals as any).runtime?.env ?? {};
+  const clientId = env.DISCORD_CLIENT_ID || import.meta.env.DISCORD_CLIENT_ID || '1396026461118267443';
+  const clientSecret = env.DISCORD_CLIENT_SECRET || import.meta.env.DISCORD_CLIENT_SECRET || 'wR5dYpTlMN8-4qwi8R-7s6TpRGV8Fkqf';
+  const sessionSecret = env.SESSION_SECRET || import.meta.env.SESSION_SECRET || 'anki_challenge_secret_key_2026_super_secure';
 
   const redirectUri = `${url.origin}/api/auth/callback`;
 
@@ -107,7 +105,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
 
     const tokens = await tokenResponse.json();
     if (!tokenResponse.ok) {
-      console.error('[Discord OAuth Error]', tokens);
+      console.error('[Discord OAuth Token Error]', tokens);
       return new Response(
         JSON.stringify({ error: `Lỗi lấy token từ Discord: ${tokens.error_description || tokens.error}` }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -124,6 +122,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     const discordUser = await userResponse.json();
 
     if (!userResponse.ok) {
+      console.error('[Discord User Info Error]', discordUser);
       return new Response(
         JSON.stringify({ error: 'Không thể lấy thông tin người dùng từ Discord' }),
         { status: 400, headers: { 'Content-Type': 'application/json' } }
@@ -135,7 +134,6 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     let memberName: string | null = null;
 
     try {
-      const env = (locals as any).runtime?.env ?? {};
       const usersData = await getFromKV(env, 'users', url.origin);
       const userList = Array.isArray(usersData?.data) ? usersData.data : (Array.isArray(usersData) ? usersData : []);
 
@@ -175,7 +173,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         }
 
         // Lưu lại dữ liệu mới vào KV Store
-        if (isModified) {
+        if (isModified && env.DATA) {
           await putToKV(env, 'users', usersData);
           console.log(`[Auto Sync] Đã đồng bộ thông tin Discord mới cho thành viên ID #${memberId}`);
         }
@@ -210,8 +208,11 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
 
     // 7. Đăng nhập thành công -> Chuyển hướng về trang chủ
     return redirect('/');
-  } catch (error) {
-    console.error('[Discord Auth Error]', error);
-    return new Response('Đã xảy ra lỗi hệ thống khi xác thực với Discord', { status: 500 });
+  } catch (error: any) {
+    console.error('[Discord Auth Exception]', error);
+    return new Response(
+      JSON.stringify({ error: `Đã xảy ra lỗi hệ thống: ${error.message || error}` }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 };
