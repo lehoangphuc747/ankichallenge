@@ -68,9 +68,9 @@ if (sessionCookie) {
 								<div class="flex items-center gap-2 flex-wrap">
 									<span class="text-[10px] font-black uppercase tracking-widest text-cyan-300 bg-cyan-500/20 px-2.5 py-0.5 rounded-full border border-cyan-400/40">Tài khoản của tôi</span>
 									{loggedUser.memberId ? (
-										<span class="text-xs font-mono font-bold text-cyan-200/90 bg-zinc-800/80 px-2 py-0.5 rounded-md border border-white/10">ID: #{loggedUser.memberId}</span>
+										<span class="text-xs font-bold text-emerald-300/90 bg-emerald-500/10 px-2 py-0.5 rounded-md border border-emerald-500/20">Đã kết nối</span>
 									) : (
-										<span class="text-xs font-semibold text-amber-300/90 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">Chưa liên kết ID thành viên</span>
+										<span class="text-xs font-semibold text-amber-300/90 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/20">Chưa liên kết tài khoản</span>
 									)}
 								</div>
 								<h2 class="text-xl font-extrabold text-white mt-1 flex items-center gap-2">
@@ -638,7 +638,7 @@ if (sessionCookie) {
 										${isMyRow ? '<span class="px-2.5 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wide bg-cyan-400 text-zinc-950 shadow-md shrink-0 animate-pulse">Bạn ⭐</span>' : ""}
 										${member.role === "admin" ? '<span class="px-2 py-0.5 rounded-md text-[10px] font-black uppercase tracking-wide bg-cyan-500/25 text-cyan-300 border border-cyan-400/35 shrink-0">Admin</span>' : ""}
 									</div>
-									<div class="text-sm text-slate-400 font-medium mt-1.5 tracking-wide">ID: ${member.id} <span class="mx-1.5">•</span> ${member.discordNickname || "--"}</div>
+									<div class="text-sm text-slate-400 font-medium mt-1.5 tracking-wide">${displayMode === "name" ? (member.discordNickname ? '@' + member.discordNickname : '--') : (member.name || '--')}</div>
 								</div>
 								<div class="flex-1 grid grid-cols-4 gap-5 items-center">
 									<div class="text-center">
@@ -707,7 +707,7 @@ if (sessionCookie) {
 											${isMyRow ? '<span class="text-[9px] uppercase font-black bg-cyan-400 text-zinc-950 px-1.5 py-0.5 rounded shrink-0 shadow animate-pulse">Bạn ⭐</span>' : ""}
 											${member.role === "admin" ? '<span class="text-[9px] uppercase font-black bg-cyan-500/20 text-cyan-300 px-1 py-0.5 rounded shrink-0 border border-cyan-500/30">Admin</span>' : ""}
 										</div>
-										<div class="text-xs text-slate-400 mt-0.5">ID: ${member.id} <span class="mx-1">•</span> ${member.discordNickname || "--"}</div>
+										<div class="text-xs text-slate-400 mt-0.5">${displayMode === "name" ? (member.discordNickname ? '@' + member.discordNickname : '--') : (member.name || '--')}</div>
 									</div>
 								</div>
 								<div class="text-right shrink-0">
