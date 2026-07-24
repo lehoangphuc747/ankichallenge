@@ -276,6 +276,8 @@ const { userId, challengeId } = Astro.params;
       await waitForRenderReady();
       fitCertificateText();
       fitCertificateToViewport();
+
+      console.log('[Cert] Trang chứng chỉ sẵn sàng. User:', certificateData.userName, '| Challenge:', certificateData.challengeName);
     } catch (error) {
       console.error('Error loading certificate:', error);
       document.getElementById('loading').classList.add('hidden');
@@ -378,6 +380,8 @@ const { userId, challengeId } = Astro.params;
         position: relative;
         transform-origin: top center;
         transform: scale(var(--cert-scale, 1));
+        box-sizing: border-box;
+        overflow: hidden;
       }
 
       .certificate {
@@ -487,11 +491,7 @@ const { userId, challengeId } = Astro.params;
         letter-spacing: 3px;
         line-height: 1.08;
         text-align: center;
-        background: linear-gradient(90deg, #1e3a8a 0%, #0891b2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        filter: drop-shadow(0px 2px 0px rgba(0,0,0,0.1));
+        color: #1e3a8a;
         z-index: 3;
       }
 
@@ -725,6 +725,7 @@ const { userId, challengeId } = Astro.params;
   const dropdownChevron = document.getElementById('dropdownChevron');
 
   function openDropdown() {
+    console.log('[Cert] Mở dropdown chọn định dạng');
     downloadDropdown.classList.remove('hidden');
     dropdownChevron.style.transform = 'rotate(180deg)';
   }
@@ -761,6 +762,7 @@ const { userId, challengeId } = Astro.params;
 
   // HTML Download
   document.getElementById('downloadHtml')?.addEventListener('click', () => {
+    console.log('[Cert] Tải HTML');
     closeDropdown();
     const runtimeStyle = document.getElementById('runtime-certificate-style');
     const htmlContent = `<!DOCTYPE html>
@@ -833,37 +835,56 @@ const { userId, challengeId } = Astro.params;
 
   // PDF Download
   document.getElementById('downloadPdf')?.addEventListener('click', async () => {
+    console.log('[Cert] Tải PDF');
     closeDropdown();
     const btnText = document.getElementById('pdfBtnText');
     if (btnText) btnText.textContent = '⏳ Đang tạo PDF...';
+    
+    let certContainer = null;
+    let origTransform = '';
+    let origHeight = '';
+    let origMaxHeight = '';
+
     try {
       await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
-      const certContainer = document.querySelector('.certificate-container');
+      certContainer = document.querySelector('.certificate-container');
       if (!certContainer) throw new Error('Container not found');
 
-      const origTransform = certContainer.style.transform;
+      origTransform = certContainer.style.transform;
+      origHeight = certContainer.style.height;
+      origMaxHeight = certContainer.style.maxHeight;
+
+      // Khóa chiều cao 296.5mm để đảm bảo 100% chỉ trên đúng 1 trang A4, không tạo trang trống thứ 2
       certContainer.style.transform = 'none';
+      certContainer.style.height = '296.5mm';
+      certContainer.style.maxHeight = '296.5mm';
 
       const opt = {
         margin: 0,
         filename: `certificate_${certificateData.userName.replace(/\s/g, '_')}_${certificateData.challengeName.replace(/\s/g, '_')}.pdf`,
         image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 3, useCORS: true, logging: false },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        html2canvas: { scale: 3, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
       await window.html2pdf().set(opt).from(certContainer).save();
-      certContainer.style.transform = origTransform;
     } catch (err) {
       console.error('[PDF Export Error]', err);
       alert('Không thể xuất file PDF. Bạn cũng có thể dùng nút "In chứng chỉ" -> "Lưu dạng PDF"!');
     } finally {
+      if (certContainer) {
+        certContainer.style.transform = origTransform;
+        certContainer.style.height = origHeight;
+        certContainer.style.maxHeight = origMaxHeight;
+      }
       if (btnText) btnText.textContent = 'Tải PDF';
     }
   });
 
   // PNG Image Download (HD)
   document.getElementById('downloadPng')?.addEventListener('click', async () => {
+    console.log('[Cert] Tải PNG');
     closeDropdown();
     const btnText = document.getElementById('pngBtnText');
     if (btnText) btnText.textContent = '⏳ Đang tạo PNG...';
@@ -897,6 +918,7 @@ const { userId, challengeId } = Astro.params;
 
   // JPG Image Download
   document.getElementById('downloadJpg')?.addEventListener('click', async () => {
+    console.log('[Cert] Tải JPG');
     closeDropdown();
     const btnText = document.getElementById('jpgBtnText');
     if (btnText) btnText.textContent = '⏳ Đang tạo JPG...';
@@ -930,6 +952,7 @@ const { userId, challengeId } = Astro.params;
 
   // Print Button
   document.getElementById('printBtn')?.addEventListener('click', () => {
+    console.log('[Cert] In chứng chỉ');
     closeDropdown();
     window.print();
   });
@@ -937,4 +960,6 @@ const { userId, challengeId } = Astro.params;
   window.addEventListener('resize', fitCertificateToViewport);
   window.addEventListener('orientationchange', fitCertificateToViewport);
 
-
+  // Chạy nạp và hiển thị chứng chỉ
+  loadCertificate();
+</script>

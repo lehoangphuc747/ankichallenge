@@ -338,7 +338,6 @@ export function getStaticPaths() {
       );
 
       
-      console.log('📦 [PROFILE] usersData:', usersData ? 'EXISTS' : 'NULL');
       
       if (!usersData || !usersData.data) {
         if (loadingDiv) loadingDiv.innerHTML = '<p class="text-red-500">Dữ liệu người dùng không hợp lệ</p>';
@@ -347,7 +346,6 @@ export function getStaticPaths() {
       }
       
       const members = usersData.data || [];
-      console.log('👥 [PROFILE] Found', members.length, 'members');
       
       // Store all users for sidebar
       allUsers = members;
@@ -381,24 +379,18 @@ export function getStaticPaths() {
         });
       });
 
-      console.log('📚 [PROFILE] Study records loaded:', Object.keys(allRecords).length, 'dates');
 
       // Get user's challenges
       const challengeIds = user.challengeIds || ['1'];
 
-      console.log('🎯 [PROFILE] Calculating stats for user:', user.name, 'ID:', userId);
-      console.log('🎯 [PROFILE] Challenges:', challengeIds);
 
       // Calculate stats for each challenge using shared utility
       const challengeStats = [];
-      console.log('🔄 [PROFILE] Starting to process', challengeIds.length, 'challenges');
       
       for (const challengeId of challengeIds) {
-        console.log(`\n📊 [PROFILE] Processing Challenge ${challengeId}...`);
         
         // Use the shared calculateUserStats function
         const usersWithStats = calculateUserStats([user], allRecords, challengeId, challengeDateRanges);
-        console.log('📊 [PROFILE] calculateUserStats returned:', usersWithStats.length, 'results');
         
         if (usersWithStats.length > 0 && usersWithStats[0].currentStat) {
           const stat = usersWithStats[0].currentStat;
@@ -411,19 +403,11 @@ export function getStaticPaths() {
             disciplinePercentage: stat.disciplinePercentage
           });
           
-          console.log(`✅ [PROFILE] Challenge ${challengeId} stats:`, {
-            streak: stat.streak,
-            longestStreak: stat.longestStreak,
-            totalDays: stat.totalDays,
-            discipline: stat.disciplinePercentage + '%',
-            datesCount: stat.dates?.length || 0
-          });
         } else {
           console.warn(`⚠️ [PROFILE] No stats returned for Challenge ${challengeId}`);
         }
       }
       
-      console.log('✅ [PROFILE] Total challenges with stats:', challengeStats.length);
 
       // Display profile
       displayProfile(user, challengeStats, allRecords);
@@ -739,8 +723,6 @@ export function getStaticPaths() {
     if (noCertificatesEl) noCertificatesEl.classList.add('hidden');
     
     // DEBUG MODE: Log certificate data
-    console.log('🔍 [CERT DEBUG] Starting certificate rendering...');
-    console.log('🔍 [CERT DEBUG] Eligible challenges:', eligibleChallenges.length);
 
     certificatesListEl.innerHTML = eligibleChallenges.map((stat: any) => {
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
@@ -764,14 +746,13 @@ export function getStaticPaths() {
         ? `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10v2a5 5 0 0 1-10 0V4z"></path><path d="M5 6H3a3 3 0 0 0 3 3"></path><path d="M19 6h2a3 3 0 0 1-3 3"></path></svg>`
         : `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 22h14"></path><path d="M5 2h14"></path><path d="M17 2v6.5a5 5 0 0 1-1.46 3.54L12 15.59l-3.54-3.55A5 5 0 0 1 7 8.5V2"></path><path d="M7 22v-6.5a5 5 0 0 1 1.46-3.54L12 8.41l3.54 3.55A5 5 0 0 1 17 15.5V22"></path></svg>`;
       const buttonHtml = isCompleted
-        ? `<button class="btn-download-cert" onclick="downloadCertificate(${user.id}, ${stat.challengeId}, 'html')">
+        ? `<a href="/certificate/${user.id}/${stat.challengeId}" class="btn-download-cert flex items-center justify-center gap-2 no-underline">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
+                <path d="M12 15l-5-5h3V3h4v7h3l-5 5z"></path>
+                <path d="M2 17v2a2 2 0 002 2h16a2 2 0 002-2v-2"></path>
               </svg>
-              Tải chứng chỉ
-            </button>`
+              Xem & Tải Chứng Chỉ
+            </a>`
         : `<button class="btn-download-cert cert-button-disabled" disabled>
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
@@ -779,17 +760,6 @@ export function getStaticPaths() {
               </svg>
               Chưa đủ điều kiện
             </button>`;
-
-      // DEBUG: Log certificate data
-      console.log(`🔍 [CERT DEBUG] Challenge ${stat.challengeId}:`, {
-        challengeName,
-        isCompleted,
-        totalDays: stat.totalDays,
-        daysSoFar,
-        disciplinePercentage,
-        cardClass,
-        statusText
-      });
 
       return `
         <div class="${cardClass}" data-user-id="${user.id}" data-challenge-id="${stat.challengeId}" data-debug-challenge="${challengeName}">
@@ -826,56 +796,29 @@ export function getStaticPaths() {
     
     // DEBUG MODE: After rendering, analyze computed styles
     setTimeout(() => {
-      console.log('🔍 [CERT DEBUG] Analyzing rendered certificates...');
       const cards = certificatesListEl.querySelectorAll('.cert-card');
       cards.forEach((card, index) => {
         const challengeName = card.getAttribute('data-debug-challenge');
-        console.log(`\n🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
         
         // Check card styles
         const cardStyles = window.getComputedStyle(card);
-        console.log('  📦 Card:');
-        console.log('    - padding:', cardStyles.padding);
-        console.log('    - borderRadius:', cardStyles.borderRadius);
-        console.log('    - borderLeft:', cardStyles.borderLeft);
-        console.log('    - backgroundColor:', cardStyles.backgroundColor);
-        console.log('    - boxShadow:', cardStyles.boxShadow);
         
         // Check icon
         const iconBg = card.querySelector('.cert-icon-bg');
         if (iconBg) {
           const iconStyles = window.getComputedStyle(iconBg);
-          console.log('  🎨 Icon BG:');
-          console.log('    - width:', iconStyles.width, '(expected: 48px)');
-          console.log('    - height:', iconStyles.height, '(expected: 48px)');
-          console.log('    - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
-          console.log('    - backgroundColor:', iconStyles.backgroundColor);
-          console.log('    - color:', iconStyles.color);
         }
         
         // Check title
         const title = card.querySelector('.cert-title');
         if (title) {
           const titleStyles = window.getComputedStyle(title);
-          console.log('  📝 Title:');
-          console.log('    - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
-          console.log('    - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
-          console.log('    - color:', titleStyles.color, '(expected: rgb(31, 41, 55) / #1f2937)');
-          console.log('    - lineHeight:', titleStyles.lineHeight, '(expected: 1.25)');
-          console.log('    - fontFamily:', titleStyles.fontFamily);
-          console.log('    - margin:', titleStyles.margin);
-          console.log('    - classes:', title.className);
         }
         
         // Check subtitle
         const subtitle = card.querySelector('.cert-subtitle');
         if (subtitle) {
           const subtitleStyles = window.getComputedStyle(subtitle);
-          console.log('  📝 Subtitle:');
-          console.log('    - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
-          console.log('    - color:', subtitleStyles.color, '(expected: rgb(107, 114, 128) / #6b7280)');
-          console.log('    - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
-          console.log('    - classes:', subtitle.className);
         }
         
         // Check stat values
@@ -884,41 +827,22 @@ export function getStaticPaths() {
           const statStyles = window.getComputedStyle(statVal);
           const isFirst = i === 0;
           const expectedColor = isFirst ? 'rgb(22, 163, 74) / #16a34a (green-600)' : 'rgb(37, 99, 235) / #2563eb (blue-600)';
-          console.log(`  📊 Stat ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
-          console.log('    - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
-          console.log('    - fontWeight:', statStyles.fontWeight, '(expected: 700)');
-          console.log('    - color:', statStyles.color, `(expected: ${expectedColor})`);
-          console.log('    - fontFamily:', statStyles.fontFamily, '(expected: Fraunces)');
-          console.log('    - classes:', statVal.className);
         });
         
         // Check stats row
         const statsRow = card.querySelector('.cert-stats-row');
         if (statsRow) {
           const statsRowStyles = window.getComputedStyle(statsRow);
-          console.log('  📊 Stats Row:');
-          console.log('    - padding:', statsRowStyles.padding, '(expected: 16px / 1rem)');
-          console.log('    - backgroundColor:', statsRowStyles.backgroundColor, '(expected: rgb(248, 250, 252) / #f8fafc)');
-          console.log('    - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
         }
         
         // Check body
         const body = card.querySelector('.cert-body');
         if (body) {
           const bodyStyles = window.getComputedStyle(body);
-          console.log('  📦 Body:');
-          console.log('    - padding:', bodyStyles.padding, '(expected: 20px mobile, 24px desktop)');
         }
       });
       
       // Compare with Gemini expected values
-      console.log('\n🎯 [CERT DEBUG] Expected values from Gemini design:');
-      console.log('  Icon BG: width=48px, height=48px, borderRadius=12px');
-      console.log('  Title: fontSize=1.125rem (mobile), 1.25rem (desktop), color=#1f2937 (gray-800)');
-      console.log('  Subtitle: fontSize=0.75rem (mobile), 0.875rem (desktop), color=#6b7280 (gray-500)');
-      console.log('  Stat Val: fontSize=1.25rem (mobile), 1.5rem (desktop), color=#16a34a (green-600) or #2563eb (blue-600)');
-      console.log('  Body padding: 1.25rem (mobile), 1.5rem (desktop)');
-      console.log('  Stats row padding: 1rem');
       
     }, 500); // Wait for rendering
   }
@@ -1385,7 +1309,6 @@ export function getStaticPaths() {
       return;
     }
 
-    console.log('📅 [PROFILE] Rendering calendars for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
       console.warn('⚠️ [PROFILE] No challenge stats to display');
@@ -1398,7 +1321,6 @@ export function getStaticPaths() {
         console.warn('⚠️ [PROFILE] Null stat object');
         return '';
       }
-      console.log('📅 [PROFILE] Challenge', stat.challengeId, 'has', stat.dates?.length || 0, 'dates');
       
       const challengeName = challengeNames[stat.challengeId] || 'Unknown Challenge';
       const dateRange = challengeDateRanges[stat.challengeId];
@@ -1536,7 +1458,6 @@ export function getStaticPaths() {
       return;
     }
 
-    console.log('🔄 [PROFILE] Switching to Challenge', challengeId);
     
     // Re-render with selected challenge
     renderChallengeSelector(currentUser, allChallengeStats);
@@ -1725,7 +1646,6 @@ export function getStaticPaths() {
       return;
     }
 
-    console.log('📊 [PROFILE] Displaying monthly stats for', challengeStats.length, 'challenges');
 
     if (!challengeStats || challengeStats.length === 0) {
       monthlyStatsEl.innerHTML = '<p class="text-slate-400 text-center py-8">Chưa có dữ liệu thống kê theo tháng</p>';
@@ -1775,7 +1695,6 @@ export function getStaticPaths() {
 
   // DEBUG MODE: Helper function để debug certificates từ console
   (window as any).debugCertificates = function() {
-    console.log('🔍 [CERT DEBUG] Starting manual debug...');
     const certificatesListEl = document.getElementById('certificatesList');
     if (!certificatesListEl) {
       console.error('❌ [CERT DEBUG] certificatesList element not found');
@@ -1788,61 +1707,29 @@ export function getStaticPaths() {
       return;
     }
     
-    console.log(`🔍 [CERT DEBUG] Found ${cards.length} certificate card(s)\n`);
     
     cards.forEach((card, index) => {
       const challengeName = card.getAttribute('data-debug-challenge') || `Card ${index + 1}`;
-      console.log(`\n${'='.repeat(60)}`);
-      console.log(`🔍 [CERT DEBUG] Card ${index + 1}: ${challengeName}`);
-      console.log(`${'='.repeat(60)}`);
       
       // Card styles
       const cardStyles = window.getComputedStyle(card);
-      console.log('\n📦 CARD STYLES:');
-      console.log('  - padding:', cardStyles.padding);
-      console.log('  - borderRadius:', cardStyles.borderRadius, '(expected: 16px)');
-      console.log('  - borderLeft:', cardStyles.borderLeft);
-      console.log('  - backgroundColor:', cardStyles.backgroundColor, '(expected: rgb(255, 255, 255))');
-      console.log('  - boxShadow:', cardStyles.boxShadow);
-      console.log('  - width:', cardStyles.width);
-      console.log('  - height:', cardStyles.height);
       
       // Icon background
       const iconBg = card.querySelector('.cert-icon-bg');
       if (iconBg) {
         const iconStyles = window.getComputedStyle(iconBg);
-        console.log('\n🎨 ICON BACKGROUND:');
-        console.log('  - width:', iconStyles.width, '(expected: 48px)');
-        console.log('  - height:', iconStyles.height, '(expected: 48px)');
-        console.log('  - borderRadius:', iconStyles.borderRadius, '(expected: 12px)');
-        console.log('  - backgroundColor:', iconStyles.backgroundColor);
-        console.log('  - color:', iconStyles.color);
-        console.log('  - classes:', iconBg.className);
       }
       
       // Title
       const title = card.querySelector('.cert-title');
       if (title) {
         const titleStyles = window.getComputedStyle(title);
-        console.log('\n📝 TITLE:');
-        console.log('  - fontSize:', titleStyles.fontSize, '(expected: 1.125rem mobile, 1.25rem desktop)');
-        console.log('  - fontWeight:', titleStyles.fontWeight, '(expected: 700)');
-        console.log('  - color:', titleStyles.color, '(expected: #1f2937 / gray-800)');
-        console.log('  - lineHeight:', titleStyles.lineHeight, '(expected: 1.25)');
-        console.log('  - fontFamily:', titleStyles.fontFamily);
-        console.log('  - margin:', titleStyles.margin);
-        console.log('  - classes:', title.className);
       }
       
       // Subtitle
       const subtitle = card.querySelector('.cert-subtitle');
       if (subtitle) {
         const subtitleStyles = window.getComputedStyle(subtitle);
-        console.log('\n📝 SUBTITLE:');
-        console.log('  - fontSize:', subtitleStyles.fontSize, '(expected: 0.75rem mobile, 0.875rem desktop)');
-        console.log('  - color:', subtitleStyles.color, '(expected: #6b7280 / gray-500)');
-        console.log('  - marginTop:', subtitleStyles.marginTop, '(expected: 0.25rem)');
-        console.log('  - classes:', subtitle.className);
       }
       
       // Stat values
@@ -1851,45 +1738,22 @@ export function getStaticPaths() {
         const statStyles = window.getComputedStyle(statVal);
         const isFirst = i === 0;
         const expectedColor = isFirst ? '#16a34a (green-600)' : '#2563eb (blue-600)';
-        console.log(`\n📊 STAT VALUE ${i + 1} (${isFirst ? 'Ngày học' : 'Kỷ luật'}):`);
-        console.log('  - fontSize:', statStyles.fontSize, '(expected: 1.25rem mobile, 1.5rem desktop)');
-        console.log('  - fontWeight:', statStyles.fontWeight, '(expected: 700)');
-        console.log('  - color:', statStyles.color, `(expected: ${expectedColor})`);
-        console.log('  - fontFamily:', statStyles.fontFamily, '(expected: Fraunces)');
-        console.log('  - classes:', statVal.className);
       });
       
       // Stats row
       const statsRow = card.querySelector('.cert-stats-row');
       if (statsRow) {
         const statsRowStyles = window.getComputedStyle(statsRow);
-        console.log('\n📊 STATS ROW:');
-        console.log('  - padding:', statsRowStyles.padding, '(expected: 1rem)');
-        console.log('  - backgroundColor:', statsRowStyles.backgroundColor, '(expected: #f8fafc)');
-        console.log('  - borderRadius:', statsRowStyles.borderRadius, '(expected: 12px)');
       }
       
       // Body
       const body = card.querySelector('.cert-body');
       if (body) {
         const bodyStyles = window.getComputedStyle(body);
-        console.log('\n📦 BODY:');
-        console.log('  - padding:', bodyStyles.padding, '(expected: 1.25rem mobile, 1.5rem desktop)');
       }
     });
     
     // Expected values summary
-    console.log(`\n${'='.repeat(60)}`);
-    console.log('🎯 EXPECTED VALUES (Gemini Design):');
-    console.log(`${'='.repeat(60)}`);
-    console.log('Icon BG: width=48px, height=48px, borderRadius=12px');
-    console.log('Title: fontSize=1.125rem (mobile) / 1.25rem (desktop), color=#1f2937 (gray-800)');
-    console.log('Subtitle: fontSize=0.75rem (mobile) / 0.875rem (desktop), color=#6b7280 (gray-500)');
-    console.log('Stat Val: fontSize=1.25rem (mobile) / 1.5rem (desktop)');
-    console.log('  - Color: #16a34a (green-600) for completed, #2563eb (blue-600) for completed');
-    console.log('Body padding: 1.25rem (mobile) / 1.5rem (desktop)');
-    console.log('Stats row padding: 1rem');
-    console.log(`${'='.repeat(60)}\n`);
   };
 
   // Sidebar functions
