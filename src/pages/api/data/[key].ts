@@ -14,6 +14,7 @@ const ALLOWED_KEYS = new Set([
   'records_09',
   'records_10',
   'metadata',
+  'login_history',
 ]);
 
 export const GET: APIRoute = async ({ params, request, locals }) => {

@@ -196,6 +196,29 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       loggedAt: new Date().toISOString(),
     };
 
+    // Ghi nhật ký đăng nhập vào KV login_history
+    try {
+      if (env.DATA) {
+        const historyList = (await getFromKV<any[]>(env, 'login_history', url.origin)) || [];
+        const newLog = {
+          id: `log_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
+          discordId: String(discordUser.id),
+          username: discordUser.username,
+          displayName: discordUser.global_name || discordUser.username,
+          email: discordUser.email || null,
+          avatar: userData.avatar,
+          memberId: memberId,
+          memberName: memberName,
+          loggedAt: userData.loggedAt,
+        };
+        // Giữ lại 100 lượt đăng nhập gần nhất
+        const updatedHistory = [newLog, ...historyList.filter(l => l.id !== newLog.id)].slice(0, 100);
+        await putToKV(env, 'login_history', updatedHistory);
+      }
+    } catch (e) {
+      console.warn('[Login History Log Warning]', e);
+    }
+
     // 6. Ký session bằng HMAC-SHA256 và lưu vào HTTP-only Cookie
     const signedSession = await signSession(userData, sessionSecret);
     cookies.set('user_session', signedSession, {

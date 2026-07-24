@@ -8,6 +8,7 @@ const KV_KEYS = {
   records_09: 'records_09',
   records_10: 'records_10',
   metadata: 'metadata',
+  login_history: 'login_history',
 } as const;
 
 export type KVKey = keyof typeof KV_KEYS;

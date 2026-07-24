@@ -217,6 +217,39 @@ const isAuthenticated = sessionCookie === adminPassword;
           </div>
         </div>
 
+        <!-- Discord Login History Section -->
+        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
+          <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+            <div>
+              <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <span>🔑</span> Nhật Ký Đăng Nhập Discord
+              </h2>
+              <p class="text-sm text-gray-500 mt-1">Danh sách lượt đăng nhập mới nhất qua Discord OAuth (Dùng để kiểm tra & đối chiếu tài khoản)</p>
+            </div>
+            <button id="refreshLoginHistoryBtn" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer flex items-center gap-1.5">
+              <span>🔄</span> Làm mới
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-gray-100 text-xs uppercase tracking-wider text-gray-400 font-bold">
+                  <th class="pb-3 px-2">Tài khoản Discord</th>
+                  <th class="pb-3 px-2">Email</th>
+                  <th class="pb-3 px-2">Thành viên Anki Khớp</th>
+                  <th class="pb-3 px-2 text-right">Thời gian đăng nhập</th>
+                </tr>
+              </thead>
+              <tbody id="discordLoginHistoryBody" class="divide-y divide-gray-50 text-sm">
+                <tr>
+                  <td colspan="4" class="py-8 text-center text-gray-400 font-medium">⏳ Đang tải dữ liệu nhật ký...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
         <!-- Public Link -->
         <div class="text-center pt-8 border-t border-gray-200 border-dashed">
           <a
@@ -375,8 +408,61 @@ const isAuthenticated = sessionCookie === adminPassword;
     }
   }
 
-  // Load stats on page load
+  // Load & render Discord Login History
+  async function loadLoginHistory() {
+    const tbody = document.getElementById("discordLoginHistoryBody");
+    if (!tbody) return;
+
+    try {
+      const res = await fetch("/api/data/login_history?v=" + Date.now());
+      if (!res.ok) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-gray-400 font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
+        return;
+      }
+      const historyList = await res.json();
+      if (!Array.isArray(historyList) || historyList.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-gray-400 font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = historyList.map((item: any) => {
+        const timeAgo = new Date(item.loggedAt).toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
+        const mappedBadge = item.memberId 
+          ? `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-lg border border-emerald-200 inline-flex items-center gap-1">
+              <span>✅</span> ID #${item.memberId} - ${item.memberName || 'Thành viên'}
+             </span>`
+          : `<span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-lg border border-amber-200 inline-flex items-center gap-1">
+              <span>⚠️</span> Chưa ghép nối
+             </span>`;
+
+        return `
+          <tr class="hover:bg-gray-50/80 transition-colors">
+            <td class="py-3.5 px-2">
+              <div class="flex items-center gap-3">
+                <img src="${item.avatar}" class="w-9 h-9 rounded-full bg-gray-100 object-cover flex-shrink-0" alt="" />
+                <div>
+                  <div class="font-bold text-gray-900 leading-snug">${item.displayName}</div>
+                  <div class="text-xs text-gray-400 font-mono">@${item.username} (ID: ${item.discordId})</div>
+                </div>
+              </div>
+            </td>
+            <td class="py-3.5 px-2 text-gray-600 text-xs font-mono">${item.email || '<span class="text-gray-300">Không có email</span>'}</td>
+            <td class="py-3.5 px-2">${mappedBadge}</td>
+            <td class="py-3.5 px-2 text-right font-semibold text-xs text-gray-500">${timeAgo}</td>
+          </tr>
+        `;
+      }).join("");
+    } catch (e) {
+      console.error("Error loading login history:", e);
+      tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-red-500 font-medium">Không thể tải dữ liệu nhật ký</td></tr>`;
+    }
+  }
+
+  document.getElementById("refreshLoginHistoryBtn")?.addEventListener("click", loadLoginHistory);
+
+  // Load stats & login history on page load
   loadStats();
+  loadLoginHistory();
 </script>
 
 <style>
