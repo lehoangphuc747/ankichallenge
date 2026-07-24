@@ -250,6 +250,47 @@ const isAuthenticated = sessionCookie === adminPassword;
           </div>
         </div>
 
+        <!-- Map Member Modal -->
+        <div id="mapMemberModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6">
+            <div class="flex items-center justify-between border-b border-gray-100 pb-4">
+              <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                <span>🔗</span> Ghép Nối Tài Khoản Discord
+              </h3>
+              <button type="button" id="closeMapModalBtn" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1 cursor-pointer">&times;</button>
+            </div>
+
+            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100 space-y-2">
+              <div class="text-xs font-bold uppercase tracking-wider text-indigo-500">Tài khoản Discord được chọn</div>
+              <div class="flex items-center gap-3">
+                <img id="mapModalAvatar" src="" class="w-10 h-10 rounded-full bg-white object-cover shadow-sm" alt="" />
+                <div>
+                  <div id="mapModalName" class="font-bold text-gray-900 text-sm"></div>
+                  <div id="mapModalSub" class="text-xs text-gray-500 font-mono"></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label for="mapMemberSelect" class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
+                Chọn thành viên Anki Challenge để ghép nối:
+              </label>
+              <select id="mapMemberSelect" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <option value="">-- Chọn thành viên --</option>
+              </select>
+            </div>
+
+            <div class="flex gap-3 justify-end pt-2">
+              <button type="button" id="cancelMapModalBtn" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm rounded-xl transition-colors cursor-pointer">
+                Hủy
+              </button>
+              <button type="button" id="confirmMapBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all cursor-pointer">
+                Lưu Ghép Nối
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Public Link -->
         <div class="text-center pt-8 border-t border-gray-200 border-dashed">
           <a
@@ -408,6 +449,22 @@ const isAuthenticated = sessionCookie === adminPassword;
     }
   }
 
+  let cachedMemberList: any[] = [];
+  let currentMapLogItem: any = null;
+
+  async function loadMemberListForMap() {
+    if (cachedMemberList.length > 0) return cachedMemberList;
+    try {
+      const res = await fetch("/api/data/users?v=" + Date.now());
+      const usersData = await res.json();
+      cachedMemberList = Array.isArray(usersData?.data) ? usersData.data : [];
+      cachedMemberList.sort((a, b) => a.name.localeCompare(b.name, 'vi'));
+    } catch {
+      cachedMemberList = [];
+    }
+    return cachedMemberList;
+  }
+
   // Load & render Discord Login History
   async function loadLoginHistory() {
     const tbody = document.getElementById("discordLoginHistoryBody");
@@ -428,12 +485,20 @@ const isAuthenticated = sessionCookie === adminPassword;
       tbody.innerHTML = historyList.map((item: any) => {
         const timeAgo = new Date(item.loggedAt).toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
         const mappedBadge = item.memberId 
-          ? `<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-lg border border-emerald-200 inline-flex items-center gap-1">
-              <span>✅</span> ID #${item.memberId} - ${item.memberName || 'Thành viên'}
-             </span>`
-          : `<span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-lg border border-amber-200 inline-flex items-center gap-1">
-              <span>⚠️</span> Chưa ghép nối
-             </span>`;
+          ? `<div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-lg border border-emerald-200 inline-flex items-center gap-1">
+                <span>✅</span> ID #${item.memberId} - ${item.memberName || 'Thành viên'}
+              </span>
+              <button class="map-log-btn text-xs font-bold text-indigo-600 hover:text-indigo-800 underline cursor-pointer" 
+                data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}'>Sửa</button>
+             </div>`
+          : `<div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-lg border border-amber-200 inline-flex items-center gap-1">
+                <span>⚠️</span> Chưa ghép nối
+              </span>
+              <button class="map-log-btn px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs rounded-lg shadow-sm transition-all cursor-pointer" 
+                data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}'>🔗 Ghép nối</button>
+             </div>`;
 
         return `
           <tr class="hover:bg-gray-50/80 transition-colors">
@@ -452,13 +517,103 @@ const isAuthenticated = sessionCookie === adminPassword;
           </tr>
         `;
       }).join("");
+
+      // Add click listeners to map buttons
+      document.querySelectorAll(".map-log-btn").forEach((btn) => {
+        btn.addEventListener("click", async () => {
+          const itemData = JSON.parse(btn.getAttribute("data-item") || "{}");
+          openMapModal(itemData);
+        });
+      });
     } catch (e) {
       console.error("Error loading login history:", e);
       tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-red-500 font-medium">Không thể tải dữ liệu nhật ký</td></tr>`;
     }
   }
 
-  document.getElementById("refreshLoginHistoryBtn")?.addEventListener("click", loadLoginHistory);
+  async function openMapModal(item: any) {
+    currentMapLogItem = item;
+    const modal = document.getElementById("mapMemberModal");
+    const avatarEl = document.getElementById("mapModalAvatar") as HTMLImageElement;
+    const nameEl = document.getElementById("mapModalName");
+    const subEl = document.getElementById("mapModalSub");
+    const selectEl = document.getElementById("mapMemberSelect") as HTMLSelectElement;
+
+    if (!modal || !selectEl) return;
+
+    if (avatarEl) avatarEl.src = item.avatar;
+    if (nameEl) nameEl.textContent = item.displayName;
+    if (subEl) subEl.textContent = `@${item.username} (ID: ${item.discordId})`;
+
+    // Populate select
+    const members = await loadMemberListForMap();
+    selectEl.innerHTML = `<option value="">-- Chọn thành viên --</option>` +
+      members.map((m: any) => `
+        <option value="${m.id}" ${item.memberId === m.id ? 'selected' : ''}>
+          ID #${m.id} - ${m.name} ${m.discordNickname ? `(Nick: ${m.discordNickname})` : ''}
+        </option>
+      `).join("");
+
+    modal.classList.remove("hidden");
+  }
+
+  function closeMapModal() {
+    document.getElementById("mapMemberModal")?.classList.add("hidden");
+    currentMapLogItem = null;
+  }
+
+  document.getElementById("closeMapModalBtn")?.addEventListener("click", closeMapModal);
+  document.getElementById("cancelMapModalBtn")?.addEventListener("click", closeMapModal);
+
+  document.getElementById("confirmMapBtn")?.addEventListener("click", async () => {
+    if (!currentMapLogItem) return;
+    const selectEl = document.getElementById("mapMemberSelect") as HTMLSelectElement;
+    const memberId = selectEl.value;
+
+    if (!memberId) {
+      alert("Vui lòng chọn 1 thành viên để ghép nối!");
+      return;
+    }
+
+    const confirmBtn = document.getElementById("confirmMapBtn") as HTMLButtonElement;
+    confirmBtn.disabled = true;
+    confirmBtn.textContent = "⏳ Đang lưu...";
+
+    try {
+      const res = await fetch("/api/admin/map-discord", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          logId: currentMapLogItem.id,
+          discordId: currentMapLogItem.discordId,
+          discordNickname: currentMapLogItem.username,
+          email: currentMapLogItem.email,
+          memberId: parseInt(memberId),
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert(data.message || "Đã ghép nối thành công!");
+        closeMapModal();
+        cachedMemberList = []; // invalidate cache
+        loadLoginHistory();
+        loadStats();
+      } else {
+        alert("Lỗi: " + (data.error || "Không thể ghép nối"));
+      }
+    } catch (err: any) {
+      alert("Lỗi hệ thống: " + err.message);
+    } finally {
+      confirmBtn.disabled = false;
+      confirmBtn.textContent = "Lưu Ghép Nối";
+    }
+  });
+
+  document.getElementById("refreshLoginHistoryBtn")?.addEventListener("click", () => {
+    cachedMemberList = [];
+    loadLoginHistory();
+  });
 
   // Load stats & login history on page load
   loadStats();
