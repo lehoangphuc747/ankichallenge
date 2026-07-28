@@ -1,11 +1,11 @@
 {
   "data": [
     {
-      "name": "Tiếng Hàn Phúc Lee",
-      "email": "erk9308@gmail.com",
+      "name": "Gai Hàn TOPIK 6 xin vía",
+      "email": "lphc664@yahoo.com.vn",
       "streak": 97,
       "learning": "Tiếng Hàn",
-      "major": "Hàn Quốc học",
+      "major": "QTKD",
       "bio": "Hellooooooo",
       "facebookUrl": "tuilaphuc747",
       "id": 9,
@@ -20,9 +20,11 @@
         2,
         3
       ],
-      "place": "chuncheon",
+      "place": "Chuncheon",
       "goals": "Hellooooooo",
-      "quotes": "Regrets is Poison."
+      "quotes": "Regrets is Poison.",
+      "discordId": "438960335983083530",
+      "learningLanguage": "Tiếng Hàn"
     },
     {
       "hidden": false,
@@ -302,10 +304,10 @@
       "major": "Phân tích dữ liệu",
       "zaloUrl": "https://zalo.me/0000001088",
       "streak": 97,
-      "email": "",
+      "email": "thanthimyhuyen2001@gmail.com",
       "id": 24,
       "bio": "Một người đang cố gắng để sống theo giờ giấc sinh hoạt của một người bình thường ở Việt Nam",
-      "name": "Gai Con tên Cáo",
+      "name": "Gai Cáo",
       "discordNickname": "thocao118",
       "hidden": false,
       "challengeIds": [
@@ -315,7 +317,8 @@
       ],
       "place": "Hà Nội",
       "goals": "Một người đang cố gắng để sống theo giờ giấc sinh hoạt của một người bình thường ở Việt Nam",
-      "quotes": "Hành tây có vị ngọt, xào trứng ăn ngon. Ớt chuông cũng ngọt, bắp cải luộc cũng ngọt, cơm nhai lâu cũng ngọt. Cà rốt nhất định xào cùng một ít dầu ăn mới hấp thụ tốt. Thật sự ko có quote nào ở đây cả, chỉ có bụng đói thôi"
+      "quotes": "Hành tây có vị ngọt, xào trứng ăn ngon. Ớt chuông cũng ngọt, bắp cải luộc cũng ngọt, cơm nhai lâu cũng ngọt. Cà rốt nhất định xào cùng một ít dầu ăn mới hấp thụ tốt. Thật sự ko có quote nào ở đây cả, chỉ có bụng đói thôi",
+      "discordId": "857521277337206784"
     },
     {
       "name": "ngồi thẳng lưng lên",
@@ -527,15 +530,15 @@
     },
     {
       "id": 34,
-      "name": "Nguyễn Ngọc Quỳnh Trâm",
-      "email": "",
+      "name": "Tram",
+      "email": "qtram05@yahoo.com",
       "streak": 0,
       "learning": "tiếng Anh, tiếng Nhật",
       "major": "Khác",
       "bio": "Khác",
       "facebookUrl": "https://www.facebook.com/quynhtram.nguyen.75491/",
       "zaloUrl": "https://zalo.me/0983832059",
-      "discordNickname": "tram1601 (Tram)",
+      "discordNickname": "tram_1601",
       "birthYear": 2005,
       "role": "member",
       "hidden": false,
@@ -546,7 +549,8 @@
       ],
       "place": "Tp. Hồ Chí Minh",
       "goals": "Khác",
-      "quotes": ""
+      "quotes": "",
+      "discordId": "1446504123657748651"
     },
     {
       "id": 35,
@@ -619,14 +623,14 @@
     {
       "id": 38,
       "name": "Lê Đức Tuấn",
-      "email": "",
+      "email": "leductuan73qb@gmail.com",
       "streak": 0,
       "learning": "Tiếng Anh",
       "major": "Khác",
       "bio": "Học 30 phút/ngày",
       "facebookUrl": "https://web.facebook.com/trungsotcachua73/",
       "zaloUrl": "https://zalo.me/0845822847",
-      "discordNickname": "leductuan73 (Tuấn)",
+      "discordNickname": "leductuan73",
       "birthYear": 2004,
       "role": "member",
       "hidden": false,
@@ -637,7 +641,8 @@
       ],
       "place": "HCM City",
       "goals": "Học 30 phút/ngày",
-      "quotes": ""
+      "quotes": "",
+      "discordId": "870187268692906014"
     },
     {
       "id": 39,
@@ -707,8 +712,8 @@
     },
     {
       "id": 42,
-      "name": "NGUYỄN VŨ NHƯ BÍCH",
-      "email": "",
+      "name": "bichnguyen",
+      "email": "nhubichngocjp2026@gmail.com",
       "streak": 0,
       "learning": "Tiếng Nhật",
       "major": "Khác",
@@ -726,7 +731,8 @@
       ],
       "place": "Japan",
       "goals": "Mình tên Bích. 44tuổi và đang học tiếng Nhật.",
-      "quotes": "Khi bạn khát khao 1 điều gì đó, cả vũ trụ sẽ hợp lực giúp bạn đạt được điều đó."
+      "quotes": "Khi bạn khát khao 1 điều gì đó, cả vũ trụ sẽ hợp lực giúp bạn đạt được điều đó.",
+      "discordId": "1490583723765141638"
     },
     {
       "id": 43,
@@ -1244,15 +1250,15 @@
     },
     {
       "id": 66,
-      "name": "Hà Lưu Thanh Bình",
-      "email": "",
+      "name": "Serene Flow",
+      "email": "t.binhns@gmail.com",
       "streak": 0,
       "learning": "Tiếng Anh",
       "major": "Khác",
       "bio": "\"Tôi tư duy, tôi tồn tại\" - René Descartes. Cách tư duy điển hình nhất là học và đọc. Mình đang nỗ lực duy trì điều này với Anki.",
       "facebookUrl": "https://www.facebook.com/thanh.binh.364948/",
       "zaloUrl": "https://zalo.me/0931797863",
-      "discordNickname": "afkgamerdn123 (Serene Flow)",
+      "discordNickname": "afkgamerdn123",
       "birthYear": 2008,
       "role": "member",
       "hidden": false,
@@ -1263,7 +1269,8 @@
       ],
       "place": "Việt Nam",
       "goals": "\"Tôi tư duy, tôi tồn tại\" - René Descartes. Cách tư duy điển hình nhất là học và đọc. Mình đang nỗ lực duy trì điều này với Anki.",
-      "quotes": "\"Cuộc sống sẽ dừng lại khi việc học dừng lại\" - D. Foroux (5 bước kiến tạo thói quen)"
+      "quotes": "\"Cuộc sống sẽ dừng lại khi việc học dừng lại\" - D. Foroux (5 bước kiến tạo thói quen)",
+      "discordId": "1393440400038957157"
     },
     {
       "id": 67,
@@ -1601,8 +1608,8 @@
     },
     {
       "id": 82,
-      "name": "Nguyễn Nhật Minh",
-      "email": "",
+      "name": "TheMink",
+      "email": "nhminh3165@gmail.com",
       "streak": 0,
       "learning": "Tiếng Trung",
       "major": "Khác",
@@ -1620,7 +1627,8 @@
       ],
       "place": "Hà Nội",
       "goals": "Bằng cách nào đó mà mình khá thích học ngôn ngữ, hiện có Anh, Trung. Sắp tới sẽ có thêm vài ngôn ngữ vào giỏ hàng. Mọi người đều nhận xét là mình khá thoải mái và thân thiện",
-      "quotes": "Bạn không thể thay đổi tất cả, nhưng có thể ảnh hưởng lên mọi thứ"
+      "quotes": "Bạn không thể thay đổi tất cả, nhưng có thể ảnh hưởng lên mọi thứ",
+      "discordId": "790859151734996992"
     },
     {
       "id": 83,
@@ -1734,8 +1742,8 @@
       "quotes": ""
     },
     {
-      "name": "Ngô Minh Đăng",
-      "email": "",
+      "name": "Paul",
+      "email": "danieldang3.ngo@gmail.com",
       "streak": 0,
       "learning": "tiếng Thụy Điển và tiếng Anh",
       "major": "Khác",
@@ -1753,7 +1761,8 @@
       ],
       "place": "Thành Phố Hồ Chí Minh",
       "goals": "học tới ngưỡng thất bại",
-      "quotes": "Muốn thì sẽ tìm cách, không muốn sẽ tìm lí do"
+      "quotes": "Muốn thì sẽ tìm cách, không muốn sẽ tìm lí do",
+      "discordId": "871985158151106571"
     },
     {
       "name": "Tạ Quốc Việt",
@@ -1778,8 +1787,8 @@
       "quotes": "Khó khăn xuất hiện là biết chắc chắn mình có thể vượt qua nên nó mới xuất hiện."
     },
     {
-      "name": "ha uyen tam",
-      "email": "",
+      "name": "drinkwaterpls",
+      "email": "milkrose6666@gmail.com",
       "streak": 0,
       "learning": "tiếng anh",
       "major": "Khác",
@@ -1797,7 +1806,8 @@
       ],
       "place": "HCM",
       "goals": "học ít nhất 10 từ mới mỗi ngày. kiên trì đến khi giỏi tiếng Anh!",
-      "quotes": "mong tự yêu lấy bản thân ngày một nhiều hơn"
+      "quotes": "mong tự yêu lấy bản thân ngày một nhiều hơn",
+      "discordId": "809005981911613451"
     },
     {
       "name": "Nguyễn Thiên Tranh",
