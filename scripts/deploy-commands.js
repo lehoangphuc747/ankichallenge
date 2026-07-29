@@ -25,6 +25,10 @@ const COMMANDS = [
       },
     ],
   },
+  {
+    name: 'setchannel',
+    description: '[Admin] Đặt channel hiện tại làm channel check-in. Chỉ thread trong channel này mới được check-in.',
+  },
 ];
 
 async function deployCommands() {
