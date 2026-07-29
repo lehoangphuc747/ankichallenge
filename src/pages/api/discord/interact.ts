@@ -108,26 +108,32 @@ export const POST: APIRoute = async ({ request, locals }) => {
           );
         }
 
-        // Ghi check-in vào KV cho từng challenge
-        let checkedCount = 0;
-        for (const cid of challengeIds) {
-          const kvKey = KV_RECORDS[cid];
-          if (!kvKey) continue;
-
-          const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, request.url) || {};
-          if (!records[date]) records[date] = {};
-          records[date][String(memberId)] = true;
-          await putToKV(env, kvKey, records);
-          checkedCount++;
+        // Chỉ check-in cho challenge mới nhất (challengeId lớn nhất)
+        const latestCid = Math.max(...challengeIds);
+        const kvKey = KV_RECORDS[latestCid];
+        if (!kvKey) {
+          return new Response(
+            JSON.stringify({
+              type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+              data: {
+                content: `Không tìm thấy KV key cho challenge #${latestCid}.`,
+                flags: InteractionResponseFlags.EPHEMERAL,
+              },
+            }),
+            { headers: { 'Content-Type': 'application/json' } }
+          );
         }
 
-        const challengeLabels = challengeIds.map((c) => `AC${c + 7}`).join(', ');
+        const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, request.url) || {};
+        if (!records[date]) records[date] = {};
+        records[date][String(memberId)] = true;
+        await putToKV(env, kvKey, records);
 
         return new Response(
           JSON.stringify({
             type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
             data: {
-              content: `✅ **${memberName}** đã check-in **${date}** thành công cho: ${challengeLabels}`,
+              content: `✅ **${memberName}** đã check-in **${date}** thành công!`,
               flags: InteractionResponseFlags.EPHEMERAL,
             },
           }),
