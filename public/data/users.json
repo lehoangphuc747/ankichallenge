@@ -600,14 +600,14 @@
     {
       "id": 37,
       "name": "Duy Sanji",
-      "email": "",
+      "email": "nhuuduygaming1@gmail.com",
       "streak": 0,
       "learning": "Công nghệ thông tin!",
       "major": "Đầu bếp tài ba",
       "bio": "Computer science engineer !",
       "facebookUrl": "https://www.facebook.com/duy.sanji.640714/",
       "zaloUrl": "https://zalo.me/0899731290",
-      "discordNickname": "duysanji",
+      "discordNickname": "duysanji1",
       "birthYear": 2005,
       "role": "member",
       "hidden": false,
@@ -618,7 +618,8 @@
       ],
       "place": "Hà Nội",
       "goals": "Computer science engineer !",
-      "quotes": "Không phải bây giờ thì bao giờ !"
+      "quotes": "Không phải bây giờ thì bao giờ !",
+      "discordId": "1427037904307224798"
     },
     {
       "id": 38,
