@@ -45,6 +45,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
       if (commandName === 'setchannel') return handleSetChannel(interaction, env);
+      if (commandName === 'setrole') return handleSetRole(interaction, env);
       if (commandName === 'checkin') return handleCheckin(interaction, env, requestUrl);
     }
 
@@ -76,6 +77,36 @@ async function handleSetChannel(interaction: any, env: any): Promise<Response> {
   });
 }
 
+async function handleSetRole(interaction: any, env: any): Promise<Response> {
+  const permissions = interaction.member?.permissions;
+  if (!permissions || (BigInt(permissions) & 8n) !== 8n) {
+    return jsonResponse({
+      content: 'Bạn cần quyền **Administrator** trên server để dùng lệnh này.',
+      flags: InteractionResponseFlags.EPHEMERAL,
+    });
+  }
+
+  const roleOption = interaction.data?.options?.find((o: any) => o.name === 'role');
+  const roleId = roleOption?.value as string | undefined;
+
+  const config = (await getFromKV<any>(env, 'config')) || {};
+  if (roleId) {
+    config.allowedRoleId = roleId;
+    await putToKV(env, 'config', config);
+    return jsonResponse({
+      content: `✅ Đã set role <@&${roleId}> được phép check-in.`,
+      flags: InteractionResponseFlags.EPHEMERAL,
+    });
+  } else {
+    delete config.allowedRoleId;
+    await putToKV(env, 'config', config);
+    return jsonResponse({
+      content: 'Đã xoá giới hạn role. Ai cũng có thể check-in (nếu đã link Discord).',
+      flags: InteractionResponseFlags.EPHEMERAL,
+    });
+  }
+}
+
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<Response> {
   const parentId = interaction.channel?.parent_id;
   if (!parentId) {
@@ -98,6 +129,16 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       content: `Thread này không thuộc channel check-in. Vui lòng dùng \`/checkin\` trong thread của <#${config.checkinChannelId}>.`,
       flags: InteractionResponseFlags.EPHEMERAL,
     });
+  }
+
+  if (config.allowedRoleId) {
+    const memberRoles: string[] = interaction.member?.roles || [];
+    if (!memberRoles.includes(config.allowedRoleId)) {
+      return jsonResponse({
+        content: `Bạn cần role <@&${config.allowedRoleId}> để check-in.`,
+        flags: InteractionResponseFlags.EPHEMERAL,
+      });
+    }
   }
 
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
