@@ -1,6 +1,27 @@
 import type { APIRoute } from 'astro';
-import { verifyKey, InteractionType, InteractionResponseType, InteractionResponseFlags } from 'discord-interactions';
+import nacl from 'tweetnacl';
+import { InteractionType, InteractionResponseType, InteractionResponseFlags } from 'discord-interactions';
 import { getFromKV, putToKV } from '../../../utils/kv';
+
+function hexToUint8Array(hex: string): Uint8Array {
+  const matches = hex.match(/.{1,2}/g);
+  if (!matches) throw new Error('Invalid hex string');
+  return new Uint8Array(matches.map((b) => Number.parseInt(b, 16)));
+}
+
+function verifyDiscordKey(rawBody: string, signature: string, timestamp: string, publicKey: string): boolean {
+  try {
+    const message = new TextEncoder().encode(timestamp + rawBody);
+    return nacl.sign.detached.verify(
+      message,
+      hexToUint8Array(signature),
+      hexToUint8Array(publicKey)
+    );
+  } catch (e) {
+    console.error('[discord/interact] verifyKey error:', e);
+    return false;
+  }
+}
 
 export const prerender = false;
 
@@ -23,12 +44,12 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const discordPublicKey =
       env.DISCORD_PUBLIC_KEY ||
       import.meta.env.DISCORD_PUBLIC_KEY ||
-      '';
+      '1338d998546db898e644782be4c1d80b4bfa057553efc7aafe92a9c444857d32';
     const signature = request.headers.get('X-Signature-Ed25519') || '';
     const timestamp = request.headers.get('X-Signature-Timestamp') || '';
     const rawBody = await request.clone().text();
 
-    const isValid = await verifyKey(rawBody, signature, timestamp, discordPublicKey);
+    const isValid = await verifyDiscordKey(rawBody, signature, timestamp, discordPublicKey);
     if (!isValid) {
       return new Response('Invalid signature', { status: 401 });
     }
