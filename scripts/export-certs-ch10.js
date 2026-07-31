@@ -478,12 +478,23 @@ async function main() {
   }
 
   const eligibleUsers = (users.data || [])
-    .filter((u) => Array.isArray(u.challengeIds) && u.challengeIds.includes(CHALLENGE_ID) && u.hidden !== true)
-    .sort((a, b) => a.id - b.id);
+    .filter((u) => Array.isArray(u.challengeIds) && u.challengeIds.includes(CHALLENGE_ID) && u.hidden !== true);
+
+  const rankedUsers = eligibleUsers
+    .map((user) => ({ user, stats: computeStatsForUser(user.id, challenge, records) }))
+    .sort((a, b) => b.stats.attendanceRate - a.stats.attendanceRate);
+
+  let currentRank = 1;
+  rankedUsers.forEach((entry, index) => {
+    if (index > 0 && entry.stats.attendanceRate < rankedUsers[index - 1].stats.attendanceRate) {
+      currentRank = index + 1;
+    }
+    entry.rank = currentRank;
+  });
 
   const selectedUsers = args.userId !== null
-    ? eligibleUsers.filter((u) => u.id === args.userId)
-    : eligibleUsers;
+    ? rankedUsers.filter((entry) => entry.user.id === args.userId)
+    : rankedUsers;
 
   if (selectedUsers.length === 0) {
     throw new Error('Khong co user nao phu hop voi bo loc hien tai.');
@@ -505,12 +516,12 @@ async function main() {
   const browser = await puppeteer.launch({ headless: true });
 
   try {
-    for (const user of selectedUsers) {
-      const stats = computeStatsForUser(user.id, challenge, records);
-      const fileName = `${slugify(user.name)}.${ext}`;
+    for (const { user, stats, rank } of selectedUsers) {
+      const rankStr = String(rank).padStart(2, '0');
+      const fileName = `${rankStr}-${slugify(user.name)}.${ext}`;
       const targetPath = path.join(outputIndividual, fileName);
 
-      console.log(`Dang xuat: ${user.name} (${stats.studyDays}/${stats.totalDays} ngay, ${stats.attendanceRate}%)`);
+      console.log(`Dang xuat: ${user.name} (rank ${rank}, ${stats.studyDays}/${stats.totalDays} ngay, ${stats.attendanceRate}%)`);
 
       if (args.format === 'pdf') {
         await exportSinglePdf(browser, {
