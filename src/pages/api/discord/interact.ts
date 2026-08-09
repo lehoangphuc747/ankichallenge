@@ -128,6 +128,43 @@ async function handleSetRole(interaction: any, env: any): Promise<Response> {
   }
 }
 
+function parseCheckinDate(input?: string): string | null {
+  const now = new Date();
+  const nowVN = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+  const nowVNStr = nowVN.toISOString().slice(0, 10);
+  const today = new Date(nowVNStr + 'T00:00:00.000Z');
+
+  if (!input || !input.trim()) return nowVNStr;
+
+  const s = input.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  if (s === 'hom_nay' || s === 'hom nay' || s === 'today') return nowVNStr;
+  if (s === 'hom_qua' || s === 'hom qua' || s === 'yesterday') {
+    const y = new Date(today.getTime() - 86400000);
+    return y.toISOString().slice(0, 10);
+  }
+
+  // Định dạng đầy đủ YYYY-MM-DD
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+
+  // dạng dd/mm, dd/m, d/mm, d/m
+  const m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  if (m) {
+    const day = Number(m[1]);
+    const month = Number(m[2]);
+    const year = nowVN.getUTCFullYear();
+    if (day < 1 || day > 31 || month < 1 || month > 12) return null;
+    const candidate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    if (candidate > nowVNStr) {
+      const y = new Date(`${candidate}T00:00:00.000Z`);
+      return new Date(y.getTime() - 365 * 86400000).toISOString().slice(0, 10);
+    }
+    return candidate;
+  }
+
+  return null;
+}
+
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<Response> {
   const parentId = interaction.channel?.parent_id;
   if (!parentId) {
@@ -163,11 +200,11 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   }
 
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
-  const date = dateOption?.value as string;
+  const date = parseCheckinDate(dateOption?.value);
 
-  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+  if (!date) {
     return jsonResponse({
-      content: 'Ngày không hợp lệ. Định dạng: YYYY-MM-DD (VD: 2026-07-29)',
+      content: 'Ngày không hợp lệ. Gõ `/checkin` để check-in hôm nay, hoặc nhập dạng `dd/mm` (VD: `/checkin 29/07`), `hôm_qua`, hoặc `YYYY-MM-DD`.',
       flags: InteractionResponseFlags.EPHEMERAL,
     });
   }
