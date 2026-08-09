@@ -156,7 +156,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     const memberRoles: string[] = interaction.member?.roles || [];
     if (!memberRoles.includes(config.allowedRoleId)) {
       return jsonResponse({
-        content: `Bạn cần role <@&${config.allowedRoleId}> để check-in.`,
+        content: 'Bạn không có quyền sử dụng lệnh này vì bạn đang không tham gia challenge.',
         flags: InteractionResponseFlags.EPHEMERAL,
       });
     }
