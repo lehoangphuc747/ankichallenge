@@ -25,22 +25,6 @@ const COMMANDS = [
       },
     ],
   },
-  {
-    name: 'setchannel',
-    description: '[Admin] Đặt channel hiện tại làm channel check-in. Chỉ thread trong channel này mới được check-in.',
-  },
-  {
-    name: 'setrole',
-    description: '[Admin] Đặt role được phép check-in',
-    options: [
-      {
-        type: 8, // ROLE
-        name: 'role',
-        description: 'Role được phép check-in (bỏ trống để xoá giới hạn)',
-        required: false,
-      },
-    ],
-  },
 ];
 
 // Guild ID để đăng ký lệnh ở cấp guild (hiện ngay cho mọi member, không bị cache delay như global)

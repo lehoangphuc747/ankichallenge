@@ -65,8 +65,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
-      if (commandName === 'setchannel') return handleSetChannel(interaction, env);
-      if (commandName === 'setrole') return handleSetRole(interaction, env);
       if (commandName === 'checkin') return handleCheckin(interaction, env, requestUrl);
     }
 
@@ -79,54 +77,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 };
-
-async function handleSetChannel(interaction: any, env: any): Promise<Response> {
-  const permissions = interaction.member?.permissions;
-  if (!permissions || (BigInt(permissions) & 8n) !== 8n) {
-    return jsonResponse({
-      content: 'Bạn cần quyền **Administrator** trên server để dùng lệnh này.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-
-  const channelId = interaction.channel_id;
-  await putToKV(env, 'config', { checkinChannelId: channelId });
-
-  return jsonResponse({
-    content: `✅ Đã đặt <#${channelId}> làm channel check-in. Chỉ các **thread** trong channel này mới được dùng \`/checkin\`.`,
-    flags: InteractionResponseFlags.EPHEMERAL,
-  });
-}
-
-async function handleSetRole(interaction: any, env: any): Promise<Response> {
-  const permissions = interaction.member?.permissions;
-  if (!permissions || (BigInt(permissions) & 8n) !== 8n) {
-    return jsonResponse({
-      content: 'Bạn cần quyền **Administrator** trên server để dùng lệnh này.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-
-  const roleOption = interaction.data?.options?.find((o: any) => o.name === 'role');
-  const roleId = roleOption?.value as string | undefined;
-
-  const config = (await getFromKV<any>(env, 'config')) || {};
-  if (roleId) {
-    config.allowedRoleId = roleId;
-    await putToKV(env, 'config', config);
-    return jsonResponse({
-      content: `✅ Đã set role <@&${roleId}> được phép check-in.`,
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  } else {
-    delete config.allowedRoleId;
-    await putToKV(env, 'config', config);
-    return jsonResponse({
-      content: 'Đã xoá giới hạn role. Ai cũng có thể check-in (nếu đã link Discord).',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-}
 
 function parseCheckinDate(input?: string): string | null {
   const now = new Date();
