@@ -166,39 +166,6 @@ function parseCheckinDate(input?: string): string | null {
 }
 
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<Response> {
-  const parentId = interaction.channel?.parent_id;
-  if (!parentId) {
-    return jsonResponse({
-      content: 'Lệnh này chỉ dùng được trong **thread** của channel check-in.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-
-  const config = await getFromKV<any>(env, 'config');
-  if (!config?.checkinChannelId) {
-    return jsonResponse({
-      content: 'Chưa có channel check-in nào được cấu hình. Hãy nhờ Admin dùng `/setchannel` trước.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-
-  if (parentId !== config.checkinChannelId) {
-    return jsonResponse({
-      content: `Thread này không thuộc channel check-in. Vui lòng dùng \`/checkin\` trong thread của <#${config.checkinChannelId}>.`,
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
-  }
-
-  if (config.allowedRoleId) {
-    const memberRoles: string[] = interaction.member?.roles || [];
-    if (!memberRoles.includes(config.allowedRoleId)) {
-      return jsonResponse({
-        content: 'Bạn không có quyền sử dụng lệnh này vì bạn đang không tham gia challenge.',
-        flags: InteractionResponseFlags.EPHEMERAL,
-      });
-    }
-  }
-
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
   const date = parseCheckinDate(dateOption?.value);
 
@@ -259,17 +226,6 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     });
   }
 
-  const challengesData = await getFromKV<any>(env, 'challenges', requestUrl);
-  const challenge = challengesData?.data?.[String(latestCid)];
-  if (challenge?.start && challenge?.end) {
-    if (date < challenge.start || date > challenge.end) {
-      return jsonResponse({
-        content: `Ngày **${date}** không nằm trong thời gian của challenge **${challenge.name}** (${challenge.start} → ${challenge.end}).`,
-        flags: InteractionResponseFlags.EPHEMERAL,
-      });
-    }
-  }
-
   const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
   if (!records[date]) records[date] = {};
 
@@ -290,8 +246,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       userId: memberId,
       date,
       timestamp: new Date().toISOString(),
-      threadId: interaction.channel_id,
-      channelId: parentId,
+      channelId: interaction.channel_id,
     });
     await putToKV(env, 'checkin_audit', auditLog);
   } catch (e) {
