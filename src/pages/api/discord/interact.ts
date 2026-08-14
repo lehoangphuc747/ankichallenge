@@ -2,7 +2,8 @@ import type { APIRoute } from 'astro';
 import nacl from 'tweetnacl';
 import { InteractionType, InteractionResponseType, InteractionResponseFlags } from 'discord-interactions';
 import { getFromKV, putToKV } from '../../../utils/kv';
-import { getUserByDiscordId, recordCheckinInDB } from '../../../utils/db';
+import { getUserByDiscordId, recordCheckinInDB, getUsersFromDB, getChallengesFromDB, getRecordsFromDB } from '../../../utils/db';
+import { calculateUserStats } from '../../../utils/calculateStats.js';
 
 function hexToUint8Array(hex: string): Uint8Array {
   const matches = hex.match(/.{1,2}/g);
@@ -82,15 +83,17 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
-      if (commandName === 'checkin') {
-        // Trả DEFERRED ngay để không vượt 3s timeout của Discord,
-        // xử lý logic ở background rồi PATCH kết quả qua webhook.
+      if (commandName === 'checkin' || commandName === 'rank' || commandName === 'streak' || commandName === 'trangthai') {
         const ctx = (locals as any).runtime?.ctx;
         const run = async () => {
           try {
-            await handleCheckin(interaction, env, requestUrl);
+            if (commandName === 'checkin') {
+              await handleCheckin(interaction, env, requestUrl);
+            } else {
+              await handleRank(interaction, env, requestUrl);
+            }
           } catch (error: any) {
-            console.error('[discord/interact] Background checkin error:', error);
+            console.error(`[discord/interact] Background ${commandName} error:`, error);
             await patchOriginalMessage(
               interaction,
               'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.',
@@ -251,3 +254,111 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
 
   return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in **${date}** thành công!`);
 }
+
+async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {
+  const discordId = interaction.member?.user?.id || interaction.user?.id;
+  if (!discordId) {
+    return patchOriginalMessage(interaction, 'Không thể xác định Discord ID.', true);
+  }
+
+  let userList: any[] = [];
+  if (env.DB) {
+    const dbUsers = await getUsersFromDB(env.DB);
+    userList = dbUsers.data;
+  } else {
+    const usersData = await getFromKV<any>(env, 'users', requestUrl);
+    userList = Array.isArray(usersData?.data) ? usersData.data : [];
+  }
+
+  const member = userList.find((u: any) => String(u.discordId) === String(discordId));
+  if (!member) {
+    return patchOriginalMessage(
+      interaction,
+      '⚠️ **Tài khoản Discord của bạn chưa được liên kết với hệ thống Anki Challenge!**\n\n' +
+      '👉 **Hướng dẫn:**\n' +
+      '1. Bấm vào link đăng nhập trực tiếp: https://ankichallenge.pages.dev/api/auth/discord (hoặc truy cập https://ankichallenge.pages.dev và chọn **Đăng nhập Discord**).\n' +
+      '2. Xác nhận uỷ quyền tài khoản Discord của bạn.\n' +
+      '3. Sau khi đăng nhập thành công, quay lại đây và gõ `/rank` nhé!',
+      true
+    );
+  }
+
+  const challengeIds: number[] = member.challengeIds || [];
+  if (challengeIds.length === 0) {
+    return patchOriginalMessage(interaction, `⚠️ Bạn (${member.name}) chưa đăng ký tham gia thử thách nào!`, true);
+  }
+
+  const latestCid = Math.max(...challengeIds);
+
+  let challenges: Record<string, any> = {};
+  if (env.DB) {
+    challenges = await getChallengesFromDB(env.DB);
+  } else {
+    challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
+  }
+
+  const challenge = challenges[String(latestCid)] || {
+    name: `Anki Challenge #${latestCid}`,
+    start: '2026-01-01',
+    end: '2026-12-31',
+    totalDays: 100,
+  };
+
+  let records: Record<string, Record<string, boolean>> = {};
+  if (env.DB) {
+    records = await getRecordsFromDB(env.DB, latestCid);
+  } else {
+    const kvKey = KV_RECORDS[latestCid] || 'records_10';
+    records = await getFromKV<any>(env, kvKey, requestUrl) || {};
+  }
+
+  const enrolledUsers = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid));
+  const dateRanges = { [latestCid]: { start: challenge.start, end: challenge.end } };
+  const allStats = calculateUserStats(enrolledUsers, records, latestCid, dateRanges);
+
+  allStats.sort((a: any, b: any) => {
+    const pA = a.currentStat?.disciplinePercentage ?? 0;
+    const pB = b.currentStat?.disciplinePercentage ?? 0;
+    if (pB !== pA) return pB - pA;
+    return (b.currentStat?.streak ?? 0) - (a.currentStat?.streak ?? 0);
+  });
+
+  let currentRank = 1;
+  let prevPercent: number | null = null;
+  let userRank = 1;
+  let targetStat: any = null;
+
+  for (let i = 0; i < allStats.length; i++) {
+    const item = allStats[i];
+    const pct = item.currentStat?.disciplinePercentage ?? 0;
+    if (prevPercent !== null && pct < prevPercent) {
+      currentRank = i + 1;
+    }
+    prevPercent = pct;
+
+    if (item.id === member.id) {
+      userRank = currentRank;
+      targetStat = item.currentStat;
+    }
+  }
+
+  const now = new Date();
+  const todayVN = new Date(now.getTime() + 7 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const isCheckedToday = Boolean(records[todayVN]?.[String(member.id)]);
+
+  const streak = targetStat?.streak ?? 0;
+  const longestStreak = targetStat?.longestStreak ?? 0;
+  const totalDays = targetStat?.totalDays ?? 0;
+  const disciplinePercentage = targetStat?.disciplinePercentage ?? 0;
+
+  const msg = 
+    `📊 **Thống kê thử thách của <@${discordId}>** — **${challenge.name}**\n\n` +
+    `🏆 **Thứ hạng**: **#${userRank}** / ${enrolledUsers.length} thành viên\n` +
+    `🔥 **Chuỗi liên tục (Streak)**: **${streak} ngày** (Kỷ lục: ${longestStreak} ngày)\n` +
+    `📈 **Tỉ lệ chuyên cần**: **${disciplinePercentage}%** (${totalDays} ngày đã học)\n` +
+    `📅 **Hôm nay (${todayVN.slice(8, 10)}/${todayVN.slice(5, 7)})**: ${isCheckedToday ? '✅ Đã check-in' : '⏳ Chưa check-in (gõ `/checkin` ngay)'}\n\n` +
+    `🔗 Xem bảng xếp hạng: https://ankichallenge.pages.dev`;
+
+  return patchOriginalMessage(interaction, msg);
+}
+

@@ -25,6 +25,14 @@ const COMMANDS = [
       },
     ],
   },
+  {
+    name: 'rank',
+    description: 'Xem thứ hạng, chuỗi streak và tỉ lệ chuyên cần của bạn',
+  },
+  {
+    name: 'streak',
+    description: 'Xem chuỗi ngày học liên tục và tiến độ thử thách',
+  },
 ];
 
 // Guild ID để đăng ký lệnh ở cấp guild (hiện ngay cho mọi member, không bị cache delay như global)
