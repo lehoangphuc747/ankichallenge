@@ -278,7 +278,7 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
       '👉 **Hướng dẫn:**\n' +
       '1. Bấm vào link đăng nhập trực tiếp: https://ankichallenge.pages.dev/api/auth/discord (hoặc truy cập https://ankichallenge.pages.dev và chọn **Đăng nhập Discord**).\n' +
       '2. Xác nhận uỷ quyền tài khoản Discord của bạn.\n' +
-      '3. Sau khi đăng nhập thành công, quay lại đây và gõ `/rank` nhé!',
+      '3. Sau khi đăng nhập thành công, quay lại đây và gõ `/trangthai` nhé!',
       true
     );
   }

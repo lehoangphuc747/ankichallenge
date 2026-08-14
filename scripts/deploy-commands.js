@@ -26,12 +26,8 @@ const COMMANDS = [
     ],
   },
   {
-    name: 'rank',
-    description: 'Xem thứ hạng, chuỗi streak và tỉ lệ chuyên cần của bạn',
-  },
-  {
-    name: 'streak',
-    description: 'Xem chuỗi ngày học liên tục và tiến độ thử thách',
+    name: 'trangthai',
+    description: 'Xem trạng thái, thứ hạng, chuỗi streak và tiến độ thử thách của bạn',
   },
 ];
 
