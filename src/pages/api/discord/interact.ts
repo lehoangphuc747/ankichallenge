@@ -92,7 +92,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             console.error('[discord/interact] Background checkin error:', error);
             await patchOriginalMessage(
               interaction,
-              'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.',
+              'Đã xảy ra lỗi khi xử lý lệnh: ' + (error?.message || error?.name || String(error)),
               true
             );
           }
