@@ -20,7 +20,7 @@ const COMMANDS = [
       {
         type: 3, // STRING
         name: 'date',
-        description: 'Ngày check-in: bỏ trống = hôm nay, hoặc dd/mm, hôm_qua, YYYY-MM-DD',
+        description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD',
         required: false,
       },
     ],

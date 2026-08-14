@@ -130,17 +130,25 @@ function parseCheckinDate(input?: string): string | null {
 
   const s = input.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
-  if (s === 'hom_nay' || s === 'hom nay' || s === 'today') return nowVNStr;
-  if (s === 'hom_qua' || s === 'hom qua' || s === 'yesterday') {
+  if (s === 'hn' || s === 'hom_nay' || s === 'hom nay' || s === 'today') return nowVNStr;
+  if (s === 'hq' || s === 'hom_qua' || s === 'hom qua' || s === 'yesterday') {
     const y = new Date(today.getTime() - 86400000);
+    return y.toISOString().slice(0, 10);
+  }
+  if (s === 'hk' || s === 'ht' || s === 'hom_kia' || s === 'hom kia') {
+    const y = new Date(today.getTime() - 2 * 86400000);
+    return y.toISOString().slice(0, 10);
+  }
+  if (s === 'nm' || s === 'ngay_mai' || s === 'ngay mai' || s === 'tomorrow') {
+    const y = new Date(today.getTime() + 86400000);
     return y.toISOString().slice(0, 10);
   }
 
   // Định dạng đầy đủ YYYY-MM-DD
   if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
 
-  // dạng dd/mm, dd/m, d/mm, d/m
-  const m = s.match(/^(\d{1,2})\/(\d{1,2})$/);
+  // dạng dd/mm, dd.mm, dd-mm, d/m...
+  const m = s.match(/^(\d{1,2})[\/\.\-](\d{1,2})$/);
   if (m) {
     const day = Number(m[1]);
     const month = Number(m[2]);
