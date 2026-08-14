@@ -15,14 +15,14 @@
     "backup-kv": "node scripts/backup-kv.js"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.6.12",
+    "@astrojs/cloudflare": "12.6.12",
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.6.0",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
-    "astro": "^5.16.5",
+    "astro": "5.16.6",
     "discord-interactions": "^4.4.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.2",
