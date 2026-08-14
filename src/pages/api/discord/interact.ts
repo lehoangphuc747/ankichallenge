@@ -31,11 +31,27 @@ const KV_RECORDS: Record<number, string> = {
   3: 'records_10',
 };
 
-function jsonResponse(data: any): Response {
+function jsonResponse(type: number, data: any): Response {
   return new Response(JSON.stringify({
-    type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+    type,
     data,
   }), { headers: { 'Content-Type': 'application/json' } });
+}
+
+const WEBHOOK_HEADERS = {
+  'Content-Type': 'application/json',
+  'User-Agent': 'DiscordBot (https://ankichallenge.pages.dev, 1.0)',
+};
+
+async function patchOriginalMessage(interaction: any, content: string, ephemeral = false): Promise<void> {
+  const url = `https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}/messages/@original`;
+  const body: any = { content };
+  if (ephemeral) body.flags = InteractionResponseFlags.EPHEMERAL;
+  await fetch(url, {
+    method: 'PATCH',
+    headers: WEBHOOK_HEADERS,
+    body: JSON.stringify(body),
+  });
 }
 
 export const POST: APIRoute = async ({ request, locals }) => {
@@ -65,13 +81,35 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
-      if (commandName === 'checkin') return handleCheckin(interaction, env, requestUrl);
+      if (commandName === 'checkin') {
+        // Trả DEFERRED ngay để không vượt 3s timeout của Discord,
+        // xử lý logic ở background rồi PATCH kết quả qua webhook.
+        const ctx = (locals as any).runtime?.ctx;
+        const run = async () => {
+          try {
+            await handleCheckin(interaction, env, requestUrl);
+          } catch (error: any) {
+            console.error('[discord/interact] Background checkin error:', error);
+            await patchOriginalMessage(
+              interaction,
+              'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.',
+              true
+            );
+          }
+        };
+        if (ctx?.waitUntil) {
+          ctx.waitUntil(run());
+        } else {
+          run();
+        }
+        return jsonResponse(InteractionResponseType.DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE, {});
+      }
     }
 
     return new Response('Unknown interaction', { status: 400 });
   } catch (error: any) {
     console.error('[discord/interact] Error:', error);
-    return jsonResponse({
+    return jsonResponse(InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE, {
       content: 'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.',
       flags: InteractionResponseFlags.EPHEMERAL,
     });
@@ -115,15 +153,16 @@ function parseCheckinDate(input?: string): string | null {
   return null;
 }
 
-async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<Response> {
+async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
   const date = parseCheckinDate(dateOption?.value);
 
   if (!date) {
-    return jsonResponse({
-      content: 'Ngày không hợp lệ. Gõ `/checkin` để check-in hôm nay, hoặc nhập dạng `dd/mm` (VD: `/checkin 29/07`), `hôm_qua`, hoặc `YYYY-MM-DD`.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(
+      interaction,
+      'Ngày không hợp lệ. Gõ `/checkin` để check-in hôm nay, hoặc nhập dạng `dd/mm` (VD: `/checkin 29/07`), `hôm_qua`, hoặc `YYYY-MM-DD`.',
+      true
+    );
   }
 
   const now = new Date();
@@ -131,18 +170,16 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const todayStr = todayVN.toISOString().slice(0, 10);
 
   if (date > todayStr) {
-    return jsonResponse({
-      content: 'Ngày **' + date + '** là trong tương lai. Chỉ check-in được cho ngày hôm nay hoặc quá khứ.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(
+      interaction,
+      'Ngày **' + date + '** là trong tương lai. Chỉ check-in được cho ngày hôm nay hoặc quá khứ.',
+      true
+    );
   }
 
   const discordId = interaction.member?.user?.id || interaction.user?.id;
   if (!discordId) {
-    return jsonResponse({
-      content: 'Không thể xác định Discord ID.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(interaction, 'Không thể xác định Discord ID.', true);
   }
 
   const usersData = await getFromKV<any>(env, 'users', requestUrl);
@@ -150,10 +187,11 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const member = userList.find((u: any) => String(u.discordId) === String(discordId));
 
   if (!member) {
-    return jsonResponse({
-      content: 'Tài khoản Discord của bạn chưa được ghép nối với hệ thống Anki Challenge. Vui lòng đăng nhập tại https://ankichallenge.pages.dev bằng Discord để liên kết.',
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(
+      interaction,
+      'Tài khoản Discord của bạn chưa được ghép nối với hệ thống Anki Challenge. Vui lòng đăng nhập tại https://ankichallenge.pages.dev bằng Discord để liên kết.',
+      true
+    );
   }
 
   const memberId = member.id;
@@ -161,29 +199,20 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const memberName = member.name || member.discordNickname || `#${memberId}`;
 
   if (challengeIds.length === 0) {
-    return jsonResponse({
-      content: `Bạn (${memberName}) chưa tham gia challenge nào.`,
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(interaction, `Bạn (${memberName}) chưa tham gia challenge nào.`, true);
   }
 
   const latestCid = Math.max(...challengeIds);
   const kvKey = KV_RECORDS[latestCid];
   if (!kvKey) {
-    return jsonResponse({
-      content: `Không tìm thấy KV key cho challenge #${latestCid}.`,
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(interaction, `Không tìm thấy KV key cho challenge #${latestCid}.`, true);
   }
 
   const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
   if (!records[date]) records[date] = {};
 
   if (records[date][String(memberId)]) {
-    return jsonResponse({
-      content: `Bạn đã check-in ngày **${date}** rồi.`,
-      flags: InteractionResponseFlags.EPHEMERAL,
-    });
+    return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
   }
 
   records[date][String(memberId)] = true;
@@ -203,7 +232,5 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     console.warn('[discord/interact] Audit log write failed:', e);
   }
 
-  return jsonResponse({
-    content: `✅ <@${discordId}> check-in **${date}** thành công!`,
-  });
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in **${date}** thành công!`);
 }
