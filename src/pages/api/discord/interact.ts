@@ -92,7 +92,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
             console.error('[discord/interact] Background checkin error:', error);
             await patchOriginalMessage(
               interaction,
-              'Đã xảy ra lỗi khi xử lý lệnh: ' + (error?.message || error?.name || String(error)),
+              'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.',
               true
             );
           }
@@ -217,20 +217,6 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
 
   records[date][String(memberId)] = true;
   await putToKV(env, kvKey, records);
-
-  try {
-    const auditLog = await getFromKV<any[]>(env, 'checkin_audit') || [];
-    auditLog.push({
-      discordId,
-      userId: memberId,
-      date,
-      timestamp: new Date().toISOString(),
-      channelId: interaction.channel_id,
-    });
-    await putToKV(env, 'checkin_audit', auditLog);
-  } catch (e) {
-    console.warn('[discord/interact] Audit log write failed:', e);
-  }
 
   return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in **${date}** thành công!`);
 }
