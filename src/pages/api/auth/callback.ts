@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../../utils/kv';
 import { signSession } from '../../../utils/session';
+import { getUsersFromDB, upsertUserInDB, recordLoginHistoryInDB } from '../../../utils/db';
 
 /**
  * Thuật toán đối chiếu tài khoản Discord với danh sách thành viên Anki Challenge.
@@ -134,8 +135,16 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
     let memberName: string | null = null;
 
     try {
-      const usersData = await getFromKV(env, 'users', url.origin);
-      const userList = Array.isArray(usersData?.data) ? usersData.data : (Array.isArray(usersData) ? usersData : []);
+      let userList: any[] = [];
+      let usersData: any = null;
+
+      if (env.DB) {
+        const dbUsers = await getUsersFromDB(env.DB);
+        userList = dbUsers.data;
+      } else {
+        usersData = await getFromKV(env, 'users', url.origin);
+        userList = Array.isArray(usersData?.data) ? usersData.data : (Array.isArray(usersData) ? usersData : []);
+      }
 
       const matchedMember = userList.find((u: any) => matchMemberByDiscord(u, discordUser));
 
@@ -143,10 +152,9 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
         memberId = matchedMember.id;
         memberName = matchedMember.name;
 
-        // Tự động kiểm tra và sync thông tin mới từ Discord vào KV
         let isModified = false;
 
-        // Đồng bộ Tên hiển thị (name) theo Tên trên Discord (Global Name hoặc Username)
+        // Đồng bộ Tên hiển thị (name)
         const discordDisplayName = discordUser.global_name || discordUser.username;
         if (discordDisplayName && matchedMember.name !== discordDisplayName) {
           matchedMember.name = discordDisplayName;
@@ -160,21 +168,25 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
           isModified = true;
         }
 
-        // Gắn Discord ID cố định để các lần đăng nhập sau khớp 100% siêu nhanh
+        // Gắn Discord ID
         if (!matchedMember.discordId || String(matchedMember.discordId) !== String(discordUser.id)) {
           matchedMember.discordId = String(discordUser.id);
           isModified = true;
         }
 
-        // Đồng bộ email từ Discord nếu thành viên chưa có hoặc email thay đổi
+        // Đồng bộ email
         if (discordUser.email && matchedMember.email !== discordUser.email) {
           matchedMember.email = discordUser.email;
           isModified = true;
         }
 
-        // Lưu lại dữ liệu mới vào KV Store
-        if (isModified && env.DATA) {
-          await putToKV(env, 'users', usersData);
+        // Lưu lại dữ liệu mới
+        if (isModified) {
+          if (env.DB) {
+            await upsertUserInDB(env.DB, matchedMember);
+          } else if (env.DATA && usersData) {
+            await putToKV(env, 'users', usersData);
+          }
           console.log(`[Auto Sync] Đã đồng bộ thông tin Discord mới cho thành viên ID #${memberId}`);
         }
       }
@@ -196,9 +208,15 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       loggedAt: new Date().toISOString(),
     };
 
-    // Ghi nhật ký đăng nhập vào KV login_history
+    // Ghi nhật ký đăng nhập
     try {
-      if (env.DATA) {
+      if (env.DB) {
+        await recordLoginHistoryInDB(env.DB, {
+          userId: memberId || undefined,
+          discordId: String(discordUser.id),
+          email: discordUser.email || undefined,
+        });
+      } else if (env.DATA) {
         const historyList = (await getFromKV<any[]>(env, 'login_history', url.origin)) || [];
         const newLog = {
           id: `log_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
@@ -211,7 +229,6 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
           memberName: memberName,
           loggedAt: userData.loggedAt,
         };
-        // Giữ lại 100 lượt đăng nhập gần nhất
         const updatedHistory = [newLog, ...historyList.filter(l => l.id !== newLog.id)].slice(0, 100);
         await putToKV(env, 'login_history', updatedHistory);
       }

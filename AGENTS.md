@@ -3,31 +3,34 @@
 ## Tech Stack
 - **Framework**: Astro 5 (output: `server`, SSR via `@astrojs/cloudflare`)
 - **UI**: Tailwind CSS v4 + React 18 (`calendar` component)
-- **Deploy**: Cloudflare Pages + KV (namespace `DATA`)
+- **Database**: Cloudflare D1 (`DB` binding: `anki-challenge-db`, SQLite Serverless) + KV (`DATA` fallback)
+- **Deploy**: Cloudflare Pages
 - **Runtime**: Node.js (dev), Cloudflare Workers (prod)
 
 ## Project Structure
 ```
-public/data/          — JSON fallback data (synced from KV via backup-kv.js)
+public/data/          — JSON fallback data (synced from D1/KV via backup-kv.js)
 src/pages/            — Astro pages + API endpoints
   index.astro         — Leaderboard (client-side rendered)
   profile/[id].astro  — User profile + certificates
   certificate/[userId]/[challengeId].astro — Certificate viewer + export
-  api/data/[key].ts   — KV-backed JSON API (whitelist keys only)
+  api/data/[key].ts   — D1-backed JSON API (whitelist keys only)
   api/auth/           — Discord OAuth
   admin/              — Admin CRUD pages
   anki-challenge-10.astro — Registration form
 src/components/       — Astro + React components
-src/utils/            — calculateStats.js, kv.ts, session.ts
+src/utils/            — calculateStats.js, db.ts, kv.ts, session.ts
 src/layouts/          — Layout.astro
-scripts/              — Node.js scripts (backup-kv, export-certs, fetch-data)
+scripts/              — Node.js scripts (backup-d1, backup-kv, export-certs, migrate-json-to-d1)
+migrations/           — D1 SQL migrations (0001_init.sql)
 ```
 
 ## Data Flow
-1. **KV** (Cloudflare) stores: `users`, `challenges`, `records_08/09/10`, `metadata`
-2. **`/api/data/{key}`** reads from KV, falls back to `public/data/*.json` locally
-3. **`scripts/backup-kv.js`** syncs KV → local files via live site API
-4. All pages fetch data client-side via `/api/data/` endpoints
+1. **D1 Database** (Cloudflare SQLite): stores tables `users`, `challenges`, `checkins`, `login_history`.
+2. **`/api/data/{key}`** reads directly from D1 (fallback to KV / `public/data/*.json` locally), returns format identical to original JSON.
+3. **`scripts/backup-d1.js`** / `npm run backup-d1`: exports full SQL dump from D1.
+4. **`scripts/backup-kv.js`** / `npm run backup-kv`: syncs D1/KV → local `public/data/*.json` files.
+5. All pages fetch data client-side via `/api/data/` endpoints.
 
 ## Leaderboard (index.astro)
 - Sorted by `disciplinePercentage` descending

@@ -4,6 +4,7 @@
 
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../utils/kv';
+import { getChallengesFromDB } from '../../utils/db';
 
 export const prerender = false;
 
@@ -16,7 +17,13 @@ const defaultChallenges = {
 export const GET: APIRoute = async ({ request, locals }) => {
   try {
     const env = (locals as any).runtime?.env ?? {};
-    const data = await getFromKV(env, 'challenges', request.url);
+    let data: any = null;
+
+    if (env.DB) {
+      data = await getChallengesFromDB(env.DB);
+    } else {
+      data = await getFromKV(env, 'challenges', request.url);
+    }
 
     if (data) {
       return new Response(JSON.stringify(data), {

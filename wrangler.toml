@@ -6,9 +6,15 @@ compatibility_flags = ["nodejs_compat"]
 # Astro mặc định build ra thư mục `dist`.
 pages_build_output_dir = "dist"
 
-# KV namespace cho data (users, challenges, records, metadata)
+# KV namespace cho data (users, challenges, records, metadata) - giữ tạm để fallback/tương thích
 [[kv_namespaces]]
 binding = "DATA"
 id = "c1daf39f23bf4427974ed5a7c76c2e9a"
+
+# D1 Database cho Anki Challenge
+[[d1_databases]]
+binding = "DB"
+database_name = "anki-challenge-db"
+database_id = "ec95fbd2-0a3e-459f-88ab-befa31f2fa94"
 
 

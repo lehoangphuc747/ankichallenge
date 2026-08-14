@@ -1,5 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../../utils/kv';
+import { getUserById, upsertUserInDB } from '../../../utils/db';
 
 export const prerender = false;
 
@@ -29,16 +30,19 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
       );
     }
 
-    // 1. Lấy dữ liệu users từ KV
-    const usersData = await getFromKV(env, 'users', request.url);
-    if (!usersData || !Array.isArray(usersData.data)) {
-      return new Response(
-        JSON.stringify({ success: false, error: 'Không thể đọc dữ liệu thành viên từ KV' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+    // 1. Lấy dữ liệu users
+    let usersData: any = null;
+    let targetMember: any = null;
+
+    if (env.DB) {
+      targetMember = await getUserById(env.DB, parseInt(memberId));
+    } else {
+      usersData = await getFromKV(env, 'users', request.url);
+      if (usersData && Array.isArray(usersData.data)) {
+        targetMember = usersData.data.find((m: any) => m.id === parseInt(memberId));
+      }
     }
 
-    const targetMember = usersData.data.find((m: any) => m.id === parseInt(memberId));
     if (!targetMember) {
       return new Response(
         JSON.stringify({ success: false, error: `Không tìm thấy thành viên ID #${memberId}` }),
@@ -55,8 +59,10 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
       targetMember.email = email;
     }
 
-    // 3. Lưu lại danh sách users vào KV
-    if (env.DATA) {
+    // 3. Lưu lại danh sách users vào DB / KV
+    if (env.DB) {
+      await upsertUserInDB(env.DB, targetMember);
+    } else if (env.DATA && usersData) {
       await putToKV(env, 'users', usersData);
     }
 

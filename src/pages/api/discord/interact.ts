@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import nacl from 'tweetnacl';
 import { InteractionType, InteractionResponseType, InteractionResponseFlags } from 'discord-interactions';
 import { getFromKV, putToKV } from '../../../utils/kv';
+import { getUserByDiscordId, recordCheckinInDB } from '../../../utils/db';
 
 function hexToUint8Array(hex: string): Uint8Array {
   const matches = hex.match(/.{1,2}/g);
@@ -182,14 +183,24 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     return patchOriginalMessage(interaction, 'Không thể xác định Discord ID.', true);
   }
 
-  const usersData = await getFromKV<any>(env, 'users', requestUrl);
-  const userList = Array.isArray(usersData?.data) ? usersData.data : [];
-  const member = userList.find((u: any) => String(u.discordId) === String(discordId));
+  let member: any = null;
+
+  if (env.DB) {
+    member = await getUserByDiscordId(env.DB, discordId);
+  } else {
+    const usersData = await getFromKV<any>(env, 'users', requestUrl);
+    const userList = Array.isArray(usersData?.data) ? usersData.data : [];
+    member = userList.find((u: any) => String(u.discordId) === String(discordId));
+  }
 
   if (!member) {
     return patchOriginalMessage(
       interaction,
-      'Tài khoản Discord của bạn chưa được ghép nối với hệ thống Anki Challenge. Vui lòng đăng nhập tại https://ankichallenge.pages.dev bằng Discord để liên kết.',
+      '⚠️ **Tài khoản Discord của bạn chưa được liên kết với hệ thống Anki Challenge!**\n\n' +
+      '👉 **Hướng dẫn:**\n' +
+      '1. Bấm vào link đăng nhập trực tiếp: https://ankichallenge.pages.dev/api/auth/discord (hoặc truy cập https://ankichallenge.pages.dev và chọn **Đăng nhập Discord**).\n' +
+      '2. Xác nhận uỷ quyền tài khoản Discord của bạn.\n' +
+      '3. Sau khi đăng nhập thành công, quay lại đây và gõ `/checkin` nhé!',
       true
     );
   }
@@ -199,24 +210,44 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const memberName = member.name || member.discordNickname || `#${memberId}`;
 
   if (challengeIds.length === 0) {
-    return patchOriginalMessage(interaction, `Bạn (${memberName}) chưa tham gia challenge nào.`, true);
+    return patchOriginalMessage(
+      interaction,
+      `⚠️ **Bạn (${memberName}) chưa tham gia thử thách nào!**\n\nVui lòng truy cập https://ankichallenge.pages.dev để đăng ký tham gia thử thách trước khi check-in.`,
+      true
+    );
   }
 
   const latestCid = Math.max(...challengeIds);
-  const kvKey = KV_RECORDS[latestCid];
-  if (!kvKey) {
-    return patchOriginalMessage(interaction, `Không tìm thấy KV key cho challenge #${latestCid}.`, true);
+
+  if (env.DB) {
+    const isNew = await recordCheckinInDB(env.DB, {
+      challengeId: latestCid,
+      userId: memberId,
+      date,
+      discordId: String(discordId),
+      channelId: interaction.channel_id,
+    });
+
+    if (!isNew) {
+      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
+    }
+  } else {
+    // Fallback KV
+    const kvKey = KV_RECORDS[latestCid];
+    if (!kvKey) {
+      return patchOriginalMessage(interaction, `Không tìm thấy KV key cho challenge #${latestCid}.`, true);
+    }
+
+    const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
+    if (!records[date]) records[date] = {};
+
+    if (records[date][String(memberId)]) {
+      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
+    }
+
+    records[date][String(memberId)] = true;
+    await putToKV(env, kvKey, records);
   }
-
-  const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
-  if (!records[date]) records[date] = {};
-
-  if (records[date][String(memberId)]) {
-    return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
-  }
-
-  records[date][String(memberId)] = true;
-  await putToKV(env, kvKey, records);
 
   return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in **${date}** thành công!`);
 }

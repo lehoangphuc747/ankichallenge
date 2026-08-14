@@ -3,6 +3,7 @@
 
 import type { APIRoute } from 'astro';
 import { getFromKV } from '../../../utils/kv';
+import { getUsersFromDB, getChallengesFromDB, getRecordsFromDB } from '../../../utils/db';
 
 export const prerender = false;
 
@@ -29,7 +30,27 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
 
   try {
     const env = (locals as any).runtime?.env ?? {};
-    const data = await getFromKV(env, key, request.url);
+    let data: any = null;
+
+    // Ưu tiên đọc từ Cloudflare D1 Database nếu có binding DB
+    if (env.DB) {
+      if (key === 'users') {
+        data = await getUsersFromDB(env.DB);
+      } else if (key === 'challenges') {
+        data = await getChallengesFromDB(env.DB);
+      } else if (key === 'records_08') {
+        data = await getRecordsFromDB(env.DB, 1);
+      } else if (key === 'records_09') {
+        data = await getRecordsFromDB(env.DB, 2);
+      } else if (key === 'records_10') {
+        data = await getRecordsFromDB(env.DB, 3);
+      }
+    }
+
+    // Fallback sang KV hoặc file tĩnh
+    if (data === null) {
+      data = await getFromKV(env, key, request.url);
+    }
 
     if (data === null) {
       return new Response(
@@ -40,7 +61,10 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
 
     return new Response(JSON.stringify(data), {
       status: 200,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Cache-Control': 'public, max-age=60, s-maxage=60'
+      },
     });
   } catch (error: any) {
     console.error(`[api/data/${key}] Error:`, error);

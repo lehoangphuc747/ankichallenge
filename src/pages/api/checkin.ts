@@ -3,6 +3,7 @@
 
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../utils/kv';
+import { recordCheckinInDB, removeCheckinFromDB } from '../../utils/db';
 
 export const prerender = false;
 
@@ -69,40 +70,48 @@ export const POST: APIRoute = async ({ request, locals }) => {
       );
     }
 
-    // Map challengeId to KV key
-    const cid = parseInt(String(challengeId));
-    let kvKey = 'records_08';
-    if (cid === 1) kvKey = 'records_08';
-    if (cid === 2) kvKey = 'records_09';
-    if (cid === 3) kvKey = 'records_10';
-
     const env = (locals as any).runtime?.env ?? {};
+    const cid = parseInt(String(challengeId));
+    const uid = parseInt(String(userId));
 
-    // Đọc records hiện tại từ KV
-    type StudyRecords = Record<string, Record<string, boolean>>;
-    let records: StudyRecords = await getFromKV(env, kvKey, request.url) || {};
-
-    const userKey = String(userId);
-
-    // Tạo key ngày nếu chưa có
-    if (!records[date]) {
-      records[date] = {};
-    }
-
-    if (isChecked) {
-      records[date][userKey] = true;
-    } else {
-      delete records[date][userKey];
-      // Nếu ngày đó không còn ai check-in thì xoá luôn key ngày
-      if (Object.keys(records[date]).length === 0) {
-        delete records[date];
+    if (env.DB) {
+      if (isChecked) {
+        await recordCheckinInDB(env.DB, {
+          challengeId: cid,
+          userId: uid,
+          date,
+        });
+      } else {
+        await removeCheckinFromDB(env.DB, cid, uid, date);
       }
+      console.log(`[checkin API -> D1] Saved: date=${date}, userId=${userId}, isChecked=${isChecked}, challengeId=${cid}`);
+    } else {
+      // Fallback KV
+      let kvKey = 'records_08';
+      if (cid === 1) kvKey = 'records_08';
+      if (cid === 2) kvKey = 'records_09';
+      if (cid === 3) kvKey = 'records_10';
+
+      type StudyRecords = Record<string, Record<string, boolean>>;
+      let records: StudyRecords = await getFromKV(env, kvKey, request.url) || {};
+      const userKey = String(userId);
+
+      if (!records[date]) {
+        records[date] = {};
+      }
+
+      if (isChecked) {
+        records[date][userKey] = true;
+      } else {
+        delete records[date][userKey];
+        if (Object.keys(records[date]).length === 0) {
+          delete records[date];
+        }
+      }
+
+      await putToKV(env, kvKey, records);
+      console.log(`[checkin API -> KV] Saved: date=${date}, userId=${userId}, isChecked=${isChecked}, kvKey=${kvKey}`);
     }
-
-    // Ghi lại vào KV
-    await putToKV(env, kvKey, records);
-
-    console.log(`[checkin API] Saved: date=${date}, userId=${userId}, isChecked=${isChecked}, kvKey=${kvKey}`);
 
     return new Response(
       JSON.stringify({ success: true }),

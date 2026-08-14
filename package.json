@@ -11,8 +11,9 @@
     "fetch-data": "node scripts/fetch-data.js",
     "process-backup": "node scripts/process-backup.js",
     "export-certs-ch9": "node scripts/export-certs-ch9.js",
-    "export-certs-ch10": "node scripts/export-certs-ch10.js",
-    "backup-kv": "node scripts/backup-kv.js"
+    "backup-kv": "node scripts/backup-kv.js",
+    "backup-d1": "node scripts/backup-d1.js",
+    "migrate-d1": "node scripts/migrate-json-to-d1.js"
   },
   "dependencies": {
     "@astrojs/cloudflare": "12.6.12",

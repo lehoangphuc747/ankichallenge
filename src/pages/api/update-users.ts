@@ -4,6 +4,7 @@
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../utils/kv';
 import { verifySession } from '../../utils/session';
+import { getUsersFromDB, upsertUserInDB } from '../../utils/db';
 
 export const prerender = false;
 
@@ -93,10 +94,16 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
     delete safeUpdates.discordId;
     delete safeUpdates.email;
 
-    // Đọc users hiện tại từ KV
-    let usersData: { data: any[] } = await getFromKV(env, 'users', request.url) || { data: [] };
+    // Đọc users hiện tại
+    let usersData: { data: any[] } = { data: [] };
+    let targetUser: any = null;
 
-    // Tìm user theo ID
+    if (env.DB) {
+      usersData = await getUsersFromDB(env.DB);
+    } else {
+      usersData = await getFromKV(env, 'users', request.url) || { data: [] };
+    }
+
     const userIndex = usersData.data.findIndex((u: any) => u.id === targetIdNum);
 
     if (userIndex === -1) {
@@ -107,20 +114,23 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
     }
 
     // Cập nhật user
-    usersData.data[userIndex] = {
+    const updatedUser = {
       ...usersData.data[userIndex],
       ...safeUpdates,
     };
+    usersData.data[userIndex] = updatedUser;
 
-    // Ghi lại vào KV
-    if (env.DATA) {
+    // Ghi lại vào DB / KV
+    if (env.DB) {
+      await upsertUserInDB(env.DB, updatedUser);
+    } else if (env.DATA) {
       await putToKV(env, 'users', usersData);
     }
 
     console.log(`[update-users API] Updated user ${userId} by ${loggedUser.username}:`, safeUpdates);
 
     return new Response(
-      JSON.stringify({ success: true, user: usersData.data[userIndex] }),
+      JSON.stringify({ success: true, user: updatedUser }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
     );
   } catch (error: any) {
