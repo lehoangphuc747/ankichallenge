@@ -3,7 +3,7 @@
 
 import type { APIRoute } from 'astro';
 import { getFromKV } from '../../../utils/kv';
-import { getUsersFromDB, getChallengesFromDB, getRecordsFromDB } from '../../../utils/db';
+import { getUsersFromDB, getChallengesFromDB, getRecordsFromDB, getLoginHistoryFromDB } from '../../../utils/db';
 
 export const prerender = false;
 
@@ -44,6 +44,8 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
         data = await getRecordsFromDB(env.DB, 2);
       } else if (key === 'records_10') {
         data = await getRecordsFromDB(env.DB, 3);
+      } else if (key === 'login_history') {
+        data = await getLoginHistoryFromDB(env.DB);
       }
     }
 

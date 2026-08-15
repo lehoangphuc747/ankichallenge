@@ -272,3 +272,30 @@ export async function recordLoginHistoryInDB(
     .bind(data.userId || null, data.discordId || null, data.email || null, data.ip || null)
     .run();
 }
+
+/**
+ * Lấy danh sách lịch sử đăng nhập từ D1 (tối đa 100 lượt gần nhất)
+ */
+export async function getLoginHistoryFromDB(db: D1Database): Promise<any[]> {
+  const { results } = await db
+    .prepare(`
+      SELECT 
+        lh.id,
+        lh.user_id as memberId,
+        u.name as memberName,
+        lh.discord_id as discordId,
+        COALESCE(u.discord_nickname, lh.discord_id, 'Discord User') as username,
+        COALESCE(u.name, u.discord_nickname, lh.discord_id, 'Discord User') as displayName,
+        COALESCE(lh.email, u.email) as email,
+        COALESCE(u.avatar, 'https://cdn.discordapp.com/embed/avatars/0.png') as avatar,
+        lh.logged_in_at as loggedAt
+      FROM login_history lh
+      LEFT JOIN users u ON lh.user_id = u.id OR lh.discord_id = u.discord_id
+      ORDER BY lh.id DESC
+      LIMIT 100
+    `)
+    .all();
+
+  return results || [];
+}
+
