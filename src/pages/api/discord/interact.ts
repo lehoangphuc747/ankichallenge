@@ -128,7 +128,9 @@ function parseCheckinDate(input?: string): string | null {
 
   if (!input || !input.trim()) return nowVNStr;
 
-  const s = input.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  let s = input.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // Bỏ chữ 'ngay' ở đầu nếu có
+  s = s.replace(/^ngay\s+/, '').trim();
 
   if (s === 'hn' || s === 'hom_nay' || s === 'hom nay' || s === 'today') return nowVNStr;
   if (s === 'hq' || s === 'hom_qua' || s === 'hom qua' || s === 'yesterday') {
@@ -144,35 +146,80 @@ function parseCheckinDate(input?: string): string | null {
     return y.toISOString().slice(0, 10);
   }
 
-  // Định dạng đầy đủ YYYY-MM-DD
-  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
-
-  // dạng dd/mm, dd.mm, dd-mm, d/m...
-  const m = s.match(/^(\d{1,2})[\/\.\-](\d{1,2})$/);
-  if (m) {
-    const day = Number(m[1]);
-    const month = Number(m[2]);
-    const year = nowVN.getUTCFullYear();
-    if (day < 1 || day > 31 || month < 1 || month > 12) return null;
-    const candidate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-    if (candidate > nowVNStr) {
-      const y = new Date(`${candidate}T00:00:00.000Z`);
-      return new Date(y.getTime() - 365 * 86400000).toISOString().slice(0, 10);
+  // 1. Dạng YYYY-MM-DD, YYYY/MM/DD, YYYY.MM.DD
+  const ymd = s.match(/^(\d{4})\s*[\/\.\-]\s*(\d{1,2})\s*[\/\.\-]\s*(\d{1,2})$/);
+  if (ymd) {
+    const year = Number(ymd[1]);
+    const month = Number(ymd[2]);
+    const day = Number(ymd[3]);
+    if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     }
-    return candidate;
+  }
+
+  // 2. Dạng DD/MM/YYYY, DD-MM-YYYY, DD.MM.YYYY
+  const dmy = s.match(/^(\d{1,2})\s*[\/\.\-]\s*(\d{1,2})\s*[\/\.\-]\s*(\d{4})$/);
+  if (dmy) {
+    const day = Number(dmy[1]);
+    const month = Number(dmy[2]);
+    const year = Number(dmy[3]);
+    if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
+  }
+
+  // 3. Dạng DD/MM, DD-MM, DD.MM (có thể có khoảng trắng ví dụ 14 / 08)
+  const dm = s.match(/^(\d{1,2})\s*[\/\.\-]\s*(\d{1,2})$/);
+  if (dm) {
+    const day = Number(dm[1]);
+    const month = Number(dm[2]);
+    const year = nowVN.getUTCFullYear();
+    if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+      const candidate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      if (candidate > nowVNStr) {
+        const currMonth = nowVN.getUTCMonth() + 1;
+        if (month > currMonth) {
+          return `${year - 1}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+      }
+      return candidate;
+    }
+  }
+
+  // 4. Dạng chỉ nhập ngày trong tháng hiện tại: VD '14', '5'
+  const justDay = s.match(/^(\d{1,2})$/);
+  if (justDay) {
+    const day = Number(justDay[1]);
+    const month = nowVN.getUTCMonth() + 1;
+    const year = nowVN.getUTCFullYear();
+    if (day >= 1 && day <= 31) {
+      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
   }
 
   return null;
 }
 
+function formatDateDisplay(ymd: string): string {
+  const parts = ymd.split('-');
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`;
+  }
+  return ymd;
+}
+
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
-  const date = parseCheckinDate(dateOption?.value);
+  const rawInput = dateOption?.value;
+  const date = parseCheckinDate(rawInput);
 
   if (!date) {
     return patchOriginalMessage(
       interaction,
-      'Ngày không hợp lệ. Gõ `/checkin` để check-in hôm nay, hoặc nhập dạng `dd/mm` (VD: `/checkin 29/07`), `hôm_qua`, hoặc `YYYY-MM-DD`.',
+      `Ngày "${rawInput || ''}" không hợp lệ. Bạn có thể gõ:\n` +
+      `• \`/checkin\` (hôm nay)\n` +
+      `• \`/checkin date: hq\` (hôm qua) hoặc \`hk\` (hôm kia)\n` +
+      `• \`/checkin date: 14/8\` hoặc \`14/08\` hoặc \`14-08\``,
       true
     );
   }
@@ -180,11 +227,12 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const now = new Date();
   const todayVN = new Date(now.getTime() + 7 * 60 * 60 * 1000);
   const todayStr = todayVN.toISOString().slice(0, 10);
+  const displayDate = formatDateDisplay(date);
 
   if (date > todayStr) {
     return patchOriginalMessage(
       interaction,
-      'Ngày **' + date + '** là trong tương lai. Chỉ check-in được cho ngày hôm nay hoặc quá khứ.',
+      `Ngày **${displayDate}** là trong tương lai. Chỉ check-in được cho ngày hôm nay hoặc các ngày trước.`,
       true
     );
   }
@@ -240,7 +288,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     });
 
     if (!isNew) {
-      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
+      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
     }
   } else {
     // Fallback KV
@@ -253,14 +301,14 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     if (!records[date]) records[date] = {};
 
     if (records[date][String(memberId)]) {
-      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${date}** rồi.`, true);
+      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
     }
 
     records[date][String(memberId)] = true;
     await putToKV(env, kvKey, records);
   }
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in **${date}** thành công!`);
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!`);
 }
 
 async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {
