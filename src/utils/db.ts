@@ -28,6 +28,27 @@ export interface UserRow {
   hidden?: boolean;
   previousRank?: number;
   streak?: number;
+  addonToken?: string;
+  addonVerified?: boolean;
+}
+
+export interface AddonDailyStat {
+  userId: number;
+  challengeId: number;
+  date: string;
+  cardsReviewed: number;
+  timeSpentSeconds: number;
+  retentionRate?: number;
+}
+
+export interface StudySession {
+  userId: number;
+  discordId?: string;
+  displayName: string;
+  avatar?: string;
+  cardsToday: number;
+  timeTodaySeconds: number;
+  lastPing?: string;
 }
 
 export interface ChallengeRow {
@@ -75,6 +96,8 @@ function formatUserRow(row: any): UserRow {
     hidden: Boolean(row.hidden),
     previousRank: row.previous_rank ? Number(row.previous_rank) : undefined,
     streak: row.streak ? Number(row.streak) : 0,
+    addonToken: row.addon_token || undefined,
+    addonVerified: Boolean(row.addon_verified),
   };
 }
 
@@ -365,4 +388,107 @@ export async function registerUserInDB(
   return newUser;
 }
 
+/**
+ * Tìm user theo Addon API Token
+ */
+export async function getUserByAddonToken(db: D1Database, token: string): Promise<UserRow | null> {
+  if (!token) return null;
+  const user = await db
+    .prepare('SELECT * FROM users WHERE addon_token = ? LIMIT 1')
+    .bind(token)
+    .first();
+  if (!user) return null;
+  return formatUserRow(user);
+}
 
+/**
+ * Cập nhật hoặc tạo mới Addon Token cho User
+ */
+export async function updateUserAddonToken(db: D1Database, userId: number, token: string): Promise<void> {
+  await db
+    .prepare('UPDATE users SET addon_token = ?, addon_verified = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    .bind(token, userId)
+    .run();
+}
+
+/**
+ * Lưu / cập nhật thống kê học tập theo ngày từ Anki Desktop Addon (bảng addon_stats)
+ */
+export async function upsertAddonDailyStats(db: D1Database, stat: AddonDailyStat): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO addon_stats (user_id, challenge_id, date, cards_reviewed, time_spent_seconds, retention_rate, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+       ON CONFLICT(user_id, challenge_id, date) DO UPDATE SET
+         cards_reviewed = excluded.cards_reviewed,
+         time_spent_seconds = excluded.time_spent_seconds,
+         retention_rate = COALESCE(excluded.retention_rate, addon_stats.retention_rate),
+         updated_at = CURRENT_TIMESTAMP`
+    )
+    .bind(
+      stat.userId,
+      stat.challengeId,
+      stat.date,
+      stat.cardsReviewed,
+      stat.timeSpentSeconds,
+      stat.retentionRate || 0
+    )
+    .run();
+}
+
+/**
+ * Cập nhật heartbeat phiên học trực tuyến (bảng study_sessions)
+ */
+export async function upsertStudySession(db: D1Database, session: StudySession): Promise<void> {
+  await db
+    .prepare(
+      `INSERT INTO study_sessions (user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, last_ping)
+       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+       ON CONFLICT(user_id) DO UPDATE SET
+         discord_id = COALESCE(excluded.discord_id, study_sessions.discord_id),
+         display_name = excluded.display_name,
+         avatar = COALESCE(excluded.avatar, study_sessions.avatar),
+         cards_today = excluded.cards_today,
+         time_today_seconds = excluded.time_today_seconds,
+         last_ping = CURRENT_TIMESTAMP`
+    )
+    .bind(
+      session.userId,
+      session.discordId || null,
+      session.displayName,
+      session.avatar || null,
+      session.cardsToday,
+      session.timeTodaySeconds
+    )
+    .run();
+}
+
+/**
+ * Lấy danh sách thành viên đang học bài trực tuyến (active trong vòng X phút gần nhất)
+ */
+export async function getLiveStudySessions(db: D1Database, activeWithinMinutes: number = 15): Promise<StudySession[]> {
+  try {
+    const { results } = await db
+      .prepare(
+        `SELECT user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, last_ping
+         FROM study_sessions
+         WHERE datetime(last_ping) >= datetime('now', '-' || ? || ' minutes')
+         ORDER BY cards_today DESC`
+      )
+      .bind(activeWithinMinutes)
+      .all();
+
+    return (results || []).map((r: any) => ({
+      userId: Number(r.user_id),
+      discordId: r.discord_id || undefined,
+      displayName: r.display_name,
+      avatar: r.avatar || undefined,
+      cardsToday: Number(r.cards_today || 0),
+      timeTodaySeconds: Number(r.time_today_seconds || 0),
+      lastPing: r.last_ping,
+    }));
+  } catch (err) {
+    console.warn('[D1 getLiveStudySessions warning]', err);
+    return [];
+  }
+}

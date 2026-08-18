@@ -6,9 +6,9 @@ export const GET: APIRoute = async ({ redirect, cookies, url }) => {
   // Tự động xác định redirect_uri dựa trên origin hiện tại (localhost hoặc production)
   const redirectUri = `${url.origin}/api/auth/callback`;
 
-  // Lưu URL cần quay lại nếu có (ví dụ: ?returnTo=/register)
+  // Lưu URL cần quay lại nếu có (ví dụ: ?returnTo=/register hoặc ?returnTo=http://127.0.0.1:18888/callback)
   const returnTo = url.searchParams.get('returnTo');
-  if (returnTo && returnTo.startsWith('/')) {
+  if (returnTo && (returnTo.startsWith('/') || returnTo.startsWith('http://127.0.0.1:18888') || returnTo.startsWith('http://localhost:18888'))) {
     cookies.set('oauth_return_to', returnTo, {
       path: '/',
       httpOnly: true,

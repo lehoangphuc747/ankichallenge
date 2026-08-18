@@ -268,9 +268,42 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       maxAge: 60 * 60 * 24 * 7, // 7 ngày
     });
 
+    // Tạo / lấy Addon Token an toàn
+    let addonToken = '';
+    if (env.DB && memberId) {
+      try {
+        const currentUser = userList.find((u: any) => u.id === memberId);
+        if (currentUser?.addonToken) {
+          addonToken = currentUser.addonToken;
+        } else {
+          // Tạo token ngẫu nhiên dạng sec_...
+          const randBytes = new Uint8Array(24);
+          crypto.getRandomValues(randBytes);
+          addonToken = 'ankivn_' + Array.from(randBytes, (b) => b.toString(16).padStart(2, '0')).join('');
+          await env.DB.prepare('UPDATE users SET addon_token = ?, addon_verified = 1 WHERE id = ?')
+            .bind(addonToken, memberId)
+            .run();
+        }
+      } catch (tokenErr) {
+        console.warn('[Addon Token Generation Warning]', tokenErr);
+      }
+    }
+
     // 7. Đăng nhập thành công -> Chuyển hướng về returnTo hoặc trang chủ
     const returnTo = cookies.get('oauth_return_to')?.value;
     cookies.delete('oauth_return_to', { path: '/' });
+
+    // Xử lý chuyển hướng đến Anki Addon Loopback Server
+    if (returnTo && (returnTo.startsWith('http://127.0.0.1:18888') || returnTo.startsWith('http://localhost:18888'))) {
+      const addonCallbackUrl = new URL(returnTo);
+      addonCallbackUrl.searchParams.set('token', addonToken);
+      addonCallbackUrl.searchParams.set('userId', String(memberId || ''));
+      addonCallbackUrl.searchParams.set('displayName', userData.displayName || '');
+      addonCallbackUrl.searchParams.set('username', userData.username || '');
+      addonCallbackUrl.searchParams.set('avatar', userData.avatar || '');
+      addonCallbackUrl.searchParams.set('inGuild', inGuild ? 'true' : 'false');
+      return redirect(addonCallbackUrl.toString());
+    }
 
     const targetUrl = returnTo && returnTo.startsWith('/') ? returnTo : '/';
     return redirect(targetUrl);
