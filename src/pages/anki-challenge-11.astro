@@ -40,6 +40,9 @@ if (sessionCookie) {
 }
 
 const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
+const REGISTRATION_OPEN_ISO = "2026-08-22T00:00:00+07:00";
+const REGISTRATION_OPEN_TIMESTAMP = new Date(REGISTRATION_OPEN_ISO).getTime();
+const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 ---
 
 <Layout title="Đăng ký Anki Challenge 11 (Private)">
@@ -82,6 +85,49 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
         <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto mt-1">
           Biểu mẫu đăng ký sớm danh riêng cho thành viên nội bộ Anki Việt Nam chuẩn bị cho mùa thử thách tiếp theo.
         </p>
+      </div>
+
+      <!-- BANNER ĐẾM NGƯỢC THỜI GIAN MỞ ĐĂNG KÝ (22/08/2026) -->
+      <div id="countdownBanner" class="mb-8 p-6 md:p-8 rounded-3xl bg-gradient-to-br from-purple-500/15 via-zinc-900/90 to-indigo-950/80 border-2 border-purple-500/30 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10 text-center md:text-left">
+          <div class="max-w-md">
+            <div class="inline-flex items-center gap-2 bg-purple-500/20 text-purple-300 border border-purple-500/40 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase mb-2">
+              <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+              Chưa mở cổng đăng ký
+            </div>
+            <h2 class="text-xl md:text-2xl font-black text-white">
+              Cổng đăng ký sẽ mở vào ngày 22/08/2026
+            </h2>
+            <p class="text-slate-300 text-xs md:text-sm mt-1.5 leading-relaxed">
+              {user && user.inGuild 
+                ? `Tài khoản @${user.username} đã xác thực thành viên Discord Anki VN thành công! Bạn đã sẵn sàng, nút đăng ký sẽ tự động mở khi đến thời điểm.`
+                : "Thành viên có thể đăng nhập Discord và tham gia máy chủ Anki Việt Nam trước để sẵn sàng đăng ký ngay khi cổng mở."}
+            </p>
+          </div>
+
+          <!-- Countdown Digits -->
+          <div class="flex items-center gap-2.5 sm:gap-3 shrink-0" id="countdownTimerContainer">
+            <div class="flex flex-col items-center bg-zinc-950/80 border border-purple-500/20 rounded-2xl px-3 py-2.5 min-w-[62px] shadow-inner">
+              <span id="cdDays" class="text-2xl sm:text-3xl font-black text-purple-400 font-mono">00</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Ngày</span>
+            </div>
+            <span class="text-xl font-bold text-slate-600">:</span>
+            <div class="flex flex-col items-center bg-zinc-950/80 border border-purple-500/20 rounded-2xl px-3 py-2.5 min-w-[62px] shadow-inner">
+              <span id="cdHours" class="text-2xl sm:text-3xl font-black text-white font-mono">00</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Giờ</span>
+            </div>
+            <span class="text-xl font-bold text-slate-600">:</span>
+            <div class="flex flex-col items-center bg-zinc-950/80 border border-purple-500/20 rounded-2xl px-3 py-2.5 min-w-[62px] shadow-inner">
+              <span id="cdMins" class="text-2xl sm:text-3xl font-black text-white font-mono">00</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Phút</span>
+            </div>
+            <span class="text-xl font-bold text-slate-600">:</span>
+            <div class="flex flex-col items-center bg-zinc-950/80 border border-purple-500/20 rounded-2xl px-3 py-2.5 min-w-[62px] shadow-inner">
+              <span id="cdSecs" class="text-2xl sm:text-3xl font-black text-cyan-400 font-mono">00</span>
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Giây</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- STEP 1: CHƯA ĐĂNG NHẬP DISCORD -->
@@ -312,6 +358,16 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
               </label>
             </div>
 
+            <!-- Notice if registration is locked -->
+            {!isRegistrationOpen && (
+              <div id="lockedFormNotice" class="p-4 rounded-2xl bg-purple-500/15 border border-purple-500/30 flex items-start gap-3">
+                <span class="text-purple-400 text-lg shrink-0">⏳</span>
+                <div class="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
+                  <strong>Cổng đăng ký chưa mở:</strong> Biểu mẫu Anki Challenge 11 sẽ chính thức tiếp nhận đăng ký vào ngày <strong>22/08/2026 lúc 00:00 (GMT+7)</strong>. Bạn có thể kiểm tra trước các thông tin và chuẩn bị sẵn sàng, nút đăng ký sẽ tự động mở khi đến giờ!
+                </div>
+              </div>
+            )}
+
             <!-- Error message container -->
             <div id="formErrorMsg" class="hidden p-3.5 rounded-xl bg-red-950/60 border border-red-500/40 text-red-300 text-xs font-medium"></div>
 
@@ -320,9 +376,14 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
               <button
                 type="submit"
                 id="submitBtn"
-                class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-purple-500/25 hover:shadow-purple-500/35 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2"
+                disabled={!isRegistrationOpen}
+                class={`w-full py-4 px-6 rounded-2xl font-black text-sm md:text-base uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2 ${
+                  isRegistrationOpen
+                    ? "bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white shadow-purple-500/25 hover:shadow-purple-500/35 active:scale-[0.99] cursor-pointer"
+                    : "bg-zinc-800 border border-purple-500/30 text-purple-300 cursor-not-allowed opacity-90 shadow-purple-500/10"
+                }`}
               >
-                <span id="submitBtnText">Gửi Đăng Ký Anki Challenge 11 🚀</span>
+                <span id="submitBtnText">{isRegistrationOpen ? "Gửi Đăng Ký Anki Challenge 11 🚀" : "⏳ Chưa mở hạn đăng ký (Mở ngày 22/08/2026)"}</span>
                 <svg id="submitLoadingSpinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -367,6 +428,49 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
 </Layout>
 
 <script>
+  // Thời gian mở đăng ký: 22/08/2026 00:00:00 GMT+7
+  const TARGET_OPEN_TIME = new Date("2026-08-22T00:00:00+07:00").getTime();
+
+  const cdDays = document.getElementById("cdDays");
+  const cdHours = document.getElementById("cdHours");
+  const cdMins = document.getElementById("cdMins");
+  const cdSecs = document.getElementById("cdSecs");
+  const countdownBanner = document.getElementById("countdownBanner");
+  const lockedFormNotice = document.getElementById("lockedFormNotice");
+
+  function updateCountdown() {
+    const now = Date.now();
+    const diff = TARGET_OPEN_TIME - now;
+
+    if (diff <= 0) {
+      if (cdDays) cdDays.textContent = "00";
+      if (cdHours) cdHours.textContent = "00";
+      if (cdMins) cdMins.textContent = "00";
+      if (cdSecs) cdSecs.textContent = "00";
+
+      if (lockedFormNotice) lockedFormNotice.classList.add("hidden");
+      if (submitBtn && submitBtn.disabled) {
+        submitBtn.disabled = false;
+        submitBtn.className = "w-full py-4 px-6 rounded-2xl font-black text-sm md:text-base uppercase tracking-wider shadow-xl transition-all flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white shadow-purple-500/25 hover:shadow-purple-500/35 active:scale-[0.99] cursor-pointer";
+        if (submitBtnText) submitBtnText.textContent = "Gửi Đăng Ký Anki Challenge 11 🚀";
+      }
+      return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    if (cdDays) cdDays.textContent = String(days).padStart(2, "0");
+    if (cdHours) cdHours.textContent = String(hours).padStart(2, "0");
+    if (cdMins) cdMins.textContent = String(minutes).padStart(2, "0");
+    if (cdSecs) cdSecs.textContent = String(seconds).padStart(2, "0");
+  }
+
+  updateCountdown();
+  const cdInterval = setInterval(updateCountdown, 1000);
+
   // Client-side interactions
   const recheckBtn = document.getElementById("recheckGuildBtn");
   const form = document.getElementById("registrationForm") as HTMLFormElement | null;

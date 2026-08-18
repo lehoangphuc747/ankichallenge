@@ -6,8 +6,20 @@ import { getFromKV, putToKV } from '../../utils/kv';
 export const prerender = false;
 
 const ANKI_GUILD_ID = '867268399687663616';
+const REGISTRATION_OPEN_TIMESTAMP = new Date('2026-08-22T00:00:00+07:00').getTime();
 
 export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
+  // Kiểm tra thời gian mở đăng ký (22/08/2026)
+  if (Date.now() < REGISTRATION_OPEN_TIMESTAMP) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Cổng đăng ký chưa mở. Thời gian mở chính thức vào ngày 22/08/2026 lúc 00:00:00 (GMT+7).',
+      }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
   // 1. Xác thực session đăng nhập
   const session = cookies.get('user_session')?.value;
   if (!session) {
