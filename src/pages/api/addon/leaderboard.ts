@@ -4,14 +4,18 @@ import {
   getRecordsFromDB, 
   getChallengesFromDB, 
   getLiveStudySessions,
-  getUserByAddonToken
+  getUserByAddonToken,
+  getUserById,
+  getUserByDiscordId
 } from '../../../utils/db';
+import { verifySession } from '../../../utils/session';
 
 export const prerender = false;
 
 export const GET: APIRoute = async ({ request, url, locals }) => {
   const env = (locals as any).runtime?.env ?? {};
   const db = env.DB;
+  const sessionSecret = import.meta.env.SESSION_SECRET || env.SESSION_SECRET || 'ankivn-secret-default-key-change-in-prod';
 
   if (!db) {
     return new Response(
@@ -27,7 +31,16 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : '';
   let callerUser: any = null;
   if (token) {
-    callerUser = await getUserByAddonToken(db, token);
+    const tokenPayload = await verifySession<any>(token, sessionSecret);
+    if (tokenPayload?.userId) {
+      callerUser = await getUserById(db, Number(tokenPayload.userId));
+    }
+    if (!callerUser && tokenPayload?.discordId) {
+      callerUser = await getUserByDiscordId(db, String(tokenPayload.discordId));
+    }
+    if (!callerUser) {
+      callerUser = await getUserByAddonToken(db, token);
+    }
   }
 
   try {

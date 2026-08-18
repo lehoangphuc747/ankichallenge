@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { 
   getUserByAddonToken, 
+  getUserById,
+  getUserByDiscordId,
   recordCheckinInDB, 
   upsertAddonDailyStats, 
   upsertStudySession, 
@@ -9,6 +11,7 @@ import {
   getChallengesFromDB,
   getUsersFromDB
 } from '../../../utils/db';
+import { verifySession } from '../../../utils/session';
 
 export const prerender = false;
 
@@ -22,6 +25,7 @@ function getVietnamDateString(): string {
 export const POST: APIRoute = async ({ request, locals }) => {
   const env = (locals as any).runtime?.env ?? {};
   const db = env.DB;
+  const sessionSecret = import.meta.env.SESSION_SECRET || env.SESSION_SECRET || 'ankivn-secret-default-key-change-in-prod';
 
   if (!db) {
     return new Response(
@@ -41,8 +45,19 @@ export const POST: APIRoute = async ({ request, locals }) => {
     );
   }
 
-  // 2. Tìm kiếm người dùng trong D1 SQLite
-  const user = await getUserByAddonToken(db, token);
+  // 2. Tìm kiếm người dùng qua Token HMAC hoặc D1 query
+  let user: any = null;
+  const tokenPayload = await verifySession<any>(token, sessionSecret);
+  if (tokenPayload?.userId) {
+    user = await getUserById(db, Number(tokenPayload.userId));
+  }
+  if (!user && tokenPayload?.discordId) {
+    user = await getUserByDiscordId(db, String(tokenPayload.discordId));
+  }
+  if (!user) {
+    user = await getUserByAddonToken(db, token);
+  }
+
   if (!user) {
     return new Response(
       JSON.stringify({ error: 'Mã xác thực Addon không hợp lệ hoặc đã bị thu hồi.' }),

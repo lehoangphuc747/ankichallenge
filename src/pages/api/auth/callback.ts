@@ -210,6 +210,21 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
           }
           console.log(`[Auto Sync] Đã đồng bộ thông tin Discord mới cho thành viên ID #${memberId}`);
         }
+      } else if (env.DB) {
+        // Tự động khởi tạo hồ sơ thành viên trong D1 nếu chưa có
+        const displayName = discordUser.global_name || discordUser.username;
+        const newUser = await registerUserInDB(env.DB, {
+          name: displayName,
+          discordId: String(discordUser.id),
+          discordNickname: discordUser.username,
+          avatar: discordUser.avatar
+            ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
+            : `https://cdn.discordapp.com/embed/avatars/0.png`,
+          email: discordUser.email || undefined,
+        }, 3);
+        memberId = newUser.id;
+        memberName = newUser.name;
+        console.log(`[Auto Register] Đã tự động tạo hồ sơ thành viên ID #${memberId} cho Discord ${discordUser.username}`);
       }
     } catch (e) {
       console.warn('[Account Mapping Warning]', e);
@@ -268,24 +283,23 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       maxAge: 60 * 60 * 24 * 7, // 7 ngày
     });
 
-    // Tạo / lấy Addon Token an toàn
-    let addonToken = '';
+    // Tạo Addon Token có chữ ký bảo mật HMAC-SHA256
+    const addonToken = await signSession({
+      userId: memberId,
+      discordId: String(discordUser.id),
+      username: discordUser.username,
+      displayName: userData.displayName,
+      type: 'anki_addon',
+      issuedAt: Date.now(),
+    }, sessionSecret);
+
     if (env.DB && memberId) {
       try {
-        const currentUser = userList.find((u: any) => u.id === memberId);
-        if (currentUser?.addonToken) {
-          addonToken = currentUser.addonToken;
-        } else {
-          // Tạo token ngẫu nhiên dạng sec_...
-          const randBytes = new Uint8Array(24);
-          crypto.getRandomValues(randBytes);
-          addonToken = 'ankivn_' + Array.from(randBytes, (b) => b.toString(16).padStart(2, '0')).join('');
-          await env.DB.prepare('UPDATE users SET addon_token = ?, addon_verified = 1 WHERE id = ?')
-            .bind(addonToken, memberId)
-            .run();
-        }
+        await env.DB.prepare('UPDATE users SET addon_token = ?, addon_verified = 1 WHERE id = ?')
+          .bind(addonToken, memberId)
+          .run();
       } catch (tokenErr) {
-        console.warn('[Addon Token Generation Warning]', tokenErr);
+        console.warn('[Addon Token Column Update Warning]', tokenErr);
       }
     }
 
