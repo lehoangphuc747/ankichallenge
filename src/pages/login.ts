@@ -6,6 +6,18 @@ export const GET: APIRoute = async ({ redirect, cookies, url }) => {
   // Tự động xác định redirect_uri dựa trên origin hiện tại (localhost hoặc production)
   const redirectUri = `${url.origin}/api/auth/callback`;
 
+  // Lưu URL cần quay lại nếu có (ví dụ: ?returnTo=/register)
+  const returnTo = url.searchParams.get('returnTo');
+  if (returnTo && returnTo.startsWith('/')) {
+    cookies.set('oauth_return_to', returnTo, {
+      path: '/',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      maxAge: 60 * 10,
+    });
+  }
+
   // Tạo chuỗi state ngẫu nhiên bằng crypto API an toàn
   const array = new Uint8Array(16);
   crypto.getRandomValues(array);
@@ -23,7 +35,7 @@ export const GET: APIRoute = async ({ redirect, cookies, url }) => {
     client_id: clientId,
     redirect_uri: redirectUri,
     response_type: 'code',
-    scope: 'identify email',
+    scope: 'identify email guilds',
     state: state,
   });
 

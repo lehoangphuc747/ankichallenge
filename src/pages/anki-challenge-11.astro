@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { verifySession } from "../utils/session";
-import { getUserByDiscordId, getUsersFromDB } from "../utils/db";
+import { getUserByDiscordId } from "../utils/db";
 import { getFromKV } from "../utils/kv";
 
 // Đọc phiên người dùng
@@ -34,7 +34,7 @@ if (sessionCookie) {
         existingProfile = list.find((u: any) => String(u.discordId) === String(user!.id)) || null;
       }
     } catch (e) {
-      console.warn('[Register Page Profile Lookup]', e);
+      console.warn('[AC11 Register Profile Lookup]', e);
     }
   }
 }
@@ -42,11 +42,11 @@ if (sessionCookie) {
 const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
 ---
 
-<Layout title="Đăng ký Anki Challenge 10">
+<Layout title="Đăng ký Anki Challenge 11 (Private)">
   <main class="min-h-screen relative overflow-x-hidden text-slate-100 py-10 px-4">
     <!-- Ambient glowing backgrounds -->
-    <div class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none z-0"></div>
-    <div class="fixed bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-indigo-500/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
+    <div class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-purple-500/10 blur-[130px] rounded-full pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-cyan-500/10 blur-[150px] rounded-full pointer-events-none z-0"></div>
 
     <div class="max-w-3xl mx-auto relative z-10">
       
@@ -73,14 +73,14 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
 
       <!-- Header Hero -->
       <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-cyan-500/20 via-indigo-500/20 to-emerald-500/20 border border-cyan-400/30 text-cyan-300 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold tracking-wide uppercase mb-3 shadow-lg shadow-cyan-500/10">
-          🔥 Anki Challenge 10 • 100 Ngày Kỷ Luật
+        <div class="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500/20 via-indigo-500/20 to-cyan-500/20 border border-purple-400/40 text-purple-300 px-4 py-1.5 rounded-full text-xs md:text-sm font-bold tracking-wide uppercase mb-3 shadow-lg shadow-purple-500/10">
+          🔒 Anki Challenge 11 • Link Đăng Ký Nội Bộ
         </div>
-        <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-cyan-100 to-cyan-400 pb-2">
-          Đăng Ký Tham Gia Thử Thách
+        <h1 class="text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-purple-100 to-cyan-400 pb-2">
+          Đăng Ký Anki Challenge 11
         </h1>
         <p class="text-slate-400 text-sm md:text-base max-w-xl mx-auto mt-1">
-          Học Anki đều đặn, rèn luyện thói quen học tập bền bỉ và nhận chứng nhận hoàn thành 100 ngày từ cộng đồng Anki Việt Nam.
+          Biểu mẫu đăng ký sớm danh riêng cho thành viên nội bộ Anki Việt Nam chuẩn bị cho mùa thử thách tiếp theo.
         </p>
       </div>
 
@@ -95,17 +95,17 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
 
           <h2 class="text-xl md:text-2xl font-bold text-white mb-2">Bước 1: Đăng nhập Discord</h2>
           <p class="text-slate-300 text-sm md:text-base max-w-md mx-auto mb-6 leading-relaxed">
-            Hệ thống sử dụng tài khoản Discord để xác thực danh tính, đồng bộ lệnh điểm danh <code class="text-cyan-400 bg-cyan-950/60 px-1.5 py-0.5 rounded font-mono text-xs">/checkin</code> hàng ngày và cập nhật bảng xếp hạng tự động.
+            Vui lòng đăng nhập Discord để hệ thống xác thực tư cách thành viên và cấp quyền truy cập biểu mẫu Anki Challenge 11.
           </p>
 
           <a
-            href="/login?returnTo=/register"
+            href="/login?returnTo=/anki-challenge-11"
             class="inline-flex items-center gap-3 bg-[#5865F2] hover:bg-[#4752C4] active:scale-95 text-white font-bold px-7 py-3.5 rounded-2xl shadow-xl shadow-[#5865F2]/30 border border-indigo-300/40 text-base transition-all duration-200 cursor-pointer"
           >
             <svg class="w-5 h-5 fill-current shrink-0" viewBox="0 0 127.14 96.36">
               <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/>
             </svg>
-            <span>Đăng nhập bằng Discord để bắt đầu</span>
+            <span>Đăng nhập bằng Discord</span>
           </a>
         </div>
       )}
@@ -122,10 +122,10 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
           </div>
 
           <h2 class="text-xl md:text-2xl font-bold text-white mb-2">
-            Chào mừng {user.displayName}! Bạn cần tham gia Discord Anki Việt Nam
+            Chào {user.displayName}! Bạn cần tham gia Discord Anki Việt Nam
           </h2>
           <p class="text-slate-300 text-sm md:text-base max-w-lg mx-auto mb-6 leading-relaxed">
-            Tài khoản <strong class="text-white">@{user.username}</strong> của bạn chưa có mặt trong máy chủ Discord <strong>Anki Việt Nam</strong>. Hãy bấm vào nút bên dưới để tham gia cộng đồng, sau đó bấm <strong>"Kiểm tra lại"</strong> để mở khóa biểu mẫu.
+            Thử thách Anki Challenge 11 chỉ áp dụng cho thành viên máy chủ Discord <strong>Anki Việt Nam</strong>. Bạn hãy tham gia máy chủ trước, sau đó bấm <strong>"Kiểm tra lại"</strong> nhé!
           </p>
 
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 max-w-md mx-auto">
@@ -135,9 +135,6 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
               rel="noopener noreferrer"
               class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold px-6 py-3 rounded-2xl shadow-lg shadow-[#5865F2]/25 border border-indigo-400/30 text-sm transition-all"
             >
-              <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 127.14 96.36">
-                <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/>
-              </svg>
               <span>Tham gia Discord Anki VN ↗</span>
             </a>
 
@@ -160,16 +157,16 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
         
         <!-- Discord Verified Badge -->
         {user && (
-          <div class="mb-6 p-4 rounded-2xl bg-emerald-950/40 border border-emerald-500/30 backdrop-blur-md flex items-center justify-between gap-4">
+          <div class="mb-6 p-4 rounded-2xl bg-purple-950/40 border border-purple-500/30 backdrop-blur-md flex items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <div class="relative">
-                <img src={user.avatar} alt={user.displayName} class="w-10 h-10 rounded-full border border-emerald-400/50 object-cover" />
+                <img src={user.avatar} alt={user.displayName} class="w-10 h-10 rounded-full border border-purple-400/50 object-cover" />
                 <span class="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 border-2 border-zinc-900 rounded-full"></span>
               </div>
               <div>
                 <div class="flex items-center gap-2">
                   <span class="text-sm font-bold text-white">{user.displayName}</span>
-                  <span class="text-[11px] bg-emerald-500/20 text-emerald-300 font-semibold px-2 py-0.5 rounded-full border border-emerald-500/30">✓ Đã xác thực Discord Anki VN</span>
+                  <span class="text-[11px] bg-purple-500/20 text-purple-300 font-semibold px-2 py-0.5 rounded-full border border-purple-500/30">✓ Đã xác thực AC11</span>
                 </div>
                 <div class="text-xs text-slate-400 font-mono">@{user.username} • ID: {user.id}</div>
               </div>
@@ -183,11 +180,11 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
         )}
 
         <!-- Main Form Card -->
-        <div class="bg-gradient-to-b from-zinc-900/95 to-zinc-950/95 border border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-xl">
+        <div class="bg-gradient-to-b from-zinc-900/95 to-zinc-950/95 border border-purple-500/20 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-xl">
           <form id="registrationForm" class="space-y-6">
             
-            <!-- Hidden context fields -->
-            <input type="hidden" name="challengeId" value="3" />
+            <!-- Challenge ID 4 (Anki Challenge 11) -->
+            <input type="hidden" name="challengeId" value="4" />
 
             <!-- Họ và Tên -->
             <div>
@@ -201,9 +198,9 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                 required
                 value={existingProfile?.name || user?.displayName || user?.username || ''}
                 placeholder="Ví dụ: Lê Hoàng Phúc"
-                class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
               />
-              <p class="text-[11px] text-slate-400 mt-1.5">Tên này sẽ xuất hiện trên Bảng xếp hạng và Chứng chỉ tốt nghiệp của bạn.</p>
+              <p class="text-[11px] text-slate-400 mt-1.5">Tên hiển thị trên Bảng xếp hạng Anki Challenge 11.</p>
             </div>
 
             <!-- Grid 2 cột: Năm sinh & Nơi ở -->
@@ -220,7 +217,7 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                   max="2030"
                   value={existingProfile?.birthYear || ''}
                   placeholder="Ví dụ: 2001"
-                  class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                  class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
                 />
               </div>
 
@@ -233,8 +230,8 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                   id="place"
                   name="place"
                   value={existingProfile?.place || ''}
-                  placeholder="Ví dụ: Hà Nội, TP.HCM, Seoul..."
-                  class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                  placeholder="Ví dụ: Hà Nội, TP.HCM, Tokyo..."
+                  class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
                 />
               </div>
             </div>
@@ -250,8 +247,8 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                   id="major"
                   name="major"
                   value={existingProfile?.major || ''}
-                  placeholder="Ví dụ: Y đa khoa, Công nghệ thông tin..."
-                  class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                  placeholder="Ví dụ: Y khoa, Kỹ sư phần mềm..."
+                  class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
                 />
               </div>
 
@@ -264,8 +261,8 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                   id="learning"
                   name="learning"
                   value={existingProfile?.learning || ''}
-                  placeholder="Ví dụ: Tiếng Hàn TOPIK, Tiếng Nhật N2, Dược lý..."
-                  class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                  placeholder="Ví dụ: Tiếng Anh IELTS, Tiếng Trung HSK..."
+                  class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
                 />
               </div>
             </div>
@@ -273,14 +270,14 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
             <!-- Mục tiêu thử thách -->
             <div>
               <label for="goals" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
-                Mục tiêu trong 100 ngày tới
+                Mục tiêu trong mùa 11
               </label>
               <textarea
                 id="goals"
                 name="goals"
                 rows="3"
-                placeholder="Ví dụ: Hoàn thành 1000 từ vựng chuyên ngành, ôn thẻ đều đặn ít nhất 30 phút mỗi ngày không đứt chuỗi..."
-                class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all resize-none"
+                placeholder="Ví dụ: Duy trì 100 ngày không bỏ lỡ ngày nào, ôn tập 100 thẻ mỗi ngày..."
+                class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all resize-none"
               >{existingProfile?.goals || ''}</textarea>
             </div>
 
@@ -294,23 +291,23 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
                 id="quotes"
                 name="quotes"
                 value={existingProfile?.quotes || ''}
-                placeholder="Ví dụ: Kỷ luật là tự do • Small steps every day"
-                class="w-full bg-white/5 border border-white/10 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
+                placeholder="Ví dụ: Không có áp lực, không có kim cương"
+                class="w-full bg-white/5 border border-white/10 focus:border-purple-400 focus:ring-2 focus:ring-purple-500/30 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 outline-none transition-all"
               />
             </div>
 
             <!-- Cam kết hoàn thành -->
-            <div class="p-4 rounded-2xl bg-cyan-950/30 border border-cyan-500/30">
+            <div class="p-4 rounded-2xl bg-purple-950/30 border border-purple-500/30">
               <label class="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   name="commitment"
                   id="commitmentCheck"
                   required
-                  class="mt-1 w-4 h-4 rounded text-cyan-500 focus:ring-cyan-400/50 bg-zinc-800 border-zinc-700"
+                  class="mt-1 w-4 h-4 rounded text-purple-500 focus:ring-purple-400/50 bg-zinc-800 border-zinc-700"
                 />
                 <span class="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
-                  Tôi cam kết tham gia nghiêm túc, học bài đều đặn mỗi ngày bằng Anki và điểm danh qua Discord theo quy định của ban tổ chức. <span class="text-red-400">*</span>
+                  Tôi cam kết tham gia nghiêm túc mùa thử thách Anki Challenge 11, học bài đều đặn mỗi ngày và điểm danh qua bot Discord. <span class="text-red-400">*</span>
                 </span>
               </label>
             </div>
@@ -323,9 +320,9 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
               <button
                 type="submit"
                 id="submitBtn"
-                class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-500 to-emerald-500 hover:from-cyan-400 hover:to-emerald-400 text-white font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-cyan-500/20 hover:shadow-cyan-500/30 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2"
+                class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-purple-600 via-indigo-600 to-cyan-500 hover:from-purple-500 hover:to-cyan-400 text-white font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-purple-500/25 hover:shadow-purple-500/35 active:scale-[0.99] transition-all cursor-pointer flex items-center justify-center gap-2"
               >
-                <span id="submitBtnText">Gửi Đăng Ký Anki Challenge 10 🚀</span>
+                <span id="submitBtnText">Gửi Đăng Ký Anki Challenge 11 🚀</span>
                 <svg id="submitLoadingSpinner" class="hidden animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -339,22 +336,22 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
       </div>
 
       <!-- SUCCESS MODAL / CARD -->
-      <div id="successCard" class="hidden bg-gradient-to-b from-zinc-900/95 to-zinc-950/95 border-2 border-emerald-500/40 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl text-center">
-        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-emerald-500/20 border-2 border-emerald-400/60 flex items-center justify-center text-emerald-400 text-4xl shadow-xl shadow-emerald-500/30">
+      <div id="successCard" class="hidden bg-gradient-to-b from-zinc-900/95 to-zinc-950/95 border-2 border-purple-500/40 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-xl text-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-purple-500/20 border-2 border-purple-400/60 flex items-center justify-center text-purple-400 text-4xl shadow-xl shadow-purple-500/30">
           🎉
         </div>
-        <h2 class="text-2xl md:text-3xl font-black text-white mb-2">Đăng Ký Thành Công!</h2>
+        <h2 class="text-2xl md:text-3xl font-black text-white mb-2">Đăng Ký AC11 Thành Công!</h2>
         <p class="text-slate-300 text-sm md:text-base max-w-md mx-auto mb-8 leading-relaxed">
-          Chúc mừng bạn đã chính thức ghi danh vào <strong>Anki Challenge 10</strong>. Hãy chuẩn bị tinh thần để bắt đầu hành trình 100 ngày kỷ luật cùng cộng đồng nhé!
+          Bạn đã đăng ký trước thành công cho <strong>Anki Challenge 11</strong>. Thông tin đã được ghi nhận vào hệ thống.
         </p>
 
         <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
           <a
             id="successProfileLink"
             href="/"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-cyan-500/25 text-sm transition-all"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-purple-500 hover:bg-purple-400 text-white font-bold px-6 py-3.5 rounded-2xl shadow-lg shadow-purple-500/25 text-sm transition-all"
           >
-            👤 Xem Hồ sơ cá nhân
+            👤 Xem Hồ sơ của bạn
           </a>
           <a
             href="/"
@@ -382,7 +379,6 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
   const notInGuildCard = document.getElementById("notInGuildCard");
   const successProfileLink = document.getElementById("successProfileLink") as HTMLAnchorElement | null;
 
-  // Xử lý nút "Kiểm tra lại" Guild Membership
   if (recheckBtn) {
     recheckBtn.addEventListener("click", async () => {
       const originalText = recheckBtn.innerHTML;
@@ -400,7 +396,6 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
         const data = await res.json();
 
         if (data.authenticated && data.inGuild) {
-          // Người dùng đã vào server -> reload lại trang để render form đầy đủ
           window.location.reload();
         } else {
           alert("Hệ thống vẫn chưa tìm thấy bạn trong máy chủ Discord Anki Việt Nam. Hãy chắc chắn bạn đã nhấn vào link tham gia máy chủ nhé!");
@@ -415,7 +410,6 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
     });
   }
 
-  // Xử lý Submit Form Đăng Ký
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -445,7 +439,6 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
           throw new Error(result.error || "Đăng ký thất bại. Vui lòng thử lại!");
         }
 
-        // Thành công: Ẩn form và hiển thị Success Card
         if (registrationFormContainer) registrationFormContainer.classList.add("hidden");
         if (notInGuildCard) notInGuildCard.classList.add("hidden");
         if (successCard) successCard.classList.remove("hidden");
@@ -461,7 +454,7 @@ const DISCORD_INVITE_URL = "https://discord.com/invite/867268399687663616";
       } finally {
         if (submitBtn && submitBtnText && submitLoadingSpinner) {
           submitBtn.disabled = false;
-          submitBtnText.textContent = "Gửi Đăng Ký Anki Challenge 10 🚀";
+          submitBtnText.textContent = "Gửi Đăng Ký Anki Challenge 11 🚀";
           submitLoadingSpinner.classList.add("hidden");
         }
       }

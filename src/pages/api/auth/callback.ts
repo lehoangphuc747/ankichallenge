@@ -130,6 +130,27 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       );
     }
 
+    // 3b. Kiểm tra xem người dùng đã tham gia Discord Server Anki Việt Nam chưa
+    const ANKI_GUILD_ID = '867268399687663616';
+    let inGuild = false;
+    try {
+      const guildsResponse = await fetch('https://discord.com/api/v10/users/@me/guilds', {
+        headers: {
+          Authorization: `Bearer ${tokens.access_token}`,
+        },
+      });
+      if (guildsResponse.ok) {
+        const userGuilds = await guildsResponse.json();
+        if (Array.isArray(userGuilds)) {
+          inGuild = userGuilds.some((g: any) => String(g.id) === ANKI_GUILD_ID);
+        }
+      } else {
+        console.warn('[Discord Guilds Fetch Warning]', await guildsResponse.text());
+      }
+    } catch (gErr) {
+      console.warn('[Discord Guilds Check Error]', gErr);
+    }
+
     // 4. Đối chiếu (Account Mapping) và tự động cập nhật thông tin vào KV
     let memberId: number | null = null;
     let memberName: string | null = null;
@@ -205,6 +226,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       email: discordUser.email || null,
       memberId: memberId,
       memberName: memberName,
+      inGuild: inGuild,
       loggedAt: new Date().toISOString(),
     };
 
@@ -246,8 +268,12 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       maxAge: 60 * 60 * 24 * 7, // 7 ngày
     });
 
-    // 7. Đăng nhập thành công -> Chuyển hướng về trang chủ
-    return redirect('/');
+    // 7. Đăng nhập thành công -> Chuyển hướng về returnTo hoặc trang chủ
+    const returnTo = cookies.get('oauth_return_to')?.value;
+    cookies.delete('oauth_return_to', { path: '/' });
+
+    const targetUrl = returnTo && returnTo.startsWith('/') ? returnTo : '/';
+    return redirect(targetUrl);
   } catch (error: any) {
     console.error('[Discord Auth Exception]', error);
     return new Response(

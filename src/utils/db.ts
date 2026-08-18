@@ -299,3 +299,70 @@ export async function getLoginHistoryFromDB(db: D1Database): Promise<any[]> {
   return results || [];
 }
 
+/**
+ * Đăng ký hoặc cập nhật hồ sơ người dùng tham gia thử thách trong D1
+ */
+export async function registerUserInDB(
+  db: D1Database,
+  userData: Partial<UserRow> & { name: string; discordId: string },
+  challengeId: number = 3
+): Promise<UserRow> {
+  const existing = await getUserByDiscordId(db, userData.discordId);
+
+  if (existing) {
+    const challengeIds = new Set(existing.challengeIds || []);
+    challengeIds.add(challengeId);
+
+    const updatedUser: UserRow = {
+      ...existing,
+      name: userData.name || existing.name,
+      email: userData.email || existing.email,
+      discordNickname: userData.discordNickname || existing.discordNickname,
+      avatar: userData.avatar || existing.avatar,
+      challengeIds: Array.from(challengeIds),
+      bio: userData.bio !== undefined ? userData.bio : existing.bio,
+      learning: userData.learning !== undefined ? userData.learning : existing.learning,
+      major: userData.major !== undefined ? userData.major : existing.major,
+      facebookUrl: userData.facebookUrl !== undefined ? userData.facebookUrl : existing.facebookUrl,
+      zaloUrl: userData.zaloUrl !== undefined ? userData.zaloUrl : existing.zaloUrl,
+      birthYear: userData.birthYear !== undefined ? userData.birthYear : existing.birthYear,
+      place: userData.place !== undefined ? userData.place : existing.place,
+      goals: userData.goals !== undefined ? userData.goals : existing.goals,
+      quotes: userData.quotes !== undefined ? userData.quotes : existing.quotes,
+    };
+
+    await upsertUserInDB(db, updatedUser);
+    return updatedUser;
+  }
+
+  // Nếu là thành viên mới, tìm max ID hiện tại
+  const maxRow = await db.prepare('SELECT MAX(id) as maxId FROM users').first();
+  const nextId = (maxRow?.maxId ? Number(maxRow.maxId) : 0) + 1;
+
+  const newUser: UserRow = {
+    id: nextId,
+    name: userData.name,
+    email: userData.email,
+    discordId: userData.discordId,
+    discordNickname: userData.discordNickname,
+    avatar: userData.avatar,
+    role: 'member',
+    challengeIds: [challengeId],
+    bio: userData.bio,
+    learning: userData.learning,
+    major: userData.major,
+    facebookUrl: userData.facebookUrl,
+    zaloUrl: userData.zaloUrl,
+    birthYear: userData.birthYear,
+    place: userData.place,
+    goals: userData.goals,
+    quotes: userData.quotes,
+    hidden: false,
+    streak: 0,
+  };
+
+  await upsertUserInDB(db, newUser);
+  return newUser;
+}
+
+
