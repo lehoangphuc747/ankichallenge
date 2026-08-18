@@ -14,10 +14,12 @@ src/pages/            — Astro pages + API endpoints
   index.astro         — Leaderboard (client-side rendered)
   profile/[id].astro  — User profile + certificates
   certificate/[userId]/[challengeId].astro — Certificate viewer + export
+  register.astro      — Registration form AC10 (Discord Auth + Guild Gate)
+  anki-challenge-11.astro — Registration form AC11 (Unlisted/Private)
   api/data/[key].ts   — D1-backed JSON API (whitelist keys only)
-  api/auth/           — Discord OAuth
+  api/auth/           — Discord OAuth (discord.ts, callback.ts, check-guild.ts, me.ts, logout.ts)
+  api/register.ts     — Registration submission API (saves to D1 SQLite)
   admin/              — Admin CRUD pages
-  anki-challenge-10.astro — Registration form
 src/components/       — Astro + React components
 src/utils/            — calculateStats.js, db.ts, kv.ts, session.ts
 src/layouts/          — Layout.astro
@@ -46,13 +48,12 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - Server-side export (puppeteer): `scripts/export-certs-ch{8,9,10}.js`
 - File naming: `{rank}-{slugified-user-name}.png`
 
-## Key Scripts
-```
-npm run dev           — astro dev (local)
-npm run build         — astro build
-npm run backup-kv     — Sync KV → local files
-npm run export-certs-ch10 — Export certificate PNGs via puppeteer
-```
+## Registration & Discord Guild Gate
+- **Flow**: User must log in via Discord OAuth (`identify email guilds`) -> Backend verifies membership in Discord "Anki Việt Nam" (Guild ID `867268399687663616`) -> Unlocks form -> Submits to `/api/register` -> Saved to Cloudflare D1 SQLite (`users` table).
+- **Routes**:
+  - `/register`: Public registration form for AC10 (`challengeId = 3`).
+  - `/anki-challenge-11`: Unlisted/Private registration form for AC11 (`challengeId = 4`), not shown in Navigation/Leaderboard.
+- **Re-check endpoint**: `/api/auth/check-guild` allows re-verifying guild membership dynamically after user joins Discord.
 
 ## Discord Check-in Bot
 - Slash command `/checkin` lives in `src/pages/api/discord/interact.ts` (Discord interactions webhook endpoint).
