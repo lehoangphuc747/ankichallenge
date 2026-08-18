@@ -46,135 +46,158 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 ---
 
 <Layout title="Đăng ký Anki Challenge 10 — Anki Việt Nam">
-  <main class="min-h-screen relative overflow-x-hidden bg-[#FAF9F5] text-[#141413] py-12 px-4 selection:bg-[#CC785C]/20 selection:text-[#141413]">
-    <!-- Subtle warm atmospheric tint -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[450px] bg-gradient-to-b from-[#F5F0E8]/70 via-[#FAF9F5]/40 to-transparent pointer-events-none z-0"></div>
-
-    <div class="max-w-2xl mx-auto relative z-10">
+  <main class="min-h-screen bg-white text-black py-10 px-4 font-['Nunito',ui-sans-serif,system-ui,sans-serif] selection:bg-black selection:text-white">
+    <div class="max-w-[720px] mx-auto">
       
       <!-- Top Navigation -->
-      <div class="flex items-center justify-between mb-10 pb-4 border-b border-[#E6DFD8]">
+      <div class="flex items-center justify-between mb-12 pb-4 border-b border-[#e5e5e5]">
         <a 
           href="/" 
-          class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] hover:text-[#CC785C] transition-colors bg-[#FAF9F5] hover:bg-[#F5F0E8] px-3.5 py-2 rounded-lg border border-[#E6DFD8]"
+          class="inline-flex items-center gap-2 text-xs font-medium text-black bg-[#fafafa] hover:bg-[#f0f0f0] px-4 py-2 rounded-full border border-[#e5e5e5] transition-all"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-[#CC785C]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
           </svg>
           Bảng xếp hạng
         </a>
 
         {user && (
-          <div class="flex items-center gap-3 bg-[#F5F0E8] border border-[#E6DFD8] px-3 py-1.5 rounded-lg">
-            <img src={user.avatar} alt={user.displayName} class="w-5 h-5 rounded-full border border-[#CC785C]/40 object-cover" />
-            <span class="text-xs font-medium text-[#252523]">@{user.username}</span>
-            <span class="text-[#8E8B82] text-xs">•</span>
-            <a href="/logout" class="text-xs text-[#C64545] hover:underline font-medium">Đăng xuất</a>
+          <div class="flex items-center gap-2.5 bg-[#fafafa] border border-[#e5e5e5] px-3.5 py-1.5 rounded-full">
+            <img src={user.avatar} alt={user.displayName} class="w-5 h-5 rounded-full border border-[#d4d4d4] object-cover" />
+            <span class="text-xs font-medium text-black">@{user.username}</span>
+            <span class="text-[#a3a3a3] text-xs">·</span>
+            <a href="/logout" class="text-xs text-[#737373] hover:text-black transition-colors font-medium">Đăng xuất</a>
           </div>
         )}
       </div>
 
-      <!-- Header Hero (Editorial Serif Claude voice) -->
+      <!-- Header Hero (Ollama Minimalist Center Alignment) -->
       <div class="text-center mb-10">
-        <div class="inline-flex items-center gap-2 bg-[#EFE9DE] border border-[#E6DFD8] text-[#252523] px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wide mb-4">
-          <svg class="w-3.5 h-3.5 text-[#CC785C]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
+        <!-- Hand-drawn / Minimal Mascot Icon -->
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#fafafa] border border-[#e5e5e5] flex items-center justify-center text-black">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg>
-          <span>Anki Challenge 10 • 100 Ngày Kỷ Luật</span>
         </div>
-        <h1 class="text-3xl md:text-5xl font-normal text-[#141413] tracking-tight font-serif leading-[1.15] mb-3">
+
+        <div class="inline-flex items-center gap-1.5 bg-[#fafafa] border border-[#e5e5e5] text-[#525252] px-3.5 py-1 rounded-full text-xs font-medium mb-3">
+          <span>Anki Challenge 10</span>
+          <span class="text-[#a3a3a3]">·</span>
+          <span>100 Ngày Kỷ Luật</span>
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl font-semibold text-black tracking-tight mb-2">
           Đăng ký tham gia thử thách
         </h1>
-        <p class="text-[#6C6A64] text-sm md:text-base max-w-lg mx-auto font-normal leading-relaxed">
+        <p class="text-[#737373] text-sm sm:text-base max-w-lg mx-auto leading-relaxed">
           Rèn luyện thói quen học tập bền bỉ mỗi ngày cùng Anki và nhận chứng chỉ hoàn thành từ cộng đồng Anki Việt Nam.
         </p>
+
+        <!-- Inline Command Snippet Pill -->
+        <div class="inline-flex items-center gap-2 bg-[#fafafa] border border-[#e5e5e5] text-black px-4 py-1.5 rounded-full text-xs font-mono mt-4">
+          <span class="text-[#a3a3a3]">$</span>
+          <span>/checkin --season 10</span>
+        </div>
       </div>
 
-      <!-- BANNER ĐẾM NGƯỢC THỜI GIAN MỞ ĐĂNG KÝ (Claude Card Style) -->
-      <div id="countdownBanner" class="mb-8 p-6 md:p-7 rounded-2xl bg-[#F5F0E8] border border-[#E6DFD8] shadow-sm relative overflow-hidden">
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
-          <div class="max-w-xs sm:max-w-sm">
-            <div class="inline-flex items-center gap-1.5 bg-[#CC785C]/10 text-[#CC785C] border border-[#CC785C]/20 px-2.5 py-0.5 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-2">
-              <span class="w-1.5 h-1.5 rounded-full bg-[#CC785C] animate-pulse"></span>
-              Chưa mở cổng đăng ký
-            </div>
-            <h2 class="text-base md:text-lg font-semibold text-[#141413] font-serif">
-              Mở đăng ký vào 22/08/2026
-            </h2>
-            <p class="text-[#6C6A64] text-xs mt-1 leading-relaxed">
-              {user && user.inGuild 
-                ? `Tài khoản @${user.username} đã xác thực thành viên Discord thành công. Bạn đã sẵn sàng, nút đăng ký sẽ tự động mở khi đến thời điểm!`
-                : "Bạn có thể đăng nhập Discord và tham gia máy chủ trước để sẵn sàng đăng ký ngay khi cổng mở."}
-            </p>
+      <!-- BANNER ĐẾM NGƯỢC THỜI GIAN MỞ ĐĂNG KÝ (Ollama Terminal Card Style) -->
+      <div id="countdownBanner" class="mb-10 bg-[#fafafa] border border-[#e5e5e5] rounded-xl overflow-hidden shadow-none">
+        <!-- Terminal Header with Traffic Lights -->
+        <div class="bg-[#f0f0f0] border-b border-[#e5e5e5] px-4 py-2.5 flex items-center justify-between">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ff5f56]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#ffbd2e]"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-[#27c93f]"></span>
           </div>
+          <span class="text-[11px] font-mono text-[#737373]">anki-challenge-10.sh</span>
+          <div class="w-10"></div>
+        </div>
 
-          <!-- Countdown Digits (Claude Monospace) -->
-          <div class="flex items-center gap-2 shrink-0" id="countdownTimerContainer">
-            <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px] shadow-sm">
-              <span id="cdDays" class="text-xl sm:text-2xl font-bold text-[#141413] font-mono">00</span>
-              <span class="text-[9px] font-semibold text-[#8E8B82] uppercase tracking-wider mt-0.5">Ngày</span>
+        <div class="p-6 sm:p-7">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+            <div class="max-w-xs sm:max-w-sm">
+              <div class="inline-flex items-center gap-1.5 bg-white text-black border border-[#e5e5e5] px-2.5 py-0.5 rounded-full text-[11px] font-medium mb-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-black animate-pulse"></span>
+                Chưa mở cổng đăng ký
+              </div>
+              <h2 class="text-base font-semibold text-black">
+                Mở đăng ký vào 22/08/2026
+              </h2>
+              <p class="text-[#737373] text-xs mt-1 leading-relaxed">
+                {user && user.inGuild 
+                  ? `Tài khoản @${user.username} đã xác thực Discord thành công. Nút đăng ký sẽ tự động mở khi đến thời điểm.`
+                  : "Bạn có thể đăng nhập Discord và tham gia máy chủ trước để sẵn sàng đăng ký ngay khi cổng mở."}
+              </p>
             </div>
-            <span class="text-sm font-bold text-[#8E8B82]">:</span>
-            <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px] shadow-sm">
-              <span id="cdHours" class="text-xl sm:text-2xl font-bold text-[#141413] font-mono">00</span>
-              <span class="text-[9px] font-semibold text-[#8E8B82] uppercase tracking-wider mt-0.5">Giờ</span>
-            </div>
-            <span class="text-sm font-bold text-[#8E8B82]">:</span>
-            <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px] shadow-sm">
-              <span id="cdMins" class="text-xl sm:text-2xl font-bold text-[#141413] font-mono">00</span>
-              <span class="text-[9px] font-semibold text-[#8E8B82] uppercase tracking-wider mt-0.5">Phút</span>
-            </div>
-            <span class="text-sm font-bold text-[#8E8B82]">:</span>
-            <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px] shadow-sm">
-              <span id="cdSecs" class="text-xl sm:text-2xl font-bold text-[#CC785C] font-mono">00</span>
-              <span class="text-[9px] font-semibold text-[#8E8B82] uppercase tracking-wider mt-0.5">Giây</span>
+
+            <!-- Countdown Digits (Ollama Monospace Pill) -->
+            <div class="flex items-center gap-1.5 shrink-0" id="countdownTimerContainer">
+              <div class="flex flex-col items-center bg-white border border-[#e5e5e5] rounded-lg px-2.5 py-2 min-w-[50px]">
+                <span id="cdDays" class="text-xl font-semibold text-black font-mono">00</span>
+                <span class="text-[9px] text-[#a3a3a3] uppercase tracking-wider mt-0.5">Ngày</span>
+              </div>
+              <span class="text-sm font-semibold text-[#a3a3a3]">:</span>
+              <div class="flex flex-col items-center bg-white border border-[#e5e5e5] rounded-lg px-2.5 py-2 min-w-[50px]">
+                <span id="cdHours" class="text-xl font-semibold text-black font-mono">00</span>
+                <span class="text-[9px] text-[#a3a3a3] uppercase tracking-wider mt-0.5">Giờ</span>
+              </div>
+              <span class="text-sm font-semibold text-[#a3a3a3]">:</span>
+              <div class="flex flex-col items-center bg-white border border-[#e5e5e5] rounded-lg px-2.5 py-2 min-w-[50px]">
+                <span id="cdMins" class="text-xl font-semibold text-black font-mono">00</span>
+                <span class="text-[9px] text-[#a3a3a3] uppercase tracking-wider mt-0.5">Phút</span>
+              </div>
+              <span class="text-sm font-semibold text-[#a3a3a3]">:</span>
+              <div class="flex flex-col items-center bg-white border border-[#e5e5e5] rounded-lg px-2.5 py-2 min-w-[50px]">
+                <span id="cdSecs" class="text-xl font-semibold text-black font-mono">00</span>
+                <span class="text-[9px] text-[#a3a3a3] uppercase tracking-wider mt-0.5">Giây</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- STEP 1: CHƯA ĐĂNG NHẬP DISCORD (Claude Dark Navy Product Surface) -->
+      <!-- STEP 1: CHƯA ĐĂNG NHẬP DISCORD (Ollama Inverted Dark Card) -->
       {!user && (
-        <div class="bg-[#181715] text-[#FAF9F5] border border-[#2E2B27] rounded-2xl p-7 md:p-10 shadow-lg text-center">
-          <div class="w-14 h-14 mx-auto mb-4 rounded-xl bg-[#252320] border border-[#3E3A35] flex items-center justify-center text-[#5865F2]">
-            <svg class="w-7 h-7 fill-current" viewBox="0 0 127.14 96.36">
+        <div class="bg-[#171717] text-white border border-[#262626] rounded-xl p-8 sm:p-10 text-center mb-8">
+          <div class="w-12 h-12 mx-auto mb-4 rounded-full bg-[#262626] border border-[#404040] flex items-center justify-center text-white">
+            <svg class="w-6 h-6 fill-current" viewBox="0 0 127.14 96.36">
               <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/>
             </svg>
           </div>
 
-          <h2 class="text-xl md:text-2xl font-serif text-[#FAF9F5] mb-2 font-normal">Bước 1: Đăng nhập Discord</h2>
-          <p class="text-[#A09D96] text-xs md:text-sm max-w-md mx-auto mb-6 leading-relaxed">
-            Hệ thống sử dụng tài khoản Discord để xác thực thành viên, đồng bộ lệnh điểm danh <code class="text-[#FAF9F5] bg-[#252320] px-1.5 py-0.5 rounded font-mono text-xs">/checkin</code> hàng ngày và cập nhật bảng xếp hạng.
+          <h2 class="text-xl font-semibold text-white mb-2">Bước 1: Đăng nhập Discord</h2>
+          <p class="text-[#a3a3a3] text-xs sm:text-sm max-w-md mx-auto mb-6 leading-relaxed">
+            Hệ thống sử dụng tài khoản Discord để xác thực thành viên, đồng bộ lệnh điểm danh <code class="text-white bg-[#262626] px-1.5 py-0.5 rounded font-mono text-xs">/checkin</code> hàng ngày và cập nhật bảng xếp hạng.
           </p>
 
           <a
             href="/login?returnTo=/register"
-            class="inline-flex items-center gap-2.5 bg-[#5865F2] hover:bg-[#4752C4] active:scale-[0.99] text-white font-medium px-6 py-3 rounded-xl text-sm transition-all duration-150 cursor-pointer shadow-md"
+            class="inline-flex items-center gap-2.5 bg-white hover:bg-[#e5e5e5] text-black font-medium px-6 py-2.5 rounded-full text-sm transition-all active:scale-[0.99] cursor-pointer shadow-none"
           >
             <svg class="w-4 h-4 fill-current shrink-0" viewBox="0 0 127.14 96.36">
               <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/>
             </svg>
-            <span>Đăng nhập bằng Discord để bắt đầu</span>
+            <span>Đăng nhập bằng Discord</span>
           </a>
         </div>
       )}
 
       <!-- STEP 2: ĐÃ ĐĂNG NHẬP NHƯNG CHƯA VÀO GUILD DISCORD ANKI VN -->
       {user && !user.inGuild && (
-        <div id="notInGuildCard" class="bg-[#F5F0E8] border border-[#E8A55A]/60 rounded-2xl p-7 md:p-9 shadow-sm text-center">
-          <div class="w-14 h-14 mx-auto mb-3 rounded-full overflow-hidden border-2 border-[#E8A55A] shadow-sm">
+        <div id="notInGuildCard" class="bg-[#fafafa] border border-[#e5e5e5] rounded-xl p-7 sm:p-9 text-center mb-8">
+          <div class="w-12 h-12 mx-auto mb-3 rounded-full overflow-hidden border border-[#e5e5e5]">
             <img src={user.avatar} alt={user.displayName} class="w-full h-full object-cover" />
           </div>
 
-          <div class="inline-flex items-center gap-1.5 bg-[#E8A55A]/15 text-[#9A6714] border border-[#E8A55A]/30 px-2.5 py-0.5 rounded-full text-xs font-medium mb-3">
-            ⚠️ Yêu cầu thành viên máy chủ
+          <div class="inline-flex items-center gap-1.5 bg-white text-[#525252] border border-[#e5e5e5] px-2.5 py-0.5 rounded-full text-xs font-medium mb-3">
+            <span>Yêu cầu máy chủ Discord</span>
           </div>
 
-          <h2 class="text-lg md:text-xl font-serif font-normal text-[#141413] mb-1.5">
-            Chào mừng {user.displayName}! Bạn cần tham gia Discord Anki Việt Nam
+          <h2 class="text-lg font-semibold text-black mb-1.5">
+            Chào {user.displayName}! Bạn cần tham gia Discord Anki Việt Nam
           </h2>
-          <p class="text-[#6C6A64] text-xs md:text-sm max-w-md mx-auto mb-5 leading-relaxed">
-            Tài khoản <strong class="text-[#141413]">@{user.username}</strong> của bạn chưa có mặt trong máy chủ Discord <strong>Anki Việt Nam</strong>. Hãy tham gia máy chủ và bấm <strong>"Kiểm tra lại"</strong> để mở khóa biểu mẫu.
+          <p class="text-[#737373] text-xs sm:text-sm max-w-md mx-auto mb-5 leading-relaxed">
+            Tài khoản <strong class="text-black">@{user.username}</strong> của bạn chưa có mặt trong máy chủ Discord <strong>Anki Việt Nam</strong>. Hãy tham gia máy chủ và bấm <strong>"Kiểm tra lại"</strong> để mở khóa biểu mẫu.
           </p>
 
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-sm mx-auto">
@@ -182,7 +205,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
               href={DISCORD_INVITE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-medium px-5 py-2.5 rounded-xl text-xs transition-all shadow-sm"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-[#171717] text-white font-medium px-5 py-2 rounded-full text-xs transition-all"
             >
               <span>Tham gia Discord Anki VN ↗</span>
             </a>
@@ -190,9 +213,9 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <button
               id="recheckGuildBtn"
               type="button"
-              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#5DB872] hover:bg-[#4CA560] text-white font-medium px-5 py-2.5 rounded-xl text-xs transition-all cursor-pointer shadow-sm"
+              class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white hover:bg-[#f0f0f0] text-black font-medium px-5 py-2 rounded-full border border-[#e5e5e5] text-xs transition-all cursor-pointer"
             >
-              <svg id="recheckIcon" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <svg id="recheckIcon" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001,0,004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003,0,01-15.357-2m15.357 2H15" />
               </svg>
               <span>Kiểm tra lại</span>
@@ -204,32 +227,32 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
       <!-- STEP 3: FORM ĐĂNG KÝ (KHI ĐÃ ĐỦ ĐIỀU KIỆN) -->
       <div id="registrationFormContainer" class={user && user.inGuild ? "block" : "hidden"}>
         
-        <!-- Discord Verified Badge (Claude Subtle Card) -->
+        <!-- Discord Verified Badge (Ollama Clean Pill Card) -->
         {user && (
-          <div class="mb-6 p-4 rounded-xl bg-[#F5F0E8] border border-[#E6DFD8] flex items-center justify-between gap-4">
+          <div class="mb-6 p-4 rounded-xl bg-[#fafafa] border border-[#e5e5e5] flex items-center justify-between gap-4">
             <div class="flex items-center gap-3">
               <div class="relative">
-                <img src={user.avatar} alt={user.displayName} class="w-9 h-9 rounded-full border border-[#E6DFD8] object-cover" />
-                <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#5DB872] border-2 border-white rounded-full"></span>
+                <img src={user.avatar} alt={user.displayName} class="w-8 h-8 rounded-full border border-[#e5e5e5] object-cover" />
+                <span class="absolute bottom-0 right-0 w-2 h-2 bg-[#27c93f] border border-white rounded-full"></span>
               </div>
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-semibold text-[#141413]">{user.displayName}</span>
-                  <span class="text-[10px] bg-[#5DB872]/15 text-[#2E7A3E] font-medium px-2 py-0.5 rounded-full border border-[#5DB872]/30">✓ Đã xác thực Discord Anki VN</span>
+                  <span class="text-xs font-semibold text-black">{user.displayName}</span>
+                  <span class="text-[10px] bg-white text-[#525252] font-medium px-2 py-0.5 rounded-full border border-[#e5e5e5]">✓ Xác thực Discord</span>
                 </div>
-                <div class="text-[11px] text-[#6C6A64] font-mono">@{user.username} • ID: {user.id}</div>
+                <div class="text-[11px] text-[#737373] font-mono">@{user.username} · ID: {user.id}</div>
               </div>
             </div>
 
             <div class="text-right hidden sm:block">
-              <span class="text-[11px] text-[#8E8B82]">Email</span>
-              <div class="text-xs font-medium text-[#252523]">{user.email || 'Chưa cung cấp'}</div>
+              <span class="text-[11px] text-[#a3a3a3]">Email</span>
+              <div class="text-xs font-medium text-black">{user.email || 'Chưa cung cấp'}</div>
             </div>
           </div>
         )}
 
-        <!-- Main Form Card (Claude Clean Surface) -->
-        <div class="bg-white border border-[#E6DFD8] rounded-2xl p-6 md:p-9 shadow-[0_1px_3px_rgba(20,20,19,0.04)]">
+        <!-- Main Form Card (Ollama Clean Hairline Card) -->
+        <div class="bg-white border border-[#e5e5e5] rounded-xl p-6 sm:p-8">
           <form id="registrationForm" class="space-y-5">
             
             <!-- Hidden context fields -->
@@ -237,8 +260,8 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 
             <!-- Họ và Tên -->
             <div>
-              <label for="name" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
-                Họ và Tên hiển thị <span class="text-[#C64545]">*</span>
+              <label for="name" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
+                Họ và Tên hiển thị <span class="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -247,15 +270,15 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                 required
                 value={existingProfile?.name || user?.displayName || user?.username || ''}
                 placeholder="Ví dụ: Lê Hoàng Phúc"
-                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
               />
-              <p class="text-[11px] text-[#6C6A64] mt-1">Tên này sẽ xuất hiện trên Bảng xếp hạng và Chứng chỉ tốt nghiệp của bạn.</p>
+              <p class="text-[11px] text-[#737373] mt-1 pl-3">Tên này sẽ xuất hiện trên Bảng xếp hạng và Chứng chỉ tốt nghiệp của bạn.</p>
             </div>
 
             <!-- Grid 2 cột: Năm sinh & Nơi ở -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="birthYear" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+                <label for="birthYear" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                   Năm sinh
                 </label>
                 <input
@@ -266,12 +289,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                   max="2030"
                   value={existingProfile?.birthYear || ''}
                   placeholder="Ví dụ: 2001"
-                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                  class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label for="place" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+                <label for="place" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                   Tỉnh / Thành phố / Quốc gia
                 </label>
                 <input
@@ -280,7 +303,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                   name="place"
                   value={existingProfile?.place || ''}
                   placeholder="Ví dụ: Hà Nội, TP.HCM, Tokyo..."
-                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                  class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
                 />
               </div>
             </div>
@@ -288,7 +311,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <!-- Grid 2 cột: Chuyên ngành & Kiến thức học -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label for="major" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+                <label for="major" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                   Nghề nghiệp / Chuyên ngành
                 </label>
                 <input
@@ -297,12 +320,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                   name="major"
                   value={existingProfile?.major || ''}
                   placeholder="Ví dụ: Y đa khoa, CNTT..."
-                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                  class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label for="learning" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+                <label for="learning" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                   Kiến thức / Ngoại ngữ học
                 </label>
                 <input
@@ -311,14 +334,14 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                   name="learning"
                   value={existingProfile?.learning || ''}
                   placeholder="Ví dụ: Tiếng Nhật N2, Từ vựng IELTS..."
-                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                  class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
                 />
               </div>
             </div>
 
             <!-- Mục tiêu thử thách -->
             <div>
-              <label for="goals" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+              <label for="goals" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                 Mục tiêu trong 100 ngày tới
               </label>
               <textarea
@@ -326,13 +349,13 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                 name="goals"
                 rows="3"
                 placeholder="Ví dụ: Hoàn thành 1000 từ vựng chuyên ngành, ôn thẻ đều đặn ít nhất 30 phút mỗi ngày không đứt chuỗi..."
-                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all resize-none"
+                class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-xl p-3.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all resize-none"
               >{existingProfile?.goals || ''}</textarea>
             </div>
 
             <!-- Trích dẫn / Lời hứa kỷ luật -->
             <div>
-              <label for="quotes" class="block text-xs font-semibold uppercase tracking-wider text-[#3D3D3A] mb-1.5">
+              <label for="quotes" class="block text-xs font-medium uppercase tracking-wider text-[#525252] mb-1.5">
                 Châm ngôn / Lời hứa kỷ luật
               </label>
               <input
@@ -340,50 +363,50 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                 id="quotes"
                 name="quotes"
                 value={existingProfile?.quotes || ''}
-                placeholder="Ví dụ: Kỷ luật là tự do • Small steps every day"
-                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#8E8B82] outline-none transition-all"
+                placeholder="Ví dụ: Kỷ luật là tự do · Small steps every day"
+                class="w-full bg-white border border-[#e5e5e5] focus:border-black focus:ring-1 focus:ring-black rounded-full px-4 py-2.5 text-sm text-black placeholder-[#a3a3a3] outline-none transition-all"
               />
             </div>
 
             <!-- Cam kết hoàn thành -->
-            <div class="p-4 rounded-xl bg-[#F5F0E8] border border-[#E6DFD8]">
+            <div class="p-4 rounded-xl bg-[#fafafa] border border-[#e5e5e5]">
               <label class="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
                   name="commitment"
                   id="commitmentCheck"
                   required
-                  class="mt-0.5 w-4 h-4 rounded text-[#CC785C] focus:ring-[#CC785C]/30 bg-white border-[#E6DFD8]"
+                  class="mt-0.5 w-4 h-4 rounded text-black focus:ring-black bg-white border-[#e5e5e5]"
                 />
-                <span class="text-xs sm:text-sm text-[#3D3D3A] leading-relaxed font-normal">
-                  Tôi cam kết tham gia nghiêm túc, học bài đều đặn mỗi ngày bằng Anki và điểm danh qua Discord theo quy định. <span class="text-[#C64545]">*</span>
+                <span class="text-xs sm:text-sm text-[#525252] leading-relaxed font-normal">
+                  Tôi cam kết tham gia nghiêm túc, học bài đều đặn mỗi ngày bằng Anki và điểm danh qua Discord theo quy định. <span class="text-red-500">*</span>
                 </span>
               </label>
             </div>
 
             <!-- Notice if registration is locked -->
             {!isRegistrationOpen && (
-              <div id="lockedFormNotice" class="p-4 rounded-xl bg-[#F5F0E8] border border-[#E6DFD8] flex items-start gap-3">
-                <span class="text-[#CC785C] text-base shrink-0">⏳</span>
-                <div class="text-xs text-[#6C6A64] leading-relaxed">
-                  <strong class="text-[#141413]">Cổng đăng ký chưa mở:</strong> Cổng đăng ký Anki Challenge 10 sẽ mở vào ngày <strong class="text-[#141413]">22/08/2026 lúc 00:00 (GMT+7)</strong>. Bạn có thể kiểm tra trước các thông tin biểu mẫu, nút đăng ký sẽ tự động mở khi đến giờ!
+              <div id="lockedFormNotice" class="p-4 rounded-xl bg-[#fafafa] border border-[#e5e5e5] flex items-start gap-3">
+                <span class="text-black text-base shrink-0">⏳</span>
+                <div class="text-xs text-[#737373] leading-relaxed">
+                  <strong class="text-black">Cổng đăng ký chưa mở:</strong> Cổng đăng ký Anki Challenge 10 sẽ mở vào ngày <strong class="text-black">22/08/2026 lúc 00:00 (GMT+7)</strong>. Bạn có thể kiểm tra trước các thông tin biểu mẫu, nút đăng ký sẽ tự động mở khi đến giờ!
                 </div>
               </div>
             )}
 
             <!-- Error message container -->
-            <div id="formErrorMsg" class="hidden p-3.5 rounded-xl bg-[#C64545]/10 border border-[#C64545]/30 text-[#C64545] text-xs font-medium"></div>
+            <div id="formErrorMsg" class="hidden p-3.5 rounded-xl bg-[#fafafa] border border-red-300 text-red-600 text-xs font-medium"></div>
 
-            <!-- Submit Button (Claude Coral Primary CTA) -->
+            <!-- Submit Button (Ollama Pure Black Pill Primary CTA) -->
             <div class="pt-2">
               <button
                 type="submit"
                 id="submitBtn"
                 disabled={!isRegistrationOpen}
-                class={`w-full py-3.5 px-6 rounded-xl font-medium text-sm md:text-base transition-all flex items-center justify-center gap-2 ${
+                class={`w-full py-3.5 px-6 rounded-full font-medium text-sm transition-all flex items-center justify-center gap-2 ${
                   isRegistrationOpen
-                    ? "bg-[#CC785C] hover:bg-[#A9583E] text-white shadow-sm hover:shadow active:scale-[0.99] cursor-pointer"
-                    : "bg-[#E6DFD8] text-[#8E8B82] border border-[#D5CDC5] cursor-not-allowed opacity-90"
+                    ? "bg-black hover:bg-[#171717] text-white active:scale-[0.99] cursor-pointer"
+                    : "bg-[#fafafa] text-[#a3a3a3] border border-[#e5e5e5] cursor-not-allowed"
                 }`}
               >
                 <span id="submitBtnText">{isRegistrationOpen ? "Gửi Đăng Ký Anki Challenge 10" : "Chưa mở hạn đăng ký (Mở ngày 22/08/2026)"}</span>
@@ -399,15 +422,15 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 
       </div>
 
-      <!-- SUCCESS MODAL / CARD (Claude Editorial Card) -->
-      <div id="successCard" class="hidden bg-white border border-[#E6DFD8] rounded-2xl p-8 md:p-12 shadow-sm text-center">
-        <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-[#F5F0E8] border border-[#E6DFD8] flex items-center justify-center text-[#CC785C] text-2xl shadow-sm">
-          <svg class="w-8 h-8 text-[#CC785C]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
+      <!-- SUCCESS MODAL / CARD (Ollama Clean Success Card) -->
+      <div id="successCard" class="hidden bg-white border border-[#e5e5e5] rounded-xl p-8 sm:p-12 text-center">
+        <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#fafafa] border border-[#e5e5e5] flex items-center justify-center text-black">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h2 class="text-2xl md:text-3xl font-serif text-[#141413] mb-2 font-normal">Đăng ký thành công!</h2>
-        <p class="text-[#6C6A64] text-xs md:text-sm max-w-md mx-auto mb-8 leading-relaxed">
+        <h2 class="text-2xl font-semibold text-black mb-2">Đăng ký thành công!</h2>
+        <p class="text-[#737373] text-xs sm:text-sm max-w-md mx-auto mb-8 leading-relaxed">
           Chúc mừng bạn đã chính thức ghi danh vào <strong>Anki Challenge 10</strong>. Hãy chuẩn bị tinh thần để bắt đầu hành trình 100 ngày kỷ luật cùng cộng đồng!
         </p>
 
@@ -415,15 +438,15 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
           <a
             id="successProfileLink"
             href="/"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#CC785C] hover:bg-[#A9583E] text-white font-medium px-5 py-2.5 rounded-xl text-xs transition-all shadow-sm"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-black hover:bg-[#171717] text-white font-medium px-5 py-2.5 rounded-full text-xs transition-all"
           >
-            👤 Xem Hồ sơ cá nhân
+            Xem Hồ sơ cá nhân
           </a>
           <a
             href="/"
-            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#FAF9F5] hover:bg-[#F5F0E8] text-[#141413] font-medium px-5 py-2.5 rounded-xl border border-[#E6DFD8] text-xs transition-all"
+            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#fafafa] hover:bg-[#f0f0f0] text-black font-medium px-5 py-2.5 rounded-full border border-[#e5e5e5] text-xs transition-all"
           >
-            📊 Về Bảng xếp hạng
+            Về Bảng xếp hạng
           </a>
         </div>
       </div>
@@ -456,7 +479,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
       if (lockedFormNotice) lockedFormNotice.classList.add("hidden");
       if (submitBtn && submitBtn.disabled) {
         submitBtn.disabled = false;
-        submitBtn.className = "w-full py-3.5 px-6 rounded-xl font-medium text-sm md:text-base transition-all flex items-center justify-center gap-2 bg-[#CC785C] hover:bg-[#A9583E] text-white shadow-sm hover:shadow active:scale-[0.99] cursor-pointer";
+        submitBtn.className = "w-full py-3.5 px-6 rounded-full font-medium text-sm transition-all flex items-center justify-center gap-2 bg-black hover:bg-[#171717] text-white active:scale-[0.99] cursor-pointer";
         if (submitBtnText) submitBtnText.textContent = "Gửi Đăng Ký Anki Challenge 10";
       }
       return;
