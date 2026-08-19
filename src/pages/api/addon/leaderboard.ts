@@ -70,7 +70,9 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
            SUM(CASE WHEN date >= ? THEN cards_reviewed ELSE 0 END) as cards_week,
            SUM(CASE WHEN date >= ? THEN cards_reviewed ELSE 0 END) as cards_month,
            SUM(cards_reviewed) as cards_total,
-           SUM(CASE WHEN date = ? THEN time_spent_seconds ELSE 0 END) as time_today
+           SUM(CASE WHEN date = ? THEN time_spent_seconds ELSE 0 END) as time_today,
+           SUM(time_spent_seconds) as time_total,
+           AVG(CASE WHEN retention_rate IS NOT NULL AND retention_rate > 0 THEN retention_rate ELSE NULL END) as avg_retention
          FROM addon_stats
          WHERE challenge_id = ?
          GROUP BY user_id`
@@ -93,6 +95,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         cardsMonth: Number(row.cards_month || 0),
         cardsTotal: Number(row.cards_total || 0),
         timeToday: Number(row.time_today || 0),
+        timeTotal: Number(row.time_total || 0),
+        retentionRate: row.avg_retention ? Math.round(Number(row.avg_retention) * 10) / 10 : 0,
       };
     }
 
@@ -100,7 +104,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
     for (const session of liveSessions) {
       const uid = Number(session.userId);
       if (!statsMap[uid]) {
-        statsMap[uid] = { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0 };
+        statsMap[uid] = { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0, timeTotal: 0, retentionRate: 0 };
       }
       if (session.cardsToday > statsMap[uid].cardsToday) {
         const diff = session.cardsToday - statsMap[uid].cardsToday;
@@ -108,6 +112,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         statsMap[uid].cardsWeek += diff;
         statsMap[uid].cardsMonth += diff;
         statsMap[uid].cardsTotal += diff;
+        statsMap[uid].timeTotal += (session.timeTodaySeconds - statsMap[uid].timeToday);
+        statsMap[uid].timeToday = session.timeTodaySeconds;
       }
     }
 
@@ -121,7 +127,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
     const fullMembers = members.map((member: any) => {
       const studyDays = Object.values(checkinsMap).filter((dateMap) => Boolean(dateMap[member.id])).length;
       const disciplinePercentage = Math.min(100, Math.round((studyDays / totalDaysPossible) * 100));
-      const uStats = statsMap[member.id] || { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0 };
+      const uStats = statsMap[member.id] || { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0, timeTotal: 0, retentionRate: 0 };
 
       return {
         id: member.id,
@@ -136,6 +142,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         cardsMonth: uStats.cardsMonth,
         cardsTotal: uStats.cardsTotal,
         timeToday: uStats.timeToday,
+        timeTotal: uStats.timeTotal,
+        retentionRate: uStats.retentionRate,
       };
     });
 
@@ -189,6 +197,20 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
       'cardsTotal'
     );
 
+    // Bảng xếp hạng Thời Gian Học (xếp theo tổng thời gian học tích lũy)
+    const timeRanking = rankList(
+      fullMembers,
+      (a, b) => b.timeTotal - a.timeTotal || b.cardsTotal - a.cardsTotal || b.disciplinePercentage - a.disciplinePercentage,
+      'timeTotal'
+    );
+
+    // Bảng xếp hạng Tỷ Lệ Ghi Nhớ (xếp theo % Retention)
+    const retentionRanking = rankList(
+      fullMembers,
+      (a, b) => b.retentionRate - a.retentionRate || b.cardsTotal - a.cardsTotal || b.disciplinePercentage - a.disciplinePercentage,
+      'retentionRate'
+    );
+
     // Bảng xếp hạng Mùa giải (Kỷ luật % tổng thể)
     const seasonRanking = rankList(
       fullMembers,
@@ -203,6 +225,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
     else if (requestedTimeframe === 'month') activeLeaderboard = monthRanking;
     else if (requestedTimeframe === 'streak') activeLeaderboard = streakRanking;
     else if (requestedTimeframe === 'cards') activeLeaderboard = cardsRanking;
+    else if (requestedTimeframe === 'time') activeLeaderboard = timeRanking;
+    else if (requestedTimeframe === 'retention') activeLeaderboard = retentionRanking;
 
     // Tìm thứ hạng của người gọi
     let myRankInfo: any = null;
@@ -233,6 +257,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
           month: monthRanking.slice(0, 15),
           streak: streakRanking.slice(0, 15),
           cards: cardsRanking.slice(0, 15),
+          time: timeRanking.slice(0, 15),
+          retention: retentionRanking.slice(0, 15),
           season: seasonRanking.slice(0, 15),
         },
         myRank: myRankInfo,
