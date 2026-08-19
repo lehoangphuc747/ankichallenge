@@ -175,6 +175,20 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
       'cardsMonth'
     );
 
+    // Bảng xếp hạng Chuỗi Streak (xếp theo số ngày liên tục)
+    const streakRanking = rankList(
+      fullMembers,
+      (a, b) => b.streak - a.streak || b.disciplinePercentage - a.disciplinePercentage || b.cardsTotal - a.cardsTotal,
+      'streak'
+    );
+
+    // Bảng xếp hạng Tổng Thẻ (xếp theo tổng số thẻ đã học)
+    const cardsRanking = rankList(
+      fullMembers,
+      (a, b) => b.cardsTotal - a.cardsTotal || b.disciplinePercentage - a.disciplinePercentage || b.streak - a.streak,
+      'cardsTotal'
+    );
+
     // Bảng xếp hạng Mùa giải (Kỷ luật % tổng thể)
     const seasonRanking = rankList(
       fullMembers,
@@ -187,6 +201,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
     if (requestedTimeframe === 'day') activeLeaderboard = dayRanking;
     else if (requestedTimeframe === 'week') activeLeaderboard = weekRanking;
     else if (requestedTimeframe === 'month') activeLeaderboard = monthRanking;
+    else if (requestedTimeframe === 'streak') activeLeaderboard = streakRanking;
+    else if (requestedTimeframe === 'cards') activeLeaderboard = cardsRanking;
 
     // Tìm thứ hạng của người gọi
     let myRankInfo: any = null;
@@ -215,6 +231,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
           day: dayRanking.slice(0, 15),
           week: weekRanking.slice(0, 15),
           month: monthRanking.slice(0, 15),
+          streak: streakRanking.slice(0, 15),
+          cards: cardsRanking.slice(0, 15),
           season: seasonRanking.slice(0, 15),
         },
         myRank: myRankInfo,
