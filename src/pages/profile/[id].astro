@@ -31,6 +31,22 @@ export function getStaticPaths() {
     <div class="absolute top-[-8%] left-1/2 -translate-x-1/2 w-[800px] h-[380px] bg-[#CC785C]/5 blur-[140px] rounded-full pointer-events-none z-0"></div>
     <div class="absolute bottom-[-10%] right-[-8%] w-[500px] h-[500px] bg-[#E8A55A]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
     
+    <!-- Floating Re-open Sidebar Button (Visible when sidebar is collapsed/hidden) -->
+    <button 
+      id="sidebarFloatingToggle" 
+      class="fixed left-4 top-4 z-40 px-3.5 py-2.5 rounded-xl bg-[#FFFFFF] hover:bg-[#F3EFEA] text-[#141413] border border-[#E6DFD8] shadow-md transition-all duration-200 items-center justify-center gap-2 cursor-pointer hidden group"
+      title="Hiện danh sách thành viên"
+      aria-label="Hiện danh sách thành viên"
+    >
+      <!-- Lucide icon: panel-left-open -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#CC785C] group-hover:scale-110 transition-transform">
+        <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+        <path d="M9 3v18"></path>
+        <path d="m14 9 3 3-3 3"></path>
+      </svg>
+      <span class="text-xs font-semibold">Thành viên</span>
+    </button>
+
     <!-- Sidebar Overlay (Mobile) -->
     <div 
       id="sidebarOverlay" 
@@ -1919,52 +1935,56 @@ export function getStaticPaths() {
   function setupSidebarToggle() {
     const sidebar = document.getElementById('profileSidebar');
     const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebarFloatingToggle = document.getElementById('sidebarFloatingToggle');
     const sidebarClose = document.getElementById('sidebarClose');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
     const mainContentWrap = document.getElementById('mainContentWrap');
     const profileShell = document.querySelector('.profile-shell');
 
-    if (!sidebar || !sidebarToggle || !sidebarClose || !sidebarOverlay) return;
+    if (!sidebar || !sidebarClose || !sidebarOverlay) return;
 
-    // Check saved state for desktop
+    const updateToggleUI = (isCollapsed: boolean) => {
+      if (sidebarFloatingToggle) {
+        if (isCollapsed) {
+          sidebarFloatingToggle.classList.remove('hidden');
+          sidebarFloatingToggle.classList.add('flex');
+        } else {
+          sidebarFloatingToggle.classList.add('hidden');
+          sidebarFloatingToggle.classList.remove('flex');
+        }
+      }
+      if (sidebarToggle) {
+        const span = sidebarToggle.querySelector('span');
+        if (span) {
+          span.textContent = isCollapsed ? 'Hiện thành viên' : 'Ẩn thành viên';
+        }
+      }
+    };
+
     const isHiddenSaved = localStorage.getItem('profile_sidebar_hidden') === 'true';
     if (isHiddenSaved && window.innerWidth >= 768) {
       profileShell?.classList.add('sidebar-collapsed');
       sidebar.classList.add('md:-translate-x-full');
       mainContentWrap?.classList.remove('md:w-[calc(100%-20rem)]', 'md:ml-80');
       mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
+      updateToggleUI(true);
+    } else {
+      updateToggleUI(false);
     }
 
-    const toggleSidebar = () => {
+    const openSidebar = () => {
       if (window.innerWidth < 768) {
-        // Mobile behavior: drawer
-        const isClosed = sidebar.classList.contains('-translate-x-full');
-        if (isClosed) {
-          sidebar.classList.remove('-translate-x-full');
-          sidebarOverlay.classList.remove('hidden');
-          document.body.style.overflow = 'hidden';
-        } else {
-          sidebar.classList.add('-translate-x-full');
-          sidebarOverlay.classList.add('hidden');
-          document.body.style.overflow = '';
-        }
+        sidebar.classList.remove('-translate-x-full');
+        sidebarOverlay.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
       } else {
-        // Desktop behavior: collapse / expand
-        const isCollapsed = profileShell?.classList.contains('sidebar-collapsed');
-        if (isCollapsed) {
-          profileShell?.classList.remove('sidebar-collapsed');
-          sidebar.classList.remove('md:-translate-x-full');
-          mainContentWrap?.classList.remove('md:w-full', 'md:ml-0');
-          mainContentWrap?.classList.add('md:w-[calc(100%-20rem)]', 'md:ml-80');
-          localStorage.setItem('profile_sidebar_hidden', 'false');
-        } else {
-          profileShell?.classList.add('sidebar-collapsed');
-          sidebar.classList.add('md:-translate-x-full');
-          mainContentWrap?.classList.remove('md:w-[calc(100%-20rem)]', 'md:ml-80');
-          mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
-          localStorage.setItem('profile_sidebar_hidden', 'true');
-        }
+        profileShell?.classList.remove('sidebar-collapsed');
+        sidebar.classList.remove('md:-translate-x-full');
+        mainContentWrap?.classList.remove('md:w-full', 'md:ml-0');
+        mainContentWrap?.classList.add('md:w-[calc(100%-20rem)]', 'md:ml-80');
+        localStorage.setItem('profile_sidebar_hidden', 'false');
       }
+      updateToggleUI(false);
     };
 
     const closeSidebar = () => {
@@ -1979,11 +1999,31 @@ export function getStaticPaths() {
         mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
         localStorage.setItem('profile_sidebar_hidden', 'true');
       }
+      updateToggleUI(true);
     };
 
-    sidebarToggle.addEventListener('click', toggleSidebar);
-    sidebarClose.addEventListener('click', closeSidebar);
-    sidebarOverlay.addEventListener('click', closeSidebar);
+    const toggleSidebar = () => {
+      if (window.innerWidth < 768) {
+        const isClosed = sidebar.classList.contains('-translate-x-full');
+        if (isClosed) {
+          openSidebar();
+        } else {
+          closeSidebar();
+        }
+      } else {
+        const isCollapsed = profileShell?.classList.contains('sidebar-collapsed');
+        if (isCollapsed) {
+          openSidebar();
+        } else {
+          closeSidebar();
+        }
+      }
+    };
+
+    sidebarToggle?.addEventListener('click', toggleSidebar);
+    sidebarFloatingToggle?.addEventListener('click', openSidebar);
+    sidebarClose?.addEventListener('click', closeSidebar);
+    sidebarOverlay?.addEventListener('click', closeSidebar);
 
     // Close sidebar when clicking on a user link (mobile) - use event delegation
     const sidebarListEl = document.getElementById('sidebarUserList');
