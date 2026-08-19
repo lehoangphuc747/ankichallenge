@@ -436,20 +436,46 @@ export async function upsertAddonDailyStats(db: D1Database, stat: AddonDailyStat
     .run();
 }
 
+export interface StudySession {
+  userId: number;
+  discordId?: string;
+  displayName: string;
+  avatar?: string;
+  cardsToday: number;
+  timeTodaySeconds: number;
+  lastPing?: string;
+  isFocusing?: boolean;
+  pomodoroCount?: number;
+  currentActivity?: string;
+}
+
+export interface CheerMessage {
+  id: number;
+  senderId: number;
+  senderName: string;
+  targetId: number;
+  emoji: string;
+  createdAt: number;
+  isRead: boolean;
+}
+
 /**
  * Cập nhật heartbeat phiên học trực tuyến (bảng study_sessions)
  */
 export async function upsertStudySession(db: D1Database, session: StudySession): Promise<void> {
   await db
     .prepare(
-      `INSERT INTO study_sessions (user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, last_ping)
-       VALUES (?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+      `INSERT INTO study_sessions (user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, is_focusing, pomodoro_count, current_activity, last_ping)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
        ON CONFLICT(user_id) DO UPDATE SET
          discord_id = COALESCE(excluded.discord_id, study_sessions.discord_id),
          display_name = excluded.display_name,
          avatar = COALESCE(excluded.avatar, study_sessions.avatar),
          cards_today = excluded.cards_today,
          time_today_seconds = excluded.time_today_seconds,
+         is_focusing = COALESCE(excluded.is_focusing, study_sessions.is_focusing),
+         pomodoro_count = COALESCE(excluded.pomodoro_count, study_sessions.pomodoro_count),
+         current_activity = COALESCE(excluded.current_activity, study_sessions.current_activity),
          last_ping = CURRENT_TIMESTAMP`
     )
     .bind(
@@ -458,7 +484,10 @@ export async function upsertStudySession(db: D1Database, session: StudySession):
       session.displayName,
       session.avatar || null,
       session.cardsToday,
-      session.timeTodaySeconds
+      session.timeTodaySeconds,
+      session.isFocusing ? 1 : 0,
+      session.pomodoroCount || 0,
+      session.currentActivity || null
     )
     .run();
 }
@@ -470,7 +499,7 @@ export async function getLiveStudySessions(db: D1Database, activeWithinMinutes: 
   try {
     const { results } = await db
       .prepare(
-        `SELECT user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, last_ping
+        `SELECT user_id, discord_id, display_name, avatar, cards_today, time_today_seconds, is_focusing, pomodoro_count, current_activity, last_ping
          FROM study_sessions
          WHERE datetime(last_ping) >= datetime('now', '-' || ? || ' minutes')
          ORDER BY cards_today DESC`
@@ -485,6 +514,9 @@ export async function getLiveStudySessions(db: D1Database, activeWithinMinutes: 
       avatar: r.avatar || undefined,
       cardsToday: Number(r.cards_today || 0),
       timeTodaySeconds: Number(r.time_today_seconds || 0),
+      isFocusing: Boolean(r.is_focusing),
+      pomodoroCount: Number(r.pomodoro_count || 0),
+      currentActivity: r.current_activity || undefined,
       lastPing: r.last_ping,
     }));
   } catch (err) {
@@ -492,3 +524,50 @@ export async function getLiveStudySessions(db: D1Database, activeWithinMinutes: 
     return [];
   }
 }
+
+/**
+ * Gửi một lượt cổ vũ (Cheer) đến bạn học
+ */
+export async function sendCheerInDB(
+  db: D1Database,
+  data: { senderId: number; senderName: string; targetId: number; emoji: string }
+): Promise<void> {
+  await db
+    .prepare('INSERT INTO cheers (sender_id, sender_name, target_id, emoji, created_at, is_read) VALUES (?, ?, ?, ?, unixepoch(), 0)')
+    .bind(data.senderId, data.senderName, data.targetId, data.emoji)
+    .run();
+}
+
+/**
+ * Lấy các lời cổ vũ chưa đọc gửi đến user
+ */
+export async function getUnreadCheersFromDB(db: D1Database, userId: number): Promise<CheerMessage[]> {
+  try {
+    const { results } = await db
+      .prepare('SELECT id, sender_id, sender_name, target_id, emoji, created_at, is_read FROM cheers WHERE target_id = ? AND is_read = 0 ORDER BY id ASC LIMIT 20')
+      .bind(userId)
+      .all();
+
+    return (results || []).map((r: any) => ({
+      id: Number(r.id),
+      senderId: Number(r.sender_id),
+      senderName: r.sender_name,
+      targetId: Number(r.target_id),
+      emoji: r.emoji,
+      createdAt: Number(r.created_at || 0),
+      isRead: Boolean(r.is_read),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Đánh dấu lời cổ vũ đã đọc
+ */
+export async function markCheersAsReadInDB(db: D1Database, cheerIds: number[]): Promise<void> {
+  if (!cheerIds.length) return;
+  const placeholders = cheerIds.map(() => '?').join(',');
+  await db.prepare(`UPDATE cheers SET is_read = 1 WHERE id IN (${placeholders})`).bind(...cheerIds).run();
+}
+
