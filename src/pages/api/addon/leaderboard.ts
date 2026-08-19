@@ -12,6 +12,16 @@ import { verifySession } from '../../../utils/session';
 
 export const prerender = false;
 
+// Helper lấy ngày tháng theo múi giờ GMT+7
+function getVietnamDateRanges() {
+  const now = new Date();
+  const vnTime = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+  const today = vnTime.toISOString().slice(0, 10);
+  const sevenDaysAgo = new Date(vnTime.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const monthStart = today.slice(0, 7) + '-01';
+  return { today, sevenDaysAgo, monthStart };
+}
+
 export const GET: APIRoute = async ({ request, url, locals }) => {
   const env = (locals as any).runtime?.env ?? {};
   const db = env.DB;
@@ -25,6 +35,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
   }
 
   const challengeId = Number(url.searchParams.get('challengeId')) || 3;
+  const requestedTimeframe = url.searchParams.get('timeframe') || 'season'; // 'day' | 'week' | 'month' | 'season'
 
   // Kiểm tra nếu có Bearer Token truyền vào
   const authHeader = request.headers.get('Authorization') || '';
@@ -43,16 +54,62 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
     }
   }
 
+  const { today, sevenDaysAgo, monthStart } = getVietnamDateRanges();
+
   try {
-    const [usersRes, checkinsMap, challengesMap, liveSessions] = await Promise.all([
+    // 1. Truy vấn song song dữ liệu từ D1 SQLite (100% D1, Zero KV)
+    const [usersRes, checkinsMap, challengesMap, liveSessions, addonStatsRows] = await Promise.all([
       getUsersFromDB(db),
       getRecordsFromDB(db, challengeId),
       getChallengesFromDB(db),
-      getLiveStudySessions(db, 15)
+      getLiveStudySessions(db, 15),
+      db.prepare(
+        `SELECT 
+           user_id,
+           SUM(CASE WHEN date = ? THEN cards_reviewed ELSE 0 END) as cards_today,
+           SUM(CASE WHEN date >= ? THEN cards_reviewed ELSE 0 END) as cards_week,
+           SUM(CASE WHEN date >= ? THEN cards_reviewed ELSE 0 END) as cards_month,
+           SUM(cards_reviewed) as cards_total,
+           SUM(CASE WHEN date = ? THEN time_spent_seconds ELSE 0 END) as time_today
+         FROM addon_stats
+         WHERE challenge_id = ?
+         GROUP BY user_id`
+      )
+      .bind(today, sevenDaysAgo, monthStart, today, challengeId)
+      .all()
+      .then((res: any) => res?.results || [])
+      .catch(() => [])
     ]);
 
     const activeChallenge = challengesMap[String(challengeId)] || { totalDays: 100, name: `Anki Challenge ${challengeId}` };
     const totalDaysPossible = activeChallenge.totalDays || 100;
+
+    // Tạo Map thống kê số thẻ theo user_id
+    const statsMap: Record<number, any> = {};
+    for (const row of addonStatsRows) {
+      statsMap[Number(row.user_id)] = {
+        cardsToday: Number(row.cards_today || 0),
+        cardsWeek: Number(row.cards_week || 0),
+        cardsMonth: Number(row.cards_month || 0),
+        cardsTotal: Number(row.cards_total || 0),
+        timeToday: Number(row.time_today || 0),
+      };
+    }
+
+    // Kết hợp thêm số thẻ realtime từ study_sessions nếu có
+    for (const session of liveSessions) {
+      const uid = Number(session.userId);
+      if (!statsMap[uid]) {
+        statsMap[uid] = { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0 };
+      }
+      if (session.cardsToday > statsMap[uid].cardsToday) {
+        const diff = session.cardsToday - statsMap[uid].cardsToday;
+        statsMap[uid].cardsToday = session.cardsToday;
+        statsMap[uid].cardsWeek += diff;
+        statsMap[uid].cardsMonth += diff;
+        statsMap[uid].cardsTotal += diff;
+      }
+    }
 
     // Lọc thành viên tham gia mùa này
     const members = usersRes.data.filter((u: any) => {
@@ -60,10 +117,11 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
       return cIds.includes(challengeId) && !u.hidden;
     });
 
-    // Tính toán thống kê từng thành viên
-    const rankedMembers = members.map((member: any) => {
+    // 2. Tính toán các chỉ số cho từng thành viên
+    const fullMembers = members.map((member: any) => {
       const studyDays = Object.values(checkinsMap).filter((dateMap) => Boolean(dateMap[member.id])).length;
       const disciplinePercentage = Math.min(100, Math.round((studyDays / totalDaysPossible) * 100));
+      const uStats = statsMap[member.id] || { cardsToday: 0, cardsWeek: 0, cardsMonth: 0, cardsTotal: 0, timeToday: 0 };
 
       return {
         id: member.id,
@@ -73,38 +131,73 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         studyDays: studyDays,
         disciplinePercentage: disciplinePercentage,
         streak: member.streak || 0,
+        cardsToday: uStats.cardsToday,
+        cardsWeek: uStats.cardsWeek,
+        cardsMonth: uStats.cardsMonth,
+        cardsTotal: uStats.cardsTotal,
+        timeToday: uStats.timeToday,
       };
     });
 
-    // Sắp xếp Bảng xếp hạng theo tỷ lệ kỷ luật và chuỗi streak
-    rankedMembers.sort((a, b) => {
-      if (b.disciplinePercentage !== a.disciplinePercentage) {
-        return b.disciplinePercentage - a.disciplinePercentage;
-      }
-      if (b.streak !== a.streak) {
-        return b.streak - a.streak;
-      }
-      return b.studyDays - a.studyDays;
-    });
+    // 3. Hàm sắp xếp và gán thứ hạng chuẩn
+    function rankList(list: any[], compareFn: (a: any, b: any) => number, keyProp: string) {
+      const sorted = [...list].sort(compareFn);
+      let curRank = 1;
+      return sorted.map((m, idx) => {
+        if (idx > 0 && compareFn(m, sorted[idx - 1]) !== 0) {
+          curRank = idx + 1;
+        }
+        return {
+          rank: curRank,
+          ...m,
+        };
+      });
+    }
 
-    // Gán thứ hạng chính xác (đồng hạng nếu cùng %)
-    let currentRank = 1;
-    const finalLeaderboard = rankedMembers.map((m, idx) => {
-      if (idx > 0 && m.disciplinePercentage < rankedMembers[idx - 1].disciplinePercentage) {
-        currentRank = idx + 1;
-      }
-      return {
-        rank: currentRank,
-        ...m
-      };
-    });
+    // Bảng xếp hạng Ngày (Hôm nay - xếp theo số thẻ hôm nay)
+    const dayRanking = rankList(
+      fullMembers,
+      (a, b) => b.cardsToday - a.cardsToday || b.streak - a.streak || b.studyDays - a.studyDays,
+      'cardsToday'
+    );
+
+    // Bảng xếp hạng Tuần (7 ngày - xếp theo số thẻ tuần)
+    const weekRanking = rankList(
+      fullMembers,
+      (a, b) => b.cardsWeek - a.cardsWeek || b.streak - a.streak || b.disciplinePercentage - a.disciplinePercentage,
+      'cardsWeek'
+    );
+
+    // Bảng xếp hạng Tháng (Tháng này - xếp theo số thẻ tháng)
+    const monthRanking = rankList(
+      fullMembers,
+      (a, b) => b.cardsMonth - a.cardsMonth || b.disciplinePercentage - a.disciplinePercentage || b.streak - a.streak,
+      'cardsMonth'
+    );
+
+    // Bảng xếp hạng Mùa giải (Kỷ luật % tổng thể)
+    const seasonRanking = rankList(
+      fullMembers,
+      (a, b) => b.disciplinePercentage - a.disciplinePercentage || b.streak - a.streak || b.cardsTotal - a.cardsTotal || b.studyDays - a.studyDays,
+      'disciplinePercentage'
+    );
+
+    // Xác định bảng xếp hạng chính trả về theo timeframe
+    let activeLeaderboard = seasonRanking;
+    if (requestedTimeframe === 'day') activeLeaderboard = dayRanking;
+    else if (requestedTimeframe === 'week') activeLeaderboard = weekRanking;
+    else if (requestedTimeframe === 'month') activeLeaderboard = monthRanking;
 
     // Tìm thứ hạng của người gọi
-    let myRankInfo = null;
+    let myRankInfo: any = null;
     if (callerUser) {
-      const found = finalLeaderboard.find((m) => m.id === callerUser.id);
-      if (found) {
-        myRankInfo = found;
+      const foundInSeason = seasonRanking.find((m) => m.id === callerUser.id);
+      const foundInActive = activeLeaderboard.find((m) => m.id === callerUser.id);
+      if (foundInActive) {
+        myRankInfo = {
+          ...foundInActive,
+          seasonRank: foundInSeason?.rank || 1,
+        };
       }
     }
 
@@ -116,7 +209,14 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
           name: activeChallenge.name,
           totalDays: totalDaysPossible,
         },
-        leaderboard: finalLeaderboard.slice(0, 15), // Top 15 cho Addon
+        timeframe: requestedTimeframe,
+        leaderboard: activeLeaderboard.slice(0, 20), // Top 20
+        rankings: {
+          day: dayRanking.slice(0, 15),
+          week: weekRanking.slice(0, 15),
+          month: monthRanking.slice(0, 15),
+          season: seasonRanking.slice(0, 15),
+        },
         myRank: myRankInfo,
         activeStudyMembers: liveSessions.length,
         liveSessions: liveSessions.slice(0, 10),
@@ -125,7 +225,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         status: 200, 
         headers: { 
           'Content-Type': 'application/json',
-          'Cache-Control': 'public, max-age=60, s-maxage=120'
+          'Cache-Control': 'public, max-age=30, s-maxage=60'
         } 
       }
     );
