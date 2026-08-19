@@ -22,6 +22,34 @@ function getVietnamDateRanges() {
   return { today, sevenDaysAgo, monthStart };
 }
 
+async function getDiscordVoiceChannels(): Promise<any[]> {
+  try {
+    const res = await fetch('https://discord.com/api/v10/guilds/867268399687663616/widget.json', {
+      headers: { 'User-Agent': 'AnkiVnLeaderboardAddon/1.0' },
+    });
+    if (!res.ok) return [];
+    const data: any = await res.json();
+    const channels = data.channels || [];
+    const members = data.members || [];
+    const memberCounts: Record<string, number> = {};
+    for (const m of members) {
+      if (m.channel_id) {
+        memberCounts[m.channel_id] = (memberCounts[m.channel_id] || 0) + 1;
+      }
+    }
+    channels.sort((a: any, b: any) => (a.position || 0) - (b.position || 0));
+    return channels.map((ch: any) => ({
+      id: ch.id,
+      name: ch.name,
+      userCount: memberCounts[ch.id] || 0,
+      url: `https://discord.com/channels/867268399687663616/${ch.id}`,
+      deepLink: `discord://discord.com/channels/867268399687663616/${ch.id}`,
+    }));
+  } catch {
+    return [];
+  }
+}
+
 export const GET: APIRoute = async ({ request, url, locals }) => {
   const env = (locals as any).runtime?.env ?? {};
   const db = env.DB;
@@ -57,8 +85,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
   const { today, sevenDaysAgo, monthStart } = getVietnamDateRanges();
 
   try {
-    // 1. Truy vấn song song dữ liệu từ D1 SQLite (100% D1, Zero KV)
-    const [usersRes, checkinsMap, challengesMap, liveSessions, addonStatsRows] = await Promise.all([
+    // 1. Truy vấn song song dữ liệu từ D1 SQLite và Discord Widget API
+    const [usersRes, checkinsMap, challengesMap, liveSessions, addonStatsRows, discordVoiceChannels] = await Promise.all([
       getUsersFromDB(db),
       getRecordsFromDB(db, challengeId),
       getChallengesFromDB(db),
@@ -80,7 +108,8 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
       .bind(today, sevenDaysAgo, monthStart, today, challengeId)
       .all()
       .then((res: any) => res?.results || [])
-      .catch(() => [])
+      .catch(() => []),
+      getDiscordVoiceChannels(),
     ]);
 
     const activeChallenge = challengesMap[String(challengeId)] || { totalDays: 100, name: `Anki Challenge ${challengeId}` };
@@ -264,6 +293,7 @@ export const GET: APIRoute = async ({ request, url, locals }) => {
         myRank: myRankInfo,
         activeStudyMembers: liveSessions.length,
         liveSessions: liveSessions.slice(0, 10),
+        voiceChannels: discordVoiceChannels,
       }),
       { 
         status: 200, 
