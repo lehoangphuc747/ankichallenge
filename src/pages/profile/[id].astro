@@ -27,32 +27,42 @@ export function getStaticPaths() {
 ---
 
 <Layout title="Chi tiết thành viên">
-  <main class="profile-shell min-h-screen bg-[#09090b] text-slate-100 flex flex-col md:flex-row relative" data-logged-user={JSON.stringify(loggedUser)}>
-    <div class="absolute top-[-8%] left-1/2 -translate-x-1/2 w-[900px] h-[420px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none z-0"></div>
-    <div class="absolute bottom-[-10%] right-[-8%] w-[520px] h-[520px] bg-emerald-500/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
+  <main class="profile-shell min-h-screen bg-[#FAF9F5] text-[#141413] font-['Plus_Jakarta_Sans','Inter',sans-serif] flex flex-col md:flex-row relative selection:bg-[#CC785C]/20 selection:text-[#141413]" data-logged-user={JSON.stringify(loggedUser)}>
+    <div class="absolute top-[-8%] left-1/2 -translate-x-1/2 w-[800px] h-[380px] bg-[#CC785C]/5 blur-[140px] rounded-full pointer-events-none z-0"></div>
+    <div class="absolute bottom-[-10%] right-[-8%] w-[500px] h-[500px] bg-[#E8A55A]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
     
     <!-- Sidebar Overlay (Mobile) -->
     <div 
       id="sidebarOverlay" 
-      class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"
+      class="fixed inset-0 bg-black/40 backdrop-blur-xs z-40 hidden md:hidden transition-opacity"
     ></div>
 
     <!-- Sidebar -->
     <aside 
       id="profileSidebar" 
-      class="fixed left-0 top-0 bottom-0 w-80 max-w-[86vw] z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto border-r border-white/5"
+      class="fixed left-0 top-0 bottom-0 w-80 max-w-[86vw] z-40 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out overflow-y-auto border-r border-[#E6DFD8] bg-[#FAF9F5]"
     >
-      <div class="p-5 sticky top-0 bg-[#05070c]/95 border-b border-white/10 z-10 backdrop-blur-xl">
-        <div class="flex items-center justify-between mb-5">
-          <h2 class="text-[2rem] leading-none font-bold tracking-tight text-slate-100">Thành viên</h2>
+      <div class="p-5 sticky top-0 bg-[#FAF9F5]/95 border-b border-[#E6DFD8] z-10 backdrop-blur-xl">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8]">
+              <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                <path d="M12 2L14.3 9.7L22 12L14.3 14.3L12 22L9.7 14.3L2 12L9.7 9.7L12 2Z"/>
+              </svg>
+            </span>
+            <h2 class="text-xl font-serif font-medium tracking-tight text-[#141413]">Thành viên</h2>
+          </div>
           <button 
             id="sidebarClose" 
-            class="md:hidden p-2 rounded-xl bg-white/5 text-slate-300 hover:bg-white/10 transition-colors"
-            aria-label="Close sidebar"
+            class="p-2 rounded-xl bg-[#F3EFEA] text-[#6C6A64] hover:bg-[#EAE4DC] hover:text-[#141413] transition-colors cursor-pointer"
+            title="Ẩn thanh bên"
+            aria-label="Ẩn thanh bên"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
+            <!-- Lucide icon: panel-left-close -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+              <path d="M9 3v18"></path>
+              <path d="m16 15-3-3 3-3"></path>
             </svg>
           </button>
         </div>
@@ -62,7 +72,7 @@ export function getStaticPaths() {
             id="sidebarChallengeFilter" 
             class="sidebar-control sidebar-select"
           >
-            <option value="all">Tất cả</option>
+            <option value="all">Tất cả thử thách</option>
             <option value="1">Anki Challenge 8</option>
             <option value="2">Anki Challenge 9</option>
             <option value="3">Anki Challenge 10</option>
@@ -70,64 +80,70 @@ export function getStaticPaths() {
         </div>
         <!-- Search Input -->
         <div class="sidebar-search-wrap">
-          <svg class="sidebar-search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="sidebar-search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="11" cy="11" r="8"></circle>
             <path d="m21 21-4.3-4.3"></path>
           </svg>
           <input 
             type="text" 
             id="sidebarSearch" 
-            placeholder="Tìm kiếm..." 
+            placeholder="Tìm kiếm thành viên..." 
             class="sidebar-control sidebar-search"
           />
         </div>
       </div>
-      <div id="sidebarUserList" class="p-2.5 space-y-2.5">
+      <div id="sidebarUserList" class="p-2.5 space-y-2">
         <!-- User list will be populated by JavaScript -->
-        <div class="text-center py-8 text-slate-400">Đang tải...</div>
+        <div class="text-center py-8 text-[#8E8B82] text-sm">Đang tải...</div>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <div class="relative z-10 w-full md:w-[calc(100%-20rem)] md:ml-80 transition-all duration-300 min-h-screen py-6 md:py-8 px-4">
+    <div id="mainContentWrap" class="relative z-10 w-full md:w-[calc(100%-20rem)] md:ml-80 transition-all duration-300 min-h-screen py-6 md:py-8 px-4">
       <div class="max-w-5xl mx-auto w-full md:px-6">
-      <!-- Top Bar with Toggle and Back Button (Mobile) -->
-      <div class="mb-6 flex items-center gap-3 md:block">
-        <!-- Sidebar Toggle Button (Mobile) -->
-        <button 
-          id="sidebarToggle" 
-          class="profile-action p-3 rounded-xl md:hidden flex-shrink-0"
-          aria-label="Toggle sidebar"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        <!-- Back Button -->
-        <a href="/" class="profile-action inline-flex items-center justify-center gap-2 flex-1 md:flex-none">
-          ← Quay lại BXH
-        </a>
+      <!-- Top Bar with Toggle and Back Button -->
+      <div class="mb-6 flex items-center justify-between gap-3">
+        <div class="flex items-center gap-2.5">
+          <!-- Sidebar Toggle Button (Mobile & Desktop) -->
+          <button 
+            id="sidebarToggle" 
+            class="profile-action inline-flex items-center justify-center gap-2 p-2.5 rounded-xl cursor-pointer"
+            title="Hiện / Ẩn danh sách thành viên"
+            aria-label="Toggle sidebar"
+          >
+            <!-- Lucide icon: panel-left -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+              <path d="M9 3v18"></path>
+              <path d="m14 9 3 3-3 3"></path>
+            </svg>
+            <span class="text-xs font-semibold">Thành viên</span>
+          </button>
+
+          <!-- Back Button -->
+          <a href="/" class="profile-action inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs sm:text-sm">
+            ← Quay lại Bảng xếp hạng
+          </a>
+        </div>
       </div>
 
       <div id="loading" class="text-center py-12">
-        <div class="aurora-card inline-block px-8 py-6 rounded-[28px]">
-          <p class="text-xl font-bold text-slate-100">Đang tải dữ liệu...</p>
+        <div class="aurora-card inline-block px-8 py-6 rounded-2xl bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <p class="text-base font-semibold text-[#141413]">Đang tải dữ liệu...</p>
         </div>
       </div>
 
       <!-- Profile Content -->
       <div id="profileContent" class="hidden space-y-6">
         <!-- Header Card -->
-        <div class="aurora-card profile-hero-card rounded-3xl p-6 md:p-8 relative overflow-hidden">
-          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+        <div class="aurora-card profile-hero-card rounded-2xl p-6 md:p-8 relative overflow-hidden bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[2px] bg-gradient-to-r from-transparent via-[#CC785C]/35 to-transparent"></div>
           
           <!-- My Own Profile Banner -->
-          <div id="myOwnProfileBanner" class="hidden mb-6 p-4 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 flex flex-wrap items-center justify-between gap-3 text-cyan-200 shadow-lg">
+          <div id="myOwnProfileBanner" class="hidden mb-6 p-4 rounded-xl bg-[#FAF3EE] border border-[#CC785C]/30 flex flex-wrap items-center justify-between gap-3 text-[#141413] shadow-xs">
             <div class="flex items-center gap-2 font-bold text-sm">
-              <span class="px-2.5 py-0.5 rounded-md bg-cyan-400 text-zinc-950 font-black text-xs uppercase tracking-wide shadow">Bạn ⭐</span>
-              <span>Đây là trang cá nhân của bạn</span>
+              <span class="px-2.5 py-0.5 rounded-md bg-[#CC785C] text-white font-bold text-xs uppercase tracking-wider shadow-xs">Bạn ⭐</span>
+              <span class="text-[#3D3D3A]">Đây là trang cá nhân của bạn</span>
             </div>
             <div id="myProfileManageBtn"></div>
           </div>
@@ -139,45 +155,45 @@ export function getStaticPaths() {
                 id="userAvatarImg" 
                 src="/favicon.svg" 
                 alt="Avatar" 
-                class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-cyan-400/40 object-cover shadow-xl bg-zinc-900"
+                class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-[#CC785C]/30 object-cover shadow-sm bg-[#F5F0E8]"
               />
-              <div id="discordStatusBadge" class="absolute -bottom-1 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:-right-1 whitespace-nowrap shadow-lg">
+              <div id="discordStatusBadge" class="absolute -bottom-1 left-1/2 -translate-x-1/2 sm:translate-x-0 sm:left-auto sm:-right-1 whitespace-nowrap shadow-xs">
                 <!-- Status badge populated by JS -->
               </div>
             </div>
 
             <!-- User Details Section -->
             <div class="flex-1 min-w-0">
-              <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap mb-1">
-                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-100 tracking-tight" id="userName"></h1>
+              <div class="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap mb-1">
+                <h1 class="text-2xl md:text-3xl font-serif font-bold text-[#141413] tracking-tight" id="userName"></h1>
                 <div id="roleBadge"></div>
               </div>
 
-              <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap text-sm text-slate-400 mb-3" id="userHandles">
+              <div class="flex items-center justify-center sm:justify-start gap-2 flex-wrap text-sm text-[#8E8B82] mb-3" id="userHandles">
                 <!-- Discord Handle Tag + Copy -->
               </div>
 
-              <p class="text-sm md:text-base text-slate-300 max-w-2xl leading-relaxed mb-4" id="userBio"></p>
+              <p class="text-sm md:text-base text-[#3D3D3A] max-w-2xl leading-relaxed mb-4" id="userBio"></p>
 
-              <div class="flex gap-2.5 justify-center sm:justify-start flex-wrap" id="userMeta"></div>
+              <div class="flex gap-2 justify-center sm:justify-start flex-wrap" id="userMeta"></div>
             </div>
           </div>
         </div>
 
         <!-- Challenge Selector -->
-        <div id="challengeSelector" class="flex gap-3 flex-wrap justify-center mb-6">
+        <div id="challengeSelector" class="flex gap-2.5 flex-wrap justify-center mb-6">
           <!-- Will be populated by JavaScript -->
         </div>
 
         <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4" id="statsGrid">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3.5" id="statsGrid">
         </div>
 
         <!-- Certificates Section -->
-        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8" id="certificatesSection">
+        <div class="aurora-card profile-section-card rounded-2xl p-6 md:p-8 bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs" id="certificatesSection">
           <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-            <h2 class="flex items-center gap-3 text-2xl sm:text-3xl font-bold text-slate-100 m-0">
-              <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-yellow-400/10 text-yellow-300 border border-yellow-300/25">
+            <h2 class="flex items-center gap-3 text-xl sm:text-2xl font-serif font-bold text-[#141413] m-0">
+              <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <circle cx="12" cy="8" r="6"></circle>
                   <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"></path>
@@ -185,26 +201,26 @@ export function getStaticPaths() {
               </span>
               Chứng chỉ & Thành tích
             </h2>
-            <div class="h-px bg-white/10 w-full sm:flex-1 rounded-full hidden sm:block"></div>
+            <div class="h-px bg-[#E6DFD8] w-full sm:flex-1 rounded-full hidden sm:block"></div>
           </div>
           <div id="certificatesList" class="cert-grid">
             <!-- Certificates will be rendered here by JavaScript -->
           </div>
-          <div id="noCertificates" class="hidden text-center py-8 text-slate-400">
+          <div id="noCertificates" class="hidden text-center py-8 text-[#8E8B82] text-sm">
             Chưa có chứng chỉ nào. Hãy hoàn thành các thử thách để nhận chứng chỉ.
           </div>
         </div>
 
         <!-- Calendar History -->
-        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
-          <h2 class="text-2xl font-bold text-slate-100 mb-6">Lịch sử Check-in</h2>
+        <div class="aurora-card profile-section-card rounded-2xl p-6 md:p-8 bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <h2 class="text-xl sm:text-2xl font-serif font-bold text-[#141413] mb-6">Lịch sử Check-in</h2>
           <div id="calendar" class="space-y-8">
           </div>
         </div>
 
         <!-- Detailed History -->
-        <div class="aurora-card profile-section-card rounded-3xl p-6 md:p-8">
-          <h2 class="text-2xl font-bold text-slate-100 mb-6">Chi tiết theo tháng</h2>
+        <div class="aurora-card profile-section-card rounded-2xl p-6 md:p-8 bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <h2 class="text-xl sm:text-2xl font-serif font-bold text-[#141413] mb-6">Chi tiết theo tháng</h2>
           <div id="monthlyStats"></div>
         </div>
       </div>
@@ -212,15 +228,15 @@ export function getStaticPaths() {
     </div>
 
     <!-- Edit Profile Modal -->
-    <div id="editProfileModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden transition-opacity">
-      <div class="aurora-card w-full max-w-xl rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+    <div id="editProfileModal" class="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden transition-opacity">
+      <div class="aurora-card w-full max-w-xl rounded-2xl p-6 md:p-8 border border-[#E6DFD8] bg-[#FFFFFF] shadow-2xl relative max-h-[90vh] overflow-y-auto">
         <!-- Header -->
-        <div class="flex items-center justify-between pb-4 mb-5 border-b border-white/10">
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-[#E6DFD8]">
           <div class="flex items-center gap-2.5">
-            <span class="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-400/30 flex items-center justify-center text-lg">✏️</span>
-            <h3 class="text-xl font-extrabold text-slate-100 m-0">Chỉnh sửa trang cá nhân</h3>
+            <span class="w-8 h-8 rounded-xl bg-[#FAF3EE] text-[#CC785C] border border-[#CC785C]/20 flex items-center justify-center text-base">✏️</span>
+            <h3 class="text-lg font-serif font-bold text-[#141413] m-0">Chỉnh sửa trang cá nhân</h3>
           </div>
-          <button id="closeEditProfileModalBtn" type="button" class="p-2 rounded-xl bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white transition-colors">
+          <button id="closeEditProfileModalBtn" type="button" class="p-2 rounded-xl bg-[#F3EFEA] text-[#8E8B82] hover:bg-[#EAE4DC] hover:text-[#141413] transition-colors">
             ✕
           </button>
         </div>
@@ -228,69 +244,69 @@ export function getStaticPaths() {
         <!-- Form -->
         <form id="editProfileForm" class="space-y-4">
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Tên hiển thị</label>
-            <input type="text" id="editName" required class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" />
+            <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Tên hiển thị</label>
+            <input type="text" id="editName" required class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" />
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Tiểu sử (Bio)</label>
-            <textarea id="editBio" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="Viết đôi dòng giới thiệu bản thân..."></textarea>
+            <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Tiểu sử (Bio)</label>
+            <textarea id="editBio" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="Viết đôi dòng giới thiệu bản thân..."></textarea>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Ngôn ngữ đang học</label>
-              <input type="text" id="editLearning" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: Tiếng Hàn, Tiếng Anh" />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Ngôn ngữ đang học</label>
+              <input type="text" id="editLearning" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: Tiếng Hàn, Tiếng Anh" />
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Chuyên ngành / Nghề nghiệp</label>
-              <input type="text" id="editMajor" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: Công nghệ thông tin" />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Chuyên ngành / Nghề nghiệp</label>
+              <input type="text" id="editMajor" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: Công nghệ thông tin" />
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Năm sinh</label>
-              <input type="number" id="editBirthYear" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: 2001" />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Năm sinh</label>
+              <input type="number" id="editBirthYear" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: 2001" />
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Nơi ở / Địa điểm</label>
-              <input type="text" id="editPlace" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: Hà Nội / Chuncheon" />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Nơi ở / Địa điểm</label>
+              <input type="text" id="editPlace" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: Hà Nội / Chuncheon" />
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Mục tiêu học tập</label>
-            <textarea id="editGoals" rows="2" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: Thi đạt TOPIK 5, IELTS 7.5..."></textarea>
+            <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Mục tiêu học tập</label>
+            <textarea id="editGoals" rows="2" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: Thi đạt TOPIK 5, IELTS 7.5..."></textarea>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Câu nói yêu thích (Quotes)</label>
-            <input type="text" id="editQuotes" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: Regrets is Poison." />
+            <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Câu nói yêu thích (Quotes)</label>
+            <input type="text" id="editQuotes" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: Regrets is Poison." />
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Link Facebook</label>
-              <input type="text" id="editFacebookUrl" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: https://facebook.com/..." />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Link Facebook</label>
+              <input type="text" id="editFacebookUrl" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: https://facebook.com/..." />
             </div>
 
             <div>
-              <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Link Zalo</label>
-              <input type="text" id="editZaloUrl" class="w-full px-4 py-2.5 rounded-xl bg-zinc-900/90 border border-white/10 text-white text-sm focus:border-cyan-400 focus:outline-none transition-colors" placeholder="VD: https://zalo.me/..." />
+              <label class="block text-xs font-bold text-[#6C6A64] uppercase tracking-wider mb-1">Link Zalo</label>
+              <input type="text" id="editZaloUrl" class="w-full px-4 py-2.5 rounded-xl bg-[#FAF9F5] border border-[#E6DFD8] text-[#141413] text-sm focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-colors" placeholder="VD: https://zalo.me/..." />
             </div>
           </div>
 
           <div id="editProfileStatus" class="hidden p-3 rounded-xl text-xs font-bold"></div>
 
           <!-- Action buttons -->
-          <div class="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
-            <button type="button" id="cancelEditProfileBtn" class="px-5 py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 font-bold text-xs transition-colors">
+          <div class="flex items-center justify-end gap-3 pt-4 border-t border-[#E6DFD8]">
+            <button type="button" id="cancelEditProfileBtn" class="px-4 py-2.5 rounded-xl bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#3D3D3A] font-semibold text-xs transition-colors border border-[#E6DFD8]">
               Hủy
             </button>
-            <button type="submit" id="saveEditProfileBtn" class="px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-zinc-950 font-black text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center gap-2">
+            <button type="submit" id="saveEditProfileBtn" class="px-5 py-2.5 rounded-xl bg-[#CC785C] hover:bg-[#B8684D] text-white font-semibold text-xs shadow-sm transition-all flex items-center gap-2">
               <span>💾 Lưu thay đổi</span>
             </button>
           </div>
@@ -484,15 +500,15 @@ export function getStaticPaths() {
       if (myProfileManageBtn) {
         myProfileManageBtn.innerHTML = `
           <div class="flex items-center gap-2 flex-wrap">
-            <button id="openEditProfileModalBtn" type="button" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-md border border-cyan-300/30 transition-all flex items-center gap-1.5 cursor-pointer active:scale-95">
+            <button id="openEditProfileModalBtn" type="button" class="px-3.5 py-1.5 rounded-xl bg-[#CC785C] hover:bg-[#B8684D] text-white font-semibold text-xs shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-[0.98]">
               <span>✏️ Chỉnh sửa thông tin</span>
             </button>
             ${(user.discordId || (loggedUser && loggedUser.username)) ? `
-              <span class="text-xs font-semibold text-emerald-300 bg-emerald-500/20 px-3 py-1 rounded-xl border border-emerald-400/30 flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Đã kết nối Discord (@${loggedUser.username})
+              <span class="text-xs font-semibold text-[#2E7D47] bg-[#5DB872]/15 px-3 py-1 rounded-xl border border-[#5DB872]/30 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-[#5DB872] animate-pulse"></span> Đã kết nối Discord (@${loggedUser.username})
               </span>
             ` : `
-              <a href="/login" class="px-3.5 py-1.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold text-xs shadow-md border border-indigo-400/30 transition-all flex items-center gap-1.5">
+              <a href="/login" class="px-3.5 py-1.5 rounded-xl bg-[#5865F2] hover:bg-[#4752C4] text-white font-semibold text-xs shadow-xs transition-all flex items-center gap-1.5">
                 ⚡ Kết nối Discord ngay
               </a>
             `}
@@ -511,22 +527,22 @@ export function getStaticPaths() {
       if (isMyProfile && loggedUser?.avatar) {
         userAvatarImg.src = loggedUser.avatar;
       } else {
-        userAvatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=06b6d4&color=fff&bold=true&size=128`;
+        userAvatarImg.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=cc785c&color=fff&bold=true&size=128`;
       }
     }
 
-    // Discord Status Badge (Chỉ hiển thị "Đã kết nối" khi có user.discordId được xác nhận từ Discord OAuth)
+    // Discord Status Badge
     const discordStatusBadge = document.getElementById('discordStatusBadge');
     if (discordStatusBadge) {
       if (user.discordId) {
         discordStatusBadge.innerHTML = `
-          <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 text-[11px] font-bold shadow-md backdrop-blur-md">
-            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Đã kết nối
+          <span class="bg-[#5DB872]/15 text-[#2E7D47] border border-[#5DB872]/30 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 text-[11px] font-semibold shadow-xs backdrop-blur-md">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#5DB872] animate-pulse"></span> Đã kết nối
           </span>
         `;
       } else {
         discordStatusBadge.innerHTML = `
-          <span class="bg-amber-500/20 text-amber-300 border border-amber-400/30 px-2.5 py-0.5 rounded-full flex items-center gap-1 text-[11px] font-semibold shadow-md backdrop-blur-md">
+          <span class="bg-[#FEF3C7] text-[#B45309] border border-[#FDE68A] px-2.5 py-0.5 rounded-full flex items-center gap-1 text-[11px] font-semibold shadow-xs backdrop-blur-md">
             Chưa liên kết
           </span>
         `;
@@ -537,9 +553,9 @@ export function getStaticPaths() {
     const roleBadge = document.getElementById('roleBadge');
     if (roleBadge) {
       if (user.role === 'admin') {
-        roleBadge.innerHTML = `<span class="px-2.5 py-0.5 rounded-md text-[11px] font-black uppercase tracking-wide bg-cyan-500/25 text-cyan-300 border border-cyan-400/35 shrink-0 shadow">Admin</span>`;
+        roleBadge.innerHTML = `<span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider bg-[#CC785C]/10 text-[#CC785C] border border-[#CC785C]/25 shrink-0 shadow-xs">Admin</span>`;
       } else {
-        roleBadge.innerHTML = `<span class="px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wide bg-slate-800/80 text-slate-400 border border-white/10 shrink-0">Thành viên</span>`;
+        roleBadge.innerHTML = `<span class="px-2.5 py-0.5 rounded-md text-[11px] font-semibold uppercase tracking-wider bg-[#F3EFEA] text-[#6C6A64] border border-[#E6DFD8] shrink-0">Thành viên</span>`;
       }
     }
 
@@ -549,10 +565,10 @@ export function getStaticPaths() {
       const handleName = user.discordNickname || (loggedUser && isMyProfile ? loggedUser.username : null);
       if (handleName) {
         userHandles.innerHTML = `
-          <button id="copyDiscordBtn" class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-[#5865F2]/15 hover:bg-[#5865F2]/25 text-indigo-300 border border-[#5865F2]/30 font-mono text-xs font-semibold transition-all cursor-pointer group shadow-sm">
-            <svg class="w-3.5 h-3.5 fill-current text-indigo-400 group-hover:scale-110 transition-transform" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/></svg>
+          <button id="copyDiscordBtn" class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] border border-[#E6DFD8] font-mono text-xs font-semibold transition-all cursor-pointer group shadow-xs">
+            <svg class="w-3.5 h-3.5 fill-[#5865F2]" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/></svg>
             <span>@${handleName}</span>
-            <span id="copyNotice" class="text-[10px] text-indigo-400 group-hover:text-cyan-300 font-sans font-bold">📋 Copy</span>
+            <span id="copyNotice" class="text-[10px] text-[#8E8B82] group-hover:text-[#CC785C] font-sans font-bold">📋 Copy</span>
           </button>
         `;
 
@@ -579,10 +595,10 @@ export function getStaticPaths() {
     }
     if (userMetaEl) {
       userMetaEl.innerHTML = `
-        ${user.learningLanguage ? `<span class="px-3.5 py-1 rounded-full text-xs font-bold bg-cyan-500/10 text-cyan-200 border border-cyan-400/25 shadow-sm">🌐 ${user.learningLanguage}</span>` : ''}
-        ${user.major ? `<span class="px-3.5 py-1 rounded-full text-xs font-bold bg-fuchsia-500/10 text-fuchsia-200 border border-fuchsia-400/25 shadow-sm">🎓 ${user.major}</span>` : ''}
-        ${user.birthYear ? `<span class="px-3.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-200 border border-emerald-400/25 shadow-sm">📅 ${user.birthYear}</span>` : ''}
-        ${user.streak > 0 ? `<span class="px-3.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-300 border border-amber-400/25 shadow-sm">🔥 ${user.streak} ngày streak</span>` : ''}
+        ${user.learningLanguage ? `<span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#F3EFEA] text-[#141413] border border-[#E6DFD8] shadow-2xs">🌐 ${user.learningLanguage}</span>` : ''}
+        ${user.major ? `<span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#F3EFEA] text-[#141413] border border-[#E6DFD8] shadow-2xs">🎓 ${user.major}</span>` : ''}
+        ${user.birthYear ? `<span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#F3EFEA] text-[#141413] border border-[#E6DFD8] shadow-2xs">📅 ${user.birthYear}</span>` : ''}
+        ${user.streak > 0 ? `<span class="px-3 py-1 rounded-full text-xs font-semibold bg-[#FAF3EE] text-[#CC785C] border border-[#CC785C]/30 shadow-2xs">🔥 ${user.streak} ngày streak</span>` : ''}
       `;
     }
 
@@ -770,18 +786,18 @@ export function getStaticPaths() {
           <div class="cert-body">
             <div class="cert-header">
               <div>
-                <h3 class="cert-title text-lg sm:text-xl font-bold text-slate-100 m-0 leading-tight">${challengeName}</h3>
-                <p class="cert-subtitle text-xs sm:text-sm text-slate-400 m-0 mt-1">${statusText}</p>
+                <h3 class="cert-title text-lg sm:text-xl font-serif font-bold text-[#141413] m-0 leading-tight">${challengeName}</h3>
+                <p class="cert-subtitle text-xs sm:text-sm text-[#8E8B82] m-0 mt-1">${statusText}</p>
               </div>
             </div>
 
             <div class="cert-stats-row">
               <div class="cert-stat">
-                <div class="cert-stat-val text-slate-100">${stat.totalDays}<span class="text-xs sm:text-sm text-slate-500 font-semibold">/${daysSoFar}</span></div>
+                <div class="cert-stat-val text-[#141413]">${stat.totalDays}<span class="text-xs sm:text-sm text-[#8E8B82] font-semibold">/${daysSoFar}</span></div>
                 <div class="cert-stat-label">Ngày học</div>
               </div>
               <div class="cert-stat">
-                <div class="cert-stat-val ${isCompleted ? 'text-emerald-300' : 'text-yellow-300'}">${disciplinePercentage}<span class="text-xs sm:text-sm text-slate-500 font-semibold">%</span></div>
+                <div class="cert-stat-val ${isCompleted ? 'text-[#2E7D47]' : 'text-[#CC785C]'}">${disciplinePercentage}<span class="text-xs sm:text-sm text-[#8E8B82] font-semibold">%</span></div>
                 <div class="cert-stat-label">Kỷ luật</div>
               </div>
             </div>
@@ -1366,9 +1382,9 @@ export function getStaticPaths() {
       });
       
       return `
-        <div class="border-t border-white/10 first:border-t-0 pt-6 first:pt-0">
-          <h3 class="text-xl font-bold text-slate-100 mb-2">${challengeName}</h3>
-          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngày, ${disciplinePercentage}% kỷ luật)</p>
+        <div class="border-t border-[#E6DFD8] first:border-t-0 pt-6 first:pt-0">
+          <h3 class="text-lg font-serif font-bold text-[#141413] mb-1.5">${challengeName}</h3>
+          <p class="text-xs sm:text-sm text-[#8E8B82] mb-4">${dateRange.start} - ${dateRange.end} (${stat.totalDays}/${daysSoFar} ngày, ${disciplinePercentage}% kỷ luật)</p>
           
           <div class="space-y-6">
             ${Object.entries(daysByMonth).map(([monthKey, days]) => {
@@ -1382,19 +1398,19 @@ export function getStaticPaths() {
               return `
                 <div>
                   <div class="flex items-center justify-between mb-3">
-                    <h4 class="font-semibold text-slate-200">${monthName}</h4>
-                    <span class="text-xs text-slate-400">${checkedInMonth}/${totalInMonth} ngày (${monthPercent}%)</span>
+                    <h4 class="font-serif font-semibold text-[#141413] text-sm">${monthName}</h4>
+                    <span class="text-xs text-[#8E8B82]">${checkedInMonth}/${totalInMonth} ngày (${monthPercent}%)</span>
                   </div>
-                  <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 gap-2">
+                  <div class="grid grid-cols-7 sm:grid-cols-10 md:grid-cols-14 gap-1.5">
                     ${days.map(day => `
                       <div class="flex items-center justify-center aspect-square rounded-lg text-xs font-medium ${
                         day.isChecked 
-                          ? 'bg-emerald-500/20 text-emerald-100 border border-emerald-400/20' 
-                          : 'bg-white/5 text-slate-300 border border-white/5'
+                          ? 'bg-[#5DB872]/20 text-[#2E7D47] border border-[#5DB872]/30 shadow-2xs font-semibold' 
+                          : 'bg-[#F3EFEA] text-[#8E8B82] border border-[#E6DFD8]/60'
                       }" title="Day ${day.dayNumber}: ${day.displayDate}">
                         <div class="text-center">
-                          <div class="text-[10px] leading-tight">D${day.dayNumber}</div>
-                          <div class="text-[9px] leading-tight opacity-80">${day.displayDate}</div>
+                          <div class="text-[10px] leading-tight font-mono">D${day.dayNumber}</div>
+                          <div class="text-[9px] leading-tight opacity-75">${day.displayDate}</div>
                         </div>
                       </div>
                     `).join('')}
@@ -1416,7 +1432,7 @@ export function getStaticPaths() {
     if (!selectorEl) return;
 
     if (challengeStats.length === 0) {
-      selectorEl.innerHTML = '<p class="text-slate-400 text-sm">Chưa tham gia challenge nào</p>';
+      selectorEl.innerHTML = '<p class="text-[#8E8B82] text-sm">Chưa tham gia challenge nào</p>';
       return;
     }
 
@@ -1471,21 +1487,21 @@ export function getStaticPaths() {
     if (statsGridEl && challengeStats.length > 0) {
       const mainStats = challengeStats[0];
       statsGridEl.innerHTML = `
-        <div class="profile-stat-card rounded-2xl p-5 text-center">
-          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.streak}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Chuỗi hiện tại</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <div class="text-3xl md:text-4xl font-bold font-mono text-[#CC785C] mb-1 leading-none">${mainStats.streak}</div>
+          <div class="text-[10px] md:text-xs font-bold text-[#8E8B82] uppercase tracking-wider mt-1.5">Chuỗi hiện tại</div>
         </div>
-        <div class="profile-stat-card rounded-2xl p-5 text-center">
-          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.longestStreak}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Kỷ lục</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <div class="text-3xl md:text-4xl font-bold font-mono text-[#3D3D3A] mb-1 leading-none">${mainStats.longestStreak}</div>
+          <div class="text-[10px] md:text-xs font-bold text-[#8E8B82] uppercase tracking-wider mt-1.5">Kỷ lục</div>
         </div>
-        <div class="profile-stat-card rounded-2xl p-5 text-center">
-          <div class="text-3xl md:text-4xl font-black text-white mb-1">${mainStats.totalDays}</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Tổng ngày</div>
+        <div class="profile-stat-card rounded-2xl p-5 text-center bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <div class="text-3xl md:text-4xl font-bold font-mono text-[#141413] mb-1 leading-none">${mainStats.totalDays}</div>
+          <div class="text-[10px] md:text-xs font-bold text-[#8E8B82] uppercase tracking-wider mt-1.5">Tổng ngày</div>
         </div>
-        <div class="profile-stat-card profile-stat-card-discipline rounded-2xl p-5 text-center relative overflow-hidden">
-          <div class="text-3xl md:text-4xl font-black text-emerald-400 mb-1">${mainStats.disciplinePercentage}%</div>
-          <div class="text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-widest">Kỷ luật</div>
+        <div class="profile-stat-card profile-stat-card-discipline rounded-2xl p-5 text-center relative overflow-hidden bg-[#FFFFFF] border border-[#E6DFD8] shadow-xs">
+          <div class="text-3xl md:text-4xl font-bold font-mono text-[#CC785C] mb-1 leading-none">${mainStats.disciplinePercentage}%</div>
+          <div class="text-[10px] md:text-xs font-bold text-[#8E8B82] uppercase tracking-wider mt-1.5">Kỷ luật</div>
         </div>
       `;
     }
@@ -1672,19 +1688,19 @@ export function getStaticPaths() {
         const count = monthlyData[month];
         const monthName = new Date(month + '-01').toLocaleDateString('vi-VN', { year: 'numeric', month: 'long' });
         return `
-          <div class="flex justify-between items-center p-3 rounded-2xl bg-white/5 border border-white/10">
-            <span class="font-semibold text-slate-200">${monthName}</span>
-            <span class="px-3 py-1 bg-cyan-500/10 text-cyan-200 rounded-full font-bold border border-cyan-400/20">${count} ngày</span>
+          <div class="flex justify-between items-center p-3 rounded-xl bg-[#F5F0E8] border border-[#E6DFD8]">
+            <span class="font-semibold text-[#141413]">${monthName}</span>
+            <span class="px-3 py-1 bg-[#FAF3EE] text-[#CC785C] rounded-full font-bold border border-[#CC785C]/25 text-xs font-mono">${count} ngày</span>
           </div>
         `;
       }).join('');
 
       return `
         <div class="mb-6">
-          <h3 class="text-xl font-bold text-slate-100 mb-3">${challengeName}</h3>
-          <p class="text-sm text-slate-400 mb-4">${dateRange.start} - ${dateRange.end}</p>
+          <h3 class="text-lg font-serif font-bold text-[#141413] mb-1.5">${challengeName}</h3>
+          <p class="text-xs sm:text-sm text-[#8E8B82] mb-4">${dateRange.start} - ${dateRange.end}</p>
           <div class="space-y-2">
-            ${monthsHTML || '<p class="text-slate-400">Chưa có dữ liệu</p>'}
+            ${monthsHTML || '<p class="text-[#8E8B82] text-sm">Chưa có dữ liệu</p>'}
           </div>
         </div>
       `;
@@ -1784,9 +1800,9 @@ export function getStaticPaths() {
         ? challengeNames[challengeFilterId] || `Challenge ${challengeFilterId}`
         : 'challenge này';
       sidebarListEl.innerHTML = `
-        <div class="text-center py-8 text-slate-400">
-          <p class="font-semibold mb-2">Không có thành viên nào</p>
-          <p class="text-sm">Chưa có ai tham gia ${challengeName}</p>
+        <div class="text-center py-8 text-[#8E8B82]">
+          <p class="font-semibold mb-1 text-sm">Không có thành viên nào</p>
+          <p class="text-xs">Chưa có ai tham gia ${challengeName}</p>
         </div>
       `;
       return;
@@ -1817,7 +1833,7 @@ export function getStaticPaths() {
               </div>
               ${safeLanguage ? `
                 <div class="sidebar-member-language">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <circle cx="12" cy="12" r="10"></circle>
                     <path d="M2 12h20"></path>
                     <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
@@ -1828,7 +1844,7 @@ export function getStaticPaths() {
             </div>
             ${isActive ? `
               <div class="sidebar-member-check" aria-hidden="true">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-[#CC785C]">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
               </div>
@@ -1899,28 +1915,73 @@ export function getStaticPaths() {
     });
   }
 
-  // Sidebar toggle functionality
+  // Sidebar toggle functionality (Desktop collapse + Mobile drawer)
   function setupSidebarToggle() {
     const sidebar = document.getElementById('profileSidebar');
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebarClose = document.getElementById('sidebarClose');
     const sidebarOverlay = document.getElementById('sidebarOverlay');
+    const mainContentWrap = document.getElementById('mainContentWrap');
+    const profileShell = document.querySelector('.profile-shell');
 
     if (!sidebar || !sidebarToggle || !sidebarClose || !sidebarOverlay) return;
 
-    const openSidebar = () => {
-      sidebar.classList.remove('-translate-x-full');
-      sidebarOverlay.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
+    // Check saved state for desktop
+    const isHiddenSaved = localStorage.getItem('profile_sidebar_hidden') === 'true';
+    if (isHiddenSaved && window.innerWidth >= 768) {
+      profileShell?.classList.add('sidebar-collapsed');
+      sidebar.classList.add('md:-translate-x-full');
+      mainContentWrap?.classList.remove('md:w-[calc(100%-20rem)]', 'md:ml-80');
+      mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
+    }
+
+    const toggleSidebar = () => {
+      if (window.innerWidth < 768) {
+        // Mobile behavior: drawer
+        const isClosed = sidebar.classList.contains('-translate-x-full');
+        if (isClosed) {
+          sidebar.classList.remove('-translate-x-full');
+          sidebarOverlay.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        } else {
+          sidebar.classList.add('-translate-x-full');
+          sidebarOverlay.classList.add('hidden');
+          document.body.style.overflow = '';
+        }
+      } else {
+        // Desktop behavior: collapse / expand
+        const isCollapsed = profileShell?.classList.contains('sidebar-collapsed');
+        if (isCollapsed) {
+          profileShell?.classList.remove('sidebar-collapsed');
+          sidebar.classList.remove('md:-translate-x-full');
+          mainContentWrap?.classList.remove('md:w-full', 'md:ml-0');
+          mainContentWrap?.classList.add('md:w-[calc(100%-20rem)]', 'md:ml-80');
+          localStorage.setItem('profile_sidebar_hidden', 'false');
+        } else {
+          profileShell?.classList.add('sidebar-collapsed');
+          sidebar.classList.add('md:-translate-x-full');
+          mainContentWrap?.classList.remove('md:w-[calc(100%-20rem)]', 'md:ml-80');
+          mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
+          localStorage.setItem('profile_sidebar_hidden', 'true');
+        }
+      }
     };
 
     const closeSidebar = () => {
-      sidebar.classList.add('-translate-x-full');
-      sidebarOverlay.classList.add('hidden');
-      document.body.style.overflow = '';
+      if (window.innerWidth < 768) {
+        sidebar.classList.add('-translate-x-full');
+        sidebarOverlay.classList.add('hidden');
+        document.body.style.overflow = '';
+      } else {
+        profileShell?.classList.add('sidebar-collapsed');
+        sidebar.classList.add('md:-translate-x-full');
+        mainContentWrap?.classList.remove('md:w-[calc(100%-20rem)]', 'md:ml-80');
+        mainContentWrap?.classList.add('md:w-full', 'md:ml-0');
+        localStorage.setItem('profile_sidebar_hidden', 'true');
+      }
     };
 
-    sidebarToggle.addEventListener('click', openSidebar);
+    sidebarToggle.addEventListener('click', toggleSidebar);
     sidebarClose.addEventListener('click', closeSidebar);
     sidebarOverlay.addEventListener('click', closeSidebar);
 
@@ -1958,7 +2019,7 @@ export function getStaticPaths() {
 <CertificateCardStyles />
 
 <style>
-  /* Certificate Grid Layout - chỉ giữ grid layout ở đây */
+  /* Certificate Grid Layout */
   .cert-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -1968,20 +2029,26 @@ export function getStaticPaths() {
   @media (min-width: 768px) {
     .cert-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 2rem;
+      gap: 1.5rem;
     }
   }
 
   :global(body) {
-    background: #09090b;
-    color: #e2e8f0;
+    background: #FAF9F5;
+    color: #141413;
   }
 
   .profile-shell {
-    background:
-      radial-gradient(circle at top, rgba(34, 211, 238, 0.09), transparent 35%),
-      radial-gradient(circle at bottom right, rgba(16, 185, 129, 0.08), transparent 32%),
-      #09090b;
+    background: #FAF9F5;
+  }
+
+  .sidebar-collapsed #profileSidebar {
+    transform: translateX(-100%) !important;
+  }
+
+  .sidebar-collapsed #mainContentWrap {
+    width: 100% !important;
+    margin-left: 0 !important;
   }
 
   #sidebarOverlay {
@@ -1989,73 +2056,72 @@ export function getStaticPaths() {
   }
 
   #profileSidebar {
-    background: rgba(9, 9, 11, 0.94) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-    backdrop-filter: blur(24px);
-    box-shadow: 16px 0 40px rgba(0, 0, 0, 0.45);
+    background: #FAF9F5 !important;
+    border-right: 1px solid #E6DFD8 !important;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.03);
   }
 
   #profileSidebar::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
 
   #profileSidebar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.04);
+    background: #FAF9F5;
   }
 
   #profileSidebar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.16);
+    background: #E6DFD8;
     border-radius: 9999px;
   }
 
   #profileSidebar::-webkit-scrollbar-thumb:hover {
-    background: rgba(34, 211, 238, 0.28);
+    background: #CC785C;
   }
 
   .profile-action {
-    background: rgba(30, 41, 59, 0.4); /* Darker gray/blue */
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.08); /* subtle border */
-    border-radius: 9999px; /* Fully rounded */
-    padding: 10px 20px;
-    font-size: 0.95rem;
-    font-weight: 500;
-    box-shadow: none;
+    background: #F3EFEA;
+    color: #141413;
+    border: 1px solid #E6DFD8;
+    border-radius: 9999px;
+    padding: 8px 18px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
     transition: all 0.2s ease;
   }
 
   .profile-action:hover {
-    background: rgba(30, 41, 59, 0.7);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: #EAE4DC;
+    border-color: #D9D2C9;
     transform: translateY(-1px);
   }
 
   .sidebar-control {
     width: 100%;
-    min-height: 50px;
-    border-radius: 14px;
-    border: 1px solid rgba(148, 163, 184, 0.22);
-    background: rgba(2, 6, 23, 0.7);
-    color: #e2e8f0;
-    font-size: 1rem;
-    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    min-height: 44px;
+    border-radius: 12px;
+    border: 1px solid #E6DFD8;
+    background: #FFFFFF;
+    color: #141413;
+    font-size: 0.875rem;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
     outline: none;
   }
 
   .sidebar-control:focus {
-    border-color: rgba(34, 211, 238, 0.5);
-    box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.14);
+    border-color: #CC785C;
+    box-shadow: 0 0 0 3px rgba(204, 120, 92, 0.12);
   }
 
   .sidebar-select {
     padding: 0 0.95rem;
-    font-weight: 700;
+    font-weight: 600;
     appearance: none;
-    background-image: linear-gradient(45deg, transparent 50%, #64748b 50%), linear-gradient(135deg, #64748b 50%, transparent 50%);
-    background-position: calc(100% - 18px) 21px, calc(100% - 12px) 21px;
+    background-image: linear-gradient(45deg, transparent 50%, #8E8B82 50%), linear-gradient(135deg, #8E8B82 50%, transparent 50%);
+    background-position: calc(100% - 18px) 18px, calc(100% - 12px) 18px;
     background-size: 6px 6px, 6px 6px;
     background-repeat: no-repeat;
-    padding-right: 2.6rem;
+    padding-right: 2.4rem;
   }
 
   .sidebar-search-wrap {
@@ -2064,66 +2130,66 @@ export function getStaticPaths() {
 
   .sidebar-search-icon {
     position: absolute;
-    left: 0.9rem;
+    left: 0.85rem;
     top: 50%;
     transform: translateY(-50%);
-    color: #64748b;
+    color: #8E8B82;
     pointer-events: none;
   }
 
   .sidebar-search {
-    padding: 0 0.95rem 0 2.7rem;
+    padding: 0 0.85rem 0 2.5rem;
     font-weight: 500;
   }
 
   .sidebar-search::placeholder {
-    color: #64748b;
+    color: #8E8B82;
   }
 
   :global(.sidebar-member-card) {
     display: block;
-    border-radius: 16px;
+    border-radius: 12px;
     border: 1px solid transparent;
-    background: rgba(2, 6, 23, 0.36);
-    padding: 0.85rem 0.95rem;
+    background: transparent;
+    padding: 0.65rem 0.8rem;
     transition: all 0.18s ease;
   }
 
   :global(.sidebar-member-card:hover) {
-    background: rgba(15, 23, 42, 0.74);
-    border-color: rgba(148, 163, 184, 0.2);
+    background: #F3EFEA;
+    border-color: #E6DFD8;
   }
 
   :global(.sidebar-member-card-active) {
-    background: linear-gradient(90deg, rgba(8, 47, 73, 0.5), rgba(5, 52, 56, 0.45));
-    border-color: rgba(6, 182, 212, 0.45);
-    box-shadow: inset 0 0 0 1px rgba(6, 182, 212, 0.14);
+    background: #FAF3EE !important;
+    border-color: #CC785C !important;
+    box-shadow: 0 1px 3px rgba(204, 120, 92, 0.08);
   }
 
   :global(.sidebar-member-row) {
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: 0.75rem;
   }
 
   :global(.sidebar-member-avatar) {
-    width: 48px;
-    height: 48px;
+    width: 38px;
+    height: 38px;
     border-radius: 9999px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    font-weight: 800;
-    font-size: 1.75rem;
-    background: rgba(148, 163, 184, 0.17);
-    color: #d1d5db;
+    font-weight: 700;
+    font-size: 1.15rem;
+    background: #EFE9DE;
+    color: #141413;
   }
 
   :global(.sidebar-member-avatar-active) {
-    background: rgba(6, 182, 212, 0.22);
-    border: 1px solid rgba(34, 211, 238, 0.35);
-    color: #7dd3fc;
+    background: #FAF3EE;
+    border: 1px solid rgba(204, 120, 92, 0.35);
+    color: #CC785C;
   }
 
   :global(.sidebar-member-main) {
@@ -2132,22 +2198,22 @@ export function getStaticPaths() {
   }
 
   :global(.sidebar-member-name) {
-    font-size: 1.05rem;
-    line-height: 1.2;
-    font-weight: 700;
-    color: #e2e8f0;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    font-weight: 600;
+    color: #141413;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   :global(.sidebar-member-language) {
-    margin-top: 0.22rem;
+    margin-top: 0.15rem;
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    font-size: 0.86rem;
-    color: #94a3b8;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    color: #6C6A64;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2155,7 +2221,6 @@ export function getStaticPaths() {
   }
 
   :global(.sidebar-member-check) {
-    color: #22d3ee;
     flex-shrink: 0;
   }
 
@@ -2163,95 +2228,86 @@ export function getStaticPaths() {
     display: inline-flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 0.55rem;
-    min-height: 52px;
-    min-width: 208px;
-    padding: 0.8rem 1.1rem;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.028));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.025);
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    border: 1px solid #E6DFD8;
+    background: #FFFFFF;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
     transition: all 0.18s ease;
     cursor: pointer;
     white-space: nowrap;
-    backdrop-filter: blur(14px);
   }
 
   :global(.challenge-selector-btn:hover) {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(34, 211, 238, 0.18);
+    background: #F3EFEA;
+    border-color: #D9D2C9;
     transform: translateY(-1px);
   }
 
   :global(.challenge-selector-btn-inactive .challenge-selector-title) {
-    color: #cbd5e1;
+    color: #6C6A64;
   }
 
   :global(.challenge-selector-btn-inactive .challenge-selector-days) {
-    color: #64748b;
+    color: #8E8B82;
   }
 
   :global(.challenge-selector-btn-active) {
-    background: linear-gradient(180deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.05));
-    border-color: rgba(34, 211, 238, 0.28);
-    box-shadow: inset 0 1px 0 rgba(34, 211, 238, 0.08), 0 0 0 1px rgba(34, 211, 238, 0.05);
+    background: #FAF3EE !important;
+    border-color: #CC785C !important;
+    box-shadow: 0 1px 4px rgba(204, 120, 92, 0.1);
   }
 
   :global(.challenge-selector-title) {
-    font-size: 0.92rem;
-    font-weight: 700;
+    font-size: 0.875rem;
+    font-weight: 600;
     line-height: 1;
-    color: #cbd5e1;
-    letter-spacing: -0.01em;
+    color: #6C6A64;
   }
 
   :global(.challenge-selector-btn-active .challenge-selector-title) {
-    color: #67e8f9;
+    color: #CC785C;
+    font-weight: 700;
   }
 
   :global(.challenge-selector-days) {
-    font-size: 0.86rem;
+    font-size: 0.8rem;
     font-weight: 600;
     line-height: 1;
-    color: #64748b;
+    color: #8E8B82;
   }
 
   :global(.challenge-selector-btn-active .challenge-selector-days) {
-    color: #94a3b8;
+    color: #B8684D;
   }
 
   .aurora-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(12px);
-    color: #e2e8f0;
-  }
-
-  .aurora-card:hover {
-    transform: none;
-    border-color: rgba(255, 255, 255, 0.08);
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24);
+    background: #FFFFFF;
+    border: 1px solid #E6DFD8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    color: #141413;
   }
 
   .profile-hero-card {
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
   .profile-section-card {
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
   :global(.profile-stat-card) {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(8px);
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    background: #FFFFFF;
+    border: 1px solid #E6DFD8;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
   :global(.profile-stat-card:hover) {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.09);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   }
 
   :global(.profile-stat-card-discipline::after) {
@@ -2261,63 +2317,35 @@ export function getStaticPaths() {
     bottom: 0;
     width: 100%;
     height: 3px;
-    background: rgba(16, 185, 129, 0.9);
-  }
-
-  .aurora-text {
-    color: #e2e8f0 !important;
-    text-transform: none;
-    letter-spacing: -0.02em;
-  }
-
-  .aurora-button {
-    background: rgba(255, 255, 255, 0.05);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: none;
-    border-radius: 9999px;
-  }
-
-  .aurora-button:hover {
-    background: rgba(34, 211, 238, 0.12);
-    border-color: rgba(34, 211, 238, 0.3);
-    box-shadow: none;
-    transform: translateY(-1px);
+    background: #CC785C;
   }
 
   #sidebarUserList {
-    border-top: 1px solid rgba(255, 255, 255, 0.07);
+    border-top: 1px solid #E6DFD8;
   }
 
   :global(.cert-card) {
     position: relative;
-    background: rgba(0, 0, 0, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 18px;
+    background: #FFFFFF;
+    border: 1px solid #E6DFD8 !important;
+    border-radius: 16px;
     overflow: hidden;
-    transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 0.22s ease;
   }
 
   :global(.cert-card:hover) {
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    border-color: #D9D2C9 !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   }
 
   :global(.cert-card.completed) {
-    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-left: 1px solid #E6DFD8 !important;
   }
   
   :global(.cert-card.progress) {
-    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
-  }
-
-  :global(.cert-card.completed:hover) {
-    border-color: rgba(234, 179, 8, 0.32);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
-  }
-
-  :global(.cert-card.progress:hover) {
-    border-color: rgba(34, 211, 238, 0.3);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.32);
+    border-left: 1px solid #E6DFD8 !important;
   }
 
   :global(.cert-accent) {
@@ -2330,13 +2358,13 @@ export function getStaticPaths() {
   }
 
   :global(.cert-card.completed .cert-accent) {
-    background: linear-gradient(to bottom, #d97706, #eab308); /* Amber to Yellow */
-    box-shadow: 2px 0 15px rgba(234, 179, 8, 0.6);
+    background: linear-gradient(to bottom, #CC785C, #E8A55A);
+    box-shadow: 2px 0 10px rgba(204, 120, 92, 0.3);
   }
 
   :global(.cert-card.progress .cert-accent) {
-    background: linear-gradient(to bottom, #0891b2, #06b6d4); /* Cyan dark to Cyan light */
-    box-shadow: 2px 0 15px rgba(34, 211, 238, 0.6);
+    background: linear-gradient(to bottom, #8E8B82, #B5B2A8);
+    box-shadow: 2px 0 10px rgba(142, 139, 130, 0.2);
   }
 
   :global(.cert-watermark) {
@@ -2345,17 +2373,16 @@ export function getStaticPaths() {
     top: -8px;
     width: 88px;
     height: 88px;
-    opacity: 0.12;
     pointer-events: none;
     z-index: 1;
   }
 
   :global(.cert-card.completed .cert-watermark) {
-    color: rgba(234, 179, 8, 0.35);
+    color: rgba(204, 120, 92, 0.12);
   }
 
   :global(.cert-card.progress .cert-watermark) {
-    color: rgba(34, 211, 238, 0.28);
+    color: rgba(142, 139, 130, 0.1);
   }
 
   :global(.cert-watermark svg) {
@@ -2374,26 +2401,26 @@ export function getStaticPaths() {
   }
 
   :global(.cert-title) {
-    color: #f8fafc !important;
+    color: #141413 !important;
   }
 
   :global(.cert-subtitle) {
-    color: #94a3b8 !important;
+    color: #8E8B82 !important;
   }
 
   :global(.cert-stats-row) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.9rem;
+    gap: 0.75rem;
     margin-bottom: 1.15rem;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #FAF9F5 !important;
+    border: 1px solid #E6DFD8;
     border-radius: 12px;
     padding: 0.75rem 0.9rem;
   }
 
   :global(.cert-stat-label) {
-    color: #94a3b8 !important;
+    color: #8E8B82 !important;
     font-size: 0.66rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -2413,33 +2440,37 @@ export function getStaticPaths() {
     width: 100%;
     min-height: 44px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(255, 255, 255, 0.05);
-    color: #f8fafc;
-    font-weight: 700;
-    font-size: 1rem;
+    border: none;
+    background: #CC785C;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 0.875rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    box-shadow: none;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 1px 3px rgba(204, 120, 92, 0.2);
+    transition: all 0.2s ease;
   }
 
   :global(.btn-download-cert:hover) {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.16);
+    background: #B8684D;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(204, 120, 92, 0.25);
   }
 
   :global(.cert-button-disabled) {
-    color: #64748b;
-    border-color: rgba(255, 255, 255, 0.07);
+    background: #F3EFEA !important;
+    color: #8E8B82 !important;
+    border: 1px solid #E6DFD8 !important;
+    box-shadow: none !important;
     cursor: not-allowed;
   }
 
   :global(.cert-button-disabled:hover) {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.07);
+    background: #F3EFEA !important;
+    transform: none !important;
+    box-shadow: none !important;
   }
 
   :global(.cert-status-badge) {
@@ -2458,15 +2489,15 @@ export function getStaticPaths() {
   }
 
   :global(.cert-status-badge.status-done) {
-    color: #facc15;
-    background: rgba(234, 179, 8, 0.1);
-    border-color: rgba(234, 179, 8, 0.28);
+    color: #B45309;
+    background: #FEF3C7;
+    border-color: #FDE68A;
   }
 
   :global(.cert-status-badge.status-doing) {
-    color: #22d3ee;
-    background: rgba(34, 211, 238, 0.1);
-    border-color: rgba(34, 211, 238, 0.26);
+    color: #CC785C;
+    background: #FAF3EE;
+    border-color: rgba(204, 120, 92, 0.25);
   }
 
   /* Ensure main content doesn't overlap sidebar on mobile */
@@ -2482,4 +2513,3 @@ export function getStaticPaths() {
     }
   }
 </style>
-</Layout>
