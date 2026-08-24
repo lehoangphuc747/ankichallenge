@@ -88,55 +88,6 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
         </p>
       </div>
 
-      <!-- BANNER ĐẾM NGƯỢC THỜI GIAN MỞ ĐĂNG KÝ (Claude Warm Editorial Card) -->
-      <div id="countdownBanner" class="mb-8 bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-        <div class="bg-[#F6F4EE] border-b border-[#E6DFD8] px-5 py-3 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <span class="w-2 h-2 rounded-full bg-[#CC785C] animate-pulse"></span>
-            <span class="text-xs font-medium text-[#141413]">Thời gian mở cổng đăng ký chính thức</span>
-          </div>
-          <span class="text-[11px] font-mono text-[#6B6860] bg-[#EBE5DB] px-2 py-0.5 rounded">22/08/2026</span>
-        </div>
-
-        <div class="p-6 sm:p-7">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-            <div class="max-w-xs sm:max-w-sm">
-              <h2 class="text-base font-medium font-['Newsreader','EB_Garamond',serif] text-[#141413]">
-                Cổng đăng ký mở vào ngày 22/08/2026
-              </h2>
-              <p class="text-[#6B6860] text-xs mt-1 leading-relaxed">
-                {user && user.inGuild 
-                  ? `Tài khoản @${user.username} đã xác thực Discord thành công. Nút đăng ký sẽ tự động mở khi đến thời điểm.`
-                  : "Thành viên có thể đăng nhập Discord và tham gia máy chủ Anki Việt Nam trước để sẵn sàng đăng ký ngay khi cổng mở."}
-              </p>
-            </div>
-
-            <!-- Countdown Digits (Claude Warm Typography) -->
-            <div class="flex items-center gap-2 shrink-0" id="countdownTimerContainer">
-              <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px]">
-                <span id="cdDays" class="text-xl font-medium text-[#141413] font-mono">00</span>
-                <span class="text-[10px] text-[#6B6860] uppercase tracking-wider mt-0.5 font-sans">Ngày</span>
-              </div>
-              <span class="text-sm font-bold text-[#9C948A]">:</span>
-              <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px]">
-                <span id="cdHours" class="text-xl font-medium text-[#141413] font-mono">00</span>
-                <span class="text-[10px] text-[#6B6860] uppercase tracking-wider mt-0.5 font-sans">Giờ</span>
-              </div>
-              <span class="text-sm font-bold text-[#9C948A]">:</span>
-              <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px]">
-                <span id="cdMins" class="text-xl font-medium text-[#141413] font-mono">00</span>
-                <span class="text-[10px] text-[#6B6860] uppercase tracking-wider mt-0.5 font-sans">Phút</span>
-              </div>
-              <span class="text-sm font-bold text-[#9C948A]">:</span>
-              <div class="flex flex-col items-center bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl px-3 py-2 min-w-[54px]">
-                <span id="cdSecs" class="text-xl font-medium text-[#CC785C] font-mono">00</span>
-                <span class="text-[10px] text-[#6B6860] uppercase tracking-wider mt-0.5 font-sans">Giây</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <!-- STEP 1: CHƯA ĐĂNG NHẬP DISCORD (Claude Dark Contrast Card) -->
       {!user && (
         <div class="bg-[#181715] text-[#FAF9F5] border border-[#2B2926] rounded-2xl p-8 sm:p-10 text-center mb-8 shadow-sm">
@@ -520,49 +471,6 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 </Layout>
 
 <script>
-  // Thời gian mở đăng ký: 22/08/2026 00:00:00 GMT+7
-  const TARGET_OPEN_TIME = new Date("2026-08-22T00:00:00+07:00").getTime();
-
-  const cdDays = document.getElementById("cdDays");
-  const cdHours = document.getElementById("cdHours");
-  const cdMins = document.getElementById("cdMins");
-  const cdSecs = document.getElementById("cdSecs");
-  const countdownBanner = document.getElementById("countdownBanner");
-  const lockedFormNotice = document.getElementById("lockedFormNotice");
-
-  function updateCountdown() {
-    const now = Date.now();
-    const diff = TARGET_OPEN_TIME - now;
-
-    if (diff <= 0) {
-      if (cdDays) cdDays.textContent = "00";
-      if (cdHours) cdHours.textContent = "00";
-      if (cdMins) cdMins.textContent = "00";
-      if (cdSecs) cdSecs.textContent = "00";
-
-      if (lockedFormNotice) lockedFormNotice.classList.add("hidden");
-      if (submitBtn && submitBtn.disabled) {
-        submitBtn.disabled = false;
-        submitBtn.className = "w-full py-3.5 px-6 rounded-full font-medium text-sm transition-all flex items-center justify-center gap-2 bg-black hover:bg-[#171717] text-white active:scale-[0.99] cursor-pointer";
-        if (submitBtnText) submitBtnText.textContent = "Gửi Đăng Ký Anki Challenge 11";
-      }
-      return;
-    }
-
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    if (cdDays) cdDays.textContent = String(days).padStart(2, "0");
-    if (cdHours) cdHours.textContent = String(hours).padStart(2, "0");
-    if (cdMins) cdMins.textContent = String(minutes).padStart(2, "0");
-    if (cdSecs) cdSecs.textContent = String(seconds).padStart(2, "0");
-  }
-
-  updateCountdown();
-  const cdInterval = setInterval(updateCountdown, 1000);
-
   // Client-side interactions
   const recheckBtn = document.getElementById("recheckGuildBtn");
   const form = document.getElementById("registrationForm") as HTMLFormElement | null;
