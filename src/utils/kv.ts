@@ -7,6 +7,7 @@ const KV_KEYS = {
   records_08: 'records_08',
   records_09: 'records_09',
   records_10: 'records_10',
+  records_11: 'records_11',
   metadata: 'metadata',
   login_history: 'login_history',
 } as const;
@@ -20,6 +21,7 @@ const KEY_TO_FILE: Record<string, string> = {
   records_08: '/data/challenge_08_records.json',
   records_09: '/data/challenge_09_records.json',
   records_10: '/data/challenge_10_records.json',
+  records_11: '/data/challenge_11_records.json',
   metadata: '/data/metadata.json',
 };
 

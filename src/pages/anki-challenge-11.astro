@@ -211,12 +211,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="birthYear" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Năm sinh
+                  Năm sinh <span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="number"
                   id="birthYear"
-                  name="birthYear"
+                  name="birthYear" required
                   min="1950"
                   max="2030"
                   value={existingProfile?.birthYear || ''}
@@ -227,12 +227,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 
               <div>
                 <label for="place" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Tỉnh / Thành phố / Quốc gia
+                  Tỉnh / Thành phố / Quốc gia *<span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="text"
                   id="place"
-                  name="place"
+                  name="place" required
                   value={existingProfile?.place || ''}
                   placeholder="Ví dụ: Hà Nội, TP.HCM, Tokyo..."
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
@@ -244,12 +244,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="major" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Nghề nghiệp / Chuyên ngành
+                  Nghề nghiệp / Chuyên ngành *<span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="text"
                   id="major"
-                  name="major"
+                  name="major" required
                   value={existingProfile?.major || ''}
                   placeholder="Ví dụ: Y khoa, Kỹ sư phần mềm..."
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
@@ -258,12 +258,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 
               <div>
                 <label for="learning" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Kiến thức / Ngoại ngữ muốn học
+                  Kiến thức / Ngoại ngữ muốn học *<span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="text"
                   id="learning"
-                  name="learning"
+                  name="learning" required
                   value={existingProfile?.learning || ''}
                   placeholder="Ví dụ: Tiếng Anh IELTS, Tiếng Trung HSK..."
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
@@ -274,11 +274,11 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <!-- Giới thiệu ngắn -->
             <div>
               <label for="bio" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                Giới thiệu ngắn
+                Giới thiệu ngắn <span class="text-[#CC785C]">*</span>
               </label>
               <textarea
                 id="bio"
-                name="bio"
+                name="bio" required
                 rows="2"
                 placeholder="Đôi dòng giới thiệu về bạn..."
                 class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl p-3.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all resize-none"
@@ -289,12 +289,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label for="facebookUrl" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Facebook
+                  Facebook <span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="text"
                   id="facebookUrl"
-                  name="facebookUrl"
+                  name="facebookUrl" required
                   value={existingProfile?.facebookUrl || ''}
                   placeholder="https://facebook.com/..."
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
@@ -303,12 +303,12 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
 
               <div>
                 <label for="zaloUrl" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                  Zalo / SĐT
+                  Zalo / SĐT *<span class="text-[#CC785C]">*</span>
                 </label>
                 <input
                   type="text"
                   id="zaloUrl"
-                  name="zaloUrl"
+                  name="zaloUrl" required
                   value={existingProfile?.zaloUrl || ''}
                   placeholder="https://zalo.me/... hoặc SĐT"
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
@@ -320,12 +320,11 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <!-- Mục tiêu chuyên cần (%) -->
             <div>
               <label for="attendanceGoal" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                Mục tiêu chuyên cần (%)
-              </label>
+                Mục tiêu chuyên cần (%) <span class="text-[#CC785C]">*</span>
               <input
                 type="number"
                 id="attendanceGoal"
-                name="attendanceGoal"
+                name="attendanceGoal" required
                 min="0"
                 max="100"
                 value={existingProfile?.attendanceGoal || ''}
@@ -338,11 +337,11 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <!-- Mục tiêu thử thách -->
             <div>
               <label for="goals" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                Mục tiêu trong mùa 11
+                Mục tiêu trong mùa 11 *<span class="text-[#CC785C]">*</span>
               </label>
               <textarea
                 id="goals"
-                name="goals"
+                name="goals" required
                 rows="3"
                 placeholder="Ví dụ: Duy trì 100 ngày không bỏ lỡ ngày nào, ôn tập 100 thẻ mỗi ngày..."
                 class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl p-3.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all resize-none"

@@ -3,83 +3,127 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Admin - Danh sách đăng ký">
-  <main class="p-8 max-w-7xl mx-auto">
-    <!-- Header -->
-    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
-      <div>
-        <h1 class="text-4xl font-bold">📋 Danh sách đăng ký</h1>
-        <p class="text-gray-500 mt-1 font-medium">Kiểm tra thành viên đã đăng ký tham gia các mùa Anki Challenge</p>
-      </div>
-      <div class="flex items-center gap-3">
-        <select id="challengeSelect" class="px-4 py-2.5 border-2 border-black bg-white font-bold text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
-          <option value="">Đang tải...</option>
-        </select>
-        <a href="/admin" class="px-4 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium">
-          ← Quay lại Dashboard
-        </a>
-      </div>
-    </div>
+  <main class="min-h-screen bg-[#FAF9F5] text-[#141413] py-12 px-4 sm:px-6 font-['Plus_Jakarta_Sans','Inter',sans-serif] selection:bg-[#CC785C]/20 selection:text-[#141413]">
+    <div class="max-w-7xl mx-auto">
 
-    <!-- Stats -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Số đăng ký</div>
-        <div class="text-3xl font-black text-gray-900 mt-1" id="regCount">--</div>
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-10 pb-5 border-b border-[#E6DFD8] flex-wrap gap-4">
+        <div class="flex items-center gap-4">
+          <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8] shadow-xs">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/>
+            </svg>
+          </span>
+          <div>
+            <h1 class="text-3xl font-serif font-medium tracking-tight text-[#141413]">Danh sách đăng ký</h1>
+            <p class="text-[#8E8B82] text-sm font-medium mt-0.5">Kiểm tra thành viên đã đăng ký các mùa Anki Challenge</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Challenge selector -->
+          <div class="relative">
+            <select id="challengeSelect" class="appearance-none bg-[#F3EFEA] hover:bg-[#EAE4DC] border border-[#E6DFD8] text-[#141413] text-sm font-semibold py-2.5 pl-4 pr-10 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CC785C]/30 transition-all cursor-pointer shadow-xs">
+              <option value="">Đang tải...</option>
+            </select>
+            <svg class="absolute right-3.5 top-1/2 -translate-y-1/2 pointer-events-none text-[#8E8B82] h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </div>
+          <a href="/admin" class="inline-flex items-center gap-2 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] font-semibold text-sm px-4 py-2.5 rounded-xl border border-[#E6DFD8] transition-all cursor-pointer">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            <span>Dashboard</span>
+          </a>
+        </div>
       </div>
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có tên thật</div>
-        <div class="text-3xl font-black text-gray-900 mt-1" id="realNameCount">--</div>
+
+      <!-- Stats -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#CC785C]/10 text-[#CC785C]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+            <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Số đăng ký</div>
+          </div>
+          <div class="text-3xl font-serif font-semibold text-[#141413]" id="regCount">--</div>
+        </div>
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#AE7A5A]/10 text-[#AE7A5A]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1 1 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+            </span>
+            <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Có tên thật</div>
+          </div>
+          <div class="text-3xl font-serif font-semibold text-[#141413]" id="realNameCount">--</div>
+        </div>
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#A8927B]/10 text-[#7A6752]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </span>
+            <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Có Zalo/SĐT</div>
+          </div>
+          <div class="text-3xl font-serif font-semibold text-[#141413]" id="zaloCount">--</div>
+        </div>
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div class="flex items-center gap-3 mb-3">
+            <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#CC9E5A]/10 text-[#B08036]">
+              <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </span>
+            <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Có mục tiêu %</div>
+          </div>
+          <div class="text-3xl font-serif font-semibold text-[#141413]" id="goalCount">--</div>
+        </div>
       </div>
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có Zalo/SĐT</div>
-        <div class="text-3xl font-black text-gray-900 mt-1" id="zaloCount">--</div>
+
+      <!-- Search -->
+      <div class="relative mb-6 max-w-md">
+        <svg class="absolute inset-y-0 left-4 flex items-center pointer-events-none text-[#8E8B82] h-4 w-4 top-1/2 -translate-y-1/2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input
+          id="searchInput"
+          type="text"
+          placeholder="Tìm theo tên, tên thật, Discord, email..."
+          class="w-full pl-11 pr-4 py-3 bg-[#FFFFFF] border border-[#E6DFD8] rounded-xl text-[#141413] placeholder-[#8E8B82] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none transition-all text-sm font-medium shadow-xs"
+        />
       </div>
-      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
-        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có mục tiêu chuyên cần</div>
-        <div class="text-3xl font-black text-gray-900 mt-1" id="goalCount">--</div>
+
+      <!-- Loading -->
+      <div id="loading" class="text-center py-20">
+        <div class="inline-flex items-center gap-3.5 px-7 py-4 rounded-2xl bg-[#FFFFFF] border border-[#E6DFD8] shadow-sm">
+          <div class="relative w-6 h-6">
+            <div class="absolute inset-0 rounded-full border-2 border-[#E6DFD8]"></div>
+            <div class="absolute inset-0 rounded-full border-2 border-[#CC785C] border-t-transparent animate-spin"></div>
+          </div>
+          <span class="text-base font-semibold text-[#141413]">Đang tải dữ liệu...</span>
+        </div>
       </div>
-    </div>
 
-    <!-- Search -->
-    <div class="mb-4">
-      <input
-        id="searchInput"
-        type="text"
-        placeholder="🔎 Tìm theo tên, tên thật, Discord, email..."
-        class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm transition-colors"
-      />
-    </div>
+      <!-- Table -->
+      <div id="tableWrap" class="hidden bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left text-[#3D3D3A]">
+            <thead>
+              <tr class="border-b border-[#E6DFD8] bg-[#F6F4EE] text-[#6B6860] text-xs uppercase tracking-wider font-bold">
+                <th class="px-5 py-4">#</th>
+                <th class="px-5 py-4">ID</th>
+                <th class="px-5 py-4">Tên hiển thị</th>
+                <th class="px-5 py-4">Tên thật</th>
+                <th class="px-5 py-4">Discord</th>
+                <th class="px-5 py-4">Email</th>
+                <th class="px-5 py-4">Zalo/SĐT</th>
+                <th class="px-5 py-4">Mục tiêu %</th>
+                <th class="px-5 py-4">Nơi ở</th>
+                <th class="px-5 py-4">Chuyên ngành</th>
+                <th class="px-5 py-4">Giới thiệu</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody" class="divide-y divide-[#F0EAE1]"></tbody>
+          </table>
+        </div>
+      </div>
 
-    <!-- Loading -->
-    <div id="loading" class="text-center py-12">
-      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
-    </div>
-
-    <!-- Table -->
-    <div id="tableWrap" class="hidden overflow-x-auto shadow-md rounded-lg">
-      <table class="w-full text-sm text-left text-gray-700 bg-white">
-        <thead class="text-xs uppercase bg-gray-100 text-gray-700">
-          <tr>
-            <th class="px-4 py-3">#</th>
-            <th class="px-4 py-3">ID</th>
-            <th class="px-4 py-3">Tên hiển thị</th>
-            <th class="px-4 py-3">Tên thật</th>
-            <th class="px-4 py-3">Discord</th>
-            <th class="px-4 py-3">Email</th>
-            <th class="px-4 py-3">Zalo/SĐT</th>
-            <th class="px-4 py-3">Mục tiêu %</th>
-            <th class="px-4 py-3">Nơi ở</th>
-            <th class="px-4 py-3">Chuyên ngành</th>
-            <th class="px-4 py-3">Giới thiệu</th>
-          </tr>
-        </thead>
-        <tbody id="tableBody" class="divide-y divide-gray-100"></tbody>
-      </table>
-    </div>
-
-    <!-- Empty -->
-    <div id="emptyMsg" class="hidden text-center py-12 text-gray-400 font-medium">
-      Chưa có ai đăng ký cho challenge này.
+      <!-- Empty -->
+      <div id="emptyMsg" class="hidden text-center py-20 text-[#8E8B82] font-medium">
+        Chưa có ai đăng ký cho challenge này.
+      </div>
     </div>
   </main>
 </Layout>
@@ -123,14 +167,13 @@ import Layout from '../../layouts/Layout.astro';
       (u.challengeIds || []).includes(query),
     );
 
-    // Stats
     (document.getElementById("regCount") as HTMLElement).textContent = String(list.length);
     (document.getElementById("realNameCount") as HTMLElement).textContent = String(list.filter(u => u.realName).length);
     (document.getElementById("zaloCount") as HTMLElement).textContent = String(list.filter(u => u.zaloUrl).length);
     (document.getElementById("goalCount") as HTMLElement).textContent = String(list.filter(u => u.attendanceGoal != null).length);
 
     const filtered = list.filter((u) =>
-      [u.name, u.realName, u.discordNickname, u.name, u.email, u.zaloUrl]
+      [u.name, u.realName, u.discordNickname, u.email, u.zaloUrl]
         .some((v) => v && v.toLowerCase().includes(search)),
     );
 
@@ -140,7 +183,6 @@ import Layout from '../../layouts/Layout.astro';
     const emptyMsg = document.getElementById("emptyMsg");
 
     loading?.classList.add("hidden");
-    tableWrap?.classList.remove("hidden");
 
     if (filtered.length === 0) {
       tableWrap?.classList.add("hidden");
@@ -148,20 +190,23 @@ import Layout from '../../layouts/Layout.astro';
       return;
     }
     emptyMsg?.classList.add("hidden");
+    tableWrap?.classList.remove("hidden");
+
+    const dash = '<span class="text-[#C9C2B7]">—</span>';
 
     tbody.innerHTML = filtered.map((u, i) => `
-      <tr class="hover:bg-gray-50/80 transition-colors">
-        <td class="px-4 py-3 text-gray-400 font-bold">${i + 1}</td>
-        <td class="px-4 py-3 font-mono text-xs text-gray-400">#${u.id}</td>
-        <td class="px-4 py-3 font-bold">${u.name || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3">${u.realName || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs text-gray-500 font-mono">${u.discordNickname ? '@' + u.discordNickname : '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs font-mono">${u.email || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs font-mono">${u.zaloUrl || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 font-bold">${u.attendanceGoal != null ? u.attendanceGoal + '%' : '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs">${u.place || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs">${u.major || '<span class="text-gray-300">—</span>'}</td>
-        <td class="px-4 py-3 text-xs text-gray-500 max-w-[180px] truncate" title="${(u.bio || '').replace(/"/g, '&quot;')}">${u.bio || '<span class="text-gray-300">—</span>'}</td>
+      <tr class="hover:bg-[#FBF7F1]/70 transition-colors">
+        <td class="px-5 py-3.5 text-[#8E8B82] font-bold">${i + 1}</td>
+        <td class="px-5 py-3.5 font-mono text-xs text-[#8E8B82]">#${u.id}</td>
+        <td class="px-5 py-3.5 font-semibold text-[#141413]">${u.name || dash}</td>
+        <td class="px-5 py-3.5">${u.realName || dash}</td>
+        <td class="px-5 py-3.5 text-xs text-[#6B6860] font-mono">${u.discordNickname ? '@' + u.discordNickname : dash}</td>
+        <td class="px-5 py-3.5 text-xs font-mono text-[#6B6860]">${u.email || dash}</td>
+        <td class="px-5 py-3.5 text-xs font-mono">${u.zaloUrl || dash}</td>
+        <td class="px-5 py-3.5 font-bold text-[#CC785C]">${u.attendanceGoal != null ? u.attendanceGoal + '%' : dash}</td>
+        <td class="px-5 py-3.5 text-xs">${u.place || dash}</td>
+        <td class="px-5 py-3.5 text-xs">${u.major || dash}</td>
+        <td class="px-5 py-3.5 text-xs text-[#6B6860] max-w-[180px] truncate" title="${(u.bio || '').replace(/"/g, '&quot;')}">${u.bio || dash}</td>
       </tr>
     `).join("");
   }

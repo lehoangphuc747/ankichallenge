@@ -58,6 +58,7 @@ async function generateMigrationSql() {
     1: 'public/data/challenge_08_records.json',
     2: 'public/data/challenge_09_records.json',
     3: 'public/data/challenge_10_records.json',
+    4: 'public/data/challenge_11_records.json',
   };
 
   const checkinRows = [];

@@ -137,6 +137,34 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
     zaloUrl: bodyData.zaloUrl ? String(bodyData.zaloUrl).trim() : undefined,
   };
 
+  // Bắt buộc điền đầy đủ cho AC11 (challengeId = 4) — trừ quotes (tùy chọn)
+  if (challengeId === 4) {
+    const requiredFields: Record<string, any> = {
+      realName: registrationData.realName,
+      birthYear: registrationData.birthYear,
+      place: registrationData.place,
+      major: registrationData.major,
+      learning: registrationData.learning,
+      bio: registrationData.bio,
+      facebookUrl: registrationData.facebookUrl,
+      zaloUrl: registrationData.zaloUrl,
+      attendanceGoal: registrationData.attendanceGoal,
+      goals: registrationData.goals,
+    };
+    const missing = Object.keys(requiredFields).filter(
+      (k) => requiredFields[k] === undefined || requiredFields[k] === null || requiredFields[k] === ''
+    );
+    if (missing.length > 0) {
+      return new Response(
+        JSON.stringify({
+          success: false,
+          error: `Vui lòng điền đầy đủ các trường bắt buộc: ${missing.join(', ')}.`,
+        }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
+  }
+
   try {
     let savedUser: any = null;
 

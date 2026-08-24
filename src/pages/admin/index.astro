@@ -427,6 +427,7 @@ const isAuthenticated = sessionCookie === adminPassword;
       if (activeChallengeId === '1') prefix = '08';
       if (activeChallengeId === '2') prefix = '09';
       if (activeChallengeId === '3') prefix = '10';
+      if (activeChallengeId === '4') prefix = '11';
 
       const studyRecordsResponse = await fetch(`/api/data/records_${prefix}` + cacheBuster);
       const studyRecordsData = await studyRecordsResponse.json();

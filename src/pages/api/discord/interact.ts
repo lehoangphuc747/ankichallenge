@@ -31,6 +31,7 @@ const KV_RECORDS: Record<number, string> = {
   1: 'records_08',
   2: 'records_09',
   3: 'records_10',
+  4: 'records_11',
 };
 
 function jsonResponse(type: number, data: any): Response {

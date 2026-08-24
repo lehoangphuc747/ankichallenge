@@ -19,7 +19,7 @@ src/pages/            — Astro pages + API endpoints
   api/data/[key].ts   — D1-backed JSON API (whitelist keys only)
   api/auth/           — Discord OAuth (discord.ts, callback.ts, check-guild.ts, me.ts, logout.ts)
   api/register.ts     — Registration submission API (saves to D1 SQLite)
-  admin/              — Admin CRUD pages
+  admin/              — Admin CRUD pages (index, members, challenges, checkin, registrations)
 src/components/       — Astro + React components
 src/utils/            — calculateStats.js, db.ts, kv.ts, session.ts
 src/layouts/          — Layout.astro
@@ -38,7 +38,7 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - Sorted by `disciplinePercentage` descending
 - Formula: `round(studyDays / totalDaysPossible * 100)`
 - Tie handling: same % = same rank, rank increments on strictly lower %
-- Challenge selector dropdown (AC8/9/10 changes records file)
+- Challenge selector dropdown (AC8/9/10/11 changes records file → `records_08/09/10/11`)
 - Search by name/discordNickname, toggle real name vs username
 
 ## Certificates
@@ -52,7 +52,8 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - **Flow**: User must log in via Discord OAuth (`identify email guilds`) -> Backend verifies membership in Discord "Anki Việt Nam" (Guild ID `867268399687663616`) -> Unlocks form -> Submits to `/api/register` -> Saved to Cloudflare D1 SQLite (`users` table).
 - **Routes**:
   - `/register`: Public registration form for AC10 (`challengeId = 3`).
-  - `/anki-challenge-11`: Unlisted/Private registration form for AC11 (`challengeId = 4`), not shown in Navigation/Leaderboard.
+  - `/anki-challenge-11`: Unlisted/Private registration form for AC11 (`challengeId = 4`), not shown in Navigation/Leaderboard (but IS an option in the leaderboard challenge dropdown).
+- **AC11 form fields** (both saved to D1 `users`): `realName`→`real_name`, `name` (display, auto = Discord), `bio`, `facebookUrl`→`facebook_url`, `zaloUrl`→`zalo_url`, `attendanceGoal`→`attendance_goal`, plus `birthYear`, `place`, `major`, `learning`, `goals`, `quotes`. Migration `0005` added `real_name` + `attendance_goal`. **All fields except `quotes` are required (client + server-side for challenge 4)**. `realName`/`facebookUrl`/`zaloUrl` are private (not displayed publicly; profile has edit-only inputs).
 - **Re-check endpoint**: `/api/auth/check-guild` allows re-verifying guild membership dynamically after user joins Discord.
 
 ## Discord Check-in Bot
@@ -61,7 +62,7 @@ migrations/           — D1 SQL migrations (0001_init.sql)
   - Register: `DISCORD_GUILD_ID=867268399687663616 node scripts/deploy-commands.js` (needs `DISCORD_TOKEN`).
   - Server "Anki Việt Nam" guild id `867268399687663616`.
 - `/checkin` **only** verifies `discordId` ↔ `users` KV, then writes the record. No thread/channel/role/date-range checks.
-- **`challengeIds` in KV are indexes 1/2/3** (1=AC8, 2=AC9, 3=AC10), NOT 8/9/10. `KV_RECORDS = {1:'records_08', 2:'records_09', 3:'records_10'}`.
+- **`challengeIds` in KV are indexes 1/2/3/4** (1=AC8, 2=AC9, 3=AC10, 4=AC11), NOT 8/9/10/11. `KV_RECORDS = {1:'records_08', 2:'records_09', 3:'records_10', 4:'records_11'}`.
 - KV `users` is wrapped as `{ data: [...] }`; `records_*` are a bare object `{ date: { userId: true } }`.
 
 ### Interaction timeout (cold start) — CRITICAL

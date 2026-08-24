@@ -14,6 +14,7 @@ const ALLOWED_KEYS = new Set([
   'records_08',
   'records_09',
   'records_10',
+  'records_11',
   'metadata',
   'login_history',
 ]);
@@ -44,6 +45,8 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
         data = await getRecordsFromDB(env.DB, 2);
       } else if (key === 'records_10') {
         data = await getRecordsFromDB(env.DB, 3);
+      } else if (key === 'records_11') {
+        data = await getRecordsFromDB(env.DB, 4);
       } else if (key === 'login_history') {
         data = await getLoginHistoryFromDB(env.DB);
       }

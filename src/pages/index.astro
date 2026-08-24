@@ -51,6 +51,7 @@ if (sessionCookie) {
 							<option value="1" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 8</option>
 							<option value="2" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 9</option>
 							<option value="3" selected class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 10</option>
+<option value="4" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 11</option>
 						</select>
 						<div class="absolute right-3.5 top-1/2 transform -translate-y-1/2 pointer-events-none text-[#8E8B82]">
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -381,6 +382,7 @@ if (sessionCookie) {
 			if (challengeId === "1") prefix = '08';
 			if (challengeId === "2") prefix = '09';
 			if (challengeId === "3") prefix = '10';
+			if (challengeId === "4") prefix = '11';
 
 			const [studyRecordsResponse, usersResponse, challengesResponse] = await Promise.all([
 				fetch(`/api/data/records_${prefix}` + cacheBuster),
