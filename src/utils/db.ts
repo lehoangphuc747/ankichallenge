@@ -27,6 +27,7 @@ export interface UserRow {
   goals?: string;
   attendanceGoal?: number;
   quotes?: string;
+  ac11Approved?: boolean;
   hidden?: boolean;
   previousRank?: number;
   streak?: number;
@@ -97,6 +98,7 @@ function formatUserRow(row: any): UserRow {
     goals: row.goals || undefined,
     attendanceGoal: row.attendance_goal ? Number(row.attendance_goal) : undefined,
     quotes: row.quotes || undefined,
+    ac11Approved: Boolean(row.ac11_approved),
     hidden: Boolean(row.hidden),
     previousRank: row.previous_rank ? Number(row.previous_rank) : undefined,
     streak: row.streak ? Number(row.streak) : 0,
@@ -328,6 +330,17 @@ export async function getLoginHistoryFromDB(db: D1Database): Promise<any[]> {
     .all();
 
   return results || [];
+}
+
+/**
+ * Đánh dấu thành viên đã được admin duyệt đăng ký AC11 (challenge 4)
+ */
+export async function approveAc11InDB(db: D1Database, userId: number): Promise<boolean> {
+  const result = await db
+    .prepare('UPDATE users SET ac11_approved = 1, updated_at = CURRENT_TIMESTAMP WHERE id = ?')
+    .bind(userId)
+    .run();
+  return (result?.meta?.changes ?? 0) > 0;
 }
 
 /**

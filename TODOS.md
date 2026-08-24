@@ -4,16 +4,15 @@ Danh sách công việc đang dở / dự kiến. Cập nhật khi hoàn thành.
 
 ## 🔄 ĐANG LÀM DỞ (chưa commit/deploy)
 
-- [ ] **`/admin/checkin` restyle Claude (UI JS)**: Template `.astro` đã restyle Claude + Lucide, NHƯNG các hàng danh sách được inject bằng JS trong `src/scripts/admin/checkin/ui.ts` vẫn dùng màu cũ (orange/green) → cần đổi sang tông Claude (terracotta `#CC785C` cho `chưa check`, Claude-green cho `đã check`) + cập nhật class focus ring trong `updateFocusedItem()`.
-- [ ] **Build + commit + push + deploy** toàn bộ thay đổi `/admin/checkin` (template + UI JS).
-- [ ] **Verify live** `/admin/checkin` sau khi deploy.
+- [x] Không còn mục nào đang dở ở đây. (Đã xử lý xong checkin + approve AC11.)
 
 ## 📌 VIỆC DỰ KIẾN / NICE-TO-HAVE
 
-- [ ] **KV `challenges` fallback**: KV namespace `DATA` chứa key `challenges` cũ (1–3, chưa có AC11). Sync lại (chạy `npm run backup-kv` hoặc ghi KV) cho khớp D1.
-- [ ] **Auth riêng cho trang admin con** (`/admin/members`, `/admin/challenges`, `/admin/checkin`, `/admin/registrations`): hiện các trang con chưa tự kiểm tra `admin_session` (chỉ `/admin` yêu cầu login).
-- [ ] **`/api/data` thêm nhánh D1 cho records_11**: đã thêm key `records_11` (D1 challenge 4); xác nhận `/checkin` fallback KV dùng `KV_RECORDS[4]='records_11'` đã hoạt động.
-- [ ] Cân nhắc: hiển thị `realName`/`attendanceGoal` trên profile/certificate nếu cần (hiện chỉ lưu + hiển thị ở admin registrations).
+- [ ] **Set env trên Cloudflare Pages**: `DISCORD_AC11_ROLE_ID` (Role ID role AC11) để nút "Duyệt" ở `/admin/registrations` gán role Discord được. Cũng cần `DISCORD_TOKEN` đã có.
+- [ ] Kiểm tra bot có quyền **Manage Roles** và role AC11 nằm dưới role cao nhất của bot.
+- [ ] **KV `challenges` fallback**: sync lại key `challenges` trong KV namespace `DATA` cho khớp AC11 (chạy `npm run backup-kv`).
+- [ ] **Auth riêng cho trang admin con** (`/admin/members`, `/admin/challenges`): hiện chỉ `/admin` và endpoint approve yêu cầu login.
+- [ ] Cân nhắc: hiển thị `realName`/`attendanceGoal`/trạng thái duyệt trên profile/certificate nếu cần.
 
 ## ✅ ĐÃ HOÀN THÀNH (đã deploy)
 - AC11 (challenge 4): add vào `challenges.json` + D1 `challenges` table, start `2026-09-01`, 100 ngày.
