@@ -204,24 +204,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                 placeholder="Ví dụ: Lê Hoàng Phúc"
                 class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
               />
-              <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tên thật chỉ dùng cho xác thực nội bộ, <strong>không hiển thị công khai</strong>.</p>
-            </div>
-
-            <!-- Họ và tên (Dùng để hiển thị trên Web) -->
-            <div>
-              <label for="name" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                Họ và tên (Dùng để hiển thị trên Web) <span class="text-[#CC785C]">*</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                value={existingProfile?.name || user?.displayName || user?.username || ''}
-                placeholder="Ví dụ: Hoàng Phúc"
-                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
-              />
-              <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tên hiển thị trên Bảng xếp hạng Anki Challenge 11.</p>
+              <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tên thật chỉ dùng cho xác thực nội bộ, <strong>không hiển thị công khai</strong>. Tên hiển thị trên Bảng xếp hạng sẽ tự lấy từ Discord.</p>
             </div>
 
             <!-- Grid 2 cột: Năm sinh & Nơi ở -->
