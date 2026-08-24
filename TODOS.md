@@ -10,7 +10,7 @@ Danh sách công việc đang dở / dự kiến. Cập nhật khi hoàn thành.
 
 - [ ] **Set env trên Cloudflare Pages**: `DISCORD_AC11_ROLE_ID` (Role ID role AC11) để nút "Duyệt" ở `/admin/registrations` gán role Discord được. Cũng cần `DISCORD_TOKEN` đã có.
 - [ ] Kiểm tra bot có quyền **Manage Roles** và role AC11 nằm dưới role cao nhất của bot.
-- [ ] Xác nhận luồng **auto-approve cho veteran AC10**: người từng AC10 (`challengeIds` có 3) được tự động duyệt + gán role khi đăng ký AC11; người mới chờ duyệt thủ công.
+- [ ] Xác nhận luồng **auto-approve theo kỷ luật > 90%**: người từng tham gia (challengeId 1-3) có `disciplinePercentage > 90` được tự duyệt + gán role + thông báo; còn lại chờ duyệt thủ công.
 - [ ] **KV `challenges` fallback**: sync lại key `challenges` trong KV namespace `DATA` cho khớp AC11 (chạy `npm run backup-kv`).
 - [ ] **Auth riêng cho trang admin con** (`/admin/members`, `/admin/challenges`): hiện chỉ `/admin` và endpoint approve yêu cầu login.
 - [ ] Cân nhắc: hiển thị `realName`/`attendanceGoal`/trạng thái duyệt trên profile/certificate nếu cần.

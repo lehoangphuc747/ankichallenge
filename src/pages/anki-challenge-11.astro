@@ -431,6 +431,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
         <p class="text-[#6B6860] text-sm max-w-md mx-auto mb-6 leading-relaxed">
           Bạn đã đăng ký trước thành công cho Anki Challenge 11. Thông tin của bạn đã được ghi nhận an toàn vào hệ thống.
         </p>
+        <div id="autoApprovedNotice" class="hidden mb-6 p-4 rounded-xl bg-[#E7F1EA] border border-[#CBE0D2] text-[#3F6B53] text-sm font-medium text-left leading-relaxed"></div>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
           <a
             href="/"
@@ -529,6 +530,15 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
         if (registrationFormContainer) registrationFormContainer.classList.add("hidden");
         if (notInGuildCard) notInGuildCard.classList.add("hidden");
         if (successCard) successCard.classList.remove("hidden");
+
+        // Nếu được auto-approve (kỷ luật > 90%) → hiện thông báo ngay
+        if (result.autoApproved && result.autoApprovedMessage) {
+          const notice = document.getElementById("autoApprovedNotice");
+          if (notice) {
+            notice.textContent = "✅ " + result.autoApprovedMessage;
+            notice.classList.remove("hidden");
+          }
+        }
 
         if (successProfileLink && result.user?.id) {
           successProfileLink.href = `/profile/${result.user.id}`;

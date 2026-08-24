@@ -1,13 +1,42 @@
 import type { APIRoute } from 'astro';
 import { verifySession } from '../../utils/session';
-import { registerUserInDB, getUserByDiscordId, approveAc11InDB } from '../../utils/db';
+import { registerUserInDB, getUserByDiscordId, approveAc11InDB, getRecordsFromDB, getChallengesFromDB } from '../../utils/db';
 import { grantAc11Role } from '../../utils/discord';
+import { calculateUserStats } from '../../utils/calculateStats.js';
 import { getFromKV, putToKV } from '../../utils/kv';
 
 export const prerender = false;
 
 const ANKI_GUILD_ID = '867268399687663616';
 const REGISTRATION_OPEN_TIMESTAMP = new Date('2026-08-22T00:00:00+07:00').getTime();
+
+/**
+ * Kiểm tra thành viên từng tham gia thử thách TRƯỚC (AC8/9/10, challengeId 1-3)
+ * và có tỉ lệ kỷ luật > 90% → đủ điều kiện auto-approve AC11.
+ * Trả về true/false. Nếu thiếu D1 → false (coi như không auto).
+ */
+async function hasDisciplineAbove90(env: any, user: any): Promise<boolean> {
+  if (!env.DB) return false;
+  const pastIds = (Array.isArray(user?.challengeIds) ? user.challengeIds : [])
+    .filter((id: number) => Number(id) >= 1 && Number(id) <= 3);
+  if (pastIds.length === 0) return false;
+
+  try {
+    const challenges = await getChallengesFromDB(env.DB);
+    for (const cid of pastIds) {
+      const ch = challenges[String(cid)];
+      if (!ch?.start || !ch?.end) continue;
+      const records = await getRecordsFromDB(env.DB, Number(cid));
+      const dateRanges = { [cid]: { start: ch.start, end: ch.end } };
+      const [stat] = calculateUserStats([user], records, Number(cid), dateRanges);
+      const pct = stat?.currentStat?.disciplinePercentage ?? 0;
+      if (pct > 90) return true;
+    }
+  } catch (e) {
+    console.warn('[AC11 discipline check] Lỗi:', e);
+  }
+  return false;
+}
 
 export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
   // Kiểm tra thời gian mở đăng ký (22/08/2026)
@@ -201,17 +230,22 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
       }
     }
 
-    // AC11: đã từng tham gia AC10 (challengeIds có 3) → TỰ ĐỘNG duyệt + gán role.
-    // Người mới (chưa từng AC10) → chờ admin duyệt ở /admin/registrations.
+    // AC11 auto-approve: đã từng tham gia thử thách trước VÀ kỷ luật > 90%
+    // → tự duyệt + gán role + báo cho frontend.
+    let autoApproved = false;
+    let autoApprovedMessage: string | null = null;
+
     if (challengeId === 4 && savedUser?.discordId) {
-      const isAc10Veteran = Array.isArray(savedUser.challengeIds) && savedUser.challengeIds.includes(3);
-      if (isAc10Veteran) {
-        try {
+      try {
+        if (await hasDisciplineAbove90(env, savedUser)) {
           if (env.DB) await approveAc11InDB(env.DB, Number(savedUser.id));
-          await grantAc11Role(env, String(savedUser.discordId));
-        } catch (e) {
-          console.warn('[AC11 Auto-approve] Lỗi:', e);
+          const granted = await grantAc11Role(env, String(savedUser.discordId));
+          autoApproved = true;
+          autoApprovedMessage = 'Bạn đã được TỰ ĐỘNG duyệt vì kỷ luật > 90% ở thử thách trước'
+            + (granted ? ' và đã được gán role Anki 11 Challenge.' : '.');
         }
+      } catch (e) {
+        console.warn('[AC11 Auto-approve] Lỗi:', e);
       }
     }
 
@@ -219,6 +253,8 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
       JSON.stringify({
         success: true,
         message: 'Đăng ký tham gia Anki Challenge thành công!',
+        autoApproved,
+        autoApprovedMessage,
         user: savedUser,
       }),
       { status: 200, headers: { 'Content-Type': 'application/json' } }
