@@ -20,5 +20,12 @@
     "end": "2026-07-18",
     "totalDays": 100,
     "description": "100 ngày thử thách"
+  },
+  "4": {
+    "name": "Anki Challenge 11",
+    "start": "2026-09-01",
+    "end": "2026-12-09",
+    "totalDays": 100,
+    "description": "100 ngày thử thách"
   }
 }
