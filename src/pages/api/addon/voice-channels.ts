@@ -46,7 +46,7 @@ export const GET: APIRoute = async () => {
       JSON.stringify({
         success: true,
         guildName: data.name || 'Anki Việt Nam',
-        instantInvite: data.instant_invite || 'https://discord.com/invite/867268399687663616',
+        instantInvite: data.instant_invite || 'https://discord.gg/P5EwPm7C38',
         presenceCount: data.presence_count || 0,
         voiceChannels,
       }),
