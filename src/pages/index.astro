@@ -489,7 +489,8 @@ if (sessionCookie) {
 				(m) =>
 					!m.hidden &&
 					m.challengeIds &&
-					m.challengeIds.includes(challengeIdNum),
+					m.challengeIds.includes(challengeIdNum) &&
+					(challengeIdNum !== 4 || m.ac11Approved === true),
 			);
 
 			const memberCountText = `${challengeMembers.length} thành viên`;
@@ -558,7 +559,8 @@ if (sessionCookie) {
 				(m: LeaderboardUser) =>
 					!m.hidden &&
 					m.challengeIds &&
-					m.challengeIds.includes(challengeIdNum),
+					m.challengeIds.includes(challengeIdNum) &&
+					(challengeIdNum !== 4 || m.ac11Approved === true),
 			);
 
 			updateMemberCount(challengeId);
