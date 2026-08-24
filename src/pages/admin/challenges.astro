@@ -3,105 +3,122 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout title="Admin - Quản lý Challenges">
-  <main class="p-8 max-w-7xl mx-auto">
-    <div class="flex items-center justify-between mb-8">
-      <h1 class="text-4xl font-bold">🏆 Quản lý Challenges</h1>
-      <div class="flex gap-3">
-        <button id="addChallengeBtn" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          ➕ Thêm Challenge
-        </button>
-        <a href="/admin" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
-          ← Quay lại Dashboard
-        </a>
-      </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="hidden fixed top-4 right-4 z-50">
-      <div class="bg-white rounded-lg shadow-2xl border-l-4 border-green-500 p-4 min-w-[300px]">
-        <div class="flex items-center">
-          <div class="text-2xl mr-3" id="toastIcon">✅</div>
+  <main class="min-h-screen bg-[#FAF9F5] text-[#141413] py-10 px-4 sm:px-6 font-['Plus_Jakarta_Sans','Inter',sans-serif] selection:bg-[#CC785C]/20 selection:text-[#141413]">
+    <div class="max-w-7xl mx-auto space-y-6">
+      <!-- Header -->
+      <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+        <div class="flex items-center gap-4">
+          <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8] shadow-xs">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+          </span>
           <div>
-            <p class="font-bold text-gray-900" id="toastTitle">Thành công!</p>
-            <p class="text-sm text-gray-600" id="toastMessage">Đã lưu thay đổi</p>
+            <h1 class="text-3xl font-serif font-medium tracking-tight text-[#141413]">Quản lý Challenges</h1>
+            <p class="text-[#8E8B82] text-sm font-medium mt-0.5">Admin · Cấu hình các mùa Anki Challenge</p>
           </div>
         </div>
-      </div>
-    </div>
-    
-    <div id="loading" class="text-center py-8">
-      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
-    </div>
-    
-    <!-- Challenges List -->
-    <div id="challengesList" class="hidden space-y-6">
-    </div>
-
-    <!-- Add/Edit Challenge Modal -->
-    <div id="challengeModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-8 max-w-2xl w-full mx-4">
-        <h2 class="text-2xl font-bold mb-6" id="modalTitle">Thêm Challenge</h2>
-        <form id="challengeForm" class="space-y-4">
-          <input type="hidden" id="editId" />
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Tên Challenge *</label>
-            <input type="text" id="challengeName" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Anki Challenge 11" />
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Ngày bắt đầu *</label>
-              <input type="date" id="startDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-gray-700 mb-1">Ngày kết thúc *</label>
-              <input type="date" id="endDate" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" />
-            </div>
-          </div>
-
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1">Mô tả</label>
-            <textarea id="description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="100 ngày thử thách"></textarea>
-          </div>
-
-          <div class="flex gap-3 justify-end pt-4">
-            <button type="button" id="cancelModal" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors">
-              Hủy
-            </button>
-            <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Lưu
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Manage Members Modal -->
-    <div id="membersModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-        <h2 class="text-2xl font-bold mb-6">Quản lý thành viên - <span id="currentChallengeName"></span></h2>
-        
-        <div class="mb-6">
-          <h3 class="text-lg font-semibold mb-3">Thành viên hiện tại (<span id="currentMembersCount">0</span>)</h3>
-          <div id="currentMembersList" class="space-y-2 max-h-60 overflow-y-auto">
-          </div>
-        </div>
-
-        <div>
-          <h3 class="text-lg font-semibold mb-3">Thêm thành viên</h3>
-          <div id="availableMembersList" class="space-y-2 max-h-60 overflow-y-auto">
-          </div>
-        </div>
-
-        <div class="flex justify-end mt-6">
-          <button type="button" id="closeMembersModal" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">
-            Đóng
+        <div class="flex gap-3">
+          <button id="addChallengeBtn" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#CC785C] hover:bg-[#B8684E] active:scale-[0.98] text-white text-sm font-semibold rounded-xl transition-all cursor-pointer shadow-sm">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+            Thêm Challenge
           </button>
+          <a href="/admin" class="inline-flex items-center gap-2 px-4 py-2.5 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] border border-[#E6DFD8] text-sm font-semibold rounded-xl transition-all shadow-xs">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Dashboard
+          </a>
         </div>
       </div>
-    </div>
 
+      <!-- Toast Notification -->
+      <div id="toast" class="hidden fixed top-4 right-4 z-50">
+        <div class="flex items-center gap-3 bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl shadow-2xl p-4">
+          <span id="toastBadge" class="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#E7F1EA] text-[#3F6B53]">
+            <span id="toastIcon" class="contents"></span>
+          </span>
+          <div class="min-w-0">
+            <p class="font-bold text-sm text-[#141413]" id="toastTitle">Thành công!</p>
+            <p class="text-sm text-[#6B6860] break-words" id="toastMessage">Đã lưu thay đổi</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading -->
+      <div id="loading" class="text-center py-16">
+        <div class="inline-flex items-center gap-3.5 px-7 py-4 bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl shadow-sm">
+          <div class="relative w-6 h-6">
+            <div class="absolute inset-0 rounded-full border-2 border-[#E6DFD8]"></div>
+            <div class="absolute inset-0 rounded-full border-2 border-[#CC785C] border-t-transparent animate-spin"></div>
+          </div>
+          <p class="text-base font-semibold text-[#141413]">Đang tải dữ liệu...</p>
+        </div>
+      </div>
+
+      <!-- Challenges List -->
+      <div id="challengesList" class="hidden space-y-4"></div>
+
+      <!-- Add/Edit Challenge Modal -->
+      <div id="challengeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-3xl p-7 max-w-2xl w-full mx-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <h2 class="text-xl font-serif font-medium text-[#141413] border-b border-[#E6DFD8] pb-4 mb-6" id="modalTitle">Thêm Challenge</h2>
+          <form id="challengeForm" class="space-y-5">
+            <input type="hidden" id="editId" />
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#6B6860] mb-1.5">Tên Challenge *</label>
+              <input type="text" id="challengeName" required class="w-full px-4 py-2.5 bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl text-sm text-[#141413] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] outline-none transition-all" placeholder="Anki Challenge 11" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#6B6860] mb-1.5">Ngày bắt đầu *</label>
+                <input type="date" id="startDate" required class="w-full px-4 py-2.5 bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl text-sm text-[#141413] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] outline-none transition-all" />
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-[#6B6860] mb-1.5">Ngày kết thúc *</label>
+                <input type="date" id="endDate" required class="w-full px-4 py-2.5 bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl text-sm text-[#141413] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] outline-none transition-all" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-[#6B6860] mb-1.5">Mô tả</label>
+              <textarea id="description" rows="3" class="w-full px-4 py-2.5 bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl text-sm text-[#141413] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] outline-none transition-all resize-none" placeholder="100 ngày thử thách"></textarea>
+            </div>
+
+            <div class="flex gap-3 justify-end pt-3">
+              <button type="button" id="cancelModal" class="px-4 py-2.5 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] text-sm font-semibold rounded-xl border border-[#E6DFD8] transition-all cursor-pointer">
+                Hủy
+              </button>
+              <button type="submit" class="px-4 py-2.5 bg-[#CC785C] hover:bg-[#B8684E] active:scale-[0.98] text-white text-sm font-semibold rounded-xl transition-all cursor-pointer shadow-sm">
+                Lưu
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Manage Members Modal -->
+      <div id="membersModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-3xl p-7 max-w-4xl w-full mx-4 max-h-[90vh] overflow-y-auto shadow-2xl">
+          <h2 class="text-xl font-serif font-medium text-[#141413] border-b border-[#E6DFD8] pb-4 mb-6">Quản lý thành viên · <span id="currentChallengeName" class="text-[#CC785C]"></span></h2>
+
+          <div class="mb-6">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-[#6B6860] mb-3">Thành viên hiện tại <span class="text-[#CC785C]">(<span id="currentMembersCount">0</span>)</span></h3>
+            <div id="currentMembersList" class="space-y-2 max-h-60 overflow-y-auto"></div>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold uppercase tracking-wider text-[#6B6860] mb-3">Thêm thành viên</h3>
+            <div id="availableMembersList" class="space-y-2 max-h-60 overflow-y-auto"></div>
+          </div>
+
+          <div class="flex justify-end mt-6">
+            <button type="button" id="closeMembersModal" class="px-4 py-2.5 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] text-sm font-semibold rounded-xl border border-[#E6DFD8] transition-all cursor-pointer">
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 </Layout>
 
@@ -110,25 +127,24 @@ import Layout from '../../layouts/Layout.astro';
   let usersData = [];
   let currentEditingChallengeId = null;
 
+  const checkSvg = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>';
+  const xSvg = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>';
 
   async function loadData() {
     try {
-      // Load users and challenges (thêm cache-busting)
       const cb = '?v=' + Date.now();
       const [usersResponse, challengesResponse] = await Promise.all([
         fetch('/api/data/users' + cb),
         fetch('/api/challenges' + cb)
       ]);
-      
+
       const usersDataJson = await usersResponse.json();
       usersData = usersDataJson.data || [];
-      
       challengesData = await challengesResponse.json();
 
       renderChallenges();
       document.getElementById('loading')?.classList.add('hidden');
       document.getElementById('challengesList')?.classList.remove('hidden');
-
     } catch (error) {
       console.error('Error loading data:', error);
       showToast('Lỗi!', 'Không thể tải dữ liệu', 'error');
@@ -141,27 +157,30 @@ import Layout from '../../layouts/Layout.astro';
 
     const html = Object.entries(challengesData).map(([id, challenge]) => {
       const membersCount = usersData.filter(u => u.challengeIds && u.challengeIds.includes(parseInt(id))).length;
-      
       return `
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-          <div class="flex items-center justify-between">
-            <div class="flex-1">
-              <h3 class="text-2xl font-bold text-gray-900 mb-2">${challenge.name}</h3>
-              <p class="text-gray-600 mb-3">${challenge.description || ''}</p>
-              <div class="flex gap-4 text-sm text-gray-600">
-                <span>📅 ${challenge.start} - ${challenge.end}</span>
-                <span>👥 ${membersCount} thành viên</span>
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.03)] overflow-hidden">
+          <div class="h-1 bg-gradient-to-r from-[#CC785C] via-[#D97757] to-[#E8A55A]"></div>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 p-6">
+            <div class="flex-1 min-w-0">
+              <h3 class="text-2xl font-serif font-medium text-[#141413] mb-1.5">${challenge.name}</h3>
+              <p class="text-[#6B6860] mb-3">${challenge.description || ''}</p>
+              <div class="flex flex-wrap gap-4 text-sm text-[#6B6860]">
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-[#8E8B82]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>${challenge.start} — ${challenge.end}</span>
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4 text-[#8E8B82]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>${membersCount} thành viên</span>
               </div>
             </div>
-            <div class="flex gap-2">
-              <button class="manage-members-btn px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm" data-id="${id}">
-                👥 Quản lý thành viên
+            <div class="flex flex-wrap gap-2">
+              <button class="manage-members-btn inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#E7F1EA] hover:bg-[#CFE2D6] text-[#3F6B53] rounded-xl transition-all text-xs font-semibold shadow-xs cursor-pointer" data-id="${id}">
+                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                Quản lý thành viên
               </button>
-              <button class="edit-challenge-btn px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm" data-id="${id}">
-                ✏️ Sửa
+              <button class="edit-challenge-btn inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] border border-[#E6DFD8] rounded-xl transition-all text-xs font-semibold shadow-xs cursor-pointer" data-id="${id}">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+                Sửa
               </button>
-              <button class="delete-challenge-btn px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm" data-id="${id}">
-                🗑️ Xóa
+              <button class="delete-challenge-btn inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#FBE3DC] hover:bg-[#F7CFC3] text-[#C0553C] rounded-xl transition-all text-xs font-semibold shadow-xs cursor-pointer" data-id="${id}">
+                <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                Xóa
               </button>
             </div>
           </div>
@@ -169,17 +188,14 @@ import Layout from '../../layouts/Layout.astro';
       `;
     }).join('');
 
-    listEl.innerHTML = html || '<p class="text-gray-500 text-center py-8">Chưa có challenge nào</p>';
+    listEl.innerHTML = html || '<p class="text-[#8E8B82] text-center py-8">Chưa có challenge nào</p>';
 
-    // Add event listeners
     document.querySelectorAll('.edit-challenge-btn').forEach(btn => {
       btn.addEventListener('click', () => editChallenge(btn.dataset.id));
     });
-
     document.querySelectorAll('.delete-challenge-btn').forEach(btn => {
       btn.addEventListener('click', () => deleteChallenge(btn.dataset.id));
     });
-
     document.querySelectorAll('.manage-members-btn').forEach(btn => {
       btn.addEventListener('click', () => openMembersModal(btn.dataset.id));
     });
@@ -196,25 +212,16 @@ import Layout from '../../layouts/Layout.astro';
     document.getElementById('startDate')!.value = challenge.start;
     document.getElementById('endDate')!.value = challenge.end;
     document.getElementById('description')!.value = challenge.description || '';
-    
     document.getElementById('challengeModal')?.classList.remove('hidden');
   }
 
   async function deleteChallenge(id) {
     if (!confirm('Bạn có chắc muốn xóa challenge này? Thành viên sẽ không bị xóa.')) return;
-
     try {
       delete challengesData[id];
-      
-      const response = await fetch('/api/challenges', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(challengesData)
-      });
-
+      const response = await fetch('/api/challenges', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(challengesData) });
       const result = await response.json();
       if (!result.success) throw new Error('Failed to delete');
-      
       showToast('Đã xóa!', 'Challenge đã được xóa', 'success');
       renderChallenges();
     } catch (error) {
@@ -226,47 +233,41 @@ import Layout from '../../layouts/Layout.astro';
   function openMembersModal(challengeId) {
     currentEditingChallengeId = challengeId;
     const challenge = challengesData[challengeId];
-    
     document.getElementById('currentChallengeName')!.textContent = challenge.name;
-    
+
     const currentMembers = usersData.filter(u => u.challengeIds && u.challengeIds.includes(parseInt(challengeId)));
     const availableMembers = usersData.filter(u => !u.challengeIds || !u.challengeIds.includes(parseInt(challengeId)));
-    
+
     document.getElementById('currentMembersCount')!.textContent = currentMembers.length.toString();
-    
-    // Render current members
+
     document.getElementById('currentMembersList')!.innerHTML = currentMembers.length === 0
-      ? '<p class="text-gray-500 text-sm">Chưa có thành viên nào</p>'
+      ? '<p class="text-[#8E8B82] text-sm">Chưa có thành viên nào</p>'
       : currentMembers.map(m => `
-          <div class="flex items-center justify-between p-3 bg-green-50 rounded-lg">
-            <span class="font-medium">${m.name}</span>
-            <button class="remove-member-btn px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600" data-user-id="${m.id}">
-              Xóa
+          <div class="flex items-center justify-between p-3 bg-[#E7F1EA] border border-[#CBE0D2] rounded-xl">
+            <span class="text-sm font-medium text-[#141413]">${m.name}</span>
+            <button class="remove-member-btn inline-flex items-center gap-1 px-3 py-1.5 bg-[#FBE3DC] hover:bg-[#F7CFC3] text-[#C0553C] rounded-lg text-xs font-semibold transition-all cursor-pointer" data-user-id="${m.id}">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>Xóa
             </button>
           </div>
         `).join('');
-    
-    // Render available members
+
     document.getElementById('availableMembersList')!.innerHTML = availableMembers.length === 0
-      ? '<p class="text-gray-500 text-sm">Không có thành viên khả dụng</p>'
+      ? '<p class="text-[#8E8B82] text-sm">Không có thành viên khả dụng</p>'
       : availableMembers.map(m => `
-          <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <span class="font-medium">${m.name}</span>
-            <button class="add-member-btn px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600" data-user-id="${m.id}">
-              Thêm
+          <div class="flex items-center justify-between p-3 bg-[#FBF7F1]/60 border border-[#E6DFD8] rounded-xl">
+            <span class="text-sm font-medium text-[#141413]">${m.name}</span>
+            <button class="add-member-btn inline-flex items-center gap-1 px-3 py-1.5 bg-[#CC785C] hover:bg-[#B8684E] text-white rounded-lg text-xs font-semibold transition-all cursor-pointer" data-user-id="${m.id}">
+              <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>Thêm
             </button>
           </div>
         `).join('');
-    
-    // Add event listeners
+
     document.querySelectorAll('.remove-member-btn').forEach(btn => {
       btn.addEventListener('click', () => removeMemberFromChallenge(parseInt(btn.dataset.userId!)));
     });
-    
     document.querySelectorAll('.add-member-btn').forEach(btn => {
       btn.addEventListener('click', () => addMemberToChallenge(parseInt(btn.dataset.userId!)));
     });
-    
     document.getElementById('membersModal')?.classList.remove('hidden');
   }
 
@@ -274,19 +275,11 @@ import Layout from '../../layouts/Layout.astro';
     try {
       const user = usersData.find(u => u.id === userId);
       if (!user) return;
-      
       if (!user.challengeIds) user.challengeIds = [];
       user.challengeIds.push(parseInt(currentEditingChallengeId!));
-      
-      const response = await fetch('/api/update-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: usersData })
-      });
-
+      const response = await fetch('/api/update-users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: usersData }) });
       const result = await response.json();
       if (!result.success) throw new Error('Failed to add member');
-      
       showToast('Đã thêm!', `${user.name} đã được thêm vào challenge`, 'success');
       openMembersModal(currentEditingChallengeId!);
       renderChallenges();
@@ -300,18 +293,10 @@ import Layout from '../../layouts/Layout.astro';
     try {
       const user = usersData.find(u => u.id === userId);
       if (!user) return;
-      
       user.challengeIds = (user.challengeIds || []).filter(id => id !== parseInt(currentEditingChallengeId!));
-      
-      const response = await fetch('/api/update-users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ data: usersData })
-      });
-
+      const response = await fetch('/api/update-users', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ data: usersData }) });
       const result = await response.json();
       if (!result.success) throw new Error('Failed to remove member');
-      
       showToast('Đã xóa!', `${user.name} đã được xóa khỏi challenge`, 'success');
       openMembersModal(currentEditingChallengeId!);
       renderChallenges();
@@ -324,68 +309,56 @@ import Layout from '../../layouts/Layout.astro';
   function showToast(title, message, type = 'success') {
     const toast = document.getElementById('toast');
     const icon = document.getElementById('toastIcon');
+    const badge = document.getElementById('toastBadge');
     const titleEl = document.getElementById('toastTitle');
     const messageEl = document.getElementById('toastMessage');
 
     if (type === 'success') {
-      icon!.textContent = '✅';
+      if (icon) icon.innerHTML = checkSvg;
+      badge?.classList.remove('bg-[#FBE3DC]', 'text-[#C0553C]');
+      badge?.classList.add('bg-[#E7F1EA]', 'text-[#3F6B53]');
     } else if (type === 'error') {
-      icon!.textContent = '❌';
+      if (icon) icon.innerHTML = xSvg;
+      badge?.classList.remove('bg-[#E7F1EA]', 'text-[#3F6B53]');
+      badge?.classList.add('bg-[#FBE3DC]', 'text-[#C0553C]');
     }
 
-    titleEl!.textContent = title;
-    messageEl!.textContent = message;
-    
+    if (titleEl) titleEl.textContent = title;
+    if (messageEl) messageEl.textContent = message;
     toast?.classList.remove('hidden');
-    
-    setTimeout(() => {
-      toast?.classList.add('hidden');
-    }, 3000);
+    setTimeout(() => toast?.classList.add('hidden'), 3000);
   }
 
-  // Event listeners
   document.getElementById('addChallengeBtn')?.addEventListener('click', () => {
     currentEditingChallengeId = null;
     document.getElementById('modalTitle')!.textContent = 'Thêm Challenge';
     document.getElementById('challengeForm')!.reset();
     document.getElementById('challengeModal')?.classList.remove('hidden');
   });
-
   document.getElementById('cancelModal')?.addEventListener('click', () => {
     document.getElementById('challengeModal')?.classList.add('hidden');
   });
-
   document.getElementById('closeMembersModal')?.addEventListener('click', () => {
     document.getElementById('membersModal')?.classList.add('hidden');
   });
 
   document.getElementById('challengeForm')?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
     const name = (document.getElementById('challengeName') as HTMLInputElement).value;
     const start = (document.getElementById('startDate') as HTMLInputElement).value;
     const end = (document.getElementById('endDate') as HTMLInputElement).value;
     const description = (document.getElementById('description') as HTMLTextAreaElement).value;
-    
+
     try {
       if (currentEditingChallengeId) {
-        // Edit existing
         challengesData[currentEditingChallengeId] = { name, start, end, description };
       } else {
-        // Add new
         const newId = (Math.max(...Object.keys(challengesData).map(k => parseInt(k))) + 1).toString();
         challengesData[newId] = { name, start, end, description };
       }
-      
-      const response = await fetch('/api/challenges', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(challengesData)
-      });
-
+      const response = await fetch('/api/challenges', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(challengesData) });
       const result = await response.json();
       if (!result.success) throw new Error('Failed to save');
-      
       showToast('Đã lưu!', 'Challenge đã được lưu', 'success');
       document.getElementById('challengeModal')?.classList.add('hidden');
       renderChallenges();
@@ -395,23 +368,16 @@ import Layout from '../../layouts/Layout.astro';
     }
   });
 
-  // Load data on page load
   loadData();
 </script>
 
 <style>
   @keyframes slideIn {
-    from {
-      transform: translateX(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
   }
-
-  #toast:not(.hidden) {
-    animation: slideIn 0.3s ease-out;
+  #toast:not(.hidden) { animation: slideIn 0.3s ease-out; }
+  @media (prefers-reduced-motion: reduce) {
+    #toast:not(.hidden) { animation: none; }
   }
 </style>
