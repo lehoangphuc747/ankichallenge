@@ -28,6 +28,7 @@ export interface UserRow {
   attendanceGoal?: number;
   quotes?: string;
   ac11Approved?: boolean;
+  ac11RegisteredAt?: string;
   hidden?: boolean;
   previousRank?: number;
   streak?: number;
@@ -99,6 +100,7 @@ function formatUserRow(row: any): UserRow {
     attendanceGoal: row.attendance_goal ? Number(row.attendance_goal) : undefined,
     quotes: row.quotes || undefined,
     ac11Approved: Boolean(row.ac11_approved),
+    ac11RegisteredAt: row.ac11_registered_at || undefined,
     hidden: Boolean(row.hidden),
     previousRank: row.previous_rank ? Number(row.previous_rank) : undefined,
     streak: row.streak ? Number(row.streak) : 0,
@@ -240,8 +242,8 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
     .prepare(
       `INSERT INTO users (
         id, name, real_name, email, discord_id, discord_nickname, avatar, role, challenge_ids,
-        bio, learning, major, facebook_url, zalo_url, birth_year, place, goals, attendance_goal, quotes, hidden, previous_rank, streak, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        bio, learning, major, facebook_url, zalo_url, birth_year, place, goals, attendance_goal, quotes, hidden, previous_rank, streak, ac11_registered_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(id) DO UPDATE SET
         name = excluded.name,
         real_name = COALESCE(excluded.real_name, users.real_name),
@@ -264,6 +266,7 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
         hidden = excluded.hidden,
         previous_rank = COALESCE(excluded.previous_rank, users.previous_rank),
         streak = excluded.streak,
+        ac11_registered_at = COALESCE(excluded.ac11_registered_at, users.ac11_registered_at),
         updated_at = CURRENT_TIMESTAMP`
     )
     .bind(
@@ -288,7 +291,8 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
       u.quotes || null,
       u.hidden ? 1 : 0,
       u.previousRank || null,
-      u.streak || 0
+      u.streak || 0,
+      u.ac11RegisteredAt || null
     )
     .run();
 }
@@ -375,6 +379,7 @@ export async function registerUserInDB(
       goals: userData.goals !== undefined ? userData.goals : existing.goals,
       attendanceGoal: userData.attendanceGoal !== undefined ? userData.attendanceGoal : existing.attendanceGoal,
       quotes: userData.quotes !== undefined ? userData.quotes : existing.quotes,
+      ac11RegisteredAt: (challengeId === 4 && !existing.ac11RegisteredAt) ? new Date().toISOString() : existing.ac11RegisteredAt,
     };
 
     await upsertUserInDB(db, updatedUser);
@@ -405,6 +410,7 @@ export async function registerUserInDB(
     goals: userData.goals,
     attendanceGoal: userData.attendanceGoal,
     quotes: userData.quotes,
+    ac11RegisteredAt: challengeId === 4 ? new Date().toISOString() : undefined,
     hidden: false,
     streak: 0,
   };
