@@ -19,12 +19,14 @@ src/pages/            — Astro pages + API endpoints
   api/data/[key].ts   — D1-backed JSON API (whitelist keys only)
   api/auth/           — Discord OAuth (discord.ts, callback.ts, check-guild.ts, me.ts, logout.ts)
   api/register.ts     — Registration submission API (saves to D1 SQLite)
+  api/admin/approve-ac11.ts — Admin AC11 approval endpoint (set ac11_approved + grant Discord role)
   admin/              — Admin CRUD pages (index, members, challenges, checkin, registrations)
 src/components/       — Astro + React components
-src/utils/            — calculateStats.js, db.ts, kv.ts, session.ts
+src/utils/            — calculateStats.js, db.ts, kv.ts, session.ts, discord.ts
 src/layouts/          — Layout.astro
 scripts/              — Node.js scripts (backup-d1, backup-kv, export-certs, migrate-json-to-d1)
-migrations/           — D1 SQL migrations (0001_init.sql)
+migrations/           — D1 SQL migrations (0001–0006)
+public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.png)
 ```
 
 ## Data Flow
@@ -43,8 +45,9 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - AC11 banner above search bar links to `/anki-challenge-11`
 
 ## Admin pages (src/pages/admin/)
-- `index`, `registrations`, and `checkin` pages use the **Claude warm style** (terracotta `#CC785C`, cream `#FAF9F5`, serif headings, rounded cards) + **inline Lucide SVG icons** (NOT `lucide-react` — avoid adding that dep, prefer inline SVG paths to keep the build dependency-free).
-- `admin/index` = dashboard (login/auth, stats, login history, Discord mapping). `registrations` = inspect per-challenge signups (realName, bio, fb/zalo, attendanceGoal). `checkin` = admin calendar check-in editor.
+- **Tất cả** admin pages (`index`, `members`, `challenges`, `checkin`, `registrations`) đều dùng **Claude warm style** (terracotta `#CC785C`, cream `#FAF9F5`, serif headings, rounded cards) + **inline Lucide SVG icons** (NOT `lucide-react` — avoid adding that dep, prefer inline SVG paths to keep the build dependency-free).
+- `admin/index` = dashboard (login/auth, stats, login history, Discord mapping). `members` = danh sách thành viên + edit modal. `challenges` = quản lý mùa challenge + quản lý thành viên theo mùa. `registrations` = inspect per-challenge signups (realName, bio, fb/zalo, attendanceGoal) + nút "Duyệt AC11". `checkin` = admin calendar check-in editor.
+- **Emoji policy**: tất cả emoji trong admin pages đã được thay bằng inline SVG icons (toast, nút, header). Không dùng emoji trong markup admin.
 
 ## Certificates
 - A4 size (210mm × 297mm), double border design
@@ -54,7 +57,7 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - File naming: `{rank}-{slugified-user-name}.png`
 
 ## Registration & Discord Guild Gate
-- **Flow**: User must log in via Discord OAuth (`identify email guilds`) -> Backend verifies membership in Discord "Anki Việt Nam" (Guild ID `867268399687663616`) -> Unlocks form -> Submits to `/api/register` -> Saved to Cloudflare D1 SQLite (`users` table).
+- **Flow**: User must log in via Discord OAuth (`identify email guilds`) -> Backend verifies membership in Discord "Anki Việt Nam" (Guild ID `867268399687663616`, invite: `discord.gg/P5EwPm7C38`) -> Unlocks form -> Submits to `/api/register` -> Saved to Cloudflare D1 SQLite (`users` table).
 - **Routes**:
   - `/register`: Public registration form for AC10 (`challengeId = 3`).
   - `/anki-challenge-11`: Unlisted/Private registration form for AC11 (`challengeId = 4`), not shown in Navigation/Leaderboard (but IS an option in the leaderboard challenge dropdown).
