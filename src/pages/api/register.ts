@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { verifySession } from '../../utils/session';
-import { registerUserInDB, getUserByDiscordId } from '../../utils/db';
+import { registerUserInDB, getUserByDiscordId, approveAc11InDB } from '../../utils/db';
+import { grantAc11Role } from '../../utils/discord';
 import { getFromKV, putToKV } from '../../utils/kv';
 
 export const prerender = false;
@@ -197,6 +198,20 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
 
       if (env.DATA) {
         await putToKV(env, 'users', { data: userList });
+      }
+    }
+
+    // AC11: đã từng tham gia AC10 (challengeIds có 3) → TỰ ĐỘNG duyệt + gán role.
+    // Người mới (chưa từng AC10) → chờ admin duyệt ở /admin/registrations.
+    if (challengeId === 4 && savedUser?.discordId) {
+      const isAc10Veteran = Array.isArray(savedUser.challengeIds) && savedUser.challengeIds.includes(3);
+      if (isAc10Veteran) {
+        try {
+          if (env.DB) await approveAc11InDB(env.DB, Number(savedUser.id));
+          await grantAc11Role(env, String(savedUser.discordId));
+        } catch (e) {
+          console.warn('[AC11 Auto-approve] Lỗi:', e);
+        }
       }
     }
 
