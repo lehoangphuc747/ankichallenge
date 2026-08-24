@@ -38,8 +38,13 @@ migrations/           — D1 SQL migrations (0001_init.sql)
 - Sorted by `disciplinePercentage` descending
 - Formula: `round(studyDays / totalDaysPossible * 100)`
 - Tie handling: same % = same rank, rank increments on strictly lower %
-- Challenge selector dropdown (AC8/9/10/11 changes records file → `records_08/09/10/11`)
+- Challenge selector dropdown (AC8/9/10/11 changes records file → `records_08/09/10/11`); **page defaults to AC11 (`challengeId = 4`)** on load
 - Search by name/discordNickname, toggle real name vs username
+- AC11 banner above search bar links to `/anki-challenge-11`
+
+## Admin pages (src/pages/admin/)
+- `index`, `registrations`, and `checkin` pages use the **Claude warm style** (terracotta `#CC785C`, cream `#FAF9F5`, serif headings, rounded cards) + **inline Lucide SVG icons** (NOT `lucide-react` — avoid adding that dep, prefer inline SVG paths to keep the build dependency-free).
+- `admin/index` = dashboard (login/auth, stats, login history, Discord mapping). `registrations` = inspect per-challenge signups (realName, bio, fb/zalo, attendanceGoal). `checkin` = admin calendar check-in editor.
 
 ## Certificates
 - A4 size (210mm × 297mm), double border design

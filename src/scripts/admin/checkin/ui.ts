@@ -84,26 +84,26 @@ export function updateFocusedItem(): void {
       // Thêm các class để làm focus rõ ràng hơn
       item.classList.add(
         'ring-4',           // Ring dày hơn (từ ring-2 → ring-4)
-        'ring-blue-500',    // Màu xanh dương
+        'ring-[#CC785C]',    // Màu xanh dương
         'ring-offset-2',    // Offset để tạo khoảng cách
         'shadow-lg',        // Shadow lớn để nổi bật
-        'shadow-blue-200',  // Shadow màu xanh nhạt
-        'bg-blue-100',      // Background đậm hơn (từ blue-50 → blue-100)
+        'shadow-[0_10px_15px_-3px_rgba(204,120,92,0.2)]',  // Shadow màu xanh nhạt
+        'bg-[#F9E3D7]',      // Background đậm hơn (từ blue-50 → blue-100)
         'border-2',         // Border dày
-        'border-blue-400'   // Border màu xanh
+        'border-[#CC785C]'   // Border màu xanh
       );
       item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     } else {
       // Xóa tất cả các class focus
       item.classList.remove(
         'ring-4',
-        'ring-blue-500',
+        'ring-[#CC785C]',
         'ring-offset-2',
         'shadow-lg',
-        'shadow-blue-200',
-        'bg-blue-100',
+        'shadow-[0_10px_15px_-3px_rgba(204,120,92,0.2)]',
+        'bg-[#F9E3D7]',
         'border-2',
-        'border-blue-400'
+        'border-[#CC785C]'
       );
     }
   });
@@ -171,26 +171,26 @@ export function renderCheckinList(): void {
 
   if (uncheckedList) {
     uncheckedList.innerHTML = unchecked.length === 0
-      ? '<div class="p-12 text-center text-gray-500 italic">🎉 Tất cả đã check-in!</div>'
+      ? '<div class="p-12 text-center text-[#8E8B82] italic">🎉 Tất cả đã check-in!</div>'
       : unchecked.map(user => `
-          <div class="checkin-item group p-4 sm:p-5 hover:bg-orange-50 cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-0 relative overflow-hidden"
+          <div class="checkin-item group p-4 sm:p-5 hover:bg-[#FBF5EE] cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-[#F0EAE1] last:border-0 relative overflow-hidden"
                data-user-id="${user.id}" data-user-name="${user.name.replace(/"/g, '&quot;')}">
             
-            <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#CC785C] opacity-0 group-hover:opacity-100 transition-opacity"></div>
             
             <div class="flex items-center gap-5">
-              <div class="w-14 h-14 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xl shadow-sm border border-orange-200">
+              <div class="w-14 h-14 rounded-full bg-[#F6EFDD] text-[#9A7828] flex items-center justify-center font-bold text-xl shadow-sm border border-[#E9DDBB]">
                 ${user.name.charAt(0)}
               </div>
               <div>
-                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-orange-700 transition-colors">${user.name}</p>
+                <p class="font-bold text-[#141413] text-lg leading-tight group-hover:text-[#B8684E] transition-colors">${user.name}</p>
                 <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
                   <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
                 </p>
               </div>
             </div>
             
-            <div class="w-10 h-10 rounded-full border-2 border-gray-300 group-hover:border-orange-400 flex items-center justify-center text-transparent group-hover:text-orange-400 transition-all">
+            <div class="w-10 h-10 rounded-full border-2 border-[#C9C2B7] group-hover:border-[#CC785C] flex items-center justify-center text-transparent group-hover:text-[#CC785C] transition-all">
                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform scale-75 group-hover:scale-100 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                </svg>
@@ -203,26 +203,26 @@ export function renderCheckinList(): void {
   const checkedList = document.getElementById('checkedList');
   if (checkedList) {
     checkedList.innerHTML = checked.length === 0
-      ? '<div class="p-12 text-center text-gray-500 italic">Chưa có ai check-in ngày này.</div>'
+      ? '<div class="p-12 text-center text-[#8E8B82] italic">Chưa có ai check-in ngày này.</div>'
       : checked.map(user => `
-          <div class="checkin-item group p-4 sm:p-5 hover:bg-green-50 cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-gray-100 last:border-0 relative overflow-hidden"
+          <div class="checkin-item group p-4 sm:p-5 hover:bg-[#F0F6F1] cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-[#F0EAE1] last:border-0 relative overflow-hidden"
                data-user-id="${user.id}" data-user-name="${user.name.replace(/"/g, '&quot;')}">
             
-             <div class="absolute left-0 top-0 bottom-0 w-1 bg-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+             <div class="absolute left-0 top-0 bottom-0 w-1 bg-[#5F8D73] opacity-0 group-hover:opacity-100 transition-opacity"></div>
 
             <div class="flex items-center gap-5">
-              <div class="w-14 h-14 rounded-full bg-green-100 text-green-700 flex items-center justify-center font-bold text-xl shadow-sm border border-green-200">
+              <div class="w-14 h-14 rounded-full bg-[#E7F1EA] text-[#3F6B53] flex items-center justify-center font-bold text-xl shadow-sm border border-[#CBE0D2]">
                 ${user.name.charAt(0)}
               </div>
               <div>
-                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-green-700 transition-colors">${user.name}</p>
+                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-[#3F6B53] transition-colors">${user.name}</p>
                 <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
                   <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
                 </p>
               </div>
             </div>
             
-            <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shadow-sm transform group-hover:scale-110 transition-all">
+            <div class="w-10 h-10 rounded-full bg-[#5F8D73] text-white flex items-center justify-center shadow-sm transform group-hover:scale-110 transition-all">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
               </svg>
