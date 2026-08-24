@@ -1,0 +1,175 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Admin - Danh sách đăng ký">
+  <main class="p-8 max-w-7xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+      <div>
+        <h1 class="text-4xl font-bold">📋 Danh sách đăng ký</h1>
+        <p class="text-gray-500 mt-1 font-medium">Kiểm tra thành viên đã đăng ký tham gia các mùa Anki Challenge</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <select id="challengeSelect" class="px-4 py-2.5 border-2 border-black bg-white font-bold text-sm rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer">
+          <option value="">Đang tải...</option>
+        </select>
+        <a href="/admin" class="px-4 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors text-sm font-medium">
+          ← Quay lại Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Số đăng ký</div>
+        <div class="text-3xl font-black text-gray-900 mt-1" id="regCount">--</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có tên thật</div>
+        <div class="text-3xl font-black text-gray-900 mt-1" id="realNameCount">--</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có Zalo/SĐT</div>
+        <div class="text-3xl font-black text-gray-900 mt-1" id="zaloCount">--</div>
+      </div>
+      <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
+        <div class="text-gray-400 text-xs font-bold uppercase tracking-wider">Có mục tiêu chuyên cần</div>
+        <div class="text-3xl font-black text-gray-900 mt-1" id="goalCount">--</div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="mb-4">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="🔎 Tìm theo tên, tên thật, Discord, email..."
+        class="w-full px-4 py-3 border-2 border-gray-200 focus:border-black rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-200 text-sm transition-colors"
+      />
+    </div>
+
+    <!-- Loading -->
+    <div id="loading" class="text-center py-12">
+      <p class="text-gray-500 text-lg">Đang tải dữ liệu...</p>
+    </div>
+
+    <!-- Table -->
+    <div id="tableWrap" class="hidden overflow-x-auto shadow-md rounded-lg">
+      <table class="w-full text-sm text-left text-gray-700 bg-white">
+        <thead class="text-xs uppercase bg-gray-100 text-gray-700">
+          <tr>
+            <th class="px-4 py-3">#</th>
+            <th class="px-4 py-3">ID</th>
+            <th class="px-4 py-3">Tên hiển thị</th>
+            <th class="px-4 py-3">Tên thật</th>
+            <th class="px-4 py-3">Discord</th>
+            <th class="px-4 py-3">Email</th>
+            <th class="px-4 py-3">Zalo/SĐT</th>
+            <th class="px-4 py-3">Mục tiêu %</th>
+            <th class="px-4 py-3">Nơi ở</th>
+            <th class="px-4 py-3">Chuyên ngành</th>
+            <th class="px-4 py-3">Giới thiệu</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody" class="divide-y divide-gray-100"></tbody>
+      </table>
+    </div>
+
+    <!-- Empty -->
+    <div id="emptyMsg" class="hidden text-center py-12 text-gray-400 font-medium">
+      Chưa có ai đăng ký cho challenge này.
+    </div>
+  </main>
+</Layout>
+
+<script>
+  let allUsers: any[] = [];
+  let currentChallengeId = "4"; // Mặc định AC11
+
+  async function loadChallenges() {
+    try {
+      const res = await fetch("/api/data/challenges?v=" + Date.now());
+      const data = await res.json();
+      const select = document.getElementById("challengeSelect") as HTMLSelectElement;
+      select.innerHTML = Object.entries(data)
+        .map(([id, c]: any) => `<option value="${id}" ${id === currentChallengeId ? "selected" : ""}>${c.name}</option>`)
+        .join("");
+      select.addEventListener("change", () => {
+        currentChallengeId = select.value;
+        renderTable();
+      });
+    } catch (e) {
+      console.error("Load challenges error:", e);
+    }
+  }
+
+  async function loadUsers() {
+    try {
+      const res = await fetch("/api/data/users?v=" + Date.now());
+      const data = await res.json();
+      allUsers = Array.isArray(data?.data) ? data.data : [];
+    } catch (e) {
+      console.error("Load users error:", e);
+    }
+  }
+
+  function renderTable() {
+    const search = (document.getElementById("searchInput") as HTMLInputElement)?.value.trim().toLowerCase() || "";
+    const query = parseInt(currentChallengeId);
+
+    const list = allUsers.filter((u) =>
+      (u.challengeIds || []).includes(query),
+    );
+
+    // Stats
+    (document.getElementById("regCount") as HTMLElement).textContent = String(list.length);
+    (document.getElementById("realNameCount") as HTMLElement).textContent = String(list.filter(u => u.realName).length);
+    (document.getElementById("zaloCount") as HTMLElement).textContent = String(list.filter(u => u.zaloUrl).length);
+    (document.getElementById("goalCount") as HTMLElement).textContent = String(list.filter(u => u.attendanceGoal != null).length);
+
+    const filtered = list.filter((u) =>
+      [u.name, u.realName, u.discordNickname, u.name, u.email, u.zaloUrl]
+        .some((v) => v && v.toLowerCase().includes(search)),
+    );
+
+    const tbody = document.getElementById("tableBody") as HTMLElement;
+    const loading = document.getElementById("loading");
+    const tableWrap = document.getElementById("tableWrap");
+    const emptyMsg = document.getElementById("emptyMsg");
+
+    loading?.classList.add("hidden");
+    tableWrap?.classList.remove("hidden");
+
+    if (filtered.length === 0) {
+      tableWrap?.classList.add("hidden");
+      emptyMsg?.classList.remove("hidden");
+      return;
+    }
+    emptyMsg?.classList.add("hidden");
+
+    tbody.innerHTML = filtered.map((u, i) => `
+      <tr class="hover:bg-gray-50/80 transition-colors">
+        <td class="px-4 py-3 text-gray-400 font-bold">${i + 1}</td>
+        <td class="px-4 py-3 font-mono text-xs text-gray-400">#${u.id}</td>
+        <td class="px-4 py-3 font-bold">${u.name || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3">${u.realName || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs text-gray-500 font-mono">${u.discordNickname ? '@' + u.discordNickname : '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs font-mono">${u.email || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs font-mono">${u.zaloUrl || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 font-bold">${u.attendanceGoal != null ? u.attendanceGoal + '%' : '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs">${u.place || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs">${u.major || '<span class="text-gray-300">—</span>'}</td>
+        <td class="px-4 py-3 text-xs text-gray-500 max-w-[180px] truncate" title="${(u.bio || '').replace(/"/g, '&quot;')}">${u.bio || '<span class="text-gray-300">—</span>'}</td>
+      </tr>
+    `).join("");
+  }
+
+  document.getElementById("searchInput")?.addEventListener("input", renderTable);
+
+  (async () => {
+    await Promise.all([loadChallenges(), loadUsers()]);
+    renderTable();
+  })();
+</script>
