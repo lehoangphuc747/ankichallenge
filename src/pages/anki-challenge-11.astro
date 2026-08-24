@@ -239,10 +239,27 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
             <!-- Challenge ID 4 (Anki Challenge 11) -->
             <input type="hidden" name="challengeId" value="4" />
 
-            <!-- Họ và Tên -->
+            <!-- Họ và tên (Thật) -->
+            <div>
+              <label for="realName" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
+                Họ và tên (Thật) <span class="text-[#CC785C]">*</span>
+              </label>
+              <input
+                type="text"
+                id="realName"
+                name="realName"
+                required
+                value={existingProfile?.realName || ''}
+                placeholder="Ví dụ: Lê Hoàng Phúc"
+                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
+              />
+              <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tên thật chỉ dùng cho xác thực nội bộ, <strong>không hiển thị công khai</strong>.</p>
+            </div>
+
+            <!-- Họ và tên (Dùng để hiển thị trên Web) -->
             <div>
               <label for="name" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
-                Họ và Tên hiển thị <span class="text-[#CC785C]">*</span>
+                Họ và tên (Dùng để hiển thị trên Web) <span class="text-[#CC785C]">*</span>
               </label>
               <input
                 type="text"
@@ -250,7 +267,7 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                 name="name"
                 required
                 value={existingProfile?.name || user?.displayName || user?.username || ''}
-                placeholder="Ví dụ: Lê Hoàng Phúc"
+                placeholder="Ví dụ: Hoàng Phúc"
                 class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
               />
               <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tên hiển thị trên Bảng xếp hạng Anki Challenge 11.</p>
@@ -318,6 +335,70 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
                   class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
                 />
               </div>
+            </div>
+
+            <!-- Giới thiệu ngắn -->
+            <div>
+              <label for="bio" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
+                Giới thiệu ngắn
+              </label>
+              <textarea
+                id="bio"
+                name="bio"
+                rows="2"
+                placeholder="Đôi dòng giới thiệu về bạn..."
+                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl p-3.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all resize-none"
+              >{existingProfile?.bio || ''}</textarea>
+            </div>
+
+            <!-- Grid 2 cột: Facebook & Zalo (nội bộ) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label for="facebookUrl" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
+                  Facebook
+                </label>
+                <input
+                  type="text"
+                  id="facebookUrl"
+                  name="facebookUrl"
+                  value={existingProfile?.facebookUrl || ''}
+                  placeholder="https://facebook.com/..."
+                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
+                />
+              </div>
+
+              <div>
+                <label for="zaloUrl" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
+                  Zalo / SĐT
+                </label>
+                <input
+                  type="text"
+                  id="zaloUrl"
+                  name="zaloUrl"
+                  value={existingProfile?.zaloUrl || ''}
+                  placeholder="https://zalo.me/... hoặc SĐT"
+                  class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
+                />
+              </div>
+            </div>
+            <p class="text-[11px] text-[#6B6860] -mt-2 pl-1">Thông tin liên hệ chỉ dùng nội bộ để liên hệ/trao giải, <strong>không hiển thị công khai</strong>.</p>
+
+            <!-- Mục tiêu chuyên cần (%) -->
+            <div>
+              <label for="attendanceGoal" class="block text-xs font-medium uppercase tracking-wider text-[#6B6860] mb-1.5">
+                Mục tiêu chuyên cần (%)
+              </label>
+              <input
+                type="number"
+                id="attendanceGoal"
+                name="attendanceGoal"
+                min="0"
+                max="100"
+                value={existingProfile?.attendanceGoal || ''}
+                placeholder="Ví dụ: 100"
+                class="w-full bg-[#FAF9F5] border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-1 focus:ring-[#CC785C] rounded-xl px-4 py-2.5 text-sm text-[#141413] placeholder-[#9C948A] outline-none transition-all"
+              />
+              <p class="text-[11px] text-[#6B6860] mt-1 pl-1">Tỉ lệ điểm danh bạn đặt mục tiêu đạt được trong mùa này (0–100%).</p>
             </div>
 
             <!-- Mục tiêu thử thách -->

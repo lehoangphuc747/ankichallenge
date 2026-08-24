@@ -116,9 +116,11 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
 
   const challengeId = Number(bodyData.challengeId) || 3; // Mặc định Challenge 10 (id = 3)
   const birthYear = bodyData.birthYear ? parseInt(String(bodyData.birthYear), 10) : undefined;
+  const attendanceGoalNum = bodyData.attendanceGoal ? parseInt(String(bodyData.attendanceGoal), 10) : undefined;
 
   const registrationData = {
     name,
+    realName: bodyData.realName ? String(bodyData.realName).trim() : undefined,
     email: userSession.email || bodyData.email || undefined,
     discordId: String(userSession.id),
     discordNickname: userSession.username,
@@ -127,7 +129,9 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
     place: bodyData.place ? String(bodyData.place).trim() : undefined,
     major: bodyData.major ? String(bodyData.major).trim() : undefined,
     learning: bodyData.learning ? String(bodyData.learning).trim() : undefined,
+    bio: bodyData.bio ? String(bodyData.bio).trim() : undefined,
     goals: bodyData.goals ? String(bodyData.goals).trim() : undefined,
+    attendanceGoal: isNaN(attendanceGoalNum as number) ? undefined : attendanceGoalNum,
     quotes: bodyData.quotes ? String(bodyData.quotes).trim() : undefined,
     facebookUrl: bodyData.facebookUrl ? String(bodyData.facebookUrl).trim() : undefined,
     zaloUrl: bodyData.zaloUrl ? String(bodyData.zaloUrl).trim() : undefined,

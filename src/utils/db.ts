@@ -10,6 +10,7 @@ export interface D1Database {
 export interface UserRow {
   id: number;
   name: string;
+  realName?: string;
   email?: string;
   discordId?: string;
   discordNickname?: string;
@@ -24,6 +25,7 @@ export interface UserRow {
   birthYear?: number;
   place?: string;
   goals?: string;
+  attendanceGoal?: number;
   quotes?: string;
   hidden?: boolean;
   previousRank?: number;
@@ -78,6 +80,7 @@ function formatUserRow(row: any): UserRow {
   return {
     id: row.id,
     name: row.name,
+    realName: row.real_name || undefined,
     email: row.email || undefined,
     discordId: row.discord_id || undefined,
     discordNickname: row.discord_nickname || undefined,
@@ -92,6 +95,7 @@ function formatUserRow(row: any): UserRow {
     birthYear: row.birth_year ? Number(row.birth_year) : undefined,
     place: row.place || undefined,
     goals: row.goals || undefined,
+    attendanceGoal: row.attendance_goal ? Number(row.attendance_goal) : undefined,
     quotes: row.quotes || undefined,
     hidden: Boolean(row.hidden),
     previousRank: row.previous_rank ? Number(row.previous_rank) : undefined,
@@ -233,11 +237,12 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
   await db
     .prepare(
       `INSERT INTO users (
-        id, name, email, discord_id, discord_nickname, avatar, role, challenge_ids,
-        bio, learning, major, facebook_url, zalo_url, birth_year, place, goals, quotes, hidden, previous_rank, streak, updated_at
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+        id, name, real_name, email, discord_id, discord_nickname, avatar, role, challenge_ids,
+        bio, learning, major, facebook_url, zalo_url, birth_year, place, goals, attendance_goal, quotes, hidden, previous_rank, streak, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
       ON CONFLICT(id) DO UPDATE SET
         name = excluded.name,
+        real_name = COALESCE(excluded.real_name, users.real_name),
         email = COALESCE(excluded.email, users.email),
         discord_id = COALESCE(excluded.discord_id, users.discord_id),
         discord_nickname = COALESCE(excluded.discord_nickname, users.discord_nickname),
@@ -252,6 +257,7 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
         birth_year = COALESCE(excluded.birth_year, users.birth_year),
         place = COALESCE(excluded.place, users.place),
         goals = COALESCE(excluded.goals, users.goals),
+        attendance_goal = COALESCE(excluded.attendance_goal, users.attendance_goal),
         quotes = COALESCE(excluded.quotes, users.quotes),
         hidden = excluded.hidden,
         previous_rank = COALESCE(excluded.previous_rank, users.previous_rank),
@@ -261,6 +267,7 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
     .bind(
       u.id,
       u.name,
+      u.realName || null,
       u.email || null,
       u.discordId || null,
       u.discordNickname || null,
@@ -275,6 +282,7 @@ export async function upsertUserInDB(db: D1Database, u: UserRow): Promise<void> 
       u.birthYear || null,
       u.place || null,
       u.goals || null,
+      u.attendanceGoal || null,
       u.quotes || null,
       u.hidden ? 1 : 0,
       u.previousRank || null,
@@ -339,6 +347,7 @@ export async function registerUserInDB(
     const updatedUser: UserRow = {
       ...existing,
       name: userData.name || existing.name,
+      realName: userData.realName !== undefined ? userData.realName : existing.realName,
       email: userData.email || existing.email,
       discordNickname: userData.discordNickname || existing.discordNickname,
       avatar: userData.avatar || existing.avatar,
@@ -351,6 +360,7 @@ export async function registerUserInDB(
       birthYear: userData.birthYear !== undefined ? userData.birthYear : existing.birthYear,
       place: userData.place !== undefined ? userData.place : existing.place,
       goals: userData.goals !== undefined ? userData.goals : existing.goals,
+      attendanceGoal: userData.attendanceGoal !== undefined ? userData.attendanceGoal : existing.attendanceGoal,
       quotes: userData.quotes !== undefined ? userData.quotes : existing.quotes,
     };
 
@@ -365,6 +375,7 @@ export async function registerUserInDB(
   const newUser: UserRow = {
     id: nextId,
     name: userData.name,
+    realName: userData.realName,
     email: userData.email,
     discordId: userData.discordId,
     discordNickname: userData.discordNickname,
@@ -379,6 +390,7 @@ export async function registerUserInDB(
     birthYear: userData.birthYear,
     place: userData.place,
     goals: userData.goals,
+    attendanceGoal: userData.attendanceGoal,
     quotes: userData.quotes,
     hidden: false,
     streak: 0,
