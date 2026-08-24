@@ -390,6 +390,29 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
               </div>
             )}
 
+            <!-- Đóng phí tham gia (nếu không đủ điều kiện tự duyệt) -->
+            <div class="p-4 rounded-2xl bg-[#F6EFDD] border border-[#E9DDBB]">
+              <div class="flex items-center gap-2 mb-2">
+                <svg class="w-4 h-4 text-[#9A7828] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <h3 class="text-sm font-bold text-[#9A7828]">Đóng phí tham gia (nếu không được tự động duyệt)</h3>
+              </div>
+              <p class="text-xs text-[#7A6752] mb-3 leading-relaxed">Nếu bạn không đủ điều kiện tự duyệt (kỷ luật ≤ 90% thử thách trước hoặc thành viên mới), vui lòng đóng phí <strong>20.000 VNĐ</strong> qua chuyển khoản:</p>
+              <div class="flex flex-col sm:flex-row items-start gap-4">
+                <img src="/images/ankichallenge11-qr.png" alt="QR Vietcombank AC11" class="w-36 h-36 rounded-xl border border-[#E9DDBB] bg-white object-contain shrink-0" onerror="this.style.display='none'" />
+                <div class="text-xs text-[#7A6752] space-y-1.5 flex-1 min-w-0">
+                  <p class="flex items-center gap-2 flex-wrap"><strong>STK:</strong> <span class="font-mono font-semibold">1018190048</span>
+                    <button type="button" class="copy-btn" onclick="const b=event.currentTarget;navigator.clipboard.writeText('1018190048').then(()=>{const o=b.innerText;b.innerText='Đã chép ✓';setTimeout(()=>b.innerText=o,2000)})">Copy</button>
+                  </p>
+                  <p><strong>Chủ tài khoản:</strong> LE HOANG PHUC</p>
+                  <p><strong>Ngân hàng:</strong> Vietcombank (VCB)</p>
+                  <p class="flex items-center gap-2 flex-wrap"><strong>Nội dung:</strong> <span class="font-mono font-semibold">anki 11 + tên</span>
+                    <button type="button" class="copy-btn" onclick="const b=event.currentTarget;navigator.clipboard.writeText('anki 11').then(()=>{const o=b.innerText;b.innerText='Đã chép ✓';setTimeout(()=>b.innerText=o,2000)})">Copy</button>
+                  </p>
+                </div>
+              </div>
+              <p class="text-[11px] text-[#9A7828] mt-2">Sau khi chuyển khoản, Ban tổ chức sẽ xác nhận và duyệt đăng ký của bạn.</p>
+            </div>
+
             <!-- Error message container -->
             <div id="formErrorMsg" class="hidden p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium"></div>
 
@@ -558,3 +581,21 @@ const isRegistrationOpen = Date.now() >= REGISTRATION_OPEN_TIMESTAMP;
     });
   }
 </script>
+
+<style>
+  .copy-btn {
+    margin-left: 0.35rem;
+    padding: 0.12rem 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    background: #FFFFFF;
+    border: 1px solid #E9DDBB;
+    color: #9A7828;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .copy-btn:hover {
+    background: #F6EFDD;
+  }
+</style>
