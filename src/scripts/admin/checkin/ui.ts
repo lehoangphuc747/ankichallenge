@@ -25,16 +25,20 @@ export function showToast(title: string, message: string, type: 'success' | 'err
   if (!toast || !icon || !titleEl || !messageEl) return;
 
   const toastContainer = toast.querySelector('div');
+  const badge = document.getElementById('toastBadge');
   if (!toastContainer) return;
 
+  const checkSvg = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>';
+  const xSvg = '<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>';
+
   if (type === 'success') {
-    icon.textContent = '✅';
-    toastContainer.classList.remove('border-red-500', 'border-yellow-500');
-    toastContainer.classList.add('border-green-500');
+    icon.innerHTML = checkSvg;
+    badge?.classList.remove('bg-[#FBE3DC]', 'text-[#C0553C]');
+    badge?.classList.add('bg-[#E7F1EA]', 'text-[#3F6B53]');
   } else if (type === 'error') {
-    icon.textContent = '❌';
-    toastContainer.classList.remove('border-green-500', 'border-yellow-500');
-    toastContainer.classList.add('border-red-500');
+    icon.innerHTML = xSvg;
+    badge?.classList.remove('bg-[#E7F1EA]', 'text-[#3F6B53]');
+    badge?.classList.add('bg-[#FBE3DC]', 'text-[#C0553C]');
   }
 
   titleEl.textContent = title;
@@ -171,7 +175,7 @@ export function renderCheckinList(): void {
 
   if (uncheckedList) {
     uncheckedList.innerHTML = unchecked.length === 0
-      ? '<div class="p-12 text-center text-[#8E8B82] italic">🎉 Tất cả đã check-in!</div>'
+      ? '<div class="p-12 text-center text-[#8E8B82] flex flex-col items-center gap-2"><svg class="w-8 h-8 text-[#5F8D73]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg><span>Tất cả đã check-in</span></div>'
       : unchecked.map(user => `
           <div class="checkin-item group p-4 sm:p-5 hover:bg-[#FBF5EE] cursor-pointer transition-all duration-200 flex items-center justify-between border-b border-[#F0EAE1] last:border-0 relative overflow-hidden"
                data-user-id="${user.id}" data-user-name="${user.name.replace(/"/g, '&quot;')}">
@@ -184,8 +188,9 @@ export function renderCheckinList(): void {
               </div>
               <div>
                 <p class="font-bold text-[#141413] text-lg leading-tight group-hover:text-[#B8684E] transition-colors">${user.name}</p>
-                <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
-                  <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
+                <p class="text-sm font-medium text-[#6B6860] mt-1 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-[#8E8B82] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  ${user.discordNickname || 'N/A'}
                 </p>
               </div>
             </div>
@@ -215,9 +220,10 @@ export function renderCheckinList(): void {
                 ${user.name.charAt(0)}
               </div>
               <div>
-                <p class="font-bold text-gray-900 text-lg leading-tight group-hover:text-[#3F6B53] transition-colors">${user.name}</p>
-                <p class="text-sm font-medium text-gray-500 mt-1 flex items-center gap-1">
-                  <span class="opacity-75">💬</span> ${user.discordNickname || 'N/A'}
+                <p class="font-bold text-[#141413] text-lg leading-tight group-hover:text-[#3F6B53] transition-colors">${user.name}</p>
+                <p class="text-sm font-medium text-[#6B6860] mt-1 flex items-center gap-1.5">
+                  <svg class="w-3.5 h-3.5 text-[#8E8B82] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  ${user.discordNickname || 'N/A'}
                 </p>
               </div>
             </div>
