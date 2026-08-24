@@ -50,8 +50,8 @@ if (sessionCookie) {
 						>
 							<option value="1" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 8</option>
 							<option value="2" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 9</option>
-							<option value="3" selected class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 10</option>
-<option value="4" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 11</option>
+							<option value="3" class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 10</option>
+<option value="4" selected class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 11</option>
 						</select>
 						<div class="absolute right-3.5 top-1/2 transform -translate-y-1/2 pointer-events-none text-[#8E8B82]">
 							<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -126,7 +126,7 @@ if (sessionCookie) {
 
 			<!-- Progress Bar -->
 			<div>
-				<ProgressBar challengeId="3" />
+				<ProgressBar challengeId="4" />
 			</div>
 
 			<!-- Registration Banner: AC11 -->
@@ -321,7 +321,7 @@ if (sessionCookie) {
 <script>
 	import { calculateUserStats } from "../utils/calculateStats.js";
 
-	let currentChallengeId = "3";
+	let currentChallengeId = "4";
 	let currentSearchQuery = "";
 	type LeaderboardUser = {
 		id: number;
@@ -357,7 +357,7 @@ if (sessionCookie) {
 		updateProgressBar?: (challengeId: string) => void;
 	};
 
-	async function loadStaticData(challengeId = "3") {
+	async function loadStaticData(challengeId = "4") {
 		try {
 			const metadataResponse = await fetch(
 				"/api/data/metadata?v=" + Date.now(),

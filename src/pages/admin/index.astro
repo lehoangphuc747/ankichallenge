@@ -44,230 +44,149 @@ const isAuthenticated = sessionCookie === adminPassword;
 
 {isAuthenticated ? (
   <Layout title="Admin Dashboard - Anki Challenge">
-    <main class="min-h-screen bg-gray-50/50 py-10 px-6">
+    <main class="min-h-screen bg-[#FAF9F5] text-[#141413] py-12 px-4 sm:px-6 font-['Plus_Jakarta_Sans','Inter',sans-serif] selection:bg-[#CC785C]/20 selection:text-[#141413]">
       <div class="max-w-5xl mx-auto space-y-10">
         <!-- Header -->
-        <div class="flex items-center justify-between border-b-2 border-black pb-6 mb-6">
-          <div>
-            <h1 class="text-3xl font-extrabold text-gray-900 tracking-tight uppercase">
-              Admin Dashboard
-            </h1>
-            <p class="text-gray-500 font-medium mt-1">Chào mừng trở lại! 👋</p>
+        <div class="flex items-center justify-between border-b-2 border-[#E6DFD8] pb-6 mb-6 flex-wrap gap-4">
+          <div class="flex items-center gap-4">
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8] shadow-xs">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+            </span>
+            <div>
+              <h1 class="text-3xl font-serif font-medium tracking-tight text-[#141413] uppercase">Admin Dashboard</h1>
+              <p class="text-[#8E8B82] font-medium mt-0.5">Chào mừng trở lại! 👋</p>
+            </div>
           </div>
           <div class="flex items-center gap-4">
-            <div class="text-right hidden md:block">
-              <p class="text-xs text-gray-400 font-mono" id="lastUpdate">
-                Updating...
-              </p>
-            </div>
+            <p class="text-xs text-[#8E8B82] font-mono hidden md:block" id="lastUpdate">Updating...</p>
             <form method="POST">
               <input type="hidden" name="action" value="logout" />
-              <button
-                type="submit"
-                class="px-4 py-2 bg-red-100 hover:bg-red-200 text-red-700 border-2 border-red-700 hover:border-red-800 transition-colors text-sm font-bold uppercase tracking-wider cursor-pointer"
-              >
-                Đăng xuất ➔
+              <button type="submit" class="inline-flex items-center gap-2 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] border border-[#E6DFD8] font-semibold text-sm px-4 py-2.5 rounded-xl transition-all cursor-pointer">
+                <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                <span>Đăng xuất</span>
               </button>
             </form>
           </div>
         </div>
 
-        <!-- Quick Stats Row (Compact) -->
+        <!-- Quick Stats Row -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div
-            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-purple-200 transition-colors"
-          >
-            <div
-              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-            >
-              Thành viên
+          <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#CC785C]/10 text-[#CC785C]">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+              <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Thành viên</div>
             </div>
-            <div class="flex items-end justify-between">
-              <span class="text-4xl font-black text-gray-900" id="totalMembers"
-                >--</span
-              >
-              <span class="text-2xl opacity-20">👥</span>
-            </div>
+            <span class="text-3xl font-serif font-semibold text-[#141413]" id="totalMembers">--</span>
           </div>
-
-          <div
-            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-pink-200 transition-colors"
-          >
-            <div
-              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-            >
-              Hoạt động
+          <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#E8975D]/10 text-[#C97B42]">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+              </span>
+              <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Hoạt động</div>
             </div>
-            <div class="flex items-end justify-between">
-              <span class="text-4xl font-black text-gray-900" id="activeMembers"
-                >--</span
-              >
-              <span class="text-2xl opacity-20">🔥</span>
-            </div>
+            <span class="text-3xl font-serif font-semibold text-[#141413]" id="activeMembers">--</span>
           </div>
-
-          <div
-            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-blue-200 transition-colors"
-          >
-            <div
-              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-            >
-              Check-in
+          <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#5F8D73]/10 text-[#4C7a60]">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+              </span>
+              <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Check-in</div>
             </div>
-            <div class="flex items-end justify-between">
-              <span class="text-4xl font-black text-gray-900" id="todayCheckins"
-                >--</span
-              >
-              <span class="text-2xl opacity-20">✅</span>
-            </div>
+            <span class="text-3xl font-serif font-semibold text-[#141413]" id="todayCheckins">--</span>
           </div>
-
-          <div
-            class="bg-white rounded-2xl p-5 shadow-sm border border-gray-100 flex flex-col justify-between h-32 hover:border-green-200 transition-colors"
-          >
-            <div
-              class="text-gray-400 text-sm font-semibold uppercase tracking-wider"
-            >
-              Ngày còn lại
+          <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-5 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="flex w-9 h-9 items-center justify-center rounded-xl bg-[#C9A04B]/10 text-[#A8852F]">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              </span>
+              <div class="text-[#8E8B82] text-xs font-bold uppercase tracking-wider">Ngày còn lại</div>
             </div>
-            <div class="flex items-end justify-between">
-              <span class="text-4xl font-black text-gray-900" id="daysLeft"
-                >--</span
-              >
-              <span class="text-2xl opacity-20">⏳</span>
-            </div>
+            <span class="text-3xl font-serif font-semibold text-[#141413]" id="daysLeft">--</span>
           </div>
         </div>
 
-        <!-- Main Navigation (Focused Grid) -->
+        <!-- Menu -->
         <div>
-          <h2 class="text-lg font-bold text-gray-800 mb-4 px-1">Menu Quản Lý</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <!-- Check-in (Most Used - Highlighted) -->
-            <a
-              href="/admin/checkin"
-              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-pink-300 transition-all duration-300 flex flex-col items-center text-center"
-            >
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-pink-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-              <div
-                class="relative z-10 w-20 h-20 bg-pink-100 text-pink-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-              >
-                ✅
-              </div>
-              <h3
-                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-pink-700 transition-colors"
-              >
-                Check-in
-              </h3>
-              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-                Quản lý điểm danh hàng ngày
-              </p>
+          <h2 class="text-lg font-serif font-medium text-[#141413] mb-4 px-1">Menu Quản Lý</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <!-- Check-in -->
+            <a href="/admin/checkin" class="group relative overflow-hidden bg-[#FFFFFF] rounded-3xl p-8 shadow-sm border border-[#E6DFD8] hover:shadow-xl hover:border-[#CC785C]/50 transition-all duration-300 flex flex-col items-center text-center">
+              <div class="absolute inset-0 bg-gradient-to-br from-[#FBF0E8] to-[#F6E8DA] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <span class="relative z-10 w-20 h-20 bg-[#F0EAE1] text-[#CC785C] rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </span>
+              <h3 class="relative z-10 text-xl font-serif font-medium text-[#141413] group-hover:text-[#B8684E] transition-colors">Check-in</h3>
+              <p class="relative z-10 text-sm text-[#8E8B82] mt-2 font-medium">Quản lý điểm danh hàng ngày</p>
             </a>
 
             <!-- Members -->
-            <a
-              href="/admin/members"
-              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-purple-300 transition-all duration-300 flex flex-col items-center text-center"
-            >
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-purple-50 to-indigo-50 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-              <div
-                class="relative z-10 w-20 h-20 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-              >
-                👥
-              </div>
-              <h3
-                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-purple-700 transition-colors"
-              >
-                Thành viên
-              </h3>
-              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-                Danh sách & thông tin người chơi
-              </p>
+            <a href="/admin/members" class="group relative overflow-hidden bg-[#FFFFFF] rounded-3xl p-8 shadow-sm border border-[#E6DFD8] hover:shadow-xl hover:border-[#AE7A5A]/50 transition-all duration-300 flex flex-col items-center text-center">
+              <div class="absolute inset-0 bg-gradient-to-br from-[#F4ECE4] to-[#EFE2D6] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <span class="relative z-10 w-20 h-20 bg-[#F0EAE1] text-[#AE7A5A] rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+              <h3 class="relative z-10 text-xl font-serif font-medium text-[#141413] group-hover:text-[#A0684B] transition-colors">Thành viên</h3>
+              <p class="relative z-10 text-sm text-[#8E8B82] mt-2 font-medium">Danh sách & thông tin người chơi</p>
             </a>
 
-            <!-- Challenges & Config -->
-            <a
-              href="/admin/challenges"
-              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col items-center text-center"
-            >
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-blue-50 to-cyan-50 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-              <div
-                class="relative z-10 w-20 h-20 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-              >
-                ⚙️
-              </div>
-              <h3
-                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors"
-              >
-                Cấu hình
-              </h3>
-              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-                Challenge & Cài đặt hệ thống
-              </p>
+            <!-- Challenges -->
+            <a href="/admin/challenges" class="group relative overflow-hidden bg-[#FFFFFF] rounded-3xl p-8 shadow-sm border border-[#E6DFD8] hover:shadow-xl hover:border-[#C9A04B]/50 transition-all duration-300 flex flex-col items-center text-center">
+              <div class="absolute inset-0 bg-gradient-to-br from-[#F6F0E2] to-[#EFE7D2] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <span class="relative z-10 w-20 h-20 bg-[#F0EAE1] text-[#B08430] rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+              </span>
+              <h3 class="relative z-10 text-xl font-serif font-medium text-[#141413] group-hover:text-[#9A7828] transition-colors">Cấu hình</h3>
+              <p class="relative z-10 text-sm text-[#8E8B82] mt-2 font-medium">Challenge & Cài đặt hệ thống</p>
             </a>
 
             <!-- Registrations -->
-            <a
-              href="/admin/registrations"
-              class="group relative overflow-hidden bg-white rounded-3xl p-8 shadow-sm border border-gray-100 hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col items-center text-center"
-            >
-              <div
-                class="absolute inset-0 bg-gradient-to-br from-emerald-50 to-teal-50 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-              </div>
-              <div
-                class="relative z-10 w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300"
-              >
-                📋
-              </div>
-              <h3
-                class="relative z-10 text-xl font-bold text-gray-900 group-hover:text-emerald-700 transition-colors"
-              >
-                Danh sách đăng ký
-              </h3>
-              <p class="relative z-10 text-sm text-gray-500 mt-2 font-medium">
-                Kiểm tra thông tin đăng ký các mùa
-              </p>
+            <a href="/admin/registrations" class="group relative overflow-hidden bg-[#FFFFFF] rounded-3xl p-8 shadow-sm border border-[#E6DFD8] hover:shadow-xl hover:border-[#5F8D73]/50 transition-all duration-300 flex flex-col items-center text-center">
+              <div class="absolute inset-0 bg-gradient-to-br from-[#EAF0EA] to-[#DEE8DF] opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              <span class="relative z-10 w-20 h-20 bg-[#F0EAE1] text-[#4C7a60] rounded-full flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-300">
+                <svg class="w-9 h-9" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></svg>
+              </span>
+              <h3 class="relative z-10 text-xl font-serif font-medium text-[#141413] group-hover:text-[#3F6B53] transition-colors">Danh sách đăng ký</h3>
+              <p class="relative z-10 text-sm text-[#8E8B82] mt-2 font-medium">Kiểm tra thông tin đăng ký các mùa</p>
             </a>
           </div>
         </div>
 
-        <!-- Discord Login History Section -->
-        <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-gray-100">
+        <!-- Discord Login History -->
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-3xl p-6 sm:p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
           <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
             <div>
-              <h2 class="text-xl font-bold text-gray-900 flex items-center gap-2">
-                <span>🔑</span> Nhật Ký Đăng Nhập Discord
+              <h2 class="text-xl font-serif font-medium text-[#141413] flex items-center gap-2">
+                <span class="text-[#CC785C]">
+                  <svg class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/></svg>
+                </span>
+                Nhật Ký Đăng Nhập Discord
               </h2>
-              <p class="text-sm text-gray-500 mt-1">Danh sách lượt đăng nhập mới nhất qua Discord OAuth (Dùng để kiểm tra & đối chiếu tài khoản)</p>
+              <p class="text-sm text-[#8E8B82] mt-1">Danh sách lượt đăng nhập mới nhất qua Discord OAuth</p>
             </div>
-            <button id="refreshLoginHistoryBtn" class="px-3.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer flex items-center gap-1.5">
-              <span>🔄</span> Làm mới
+            <button id="refreshLoginHistoryBtn" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#6B6860] text-xs font-bold rounded-xl border border-[#E6DFD8] transition-all cursor-pointer">
+              <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M3 21v-5h5"/></svg>
+              <span>Làm mới</span>
             </button>
           </div>
 
           <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
               <thead>
-                <tr class="border-b border-gray-100 text-xs uppercase tracking-wider text-gray-400 font-bold">
+                <tr class="border-b border-[#E6DFD8] text-xs uppercase tracking-wider text-[#8E8B82] font-bold">
                   <th class="pb-3 px-2">Tài khoản Discord</th>
                   <th class="pb-3 px-2">Email</th>
                   <th class="pb-3 px-2">Thành viên Anki Khớp</th>
                   <th class="pb-3 px-2 text-right">Thời gian đăng nhập</th>
                 </tr>
               </thead>
-              <tbody id="discordLoginHistoryBody" class="divide-y divide-gray-50 text-sm">
+              <tbody id="discordLoginHistoryBody" class="divide-y divide-[#F0EAE1] text-sm">
                 <tr>
-                  <td colspan="4" class="py-8 text-center text-gray-400 font-medium">⏳ Đang tải dữ liệu nhật ký...</td>
+                  <td colspan="4" class="py-8 text-center text-[#8E8B82] font-medium">⏳ Đang tải dữ liệu nhật ký...</td>
                 </tr>
               </tbody>
             </table>
@@ -276,39 +195,42 @@ const isAuthenticated = sessionCookie === adminPassword;
 
         <!-- Map Member Modal -->
         <div id="mapMemberModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6">
-            <div class="flex items-center justify-between border-b border-gray-100 pb-4">
-              <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
-                <span>🔗</span> Ghép Nối Tài Khoản Discord
+          <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6">
+            <div class="flex items-center justify-between border-b border-[#E6DFD8] pb-4">
+              <h3 class="text-lg font-serif font-medium text-[#141413] flex items-center gap-2">
+                <span class="text-[#CC785C]">
+                  <svg class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                </span>
+                Ghép Nối Tài Khoản Discord
               </h3>
-              <button type="button" id="closeMapModalBtn" class="text-gray-400 hover:text-gray-600 text-xl font-bold p-1 cursor-pointer">&times;</button>
+              <button type="button" id="closeMapModalBtn" class="text-[#8E8B82] hover:text-[#141413] text-xl font-bold p-1 cursor-pointer">&times;</button>
             </div>
 
-            <div class="bg-indigo-50/70 p-4 rounded-2xl border border-indigo-100 space-y-2">
-              <div class="text-xs font-bold uppercase tracking-wider text-indigo-500">Tài khoản Discord được chọn</div>
+            <div class="bg-[#F3EFEA] p-4 rounded-2xl border border-[#E6DFD8] space-y-2">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#B8684E]">Tài khoản Discord được chọn</div>
               <div class="flex items-center gap-3">
                 <img id="mapModalAvatar" src="" class="w-10 h-10 rounded-full bg-white object-cover shadow-sm" alt="" />
                 <div>
-                  <div id="mapModalName" class="font-bold text-gray-900 text-sm"></div>
-                  <div id="mapModalSub" class="text-xs text-gray-500 font-mono"></div>
+                  <div id="mapModalName" class="font-bold text-[#141413] text-sm"></div>
+                  <div id="mapModalSub" class="text-xs text-[#8E8B82] font-mono"></div>
                 </div>
               </div>
             </div>
 
             <div>
-              <label for="mapMemberSelect" class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
+              <label for="mapMemberSelect" class="block text-xs font-bold uppercase tracking-wider text-[#6B6860] mb-2">
                 Chọn thành viên Anki Challenge để ghép nối:
               </label>
-              <select id="mapMemberSelect" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl font-bold text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+              <select id="mapMemberSelect" class="w-full px-4 py-3 bg-[#FAF9F5] border border-[#E6DFD8] rounded-xl font-bold text-sm text-[#141413] focus:outline-none focus:ring-2 focus:ring-[#CC785C]/30 cursor-pointer">
                 <option value="">-- Chọn thành viên --</option>
               </select>
             </div>
 
             <div class="flex gap-3 justify-end pt-2">
-              <button type="button" id="cancelMapModalBtn" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-sm rounded-xl transition-colors cursor-pointer">
+              <button type="button" id="cancelMapModalBtn" class="px-4 py-2.5 bg-[#F3EFEA] hover:bg-[#EAE4DC] text-[#141413] font-bold text-sm rounded-xl border border-[#E6DFD8] transition-all cursor-pointer">
                 Hủy
               </button>
-              <button type="button" id="confirmMapBtn" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all cursor-pointer">
+              <button type="button" id="confirmMapBtn" class="px-5 py-2.5 bg-[#CC785C] hover:bg-[#B8684E] active:scale-95 text-white font-bold text-sm rounded-xl shadow-md transition-all cursor-pointer">
                 Lưu Ghép Nối
               </button>
             </div>
@@ -316,12 +238,10 @@ const isAuthenticated = sessionCookie === adminPassword;
         </div>
 
         <!-- Public Link -->
-        <div class="text-center pt-8 border-t border-gray-200 border-dashed">
-          <a
-            href="/"
-            class="inline-flex items-center gap-2 text-gray-500 hover:text-indigo-600 font-semibold transition-colors px-4 py-2 rounded-lg hover:bg-white"
-          >
-            <span>🏆</span> Xem Bảng Xếp Hạng Công Khai
+        <div class="text-center pt-8 border-t border-[#E6DFD8] border-dashed">
+          <a href="/" class="inline-flex items-center gap-2 text-[#6B6860] hover:text-[#B8684E] font-semibold transition-all px-4 py-2 rounded-lg hover:bg-white">
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 0 0 5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 1 0 5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            <span>Xem Bảng Xếp Hạng Công Khai</span>
           </a>
         </div>
       </div>
@@ -329,23 +249,21 @@ const isAuthenticated = sessionCookie === adminPassword;
   </Layout>
 ) : (
   <Layout title="Đăng nhập Admin - Anki Challenge">
-    <main class="min-h-screen bg-gray-50/50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <main class="min-h-screen bg-[#FAF9F5] text-[#141413] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 font-['Plus_Jakarta_Sans','Inter',sans-serif] selection:bg-[#CC785C]/20 selection:text-[#141413]">
       <div class="max-w-md w-full space-y-8">
-        <div class="aurora-card p-8 bg-white relative">
-          <!-- Accent indicator -->
+        <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-3xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
           <div class="absolute top-0 left-0 right-0 h-2 bg-primary"></div>
           
           <div class="text-center mb-6">
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight mb-2 uppercase">
-              ADMIN LOGIN
-            </h2>
-            <p class="text-sm font-semibold uppercase tracking-wider text-secondary">
-              Anki Challenge Dashboard
-            </p>
+            <span class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8] mb-3">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </span>
+            <h2 class="text-3xl font-serif font-medium tracking-tight mb-1 uppercase">Admin Login</h2>
+            <p class="text-sm font-semibold uppercase tracking-wider text-[#8E8B82]">Anki Challenge Dashboard</p>
           </div>
 
           {error && (
-            <div class="bg-red-50 border-2 border-red-500 text-red-700 px-4 py-3 rounded-none relative mb-6 font-medium text-sm flex items-center gap-2 swiss-shadow-sm">
+            <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl relative mb-6 font-medium text-sm flex items-center gap-2">
               <span>❌</span>
               <span>{error}</span>
             </div>
@@ -353,7 +271,7 @@ const isAuthenticated = sessionCookie === adminPassword;
 
           <form method="POST" class="space-y-6">
             <div>
-              <label for="password" class="block text-sm font-bold uppercase text-gray-700 mb-2 tracking-wider">
+              <label for="password" class="block text-sm font-bold uppercase text-[#6B6860] mb-2 tracking-wider">
                 Mật khẩu Admin
               </label>
               <input
@@ -361,24 +279,22 @@ const isAuthenticated = sessionCookie === adminPassword;
                 name="password"
                 type="password"
                 required
-                class="w-full px-4 py-3 border-2 border-black focus:outline-none focus:ring-3 focus:ring-primary/20 text-lg font-medium text-gray-900 bg-white tracking-widest"
+                class="w-full px-4 py-3 border border-[#E6DFD8] focus:border-[#CC785C] focus:ring-2 focus:ring-[#CC785C]/20 focus:outline-none text-base font-medium text-[#141413] bg-[#FAF9F5] rounded-xl transition-all"
                 placeholder="••••••••"
               />
             </div>
 
             <div>
-              <button
-                type="submit"
-                class="w-full aurora-button font-black tracking-wider text-base cursor-pointer"
-              >
+              <button type="submit" class="w-full py-3.5 bg-[#CC785C] hover:bg-[#B8684E] active:scale-[0.99] text-white font-bold tracking-wider text-base rounded-full transition-all cursor-pointer shadow-sm">
                 Xác thực ➔
               </button>
             </div>
           </form>
           
           <div class="text-center mt-6">
-            <a href="/" class="text-sm font-bold text-gray-500 hover:text-primary transition-colors tracking-wider uppercase">
-              ← Quay lại Trang chủ
+            <a href="/" class="inline-flex items-center gap-1.5 text-sm font-bold text-[#6B6860] hover:text-[#B8684E] transition-all uppercase tracking-wider">
+              <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+              <span>Quay lại Trang chủ</span>
             </a>
           </div>
         </div>
@@ -390,16 +306,11 @@ const isAuthenticated = sessionCookie === adminPassword;
 <script>
   // Load and display stats
   async function loadStats() {
-    // Chỉ chạy nếu phần tử tồn tại trên trang (người dùng đã đăng nhập)
     const totalMembersEl = document.getElementById("totalMembers");
     if (!totalMembersEl) return;
 
     try {
-      // Load metadata trước để lấy lastUpdated làm cache-buster
-      // Đảm bảo luôn lấy dữ liệu mới nhất từ server
-      const metadataResponse = await fetch(
-        "/api/data/metadata?v=" + Date.now(),
-      );
+      const metadataResponse = await fetch("/api/data/metadata?v=" + Date.now());
       const metadata = await metadataResponse.json();
       const cacheBuster = metadata?.lastUpdated
         ? "?v=" + new Date(metadata.lastUpdated).getTime()
@@ -415,7 +326,7 @@ const isAuthenticated = sessionCookie === adminPassword;
 
       const today = new Date().toISOString().split("T")[0];
       
-      let activeChallengeId = '2'; // fallback
+      let activeChallengeId = '2';
       for (const [id, data] of Object.entries(challengesData as Record<string, any>)) {
           if (today >= data.start && today <= data.end) {
               activeChallengeId = id;
@@ -432,42 +343,23 @@ const isAuthenticated = sessionCookie === adminPassword;
       const studyRecordsResponse = await fetch(`/api/data/records_${prefix}` + cacheBuster);
       const studyRecordsData = await studyRecordsResponse.json();
 
-      // Total members
       const totalMembers = usersData.data?.length || 0;
-      const activeMembers =
-        usersData.data?.filter((u) => !u.hidden).length || 0;
+      const activeMembers = usersData.data?.filter((u) => !u.hidden).length || 0;
 
-      // Today's check-ins
       const todayRecords = studyRecordsData[today] || {};
       const todayCheckins = Object.keys(todayRecords).length;
 
-      // Days left in challenge
-      const endDate = new Date("2025-12-21");
-      const currentDate = new Date();
-      const daysLeft = Math.max(
-        0,
-        Math.ceil(
-          (endDate.getTime() - currentDate.getTime()) / (1000 * 60 * 60 * 24),
-        ),
-      );
-
-      // Update UI
       totalMembersEl.textContent = totalMembers.toString();
-      
       const activeMembersEl = document.getElementById("activeMembers");
       if (activeMembersEl) activeMembersEl.textContent = activeMembers.toString();
-      
       const todayCheckinsEl = document.getElementById("todayCheckins");
       if (todayCheckinsEl) todayCheckinsEl.textContent = todayCheckins.toString();
-      
       const daysLeftEl = document.getElementById("daysLeft");
-      if (daysLeftEl) daysLeftEl.textContent = daysLeft.toString();
+      if (daysLeftEl) daysLeftEl.textContent = "—";
 
-      // Last update
       const lastUpdateEl = document.getElementById("lastUpdate");
       if (lastUpdateEl && metadata.lastUpdated) {
-        const lastUpdateDate = new Date(metadata.lastUpdated);
-        lastUpdateEl.textContent = lastUpdateDate.toLocaleString("vi-VN");
+        lastUpdateEl.textContent = new Date(metadata.lastUpdated).toLocaleString("vi-VN");
       }
     } catch (error) {
       console.error("Error loading stats:", error);
@@ -490,7 +382,6 @@ const isAuthenticated = sessionCookie === adminPassword;
     return cachedMemberList;
   }
 
-  // Load & render Discord Login History
   async function loadLoginHistory() {
     const tbody = document.getElementById("discordLoginHistoryBody");
     if (!tbody) return;
@@ -498,12 +389,12 @@ const isAuthenticated = sessionCookie === adminPassword;
     try {
       const res = await fetch("/api/data/login_history?v=" + Date.now());
       if (!res.ok) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-gray-400 font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-[#8E8B82] font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
         return;
       }
       const historyList = await res.json();
       if (!Array.isArray(historyList) || historyList.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-gray-400 font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="py-8 text-center text-[#8E8B82] font-medium">Chưa có lượt đăng nhập Discord nào được ghi nhận</td></tr>`;
         return;
       }
 
@@ -511,39 +402,38 @@ const isAuthenticated = sessionCookie === adminPassword;
         const timeAgo = new Date(item.loggedAt).toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" });
         const mappedBadge = item.memberId 
           ? `<div class="flex items-center gap-2">
-              <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-lg border border-emerald-200 inline-flex items-center gap-1">
+              <span class="px-2.5 py-1 bg-[#E7F1EA] text-[#3F6B53] font-bold text-xs rounded-lg border border-[#CBE0D2] inline-flex items-center gap-1">
                 <span>✅</span> ID #${item.memberId} - ${item.memberName || 'Thành viên'}
               </span>
-              <button class="map-log-btn text-xs font-bold text-indigo-600 hover:text-indigo-800 underline cursor-pointer" 
+              <button class="map-log-btn text-xs font-bold text-[#B8684E] hover:text-[#944E34] underline cursor-pointer" 
                 data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}'>Sửa</button>
              </div>`
           : `<div class="flex items-center gap-2">
-              <span class="px-2.5 py-1 bg-amber-50 text-amber-700 font-bold text-xs rounded-lg border border-amber-200 inline-flex items-center gap-1">
+              <span class="px-2.5 py-1 bg-[#F6EFDD] text-[#9A7828] font-bold text-xs rounded-lg border border-[#E9DDBB] inline-flex items-center gap-1">
                 <span>⚠️</span> Chưa ghép nối
               </span>
-              <button class="map-log-btn px-2.5 py-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white font-bold text-xs rounded-lg shadow-sm transition-all cursor-pointer" 
+              <button class="map-log-btn px-2.5 py-1 bg-[#CC785C] hover:bg-[#B8684E] active:scale-95 text-white font-bold text-xs rounded-lg shadow-sm transition-all cursor-pointer" 
                 data-item='${JSON.stringify(item).replace(/'/g, "&apos;")}'>🔗 Ghép nối</button>
              </div>`;
 
         return `
-          <tr class="hover:bg-gray-50/80 transition-colors">
+          <tr class="hover:bg-[#FBF7F1]/70 transition-colors">
             <td class="py-3.5 px-2">
               <div class="flex items-center gap-3">
-                <img src="${item.avatar}" class="w-9 h-9 rounded-full bg-gray-100 object-cover flex-shrink-0" alt="" />
+                <img src="${item.avatar}" class="w-9 h-9 rounded-full bg-[#F3EFEA] object-cover flex-shrink-0" alt="" />
                 <div>
-                  <div class="font-bold text-gray-900 leading-snug">${item.displayName}</div>
-                  <div class="text-xs text-gray-400 font-mono">@${item.username} (ID: ${item.discordId})</div>
+                  <div class="font-bold text-[#141413] leading-snug">${item.displayName}</div>
+                  <div class="text-xs text-[#8E8B82] font-mono">@${item.username} (ID: ${item.discordId})</div>
                 </div>
               </div>
             </td>
-            <td class="py-3.5 px-2 text-gray-600 text-xs font-mono">${item.email || '<span class="text-gray-300">Không có email</span>'}</td>
+            <td class="py-3.5 px-2 text-[#6B6860] text-xs font-mono">${item.email || '<span class="text-[#C9C2B7]">Không có email</span>'}</td>
             <td class="py-3.5 px-2">${mappedBadge}</td>
-            <td class="py-3.5 px-2 text-right font-semibold text-xs text-gray-500">${timeAgo}</td>
+            <td class="py-3.5 px-2 text-right font-semibold text-xs text-[#6B6860]">${timeAgo}</td>
           </tr>
         `;
       }).join("");
 
-      // Add click listeners to map buttons
       document.querySelectorAll(".map-log-btn").forEach((btn) => {
         btn.addEventListener("click", async () => {
           const itemData = JSON.parse(btn.getAttribute("data-item") || "{}");
@@ -570,7 +460,6 @@ const isAuthenticated = sessionCookie === adminPassword;
     if (nameEl) nameEl.textContent = item.displayName;
     if (subEl) subEl.textContent = `@${item.username} (ID: ${item.discordId})`;
 
-    // Populate select
     const members = await loadMemberListForMap();
     selectEl.innerHTML = `<option value="">-- Chọn thành viên --</option>` +
       members.map((m: any) => `
@@ -621,7 +510,7 @@ const isAuthenticated = sessionCookie === adminPassword;
       if (data.success) {
         alert(data.message || "Đã ghép nối thành công!");
         closeMapModal();
-        cachedMemberList = []; // invalidate cache
+        cachedMemberList = [];
         loadLoginHistory();
         loadStats();
       } else {
@@ -640,28 +529,6 @@ const isAuthenticated = sessionCookie === adminPassword;
     loadLoginHistory();
   });
 
-  // Load stats & login history on page load
   loadStats();
   loadLoginHistory();
 </script>
-
-<style>
-  @keyframes gradient {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-
-  .aurora-button {
-    background: linear-gradient(45deg, #667eea 0%, #764ba2 100%);
-    background-size: 200% 200%;
-    animation: gradient 3s ease infinite;
-  }
-</style>
-
