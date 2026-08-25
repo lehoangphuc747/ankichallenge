@@ -68,8 +68,10 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
     const granted = await grantAc11Role(env, user.discordId);
 
     // Đẩy thông tin (giới thiệu + mục tiêu) lên thread AC11 — không block kết quả.
+    // LƯU Ý: phải set ac11Approved = true vì user lấy trước khi duyệt có flag false,
+    // nếu không postAC11MembersToThread sẽ lọc bỏ (chỉ đăng người ĐÃ duyệt).
     try {
-      await postAC11MembersToThread(env, String(request.url || ''), [user]);
+      await postAC11MembersToThread(env, String(request.url || ''), [{ ...user, ac11Approved: true }]);
     } catch (e) {
       console.warn('[AC11 Thread Hook] Lỗi đẩy thông tin lên thread:', e);
     }

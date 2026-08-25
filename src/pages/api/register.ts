@@ -242,6 +242,7 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
           if (env.DB) await approveAc11InDB(env.DB, Number(savedUser.id));
           const granted = await grantAc11Role(env, String(savedUser.discordId));
           autoApproved = true;
+          savedUser.ac11Approved = true; // để postAC11MembersToThread hiểu là đã duyệt
           autoApprovedMessage = 'Bạn đã được TỰ ĐỘNG duyệt vì kỷ luật > 90% ở thử thách trước'
             + (granted ? ' và đã được gán role Anki 11 Challenge.' : '.');
         }
