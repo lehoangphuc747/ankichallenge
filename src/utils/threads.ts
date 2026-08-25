@@ -93,27 +93,82 @@ async function getPostedIds(env: any, url: string): Promise<Set<number>> {
   return new Set(ids.map((x: any) => Number(x)));
 }
 
+async function listThreadMessages(threadId: string, headers: Record<string, string>): Promise<any[]> {
+  try {
+    const res = await fetch(`https://discord.com/api/v10/channels/${threadId}/messages?limit=100`, { headers });
+    if (res.ok) return await res.json();
+  } catch (e) {
+    console.warn('[AC11 thread] list messages failed', e);
+  }
+  return [];
+}
+
+/**
+ * Xoá message của 1 user khỏi thread (nếu tìm thấy) — dùng khi user chưa/không còn được duyệt.
+ */
+async function deleteMemberMessage(threadId: string, headers: Record<string, string>, u: any): Promise<boolean> {
+  const msgs = await listThreadMessages(threadId, headers);
+  const nick = u?.discordNickname || u?.name || '';
+  const nameU = u?.name || u?.realName || '';
+  const target = msgs.find((m: any) => {
+    if (!m.content || !m.content.includes('👤')) return false;
+    if (nick && m.content.includes(`*(${nick})*`)) return true;
+    if (nameU && m.content.includes(`**${nameU}**`)) return true;
+    return false;
+  });
+  if (!target) return false;
+  const res = await fetch(`https://discord.com/api/v10/channels/${threadId}/messages/${target.id}`, {
+    method: 'DELETE',
+    headers,
+  });
+  return res.ok || res.status === 204;
+}
+
 /**
  * Đẩy danh sách thành viên AC11 lên thread (bỏ qua những người đã đăng trước đó).
  * Tự tạo thread nếu chưa có. Không throw; trả về kết quả.
+ *
+ * opts:
+ *  - reset: đánh dấu chưa ai đăng để đẩy lại toàn bộ.
+ *  - prune: tự xoá khỏi thread những người KHÔNG còn được duyệt (ac11Approved !== true),
+ *           đồng thời gỡ khỏi posted-set để họ có thể được đẩy lại nếu sau này được duyệt.
  */
 export async function postAC11MembersToThread(
   env: any,
   url: string,
   users: any[],
-  opts: { reset?: boolean } = {}
-): Promise<{ ok: boolean; posted: number; skipped: number; threadId?: string; error?: string }> {
+  opts: { reset?: boolean; prune?: boolean } = {}
+): Promise<{ ok: boolean; posted: number; removed: number; skipped: number; threadId?: string; error?: string }> {
   const token = env.DISCORD_TOKEN || import.meta.env.DISCORD_TOKEN;
-  if (!token) return { ok: false, posted: 0, skipped: 0, error: 'Missing DISCORD_TOKEN' };
+  if (!token) return { ok: false, posted: 0, removed: 0, skipped: 0, error: 'Missing DISCORD_TOKEN' };
 
   const ac11Users = (users || []).filter(isAC11User);
+  const approvedUsers = ac11Users.filter((u: any) => u.ac11Approved === true);
   const headers = botHeaders(token);
 
   const thread = await getOrCreateAC11Thread(env, url, token, headers);
-  if ('error' in thread) return { ok: false, posted: 0, skipped: 0, error: thread.error };
+  if ('error' in thread) return { ok: false, posted: 0, removed: 0, skipped: 0, error: thread.error };
 
   const postedSet = opts.reset ? new Set<number>() : await getPostedIds(env, url);
-  const toPost = ac11Users.filter((u: any) => !postedSet.has(Number(u.id)));
+
+  // Prune: xoá những người không (còn) được duyệt ra khỏi thread + posted-set
+  let removedCount = 0;
+  if (opts.prune) {
+    const universeById = new Map<number, any>((users || []).map((u: any) => [Number(u.id), u]));
+    for (const uid of Array.from(postedSet)) {
+      const univ = universeById.get(uid);
+      // Chỉ gỡ nếu user có trong danh sách mà không được duyệt.
+      // (User không có trong universe — giữ nguyên, tránh xoá nhầm.)
+      if (univ && univ.ac11Approved !== true) {
+        const didDelete = await deleteMemberMessage(thread.threadId, headers, univ);
+        postedSet.delete(uid);
+        if (didDelete) removedCount++;
+      }
+    }
+  }
+
+  // Chỉ đăng những người ĐÃ DUYỆT và chưa đăng
+  const toPost = approvedUsers.filter((u: any) => !postedSet.has(Number(u.id)));
 
   let postedCount = 0;
   for (const u of toPost) {
@@ -134,5 +189,11 @@ export async function postAC11MembersToThread(
 
   await putToKV(env, AC11_POSTED_IDS_KEY, { ids: Array.from(postedSet) }).catch(() => {});
 
-  return { ok: true, posted: postedCount, skipped: toPost.length - postedCount, threadId: thread.threadId };
+  return {
+    ok: true,
+    posted: postedCount,
+    removed: removedCount,
+    skipped: toPost.length - postedCount,
+    threadId: thread.threadId,
+  };
 }

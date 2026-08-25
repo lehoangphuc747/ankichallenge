@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
   const ac11Users = userList.filter((u: any) => (u.challengeIds || []).includes(4));
 
-  const result = await postAC11MembersToThread(env, url, ac11Users, { reset });
+  const result = await postAC11MembersToThread(env, url, ac11Users, { reset, prune: true });
 
   return new Response(
     JSON.stringify({
@@ -44,6 +44,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       threadId: result.threadId,
       totalAC11: ac11Users.length,
       posted: result.posted,
+      removed: result.removed,
       skipped: result.skipped,
     }),
     { headers: { 'Content-Type': 'application/json' } }
