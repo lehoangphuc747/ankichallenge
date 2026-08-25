@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getUserById, approveAc11InDB } from '../../../utils/db';
 import { grantAc11Role } from '../../../utils/discord';
+import { postAC11MembersToThread } from '../../../utils/threads';
 
 export const prerender = false;
 
@@ -65,6 +66,13 @@ export const POST: APIRoute = async ({ request, cookies, locals }) => {
 
     // Gán role Discord (không block nếu lỗi)
     const granted = await grantAc11Role(env, user.discordId);
+
+    // Đẩy thông tin (giới thiệu + mục tiêu) lên thread AC11 — không block kết quả.
+    try {
+      await postAC11MembersToThread(env, String(request.url || ''), [user]);
+    } catch (e) {
+      console.warn('[AC11 Thread Hook] Lỗi đẩy thông tin lên thread:', e);
+    }
 
     return new Response(
       JSON.stringify({

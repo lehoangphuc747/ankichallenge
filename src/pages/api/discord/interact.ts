@@ -277,7 +277,16 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     );
   }
 
-  const latestCid = Math.max(...challengeIds);
+  // `/checkin` luôn check-in cho Anki Challenge 11 (challengeId = 4)
+  const latestCid = 4;
+
+  if (!challengeIds.includes(latestCid)) {
+    return patchOriginalMessage(
+      interaction,
+      `⚠️ **Bạn (${memberName}) chưa đăng ký tham gia Anki Challenge 11!**\n\nVui lòng truy cập https://ankichallenge.pages.dev/anki-challenge-11 để đăng ký trước khi check-in.`,
+      true
+    );
+  }
 
   if (env.DB) {
     const isNew = await recordCheckinInDB(env.DB, {
@@ -345,7 +354,8 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
     return patchOriginalMessage(interaction, `⚠️ Bạn (${member.name}) chưa đăng ký tham gia thử thách nào!`, true);
   }
 
-  const latestCid = Math.max(...challengeIds);
+  // `/trangthai` hiển thị thống kê Anki Challenge 11 (challengeId = 4)
+  const latestCid = 4;
 
   let challenges: Record<string, any> = {};
   if (env.DB) {

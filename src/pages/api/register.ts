@@ -2,6 +2,7 @@ import type { APIRoute } from 'astro';
 import { verifySession } from '../../utils/session';
 import { registerUserInDB, getUserByDiscordId, approveAc11InDB, getRecordsFromDB, getChallengesFromDB } from '../../utils/db';
 import { grantAc11Role } from '../../utils/discord';
+import { postAC11MembersToThread } from '../../utils/threads';
 import { calculateUserStats } from '../../utils/calculateStats.js';
 import { getFromKV, putToKV } from '../../utils/kv';
 
@@ -246,6 +247,16 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
         }
       } catch (e) {
         console.warn('[AC11 Auto-approve] Lỗi:', e);
+      }
+    }
+
+    // AC11: đẩy thông tin (giới thiệu + mục tiêu) của thành viên mới lên thread.
+    // Không block kết quả đăng ký nếu đẩy thread thất bại.
+    if (challengeId === 4 && savedUser?.id) {
+      try {
+        await postAC11MembersToThread(env, String(url?.origin || request.url || ''), [{ id: savedUser.id, ...savedUser }]);
+      } catch (e) {
+        console.warn('[AC11 Thread Hook] Lỗi đẩy thông tin lên thread:', e);
       }
     }
 
