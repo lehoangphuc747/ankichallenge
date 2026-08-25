@@ -214,6 +214,34 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const rawInput = dateOption?.value;
   const date = parseCheckinDate(rawInput);
 
+  // Kiểm tra / xác thực ảnh chứng thực (option image - ATTACHMENT)
+  const imageOption = interaction.data?.options?.find((o: any) => o.name === 'image');
+  const attachmentId = imageOption?.value;
+  const attachments = interaction.data?.resolved?.attachments || {};
+  const attachment: any = attachmentId ? attachments[String(attachmentId)] : null;
+
+  const imageRequired = Boolean(env.IMAGE_REQUIRED || import.meta.env.IMAGE_REQUIRED);
+
+  if (imageRequired && !attachment) {
+    return patchOriginalMessage(
+      interaction,
+      '⚠️ Check-in của bạn cần kèm 1 **ảnh/screenshot chứng thực** (dùng ô `image` khi gõ `/checkin`).',
+      true
+    );
+  }
+
+  if (attachment) {
+    const contentType = String(attachment.content_type || '');
+    const isImage = contentType.startsWith('image/') || /\.(png|jpe?g|gif|webp)$/i.test(attachment.filename || '');
+    if (!isImage) {
+      return patchOriginalMessage(
+        interaction,
+        '⚠️ File đính kèm không phải là ảnh hợp lệ (cần PNG / JPG / GIF / WEBP). Vui lòng đính lại ảnh screenshot.',
+        true
+      );
+    }
+  }
+
   if (!date) {
     return patchOriginalMessage(
       interaction,
@@ -318,7 +346,10 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     await putToKV(env, kvKey, records);
   }
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!`);
+  const imgPart = attachment
+    ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
+    : '';
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}`);
 }
 
 async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {

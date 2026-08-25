@@ -23,6 +23,12 @@ const COMMANDS = [
         description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD',
         required: false,
       },
+      {
+        type: 11, // ATTACHMENT
+        name: 'image',
+        description: 'Ảnh / screenshot chứng thực (PNG, JPG...) - tùy chọn',
+        required: false,
+      },
     ],
   },
   {
