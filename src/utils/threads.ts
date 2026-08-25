@@ -29,11 +29,18 @@ export function memberMessage(u: any): string {
   const attendanceGoal = u.attendanceGoal ? `${u.attendanceGoal} ngày` : '';
 
   const lines: string[] = [];
-  lines.push(`**👤 ${name}**${discord ? ` (${discord})` : ''}`);
-  if (bio) lines.push(`📝 **Giới thiệu:** ${bio}`);
-  if (goals) lines.push(`🎯 **Mục tiêu:** ${goals}`);
-  if (place) lines.push(`📍 **Nơi ở:** ${place}`);
-  if (attendanceGoal) lines.push(`🎯 **Mục tiêu chuyên cần:** ${attendanceGoal}`);
+  lines.push(`## 👤 **${name}**`);
+  if (discord) lines.push(`*(${discord})*`);
+  if (place) lines.push(`\n> 📍 **Nơi ở:** ${place}`);
+  if (bio) {
+    lines.push(`\n**📝 Giới thiệu**`);
+    lines.push(bio);
+  }
+  if (goals) {
+    lines.push(`\n**🎯 Mục tiêu**`);
+    lines.push(goals);
+  }
+  if (attendanceGoal) lines.push(`\n**📊 Mục tiêu chuyên cần:** ${attendanceGoal}`);
   return lines.join('\n');
 }
 
