@@ -250,9 +250,11 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
       }
     }
 
-    // AC11: đẩy thông tin (giới thiệu + mục tiêu) của thành viên mới lên thread.
+    // AC11: CHỈ đẩy thông tin lên thread danh sách thành viên khi được DUYỆT.
+    // - auto-approve (kỷ luật > 90%) ở trên đã duyệt → đẩy ngay.
+    // - member chưa đủ điều kiện → chờ admin duyệt ở /admin/registrations (approve-ac11.ts) mới đẩy.
     // Không block kết quả đăng ký nếu đẩy thread thất bại.
-    if (challengeId === 4 && savedUser?.id) {
+    if (challengeId === 4 && autoApproved && savedUser?.id) {
       try {
         await postAC11MembersToThread(env, String(url?.origin || request.url || ''), [{ id: savedUser.id, ...savedUser }]);
       } catch (e) {
