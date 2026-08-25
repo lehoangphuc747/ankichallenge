@@ -41,6 +41,7 @@ export function memberMessage(u: any): string {
     lines.push(goals);
   }
   if (attendanceGoal) lines.push(`\n**📊 Mục tiêu chuyên cần:** ${attendanceGoal}`);
+  lines.push(`\n---`);
   return lines.join('\n');
 }
 
