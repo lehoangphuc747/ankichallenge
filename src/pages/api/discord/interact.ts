@@ -349,7 +349,65 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const imgPart = attachment
     ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
     : '';
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}`);
+
+  // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
+  let statsPart = '';
+  try {
+    let allUsers: any[] = [];
+    let challenge: any = null;
+    let records: Record<string, Record<string, boolean>> = {};
+
+    if (env.DB) {
+      const dbUsers = await getUsersFromDB(env.DB);
+      allUsers = dbUsers.data;
+      const challenges = await getChallengesFromDB(env.DB);
+      challenge = challenges[String(latestCid)] || { name: `Anki Challenge #${latestCid}`, start: '2026-01-01', end: '2026-12-31' };
+      records = await getRecordsFromDB(env.DB, latestCid);
+    } else {
+      const usersData = await getFromKV<any>(env, 'users', requestUrl);
+      allUsers = Array.isArray(usersData?.data) ? usersData.data : [];
+      const challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
+      challenge = challenges[String(latestCid)] || { name: `Anki Challenge #${latestCid}`, start: '2026-01-01', end: '2026-12-31' };
+      const kvKey = KV_RECORDS[latestCid] || 'records_11';
+      records = await getFromKV<any>(env, kvKey, requestUrl) || {};
+    }
+
+    const enrolled = allUsers.filter((u: any) => (u.challengeIds || []).includes(latestCid));
+    const dateRanges = { [latestCid]: { start: challenge.start, end: challenge.end } };
+    const allStats = calculateUserStats(enrolled, records, latestCid, dateRanges);
+    allStats.sort((a: any, b: any) => {
+      const pA = a.currentStat?.disciplinePercentage ?? 0;
+      const pB = b.currentStat?.disciplinePercentage ?? 0;
+      if (pB !== pA) return pB - pA;
+      return (b.currentStat?.streak ?? 0) - (a.currentStat?.streak ?? 0);
+    });
+
+    let rank = 1;
+    let prev: number | null = null;
+    let mine: any = null;
+    let myRank = 1;
+    for (let i = 0; i < allStats.length; i++) {
+      const pct = allStats[i].currentStat?.disciplinePercentage ?? 0;
+      if (prev !== null && pct < prev) rank = i + 1;
+      prev = pct;
+      if (String(allStats[i].id) === String(memberId)) {
+        mine = allStats[i].currentStat;
+        myRank = rank;
+        break;
+      }
+    }
+    if (mine) {
+      const streak = mine.streak ?? 0;
+      const longest = mine.longestStreak ?? 0;
+      const pct = mine.disciplinePercentage ?? 0;
+      const total = mine.totalDays ?? 0;
+      statsPart = `\n\n🏆 **Hạng:** #${myRank} / ${enrolled.length}\n🔥 **Streak:** ${streak} ngày (kỷ lục ${longest} ngày)\n📈 **Kỷ luật:** ${pct}% (${total} ngày)`;
+    }
+  } catch (e) {
+    console.warn('[checkin stats] failed', e);
+  }
+
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`);
 }
 
 async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {
