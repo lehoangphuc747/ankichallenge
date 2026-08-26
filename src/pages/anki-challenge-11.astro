@@ -603,7 +603,7 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
         if (payment) {
           if (result.autoApproved) {
             if (paymentTitle) paymentTitle.textContent = "Đóng góp tự nguyện \uD83D\uDC9B";
-            if (paymentDesc) paymentDesc.innerHTML = 'Phí tham gia chỉ áp dụng <strong>bắt buộc</strong> cho người chưa đủ điều kiện tự duyệt. Nhưng nếu bạn có lòng, có thể đóng góp <strong class="text-[#9A7828]">20.000 VNĐ</strong> để giúp mình xây dựng những thứ tốt hơn trong tương lai :))';
+            if (paymentDesc) paymentDesc.innerHTML = 'Phí tham gia chỉ áp dụng <strong>bắt buộc</strong> cho người chưa đủ điều kiện tự duyệt. Nhưng nếu bạn có lòng, có thể đóng góp <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) để giúp mình xây dựng những thứ tốt hơn trong tương lai :))';
           }
           payment.classList.remove("hidden");
         }
