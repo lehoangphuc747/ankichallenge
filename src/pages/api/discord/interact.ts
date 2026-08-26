@@ -351,9 +351,45 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const imgPart = attachment
     ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
     : '';
-  // Ảnh vẫn nằm trên Discord CDN (cdn.discordapp.com), KHÔNG tốn dung lượng Cloudflare.
-  // Chỉ hiển thị lại bằng URL của Discord, không lưu file vào server.
-  const imgEmbeds = attachment?.url ? [{ image: { url: attachment.url } }] : undefined;
+
+  // Đăng ảnh như tin nhắn thường trong kênh (để mọi người lướt thấy) + lấy link vĩnh viễn.
+  // File gốc vẫn do Discord CDN host (attachments/...), không lưu vào R2/D1 ngoài link URL.
+  // Dùng link ephemeral từ interaction để tải lại rồi re-upload thành tin thường.
+  if (attachment?.url && interaction.channel_id) {
+    try {
+      const tokenForUpload = env.DISCORD_TOKEN || import.meta.env.DISCORD_TOKEN;
+      if (tokenForUpload) {
+        const imgRes = await fetch(attachment.url);
+        if (imgRes.ok) {
+          const buf = await imgRes.arrayBuffer();
+          const blob = new Blob([buf], { type: attachment.content_type || 'image/jpeg' });
+          const form = new FormData();
+          const caption = `📸 Check-in ${displayDate} của <@${discordId}>${imgPart}`;
+          form.append('payload_json', JSON.stringify({ content: caption }));
+          form.append('files[0]', blob, attachment.filename || 'checkin.jpg');
+          const postRes = await fetch(`https://discord.com/api/v10/channels/${interaction.channel_id}/messages`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bot ${tokenForUpload}` },
+            body: form as any,
+          });
+          if (postRes.ok) {
+            const posted: any = await postRes.json();
+            // Cập nhật image_url trong D1 thành link vĩnh viễn (attachments/...), thay vì ephemeral
+            const permUrl = posted?.attachments?.[0]?.url;
+            if (permUrl && env.DB) {
+              try {
+                await env.DB.prepare('UPDATE checkins SET image_url = ? WHERE challenge_id = ? AND user_id = ? AND date = ?')
+                  .bind(permUrl, latestCid, memberId, date).run();
+              } catch (_) {}
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('[checkin] re-upload image as regular message failed', e);
+    }
+  }
+  const imgEmbeds: any[] | undefined = undefined;
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
   let statsPart = '';
