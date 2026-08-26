@@ -46,10 +46,11 @@ const WEBHOOK_HEADERS = {
   'User-Agent': 'DiscordBot (https://ankichallenge.pages.dev, 1.0)',
 };
 
-async function patchOriginalMessage(interaction: any, content: string, ephemeral = false): Promise<void> {
+async function patchOriginalMessage(interaction: any, content: string, ephemeral = false, embeds?: any[]): Promise<void> {
   const url = `https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}/messages/@original`;
   const body: any = { content };
   if (ephemeral) body.flags = InteractionResponseFlags.EPHEMERAL;
+  if (embeds && embeds.length) body.embeds = embeds;
   await fetch(url, {
     method: 'PATCH',
     headers: WEBHOOK_HEADERS,
@@ -349,6 +350,9 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const imgPart = attachment
     ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
     : '';
+  // Ảnh vẫn nằm trên Discord CDN (cdn.discordapp.com), KHÔNG tốn dung lượng Cloudflare.
+  // Chỉ hiển thị lại bằng URL của Discord, không lưu file vào server.
+  const imgEmbeds = attachment?.url ? [{ image: { url: attachment.url } }] : undefined;
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
   let statsPart = '';
@@ -407,7 +411,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     console.warn('[checkin stats] failed', e);
   }
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`);
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`, false, imgEmbeds);
 }
 
 async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {
