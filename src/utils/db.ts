@@ -196,24 +196,42 @@ export async function recordCheckinInDB(
     date: string;
     discordId?: string;
     channelId?: string;
+    imageUrl?: string | null;
   }
 ): Promise<boolean> {
-  const result = await db
-    .prepare(
-      `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id) 
-       VALUES (?, ?, ?, ?, ?) 
-       ON CONFLICT(challenge_id, user_id, date) DO NOTHING`
-    )
-    .bind(
-      data.challengeId,
-      data.userId,
-      data.date,
-      data.discordId || null,
-      data.channelId || null
-    )
-    .run();
-
-  return (result?.meta?.changes ?? 0) > 0;
+  try {
+    const result = await db
+      .prepare(
+        `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id, image_url) 
+         VALUES (?, ?, ?, ?, ?, ?) 
+         ON CONFLICT(challenge_id, user_id, date) DO NOTHING`
+      )
+      .bind(
+        data.challengeId,
+        data.userId,
+        data.date,
+        data.discordId || null,
+        data.channelId || null,
+        data.imageUrl || null
+      )
+      .run();
+    return (result?.meta?.changes ?? 0) > 0;
+  } catch (e: any) {
+    // Fallback nếu column image_url chưa được migrate trên D1 production
+    const msg = String(e?.message || e);
+    if (msg.includes('no column') || msg.includes('no such column') || msg.includes('has no column')) {
+      const result = await db
+        .prepare(
+          `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id) 
+           VALUES (?, ?, ?, ?, ?) 
+           ON CONFLICT(challenge_id, user_id, date) DO NOTHING`
+        )
+        .bind(data.challengeId, data.userId, data.date, data.discordId || null, data.channelId || null)
+        .run();
+      return (result?.meta?.changes ?? 0) > 0;
+    }
+    throw e;
+  }
 }
 
 /**

@@ -324,6 +324,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       date,
       discordId: String(discordId),
       channelId: interaction.channel_id,
+      imageUrl: attachment?.url || null,
     });
 
     if (!isNew) {
@@ -343,7 +344,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
     }
 
-    records[date][String(memberId)] = true;
+    records[date][String(memberId)] = attachment?.url || true;
     await putToKV(env, kvKey, records);
   }
 
