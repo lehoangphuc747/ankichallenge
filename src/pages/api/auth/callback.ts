@@ -201,6 +201,15 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
           isModified = true;
         }
 
+        // Đồng bộ avatar (người dùng đổi avatar Discord -> web cập nhật)
+        const freshAvatar = discordUser.avatar
+          ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=256`
+          : `https://cdn.discordapp.com/embed/avatars/0.png`;
+        if (freshAvatar && matchedMember.avatar !== freshAvatar) {
+          matchedMember.avatar = freshAvatar;
+          isModified = true;
+        }
+
         // Lưu lại dữ liệu mới
         if (isModified) {
           if (env.DB) {
@@ -218,7 +227,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
           discordId: String(discordUser.id),
           discordNickname: discordUser.username,
           avatar: discordUser.avatar
-            ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
+            ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=256`
             : `https://cdn.discordapp.com/embed/avatars/0.png`,
           email: discordUser.email || undefined,
         }, 3);
@@ -236,7 +245,7 @@ export const GET: APIRoute = async ({ url, cookies, redirect, locals }) => {
       username: discordUser.username,
       displayName: discordUser.global_name || discordUser.username,
       avatar: discordUser.avatar
-        ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`
+        ? `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png?size=256`
         : `https://cdn.discordapp.com/embed/avatars/0.png`,
       email: discordUser.email || null,
       memberId: memberId,
