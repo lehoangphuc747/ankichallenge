@@ -463,9 +463,9 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
         <div id="paymentNotice" class="hidden mb-6 p-5 rounded-2xl bg-[#F6EFDD] border border-[#E9DDBB] text-left">
           <div class="flex items-center gap-2 mb-3">
             <svg class="w-5 h-5 text-[#9A7828] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
-            <h3 class="text-base font-bold text-[#9A7828]">Cần đóng phí tham gia</h3>
+            <h3 id="paymentTitle" class="text-base font-bold text-[#9A7828]">Cần đóng phí tham gia</h3>
           </div>
-          <p class="text-sm text-[#7A6752] mb-4 leading-relaxed">Bạn chưa đủ điều kiện tự duyệt (kỷ luật ≤ 90% thử thách trước hoặc thành viên mới). Vui lòng đóng phí <strong class="text-[#9A7828]">20.000 VNĐ</strong> qua chuyển khoản để hoàn tất đăng ký:</p>
+          <p id="paymentDesc" class="text-sm text-[#7A6752] mb-4 leading-relaxed">Bạn chưa đủ điều kiện tự duyệt (kỷ luật ≤ 90% thử thách trước hoặc thành viên mới). Vui lòng đóng phí <strong class="text-[#9A7828]">20.000 VNĐ</strong> qua chuyển khoản để hoàn tất đăng ký:</p>
           <div class="flex flex-col sm:flex-row items-center gap-5">
             <img src="/images/ankichallenge11-qr.png" alt="QR Timo AC11" class="w-48 h-48 rounded-xl border border-[#E9DDBB] bg-white object-contain shrink-0" onerror="this.style.display='none'" />
             <div class="text-sm text-[#7A6752] space-y-2 flex-1 min-w-0">
@@ -594,10 +594,18 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
           }
         }
 
-        // Nếu không được auto-approve → hiện khối đóng phí
-        if (!result.autoApproved) {
-          const payment = document.getElementById("paymentNotice");
-          if (payment) payment.classList.remove("hidden");
+        // Hiện khối chuyển khoản cho CẢ 2 trường hợp:
+        // - chưa auto duyệt: phí BẮT BUỘC
+        // - đã auto duyệt: đóng góp TỰ NGUYỆN (có lòng thì giúp)
+        const payment = document.getElementById("paymentNotice");
+        const paymentTitle = document.getElementById("paymentTitle");
+        const paymentDesc = document.getElementById("paymentDesc");
+        if (payment) {
+          if (result.autoApproved) {
+            if (paymentTitle) paymentTitle.textContent = "Đóng góp tự nguyện \uD83D\uDC9B";
+            if (paymentDesc) paymentDesc.innerHTML = 'Phí tham gia chỉ áp dụng <strong>bắt buộc</strong> cho người chưa đủ điều kiện tự duyệt. Nhưng nếu bạn có lòng, có thể đóng góp <strong class="text-[#9A7828]">20.000 VNĐ</strong> để giúp mình xây dựng những thứ tốt hơn trong tương lai :))';
+          }
+          payment.classList.remove("hidden");
         }
 
         if (successProfileLink && result.user?.id) {
