@@ -22,6 +22,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   const url = String(request.url || '');
   const reset = (() => { try { return new URL(url).searchParams.get('reset') === '1'; } catch { return false; } })();
+  const rebuild = (() => { try { return new URL(url).searchParams.get('rebuild') === '1'; } catch { return false; } })();
 
   // 1. Lấy danh sách user đã đăng ký AC11
   let userList: any[] = [];
@@ -34,7 +35,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
   }
   const ac11Users = userList.filter((u: any) => (u.challengeIds || []).includes(4));
 
-  const result = await postAC11MembersToThread(env, url, ac11Users, { reset, prune: true });
+  const result = await postAC11MembersToThread(env, url, ac11Users, { reset, prune: !rebuild, rebuild });
 
   return new Response(
     JSON.stringify({

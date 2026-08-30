@@ -29,6 +29,7 @@ export function memberMessage(u: any): string {
   const attendanceGoal = u.attendanceGoal ? `${u.attendanceGoal} ngày` : '';
 
   const lines: string[] = [];
+  if (u.discordId) lines.push(`<@${u.discordId}>`);
   lines.push(`## 👤 **${name}**`);
   if (discord) lines.push(`*(${discord})*`);
   if (place) lines.push(`\n> 📍 **Nơi ở:** ${place}`);
@@ -110,8 +111,10 @@ async function deleteMemberMessage(threadId: string, headers: Record<string, str
   const msgs = await listThreadMessages(threadId, headers);
   const nick = u?.discordNickname || u?.name || '';
   const nameU = u?.name || u?.realName || '';
+  const mention = u?.discordId ? `<@${u.discordId}>` : '';
   const target = msgs.find((m: any) => {
     if (!m.content || !m.content.includes('👤')) return false;
+    if (mention && m.content.includes(mention)) return true;
     if (nick && m.content.includes(`*(${nick})*`)) return true;
     if (nameU && m.content.includes(`**${nameU}**`)) return true;
     return false;
@@ -132,12 +135,14 @@ async function deleteMemberMessage(threadId: string, headers: Record<string, str
  *  - reset: đánh dấu chưa ai đăng để đẩy lại toàn bộ.
  *  - prune: tự xoá khỏi thread những người KHÔNG còn được duyệt (ac11Approved !== true),
  *           đồng thời gỡ khỏi posted-set để họ có thể được đẩy lại nếu sau này được duyệt.
+ *  - rebuild: XOÁ SẠCH toàn bộ tin nhắn thành viên (chứa 👤) trong thread rồi đăng lại
+ *             toàn bộ approved users với tag <@id>. Dùng để thêm tag cho tin cũ.
  */
 export async function postAC11MembersToThread(
   env: any,
   url: string,
   users: any[],
-  opts: { reset?: boolean; prune?: boolean } = {}
+  opts: { reset?: boolean; prune?: boolean; rebuild?: boolean } = {}
 ): Promise<{ ok: boolean; posted: number; removed: number; skipped: number; threadId?: string; error?: string }> {
   const token = env.DISCORD_TOKEN || import.meta.env.DISCORD_TOKEN;
   if (!token) return { ok: false, posted: 0, removed: 0, skipped: 0, error: 'Missing DISCORD_TOKEN' };
@@ -149,7 +154,33 @@ export async function postAC11MembersToThread(
   const thread = await getOrCreateAC11Thread(env, url, token, headers);
   if ('error' in thread) return { ok: false, posted: 0, removed: 0, skipped: 0, error: thread.error };
 
-  const postedSet = opts.reset ? new Set<number>() : await getPostedIds(env, url);
+  let postedSet = opts.reset ? new Set<number>() : await getPostedIds(env, url);
+
+  // Rebuild: xoá sạch tin nhắn thành viên cũ rồi đăng lại toàn bộ (để thêm tag)
+  let rebuildRemoved = 0;
+  if (opts.rebuild) {
+    // Lặp tối đa 10 batch (1000 tin) để tránh infinite loop
+    for (let batch = 0; batch < 10; batch++) {
+      const msgs = await listThreadMessages(thread.threadId, headers);
+      const memberMsgs = msgs.filter((m: any) => m.content && m.content.includes('👤'));
+      if (memberMsgs.length === 0) break;
+      for (const m of memberMsgs) {
+        try {
+          const delRes = await fetch(`https://discord.com/api/v10/channels/${thread.threadId}/messages/${m.id}`, {
+            method: 'DELETE',
+            headers,
+          });
+          if (delRes.ok || delRes.status === 204) rebuildRemoved++;
+        } catch (e) {
+          console.warn('[AC11 thread] rebuild delete failed', m.id, e);
+        }
+        // Tránh rate-limit Discord (5 req/s)
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      if (msgs.length < 100) break;
+    }
+    postedSet = new Set<number>();
+  }
 
   // Prune: xoá những người không (còn) được duyệt ra khỏi thread + posted-set
   let removedCount = 0;
@@ -176,7 +207,7 @@ export async function postAC11MembersToThread(
     const res = await fetch(`https://discord.com/api/v10/channels/${thread.threadId}/messages`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ content: body }),
+      body: JSON.stringify({ content: body, allowed_mentions: { parse: ['users'] } }),
     });
     if (res.ok) {
       postedSet.add(Number(u.id));
@@ -192,7 +223,7 @@ export async function postAC11MembersToThread(
   return {
     ok: true,
     posted: postedCount,
-    removed: removedCount,
+    removed: removedCount + rebuildRemoved,
     skipped: toPost.length - postedCount,
     threadId: thread.threadId,
   };
