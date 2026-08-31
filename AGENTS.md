@@ -89,6 +89,18 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - Quota is **per namespace**, so other namespaces (ankivn's `RATE_LIMIT_KV`, `SESSION_KV`, etc.) do NOT affect the `DATA` namespace.
 - Quota resets daily (UTC). To raise limits: upgrade to Workers Paid ($5/mo).
 
+### Timezone & disciplinePercentage — CRITICAL (Infinity% bug 2026-09-01)
+- `src/utils/calculateStats.js:4` **phải tính `todayStr` theo `Asia/Ho_Chi_Minh` (VN)**, không dùng `new Date()` local/UTC. Cloudflare Workers chạy UTC nên `00:xx VN 01/09` vẫn là `31/08 UTC` → `daysSoFar = ceil((2026-08-31 - 2026-09-01)/86400000)+1 = 0` → `1/0 = Infinity%` (bug đã gặp Day 1).
+- Fix: `const vnNow = new Date(Date.now() + 7*3600*1000); todayStr = vnNow.toISOString().slice(0,10);` và clamp `daysSoFar = max(1, daysSoFar)` trước khi tính `Math.round((total/daysSoFar)*100)`. Đồng bộ với `parseCheckinDate()` và `create-daily-thread.ts` đều dùng VN.
+
+### Discord message encoding — CRITICAL (mojibake 2026-09-01)
+- Mọi `fetch` tới `discord.com/api/v10` phải gửi `Content-Type: application/json; charset=utf-8` và body là UTF-8 `Buffer.byteLength(JSON.stringify(...))`. PowerShell `Invoke-RestMethod` mặc định không phải UTF-8 → tiếng Việt `Hành động...` thành `H�nh d?ng...`.
+- Dùng Node `https.request`/`fetch` với header charset, hoặc `src/pages/api/discord/post-to-thread.ts` + `manage-message.ts` đã làm đúng. Không dùng PowerShell cho nội dung có dấu.
+
+### Daily thread & members thread
+- Daily thread: `src/pages/api/discord/create-daily-thread.ts` (channel `1541493820242264256`, `START_ISO 2026-09-01T00:00:00+07:00`, `auto_archive 1440`). Auto 00h VN qua GitHub Actions `.github/workflows/daily-thread.yml` (`cron: '0 17 * * *'` UTC) gọi `POST /api/discord/create-daily-thread`.
+- Members thread: `src/utils/threads.ts` (`1541692300797673542`, `AC11_THREAD_TRACK_KEY`, `AC11_POSTED_IDS_KEY`). Từ 2026-08-31 đã tag `<@discordId>` + `allowed_mentions: {parse:['users']}`. Để sửa tin cũ: `POST /api/discord/create-members-thread?rebuild=1` (xóa `👤` cũ, đăng lại có tag). Quản lý message lẻ: `POST /api/discord/manage-message` (`delete`/`edit`) và `POST /api/discord/post-to-thread`.
+
 ## Deploy quirks (Cloudflare Pages)
 - Auto-deploys from GitHub `master` → project `ankichallenge` (`ankichallenge.pages.dev`). Git remote is named **`ankichallenge`** (not `origin`).
 - **Pin exact dependency versions** (`"astro": "5.16.6"`, `"@astrojs/cloudflare": "12.6.12"`) and commit `yarn.lock`. Caret ranges let Cloudflare resolve newer packages that pull `undici@8.x` (needs Node ≥22.19) while the build image ships Node 22.16.0 → build fails. `unifont@~0.6.0` avoids `undici@^8`.
