@@ -2,8 +2,10 @@
 // Can be imported and reused across different pages
 
 export function calculateUserStats(users, studyRecordsData, selectedChallengeId, challengeDateRanges) {
-  const today = new Date();
-  const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+  // Dùng giờ VN (Asia/Ho_Chi_Minh) để đồng bộ với parseCheckinDate / daily-thread
+  const now = new Date();
+  const vnNow = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+  const todayStr = vnNow.toISOString().slice(0, 10);
   
   return users.map(user => {
     const stats = [];
@@ -88,8 +90,10 @@ export function calculateUserStats(users, studyRecordsData, selectedChallengeId,
       }
       
       // Calculate discipline percentage based on days from start to today (or end date if challenge ended)
+      // Nếu hôm nay < start (do lệch múi giờ trước khi fix) thì clamp để tránh daysSoFar=0 => Infinity
       const effectiveEndDate = todayStr < endDate ? todayStr : endDate;
-      const daysSoFar = Math.ceil((new Date(effectiveEndDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+      let daysSoFar = Math.ceil((new Date(effectiveEndDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)) + 1;
+      if (!Number.isFinite(daysSoFar) || daysSoFar < 1) daysSoFar = 1;
       const totalDays = userDates.length;
       const disciplinePercentage = Math.round((totalDays / daysSoFar) * 100);
       
