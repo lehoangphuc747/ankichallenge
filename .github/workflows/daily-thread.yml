@@ -1,0 +1,27 @@
+name: Daily Discord Thread - AC11
+
+on:
+  schedule:
+    - cron: '0 17 * * *'  # 00:00 Asia/Ho_Chi_Minh (17:00 UTC)
+  workflow_dispatch:     # cho phép bấm chạy thủ công
+
+jobs:
+  create-thread:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create daily thread
+        run: |
+          echo "Calling create-daily-thread..."
+          RESP=$(curl -s -w "\n%{http_code}" -X POST "https://ankichallenge.pages.dev/api/discord/create-daily-thread" \
+            -H "User-Agent: GitHubActions-DailyThread/1.0" \
+            ${CRON_SECRET:+-H "x-cron-secret: $CRON_SECRET"})
+          BODY=$(echo "$RESP" | sed '$d')
+          CODE=$(echo "$RESP" | tail -n1)
+          echo "HTTP $CODE"
+          echo "$BODY"
+          if [ "$CODE" -ge 400 ]; then
+            echo "::error::Failed to create thread"
+            exit 1
+          fi
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
