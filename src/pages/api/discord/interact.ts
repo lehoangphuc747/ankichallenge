@@ -85,12 +85,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
-      if (commandName === 'checkin' || commandName === 'rank' || commandName === 'streak' || commandName === 'trangthai') {
+      if (commandName === 'checkin' || commandName === 'rank' || commandName === 'streak' || commandName === 'trangthai' || commandName === 'ping') {
         const ctx = (locals as any).runtime?.ctx;
         const run = async () => {
           try {
             if (commandName === 'checkin') {
               await handleCheckin(interaction, env, requestUrl);
+            } else if (commandName === 'ping') {
+              await handlePing(interaction, env, requestUrl);
             } else {
               await handleRank(interaction, env, requestUrl);
             }
@@ -377,6 +379,63 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   }
 
   return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${statsPart}`);
+}
+
+async function handlePing(interaction: any, env: any, requestUrl: string): Promise<void> {
+  const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
+  const rawInput = dateOption?.value;
+  const date = rawInput ? parseCheckinDate(rawInput) : (() => { const now=new Date(); const vn=new Date(now.getTime()+7*3600*1000); return vn.toISOString().slice(0,10); })();
+  if (!date) {
+    return patchOriginalMessage(interaction, `Ngày "${rawInput || ''}" không hợp lệ.`, true);
+  }
+  const displayDate = formatDateDisplay(date);
+  const latestCid = 4;
+
+  let userList: any[] = [];
+  let records: Record<string, Record<string, boolean>> = {};
+  let challenge: any = null;
+  if (env.DB) {
+    const dbUsers = await getUsersFromDB(env.DB);
+    userList = dbUsers.data;
+    const challenges = await getChallengesFromDB(env.DB);
+    challenge = challenges[String(latestCid)] || { name: `Anki Challenge 11`, start: '2026-09-01', end: '2026-12-09' };
+    records = await getRecordsFromDB(env.DB, latestCid);
+  } else {
+    const usersData = await getFromKV<any>(env, 'users', requestUrl);
+    userList = Array.isArray(usersData?.data) ? usersData.data : [];
+    const challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
+    challenge = challenges[String(latestCid)] || { name: `Anki Challenge 11`, start: '2026-09-01', end: '2026-12-09' };
+    const kvKey = KV_RECORDS[latestCid] || 'records_11';
+    records = await getFromKV<any>(env, kvKey, requestUrl) || {};
+  }
+
+  // Chỉ ping những ai đã đăng ký AC11 (có challengeIds 4) và có discordId
+  const enrolled = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid) && u.discordId);
+  // Nếu muốn chỉ ping người đã duyệt AC11 thì thêm && u.ac11Approved === true
+  const checkedMap = records[date] || {};
+  const notChecked = enrolled.filter((u: any) => !checkedMap[String(u.id)]);
+
+  if (notChecked.length === 0) {
+    return patchOriginalMessage(interaction, `✅ Ngày **${displayDate}** tất cả **${enrolled.length}** thành viên AC11 đã check-in rồi! 🎉`);
+  }
+
+  // Chia nhỏ nếu quá dài (Discord giới hạn 2000 ký tự)
+  const header = `⏰ **Nhắc nhở check-in ${displayDate} — ${notChecked.length}/${enrolled.length} chưa check-in:**\n`;
+  const mentions = notChecked.map((u: any) => `<@${u.discordId}>`);
+  let content = header + mentions.join(' ') + `\n\n👉 Gõ \`/checkin\` để điểm danh ngay nhé!`;
+  // Nếu quá dài, cắt thành nhiều tin? Hiện tại chỉ gửi 1 tin đầu (tối đa 2000 ký tự)
+  if (content.length > 1900) {
+    // Gửi batch đầu, phần còn lại sẽ bị cắt — cảnh báo
+    content = header + mentions.slice(0, 40).join(' ') + `\n\n... và ${notChecked.length - 40} người khác. 👉 Gõ \`/checkin\` nhé!`;
+  }
+
+  // patchOriginalMessage không hỗ trợ allowed_mentions, nên dùng fetch trực tiếp với allowed_mentions
+  const url = `https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}/messages/@original`;
+  await fetch(url, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json', 'User-Agent': 'DiscordBot (https://ankichallenge.pages.dev, 1.0)' },
+    body: JSON.stringify({ content, allowed_mentions: { parse: ['users'] } }),
+  });
 }
 
 async function handleRank(interaction: any, env: any, requestUrl: string): Promise<void> {

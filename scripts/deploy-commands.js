@@ -29,6 +29,18 @@ const COMMANDS = [
     name: 'trangthai',
     description: 'Xem trạng thái, thứ hạng, chuỗi streak và tiến độ thử thách của bạn',
   },
+  {
+    name: 'ping',
+    description: 'Tag những ai chưa check-in hôm nay để nhắc nhở (AC11)',
+    options: [
+      {
+        type: 3,
+        name: 'date',
+        description: 'Ngày cần kiểm tra: bỏ trống = hôm nay, hoặc 02/09, hq...',
+        required: false,
+      },
+    ],
+  },
 ];
 
 // Guild ID để đăng ký lệnh ở cấp guild (hiện ngay cho mọi member, không bị cache delay như global)
