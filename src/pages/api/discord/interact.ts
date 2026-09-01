@@ -343,7 +343,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       records = await getFromKV<any>(env, kvKey, requestUrl) || {};
     }
 
-    const enrolled = allUsers.filter((u: any) => (u.challengeIds || []).includes(latestCid));
+    const enrolled = allUsers.filter((u: any) => (u.challengeIds || []).includes(latestCid) && (latestCid !== 4 || u.ac11Approved === true));
     const dateRanges = { [latestCid]: { start: challenge.start, end: challenge.end } };
     const allStats = calculateUserStats(enrolled, records, latestCid, dateRanges);
     allStats.sort((a: any, b: any) => {
@@ -495,7 +495,7 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
     records = await getFromKV<any>(env, kvKey, requestUrl) || {};
   }
 
-  const enrolledUsers = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid));
+  const enrolledUsers = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid) && (latestCid !== 4 || u.ac11Approved === true));
   const dateRanges = { [latestCid]: { start: challenge.start, end: challenge.end } };
   const allStats = calculateUserStats(enrolledUsers, records, latestCid, dateRanges);
 
