@@ -409,9 +409,8 @@ async function handlePing(interaction: any, env: any, requestUrl: string): Promi
     records = await getFromKV<any>(env, kvKey, requestUrl) || {};
   }
 
-  // Chỉ ping những ai đã đăng ký AC11 (có challengeIds 4) và có discordId
-  const enrolled = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid) && u.discordId);
-  // Nếu muốn chỉ ping người đã duyệt AC11 thì thêm && u.ac11Approved === true
+  // Chỉ ping 33 người đã được duyệt AC11 (Còn 98 ngày • 33 thành viên), không phải 54 người đăng ký
+  const enrolled = userList.filter((u: any) => (u.challengeIds || []).includes(latestCid) && u.discordId && u.ac11Approved === true);
   const checkedMap = records[date] || {};
   const notChecked = enrolled.filter((u: any) => !checkedMap[String(u.id)]);
 
