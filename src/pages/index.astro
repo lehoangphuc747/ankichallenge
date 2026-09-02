@@ -3,14 +3,26 @@ import Layout from "../layouts/Layout.astro";
 import ProgressBar from "../components/ProgressBar.astro";
 import DiscordAuthButton from "../components/DiscordAuthButton.astro";
 import { verifySession } from "../utils/session";
+import { getUserByDiscordId } from "../utils/db";
 
 const sessionCookie = Astro.cookies.get('user_session')?.value;
-let loggedUser: { id: string; username: string; displayName: string; avatar: string; memberId?: number | null; memberName?: string | null } | null = null;
+let loggedUser: { id: string; username: string; displayName: string; avatar: string; memberId?: number | null; memberName?: string | null; ac11Approved?: boolean; ac11Registered?: boolean } | null = null;
 
 if (sessionCookie) {
   const env = (Astro.locals as any).runtime?.env ?? {};
   const sessionSecret = env.SESSION_SECRET || import.meta.env.SESSION_SECRET || 'anki_challenge_secret_key_2026_super_secure';
   loggedUser = await verifySession<typeof loggedUser>(sessionCookie, sessionSecret) ?? null;
+
+  // Lấy trạng thái kích hoạt AC11 (đã đăng ký? đã duyệt chưa?) để đổi banner
+  if (loggedUser?.id && env.DB) {
+    try {
+      const profile = await getUserByDiscordId(env.DB, loggedUser.id);
+      loggedUser.ac11Registered = (profile?.challengeIds || []).some((id: any) => Number(id) === 4);
+      loggedUser.ac11Approved = profile?.ac11Approved === true;
+    } catch (e) {
+      console.warn('[index ac11 banner lookup]', e);
+    }
+  }
 }
 ---
 
@@ -131,7 +143,41 @@ if (sessionCookie) {
 				<ProgressBar challengeId="4" />
 			</div>
 
-			<!-- Registration Banner: AC11 -->
+			<!-- Activation Banner: cho người ĐÃ ĐĂNG KÝ AC11 nhưng CHƯA ĐƯỢC DUYỆT (thay cho banner đăng ký) -->
+			{loggedUser?.ac11Registered && loggedUser?.ac11Approved === false && (
+				<a
+					href="/anki-challenge-11"
+					class="group block mb-4 overflow-hidden rounded-2xl border border-[#D29A3A]/40 bg-gradient-to-r from-[#FBF3E0] to-[#F7E7C7] shadow-[0_4px_20px_rgba(210,154,58,0.14)] transition-all hover:border-[#D29A3A]/70 hover:shadow-[0_6px_28px_rgba(210,154,58,0.20)]"
+				>
+					<div class="relative flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-4">
+						<div class="flex items-center gap-4">
+							<div class="relative shrink-0">
+								<span class="flex w-11 h-11 items-center justify-center rounded-xl bg-[#D29A3A] text-white shadow-sm group-hover:scale-105 transition-transform">
+									<svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17V7a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10M5 17H3m18 0h-2M2 11h2m16 0h2m-7-6v6m0-6H9m0 0v6"/></svg>
+								</span>
+								<span class="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full bg-[#D29A3A] border-2 border-[#FBF3E0] animate-pulse"></span>
+							</div>
+							<div>
+								<div class="flex items-center gap-2 flex-wrap">
+									<span class="text-[11px] font-bold uppercase tracking-wider text-[#C1831F]">Chưa kích hoạt</span>
+									<span class="text-[10px] font-mono bg-[#D29A3A]/15 text-[#A97414] px-2 py-0.5 rounded-full border border-[#D29A3A]/25">Cần thanh toán</span>
+								</div>
+								<h2 class="text-base font-serif font-semibold text-[#141413] mt-0.5">Hoàn tất phí kích hoạt để tham gia</h2>
+								<p class="text-xs text-[#8E8B82] mt-0.5">Bạn đã đăng ký nhưng chưa được duyệt · Bấm để xem hướng dẫn chuyển khoản</p>
+							</div>
+						</div>
+						<div class="flex items-center gap-2 shrink-0">
+							<span class="inline-flex items-center gap-2 bg-[#D29A3A] text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all shadow-sm group-hover:bg-[#B97F18]">
+								Thanh toán kích hoạt
+								<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+							</span>
+						</div>
+					</div>
+				</a>
+			)}
+
+			<!-- Registration Banner: AC11 (cho mọi người, trừ người chưa kích hoạt ở trên) -->
+			{!loggedUser?.ac11Registered && (
 			<a
 				href="/anki-challenge-11"
 				class="group block mb-4 overflow-hidden rounded-2xl border border-[#CC785C]/30 bg-gradient-to-r from-[#FBF5EE] to-[#F6E8DC] shadow-[0_4px_20px_rgba(204,120,92,0.10)] transition-all hover:border-[#CC785C]/60 hover:shadow-[0_6px_28px_rgba(204,120,92,0.16)]"
@@ -168,6 +214,7 @@ if (sessionCookie) {
 					</div>
 				</div>
 			</a>
+			)}
 
 			<!-- Controls Bar -->
 			<div class="sticky top-4 z-40 mb-6 bg-[#FAF9F5]/90 backdrop-blur-xl border border-[#E6DFD8] rounded-2xl p-2 flex flex-col sm:flex-row gap-2 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
