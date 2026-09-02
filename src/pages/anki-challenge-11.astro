@@ -92,15 +92,64 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
       <!-- ĐÃ ĐĂNG KÝ AC11 → hiển thị thay vì form -->
       {isAlreadyRegistered && (
         <div class="bg-[#FFFFFF] border border-[#E6DFD8] rounded-2xl p-8 sm:p-12 text-center shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
-          <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#E7F1EA] border border-[#CBE0D2] flex items-center justify-center text-[#437A55]">
-            <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-          </div>
-          <h2 class="text-2xl font-normal font-['Newsreader','EB_Garamond',serif] text-[#141413] mb-2">
-            Bạn đã đăng ký Anki Challenge 11
-          </h2>
-          <p class="text-[#6B6860] text-sm max-w-md mx-auto mb-6 leading-relaxed">
-            Bạn đã đăng ký tham gia Anki Challenge 11. Thông tin của bạn đã được ghi nhận. Chúc bạn 100 ngày kỷ luật!
-          </p>
+          {existingProfile?.ac11Approved !== true && (
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#FBF0E3] border border-[#F0DFC3] flex items-center justify-center text-[#CC785C] shrink-0">
+              <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/></svg>
+            </div>
+          )}
+          {existingProfile?.ac11Approved === true && (
+            <div class="w-14 h-14 mx-auto mb-4 rounded-full bg-[#E7F1EA] border border-[#CBE0D2] flex items-center justify-center text-[#437A55]">
+              <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+            </div>
+          )}
+          {existingProfile?.ac11Approved === true ? (
+            <h2 class="text-2xl font-normal font-['Newsreader','EB_Garamond',serif] text-[#141413] mb-2">
+              Bạn đã đăng ký Anki Challenge 11
+            </h2>
+          ) : (
+            <h2 class="text-2xl font-normal font-['Newsreader','EB_Garamond',serif] text-[#141413] mb-2">
+              Đăng ký của bạn đang chờ duyệt
+            </h2>
+          )}
+          {existingProfile?.ac11Approved === true ? (
+            <p class="text-[#6B6860] text-sm max-w-md mx-auto mb-6 leading-relaxed">
+              Bạn đã đăng ký tham gia Anki Challenge 11. Thông tin của bạn đã được ghi nhận. Chúc bạn 100 ngày kỷ luật!
+            </p>
+          ) : (
+            <p class="text-[#6B6860] text-sm max-w-md mx-auto mb-6 leading-relaxed">
+              Bạn đã đăng ký nhưng <strong class="text-[#CC785C]">chưa được duyệt</strong>. Hãy hoàn tất chuyển khoản bên dưới và nhắn Ban tổ chức để được duyệt tham gia nhé!
+            </p>
+          )}
+
+          <!-- Khối chuyển khoản hiển thị khi ĐÃ ĐĂNG KÝ nhưng CHƯA ĐƯỢC DUYỆT -->
+          {existingProfile?.ac11Approved !== true && (
+            <div class="mb-6 p-5 rounded-2xl bg-[#F6EFDD] border border-[#E9DDBB] text-left">
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-5 h-5 text-[#9A7828] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/></svg>
+                <h3 class="text-base font-bold text-[#9A7828]">Cần đóng phí tham gia để được duyệt</h3>
+              </div>
+              <p class="text-sm text-[#7A6752] mb-4 leading-relaxed">Bạn chưa được duyệt. Vui lòng đóng phí <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) qua chuyển khoản để hoàn tất đăng ký:</p>
+              <div class="flex flex-col sm:flex-row items-center gap-5">
+                <img src="/images/ankichallenge11-qr.png" alt="QR Timo AC11" class="w-48 h-48 rounded-xl border border-[#E9DDBB] bg-white object-contain shrink-0" onerror="this.style.display='none'" />
+                <div class="text-sm text-[#7A6752] space-y-2 flex-1 min-w-0">
+                  <p class="flex items-center gap-2 flex-wrap"><strong>Mã pot:</strong> <span class="font-mono font-semibold text-[#141413]">B871</span>
+                    <button type="button" class="copy-btn" onclick="const b=event.currentTarget;navigator.clipboard.writeText('B871').then(()=>{const o=b.innerText;b.innerText='Đã chép ✓';setTimeout(()=>b.innerText=o,2000)})">Copy</button>
+                  </p>
+                  <p><strong>Chủ tài khoản:</strong> LE HOANG PHUC</p>
+                  <p><strong>Nền tảng:</strong> Timo Digital Bank by BVBank</p>
+                  <p class="flex items-center gap-2 flex-wrap"><strong>Nội dung:</strong> <span class="font-mono font-semibold text-[#141413]">anki 11 + tên</span>
+                    <button type="button" class="copy-btn" onclick="const b=event.currentTarget;navigator.clipboard.writeText('anki 11').then(()=>{const o=b.innerText;b.innerText='Đã chép ✓';setTimeout(()=>b.innerText=o,2000)})">Copy</button>
+                  </p>
+                </div>
+              </div>
+              <p class="text-xs text-[#9A7828] mt-3">Sau khi chuyển khoản, vui lòng nhắn tin Facebook để Ban tổ chức xác nhận và duyệt đăng ký của bạn:</p>
+              <a href="https://www.facebook.com/tui.la.phuc747/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 mt-2 px-4 py-2 bg-[#1877F2] hover:bg-[#166FE5] text-white text-xs font-semibold rounded-lg transition-all">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                Nhắn tin Facebook cho Phúc
+              </a>
+            </div>
+          )}
+
           <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
             <a href="/" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#CC785C] hover:bg-[#B8684E] text-white font-medium px-6 py-2.5 rounded-full text-xs transition-all shadow-sm">
               <span>Xem Bảng xếp hạng</span>
