@@ -129,6 +129,7 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
                 <h3 class="text-base font-bold text-[#9A7828]">Cần đóng phí tham gia để được duyệt</h3>
               </div>
               <p class="text-sm text-[#7A6752] mb-4 leading-relaxed">Bạn chưa được duyệt. Vui lòng đóng phí <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) qua chuyển khoản để hoàn tất đăng ký:</p>
+              <p class="text-xs text-[#9A7828] mb-3 leading-relaxed bg-[#FDF6E6] border border-[#F0E2BE]/60 rounded-lg p-2.5"><strong>Phí này dùng để phát triển cộng đồng Anki</strong>: duy trì website, mua Discord Nitro cho server, và chi trả chi phí đội ngũ vận hành/developer (opencode, phát triển addons & tools…) phục vụ cộng đồng. 💚</p>
               <div class="flex flex-col sm:flex-row items-center gap-5">
                 <img src="/images/ankichallenge11-qr.png" alt="QR Timo AC11" class="w-48 h-48 rounded-xl border border-[#E9DDBB] bg-white object-contain shrink-0" onerror="this.style.display='none'" />
                 <div class="text-sm text-[#7A6752] space-y-2 flex-1 min-w-0">
@@ -515,6 +516,7 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
             <h3 id="paymentTitle" class="text-base font-bold text-[#9A7828]">Cần đóng phí tham gia</h3>
           </div>
           <p id="paymentDesc" class="text-sm text-[#7A6752] mb-4 leading-relaxed">Bạn chưa đủ điều kiện tự duyệt (kỷ luật ≤ 90% thử thách trước hoặc thành viên mới). Vui lòng đóng phí <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) qua chuyển khoản để hoàn tất đăng ký:</p>
+          <p class="text-xs text-[#9A7828] mb-4 leading-relaxed bg-[#FDF6E6] border border-[#F0E2BE]/60 rounded-lg p-2.5"><strong>Phí này dùng để phát triển cộng đồng Anki</strong>: duy trì website, mua Discord Nitro cho server, và chi trả chi phí đội ngũ vận hành/developer (opencode, phát triển addons & tools…) phục vụ cộng đồng. 💚</p>
           <div class="flex flex-col sm:flex-row items-center gap-5">
             <img src="/images/ankichallenge11-qr.png" alt="QR Timo AC11" class="w-48 h-48 rounded-xl border border-[#E9DDBB] bg-white object-contain shrink-0" onerror="this.style.display='none'" />
             <div class="text-sm text-[#7A6752] space-y-2 flex-1 min-w-0">
@@ -652,7 +654,7 @@ const isAlreadyRegistered = existingProfile?.challengeIds?.some((id: any) => Num
         if (payment) {
           if (result.autoApproved) {
             if (paymentTitle) paymentTitle.textContent = "Đóng góp tự nguyện \uD83D\uDC9B";
-            if (paymentDesc) paymentDesc.innerHTML = 'Phí tham gia chỉ áp dụng <strong>bắt buộc</strong> cho người chưa đủ điều kiện tự duyệt. Nhưng nếu bạn có lòng, có thể đóng góp <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) để giúp mình xây dựng những thứ tốt hơn trong tương lai :))';
+            if (paymentDesc) paymentDesc.innerHTML = 'Phí tham gia chỉ áp dụng <strong>bắt buộc</strong> cho người chưa đủ điều kiện tự duyệt. Nhưng nếu bạn có lòng, có thể đóng góp <strong class="text-[#9A7828]">tối thiểu 20.000 VNĐ - tối đa 99.999.999 VNĐ</strong> (không nhận quá số này :))) để giúp mình phát triển cộng đồng Anki: duy trì website, mua Discord Nitro cho server, và chi trả chi phí đội ngũ vận hành/developer (opencode, phát triển addons &amp; tools…) phục vụ cộng đồng :))';
           }
           payment.classList.remove("hidden");
         }
