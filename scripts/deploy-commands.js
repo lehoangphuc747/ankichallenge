@@ -18,16 +18,16 @@ const COMMANDS = [
     description: 'Check-in ngày học của bạn',
     options: [
       {
-        type: 3, // STRING
-        name: 'date',
-        description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD',
-        required: false,
-      },
-      {
         type: 11, // ATTACHMENT
         name: 'image',
         description: 'Ảnh / screenshot chứng thực (bắt buộc - PNG, JPG...)',
         required: true,
+      },
+      {
+        type: 3, // STRING
+        name: 'date',
+        description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD',
+        required: false,
       },
     ],
   },
