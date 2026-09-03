@@ -31,4 +31,7 @@ backup_kv.json
 backup_d1_*.sql
 tmp/
 
+# Discord thread export (messages + member screenshots, contains PII)
+discord-export/
+
 
