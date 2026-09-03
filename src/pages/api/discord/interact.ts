@@ -357,7 +357,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
 
   // Ghi chú ảnh kèm trong tin check-in (chỉ hiển thị, không re-upload lên CDN khác)
   const imgPart = attachment
-    ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
+    ? `\n🖼️ **Kèm ảnh chứng thực**`   // chỉ ghi chú, không hiển thị tên file — hình sẽ hiện trong embed
     : '';
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
@@ -417,7 +417,12 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     console.warn('[checkin stats] failed', e);
   }
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`);
+  // Hiển thị hình kèm ngay trong tin trả lời qua embed (dùng link CDN của Discord, không cần auth)
+  const imgEmbeds: any[] = attachment?.url
+    ? [{ image: { url: attachment.url } }]
+    : [];
+
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`, false, imgEmbeds);
 }
 
 async function handlePing(interaction: any, env: any, requestUrl: string): Promise<void> {
