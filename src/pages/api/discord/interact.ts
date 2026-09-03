@@ -217,6 +217,33 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const rawInput = dateOption?.value;
   const date = parseCheckinDate(rawInput);
 
+  // Option image - BẮT BUỘC phải có ảnh mới được check-in
+  const imageOption = interaction.data?.options?.find((o: any) => o.name === 'image');
+  const attachmentId = imageOption?.value;
+  const attachments = interaction.data?.resolved?.attachments || {};
+  const attachment: any = attachmentId ? attachments[String(attachmentId)] : null;
+
+  // Bắt buộc kèm ảnh chứng thực
+  const imageRequired = true;
+  if (imageRequired && !attachment) {
+    return patchOriginalMessage(
+      interaction,
+      '⚠️ Check-in của bạn cần kèm **1 ảnh/screenshot chứng thực** (dùng ô `image` khi gõ `/checkin`).',
+      true
+    );
+  }
+
+  // Kiểm tra đúng là file ảnh (theo Discord: .png, .gif, .jpg, .jpeg, .webp, .avif)
+  const filename = String(attachment?.filename || '').toLowerCase();
+  const isImage = /\.(png|jpe?g|gif|webp|avif)$/.test(filename) || String(attachment?.content_type || '').startsWith('image/');
+  if (!isImage) {
+    return patchOriginalMessage(
+      interaction,
+      '⚠️ File đính kèm không phải là ảnh hợp lệ (cần PNG / JPG / GIF / WEBP / AVIF). Vui lòng đính lại ảnh screenshot.',
+      true
+    );
+  }
+
   if (!date) {
     return patchOriginalMessage(
       interaction,
@@ -298,6 +325,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       date,
       discordId: String(discordId),
       channelId: interaction.channel_id,
+      imageUrl: attachment?.url || null, // Link CDN vĩnh viễn của Discord (lưu trong message)
     });
 
     if (!isNew) {
@@ -317,9 +345,14 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
       return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
     }
 
-    records[date][String(memberId)] = true;
+    records[date][String(memberId)] = attachment?.url || true;
     await putToKV(env, kvKey, records);
   }
+
+  // Ghi chú ảnh kèm trong tin check-in (chỉ hiển thị, không re-upload lên CDN khác)
+  const imgPart = attachment
+    ? `\n🖼️ **Kèm ảnh chứng thực:** ${attachment.filename || 'screenshot'}`
+    : '';
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
   let statsPart = '';
@@ -378,7 +411,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     console.warn('[checkin stats] failed', e);
   }
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${statsPart}`);
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`);
 }
 
 async function handlePing(interaction: any, env: any, requestUrl: string): Promise<void> {

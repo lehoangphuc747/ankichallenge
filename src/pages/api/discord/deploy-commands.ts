@@ -5,7 +5,10 @@ const COMMANDS = [
   {
     name: 'checkin',
     description: 'Check-in ngày học của bạn',
-    options: [{ type: 3, name: 'date', description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD', required: false }],
+    options: [
+      { type: 3, name: 'date', description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD', required: false },
+      { type: 11, name: 'image', description: 'Ảnh / screenshot chứng thực (bắt buộc - PNG, JPG...)', required: true },
+    ],
   },
   { name: 'trangthai', description: 'Xem trạng thái, thứ hạng, chuỗi streak và tiến độ thử thách của bạn' },
   { name: 'ping', description: 'Tag những ai chưa check-in hôm nay để nhắc nhở (AC11)', options: [{ type: 3, name: 'date', description: 'Ngày cần kiểm tra: bỏ trống = hôm nay, hoặc 02/09, hq...', required: false }] },

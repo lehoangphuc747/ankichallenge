@@ -71,7 +71,7 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - Commands are **guild-scoped only** (not global) to avoid 1-hour cache delay and duplicate `/checkin` entries.
   - Register: `DISCORD_GUILD_ID=867268399687663616 node scripts/deploy-commands.js` (needs `DISCORD_TOKEN`).
   - Server "Anki Việt Nam" guild id `867268399687663616`.
-- `/checkin` **only** verifies `discordId` ↔ `users` KV, then writes the record. No thread/channel/role/date-range checks. **Option `image` đã bỏ (2026-09-01)** — chỉ còn option `date` (xóa khỏi `/checkin` trong `deploy-commands.js`, bỏ toàn bộ logic image/attachment/re-upload trong `interact.ts`). Bộ đăng ký lại command bằng `scripts/deploy-commands.js`.
+- `/checkin` **only** verifies `discordId` ↔ `users` KV, then writes the record. No thread/channel/role/date-range checks. **Option `image` là BẮT BUỘC (2026-09-03)**: phải kèm ảnh (`ATTACHMENT`, `required:true`) mới check-in được; lưu `imageUrl = attachment.url` (link CDN vĩnh viễn của Discord) vào D1 `checkins`, **không re-upload** lên CDN khác. Tái đăng ký command qua `scripts/deploy-commands.js` sau khi đổi.
 - **`challengeIds` in KV are indexes 1/2/3/4** (1=AC8, 2=AC9, 3=AC10, 4=AC11), NOT 8/9/10/11. `KV_RECORDS = {1:'records_08', 2:'records_09', 3:'records_10', 4:'records_11'}`.
 - KV `users` is wrapped as `{ data: [...] }`; `records_*` are a bare object `{ date: { userId: true } }`.
 
