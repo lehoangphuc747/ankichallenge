@@ -233,13 +233,19 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     );
   }
 
-  // Kiểm tra đúng là file ảnh (theo Discord: .png, .gif, .jpg, .jpeg, .webp, .avif)
+  // Kiểm tra đúng là file ảnh.
+  // Ưu tiên dựa vào content_type (Discord đã chuẩn hoá, ví dụ iPhone HEIC thường được
+  // chuyển thành image/jpeg; Samsung ảnh thường image/jpeg/image/png/image/webp).
+  // Fallback theo đuôi file: .png, .jpg, .jpeg, .gif, .webp, .avif, .heif, .heic
+  const ct = String(attachment?.content_type || '').toLowerCase();
   const filename = String(attachment?.filename || '').toLowerCase();
-  const isImage = /\.(png|jpe?g|gif|webp|avif)$/.test(filename) || String(attachment?.content_type || '').startsWith('image/');
+  const isImage =
+    ct.startsWith('image/') ||
+    /\.(png|jpe?g|gif|webp|avif|heif|heic)$/.test(filename);
   if (!isImage) {
     return patchOriginalMessage(
       interaction,
-      '⚠️ File đính kèm không phải là ảnh hợp lệ (cần PNG / JPG / GIF / WEBP / AVIF). Vui lòng đính lại ảnh screenshot.',
+      '⚠️ File đính kèm không phải là ảnh hợp lệ. Vui lòng đính lại ảnh screenshot (PNG / JPG / WEBP...).',
       true
     );
   }
