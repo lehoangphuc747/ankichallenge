@@ -425,10 +425,9 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     }
     if (mine) {
       const streak = mine.streak ?? 0;
-      const longest = mine.longestStreak ?? 0;
       const pct = mine.disciplinePercentage ?? 0;
-      const total = mine.totalDays ?? 0;
-      statsPart = `\n\n🏆 **Hạng:** #${myRank} / ${enrolled.length}\n🔥 **Streak:** ${streak} ngày (kỷ lục ${longest} ngày)\n📈 **Kỷ luật:** ${pct}% (${total} ngày)`;
+      // Gọn 1 dòng: 🏆 rank / total  🔥 streak  📈 %
+      statsPart = `\n🏆 ${myRank} / ${enrolled.length} · 🔥 ${streak} · 📈 ${pct}%`;
     }
   } catch (e) {
     console.warn('[checkin stats] failed', e);
@@ -596,13 +595,10 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
   const totalDays = targetStat?.totalDays ?? 0;
   const disciplinePercentage = targetStat?.disciplinePercentage ?? 0;
 
-  const msg = 
-    `📊 **Thống kê thử thách của <@${discordId}>** — **${challenge.name}**\n\n` +
-    `🏆 **Thứ hạng**: **#${userRank}** / ${enrolledUsers.length} thành viên\n` +
-    `🔥 **Chuỗi liên tục (Streak)**: **${streak} ngày** (Kỷ lục: ${longestStreak} ngày)\n` +
-    `📈 **Tỉ lệ chuyên cần**: **${disciplinePercentage}%** (${totalDays} ngày đã học)\n` +
-    `📅 **Hôm nay (${todayVN.slice(8, 10)}/${todayVN.slice(5, 7)})**: ${isCheckedToday ? '✅ Đã check-in' : '⏳ Chưa check-in (gõ `/checkin` ngay)'}\n\n` +
-    `🔗 Xem bảng xếp hạng: https://ankichallenge.pages.dev`;
+  const msg =
+    `📊 **<@${discordId}>** — **${challenge.name}**\n` +
+    `🏆 ${userRank} / ${enrolledUsers.length} · 🔥 ${streak} · 📈 ${disciplinePercentage}%\n\n` +
+    `📅 **Hôm nay (${todayVN.slice(8, 10)}/${todayVN.slice(5, 7)})**: ${isCheckedToday ? '✅ Đã check-in' : '⏳ Chưa check-in (gõ `/checkin` ngay)'}`;
 
   return patchOriginalMessage(interaction, msg);
 }
