@@ -7,7 +7,9 @@ const COMMANDS = [
     description: 'Check-in ngày học của bạn',
     options: [
       { type: 11, name: 'image', description: 'Ảnh / screenshot chứng thực (bắt buộc - PNG, JPG...)', required: true },
-      { type: 3, name: 'date', description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD', required: false },
+      { type: 3, name: 'date', description: 'Ngày check-in (bắt buộc): hôm nay, hq, hk, hoặc 15/8, YYYY-MM-DD', required: true },
+      { type: 4, name: 'cards', description: 'Số thẻ đã học hôm nay (tùy chọn)', required: false },
+      { type: 4, name: 'minutes', description: 'Số phút đã học hôm nay (tùy chọn)', required: false },
     ],
   },
   { name: 'trangthai', description: 'Xem trạng thái, thứ hạng, chuỗi streak và tiến độ thử thách của bạn' },

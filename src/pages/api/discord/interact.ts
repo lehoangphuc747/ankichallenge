@@ -213,9 +213,24 @@ function formatDateDisplay(ymd: string): string {
 }
 
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
+  // Option date - BẮT BUỘC (user phải khai ngày)
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
   const rawInput = dateOption?.value;
   const date = parseCheckinDate(rawInput);
+
+  // Option cards/minutes - người dùng tự khai (đỡ phải đọc ảnh)
+  let cardsStudied: number | null = null;
+  let minutesStudied: number | null = null;
+  const cardsOption = interaction.data?.options?.find((o: any) => o.name === 'cards');
+  const minutesOption = interaction.data?.options?.find((o: any) => o.name === 'minutes');
+  if (cardsOption?.value !== undefined && cardsOption?.value !== null) {
+    const n = Number(cardsOption.value);
+    if (Number.isFinite(n) && n >= 0) cardsStudied = Math.round(n);
+  }
+  if (minutesOption?.value !== undefined && minutesOption?.value !== null) {
+    const n = Number(minutesOption.value);
+    if (Number.isFinite(n) && n >= 0) minutesStudied = n;
+  }
 
   // Option image - BẮT BUỘC phải có ảnh mới được check-in
   const imageOption = interaction.data?.options?.find((o: any) => o.name === 'image');
@@ -253,10 +268,9 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   if (!date) {
     return patchOriginalMessage(
       interaction,
-      `Ngày "${rawInput || ''}" không hợp lệ. Bạn có thể gõ:\n` +
-      `• \`/checkin\` (hôm nay)\n` +
+      `Ngày "${rawInput || ''}" không hợp lệ. Vui lòng chọn ngày:\n` +
       `• \`/checkin date: hq\` (hôm qua) hoặc \`hk\` (hôm kia)\n` +
-      `• \`/checkin date: 14/8\` hoặc \`14/08\` hoặc \`14-08\``,
+      `• \`/checkin date: 15/9\` hoặc \`15/09\` hoặc \`2026-09-15\``,
       true
     );
   }
@@ -324,19 +338,19 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     );
   }
 
+  let updateCount = 1;
   if (env.DB) {
-    const isNew = await recordCheckinInDB(env.DB, {
+    const res = await recordCheckinInDB(env.DB, {
       challengeId: latestCid,
       userId: memberId,
       date,
       discordId: String(discordId),
       channelId: interaction.channel_id,
       imageUrl: attachment?.url || null, // Link CDN vĩnh viễn của Discord (lưu trong message)
+      cardsStudied,
+      minutesStudied,
     });
-
-    if (!isNew) {
-      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
-    }
+    updateCount = res.updateCount;
   } else {
     // Fallback KV
     const kvKey = KV_RECORDS[latestCid];
@@ -347,17 +361,20 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
     if (!records[date]) records[date] = {};
 
-    if (records[date][String(memberId)]) {
-      return patchOriginalMessage(interaction, `Bạn đã check-in ngày **${displayDate}** rồi.`, true);
-    }
-
     records[date][String(memberId)] = attachment?.url || true;
     await putToKV(env, kvKey, records);
+    // KV không track update_count (chỉ lưu 1 record/ngày); tính xấp xỉ
+    updateCount = records[date][String(memberId)] ? 1 : 1;
   }
 
   // Ghi chú ảnh kèm trong tin check-in (chỉ hiển thị, không re-upload lên CDN khác)
   const imgPart = attachment
     ? `\n🖼️ **Kèm ảnh chứng thực**`   // chỉ ghi chú, không hiển thị tên file — hình sẽ hiện trong embed
+    : '';
+
+  // Nếu user tự khai số thẻ/phút -> hiện kèm
+  const statsUserPart = (cardsStudied !== null || minutesStudied !== null)
+    ? `\n📊 **Bạn tự khai:**${cardsStudied !== null ? ` ${cardsStudied} thẻ` : ''}${minutesStudied !== null ? ` trong ${minutesStudied} phút` : ''}`
     : '';
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
@@ -422,7 +439,8 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     ? [{ image: { url: attachment.url } }]
     : [];
 
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công!${imgPart}${statsPart}`, false, imgEmbeds);
+  const updatedText = updateCount > 1 ? ` (cập nhật lần ${updateCount})` : '';
+  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công${updatedText}!${imgPart}${statsUserPart}${statsPart}`, false, imgEmbeds);
 }
 
 async function handlePing(interaction: any, env: any, requestUrl: string): Promise<void> {

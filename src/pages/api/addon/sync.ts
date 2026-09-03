@@ -82,7 +82,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
   try {
     // 4. Ghi nhận check-in vào D1 (Tự động điểm danh khi có review thẻ)
     if (cardsReviewed > 0) {
-      await recordCheckinInDB(db, challengeId, user.id, todayDate, user.discordId, 'anki_addon');
+      await recordCheckinInDB(db, {
+        challengeId: challengeId,
+        userId: user.id,
+        date: todayDate,
+        discordId: user.discordId,
+        channelId: 'anki_addon',
+        cardsStudied: cardsReviewed,
+        minutesStudied: timeSpentSeconds > 0 ? Math.round(timeSpentSeconds / 60 * 100) / 100 : null,
+      });
     }
 
     // 5. Cập nhật thống kê chi tiết vào bảng addon_stats (100% D1 SQLite)

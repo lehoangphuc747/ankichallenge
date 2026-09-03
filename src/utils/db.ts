@@ -197,14 +197,34 @@ export async function recordCheckinInDB(
     discordId?: string;
     channelId?: string;
     imageUrl?: string | null;
+    cardsStudied?: number | null;
+    minutesStudied?: number | null;
   }
-): Promise<boolean> {
+): Promise<{ isNew: boolean; updateCount: number }> {
+  // Upsert: nếu đã checkin ngày này thì CẬP NHẬT cards/minutes/channel/image + tăng update_count.
+  // Trả { isNew: true } nếu tạo mới, { isNew:false } nếu cập nhật bản ghi cũ.
+  const cards = Number.isFinite(Number(data.cardsStudied)) ? Number(data.cardsStudied) : null;
+  const minutes = Number.isFinite(Number(data.minutesStudied)) ? Number(data.minutesStudied) : null;
   try {
+    // Kiểm tra đã tồn tại chưa
+    const existing = await db
+      .prepare('SELECT id, update_count FROM checkins WHERE challenge_id = ? AND user_id = ? AND date = ?')
+      .bind(data.challengeId, data.userId, data.date)
+      .first<any>();
+    const nextCount = (existing?.update_count ?? 0) + 1;
+
     const result = await db
       .prepare(
-        `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id, image_url) 
-         VALUES (?, ?, ?, ?, ?, ?) 
-         ON CONFLICT(challenge_id, user_id, date) DO NOTHING`
+        `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id, image_url, cards_studied, minutes_studied, update_count, updated_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+         ON CONFLICT(challenge_id, user_id, date) DO UPDATE SET
+           discord_id = excluded.discord_id,
+           channel_id = excluded.channel_id,
+           image_url = COALESCE(excluded.image_url, checkins.image_url),
+           cards_studied = COALESCE(excluded.cards_studied, checkins.cards_studied),
+           minutes_studied = COALESCE(excluded.minutes_studied, checkins.minutes_studied),
+           update_count = checkins.update_count + 1,
+           updated_at = CURRENT_TIMESTAMP`
       )
       .bind(
         data.challengeId,
@@ -212,23 +232,32 @@ export async function recordCheckinInDB(
         data.date,
         data.discordId || null,
         data.channelId || null,
-        data.imageUrl || null
+        data.imageUrl || null,
+        cards,
+        minutes
       )
       .run();
-    return (result?.meta?.changes ?? 0) > 0;
+    const changed = (result?.meta?.changes ?? 0) > 0;
+    return { isNew: !existing, updateCount: nextCount };
   } catch (e: any) {
-    // Fallback nếu column image_url chưa được migrate trên D1 production
+    // Fallback nếu cột mới chưa được migrate trên D1 production
     const msg = String(e?.message || e);
     if (msg.includes('no column') || msg.includes('no such column') || msg.includes('has no column')) {
-      const result = await db
+      const existing = await db
+        .prepare('SELECT id FROM checkins WHERE challenge_id = ? AND user_id = ? AND date = ?')
+        .bind(data.challengeId, data.userId, data.date).first<any>();
+      await db
         .prepare(
-          `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id) 
-           VALUES (?, ?, ?, ?, ?) 
-           ON CONFLICT(challenge_id, user_id, date) DO NOTHING`
+          `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id, image_url)
+           VALUES (?, ?, ?, ?, ?, ?)
+           ON CONFLICT(challenge_id, user_id, date) DO UPDATE SET
+             discord_id = excluded.discord_id,
+             channel_id = excluded.channel_id,
+             image_url = COALESCE(excluded.image_url, checkins.image_url)`
         )
-        .bind(data.challengeId, data.userId, data.date, data.discordId || null, data.channelId || null)
+        .bind(data.challengeId, data.userId, data.date, data.discordId || null, data.channelId || null, data.imageUrl || null)
         .run();
-      return (result?.meta?.changes ?? 0) > 0;
+      return { isNew: !existing, updateCount: existing ? 2 : 1 };
     }
     throw e;
   }

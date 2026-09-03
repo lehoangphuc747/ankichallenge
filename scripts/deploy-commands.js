@@ -26,7 +26,19 @@ const COMMANDS = [
       {
         type: 3, // STRING
         name: 'date',
-        description: 'Ngày check-in: bỏ trống = hôm nay, hoặc hq, hn, 15/8, YYYY-MM-DD',
+        description: 'Ngày check-in (bắt buộc): hôm nay, hq, hk, hoặc 15/8, YYYY-MM-DD',
+        required: true,
+      },
+      {
+        type: 4, // INTEGER
+        name: 'cards',
+        description: 'Số thẻ đã học hôm nay (tùy chọn, đỡ phải đọc ảnh)',
+        required: false,
+      },
+      {
+        type: 4, // INTEGER
+        name: 'minutes',
+        description: 'Số phút đã học hôm nay (tùy chọn)',
         required: false,
       },
     ],

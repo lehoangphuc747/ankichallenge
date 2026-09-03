@@ -15,12 +15,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const challengeId = Number(body.challengeId)||4;
 
   // Đảm bảo cột tồn tại
-  try {
-    await env.DB.prepare('ALTER TABLE checkins ADD COLUMN cards_studied INTEGER').run();
-  } catch(e:any){ const m=String(e?.message||''); /* duplicate column -> ok */ }
-  try {
-    await env.DB.prepare('ALTER TABLE checkins ADD COLUMN minutes_studied REAL').run();
-  } catch(e:any){ /* duplicate column -> ok */ }
+  for (const col of [
+    'ALTER TABLE checkins ADD COLUMN cards_studied INTEGER',
+    'ALTER TABLE checkins ADD COLUMN minutes_studied REAL',
+    'ALTER TABLE checkins ADD COLUMN update_count INTEGER DEFAULT 1',
+    'ALTER TABLE checkins ADD COLUMN updated_at DATETIME',
+  ]) {
+    try { await env.DB.prepare(col).run(); } catch(e:any){ /* duplicate -> ok */ }
+  }
 
   let updated=0, missing=0;
   for (const r of rows){
