@@ -2,14 +2,26 @@ name: Daily Discord Thread - AC11
 
 on:
   schedule:
-    - cron: '0 17 * * *'  # 00:00 Asia/Ho_Chi_Minh (17:00 UTC)
+    - cron: '1 17 * * *'  # 00:01 Asia/Ho_Chi_Minh (17:01 UTC)
   workflow_dispatch:     # cho phép bấm chạy thủ công
 
 jobs:
   create-thread:
     runs-on: ubuntu-latest
     steps:
+      - name: Check if challenge is still active
+        id: check
+        run: |
+          END_DATE="2026-12-09"
+          TODAY=$(TZ="Asia/Ho_Chi_Minh" date +%Y-%m-%d)
+          echo "Today (VN): $TODAY | Challenge ends: $END_DATE"
+          if [[ "$TODAY" > "$END_DATE" ]]; then
+            echo "active=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "active=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Create daily thread
+        if: steps.check.outputs.active == 'true'
         run: |
           echo "Calling create-daily-thread..."
           RESP=$(curl -s -w "\n%{http_code}" -X POST "https://ankichallenge.pages.dev/api/discord/create-daily-thread" \
