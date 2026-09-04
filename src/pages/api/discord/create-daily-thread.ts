@@ -54,6 +54,8 @@ export const POST: APIRoute = async ({ request, locals }) => {
   const dayLabel = day < 1 ? `Test-${ddmm}` : `D${day}-${ddmm}`;
   const ddmmSlash = `${ddmm.slice(0, 2)}/${ddmm.slice(3, 5)}`; // DD/MM
   const dateExample = vnDate.replace(/\//g, '/'); // DD/MM/YYYY
+  const quote = (quotes as Record<string, { text: string; author: string }>)[String(day)];
+  const quoteBlock = quote ? `\n\n> ${quote.text}\n> — *${quote.author}*` : '';
   const guide =
     `\n\n📌 **Check-in (điểm danh + ảnh bắt buộc):**\n` +
     `\n` +
@@ -67,7 +69,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
     `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
   const messageContent = day < 1
     ? `## [TEST] Ngày ${day} - ${vnDate} (trước ngày bắt đầu 01/09/2026)`
-    : `## Ngày ${day} - ${vnDate}${guide}`;
+    : `## Ngày ${day} - ${vnDate}${quoteBlock}${guide}`;
 
   const headers: Record<string, string> = {
     'Authorization': `Bot ${token}`,
@@ -104,17 +106,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     const threadId = threadJson.id;
 
-    // 3. Post daily quote if available
-    const quote = (quotes as Record<string, { text: string; author: string }>)[String(day)];
-    if (quote) {
-      const quoteContent = `> ${quote.text}\n> — *${quote.author}*`;
-      await fetch(`https://discord.com/api/v10/channels/${threadId}/messages`, {
-        method: 'POST',
-        headers,
-        body: JSON.stringify({ content: quoteContent }),
-      }).catch(() => {});
-    }
-
     return new Response(JSON.stringify({
       success: true,
       day,
@@ -123,7 +114,6 @@ export const POST: APIRoute = async ({ request, locals }) => {
       threadId,
       threadName: threadJson.name,
       messageContent,
-      quotePosted: !!quote,
     }), { headers: { 'Content-Type': 'application/json' } });
 
   } catch (e: any) {
