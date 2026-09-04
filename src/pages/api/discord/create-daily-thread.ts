@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import quotes from '../../../utils/daily-quotes.json';
 export const prerender = false;
 
 const CHANNEL_ID = "1541493820242264256";
@@ -88,14 +89,28 @@ export const POST: APIRoute = async ({ request, locals }) => {
       return new Response(JSON.stringify({ error: 'Failed to create thread', details: threadJson, messageId }), { status: 502, headers: { 'Content-Type': 'application/json' } });
     }
 
+    const threadId = threadJson.id;
+
+    // 3. Post daily quote if available
+    const quote = (quotes as Record<string, { text: string; author: string }>)[String(day)];
+    if (quote) {
+      const quoteContent = `> ${quote.text}\n> — *${quote.author}*`;
+      await fetch(`https://discord.com/api/v10/channels/${threadId}/messages`, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ content: quoteContent }),
+      }).catch(() => {});
+    }
+
     return new Response(JSON.stringify({
       success: true,
       day,
       vnDate,
       messageId,
-      threadId: threadJson.id,
+      threadId,
       threadName: threadJson.name,
       messageContent,
+      quotePosted: !!quote,
     }), { headers: { 'Content-Type': 'application/json' } });
 
   } catch (e: any) {
