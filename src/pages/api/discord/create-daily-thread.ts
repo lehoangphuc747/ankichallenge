@@ -52,9 +52,22 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
   // If before challenge start (day < 1), still allow but mark as Test
   const dayLabel = day < 1 ? `Test-${ddmm}` : `D${day}-${ddmm}`;
+  const ddmmSlash = `${ddmm.slice(0, 2)}/${ddmm.slice(3, 5)}`; // DD/MM
+  const dateExample = vnDate.replace(/\//g, '/'); // DD/MM/YYYY
+  const guide =
+    `\n\n📌 **Check-in (điểm danh + ảnh bắt buộc):**\n` +
+    `\n` +
+    `/checkin image:ảnh date:hn   → hôm nay\n` +
+    `/checkin image:ảnh date:hq   → hôm qua (hôm kia: hk)\n` +
+    `/checkin image:ảnh date:${ddmmSlash} → ngày cụ thể\n` +
+    `\n` +
+    `📊 **Tuỳ chọn khai thêm số thẻ & phút:**\n` +
+    `/checkin image:ảnh date:hn cards:100 minutes:45\n` +
+    `\n` +
+    `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
   const messageContent = day < 1
     ? `## [TEST] Ngày ${day} - ${vnDate} (trước ngày bắt đầu 01/09/2026)`
-    : `## Ngày ${day} - ${vnDate}`;
+    : `## Ngày ${day} - ${vnDate}${guide}`;
 
   const headers: Record<string, string> = {
     'Authorization': `Bot ${token}`,
