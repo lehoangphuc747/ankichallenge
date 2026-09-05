@@ -114,3 +114,18 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - All API routes use `prerender = false`
 - Data files in `public/data/` are `.gitignore`d from watch
 - Auth via Discord OAuth + JWT session cookies
+
+## OCR Check-in & Data Processing
+- **Công cụ OCR**: Bắt buộc sử dụng công cụ đọc thị giác của Gemini (`view_file` trên file ảnh), không dùng thư viện OCR bên ngoài để đảm bảo độ chính xác đọc số thẻ, thời gian, streak và tên deck.
+- **Phân luồng song song**: Khi xử lý lượng ảnh lớn của nhiều ngày, chủ động phân chia nhiệm vụ cho các subagents theo từng ngày (Day) hoặc batch ảnh để tăng tốc độ xử lý.
+- **Lưu trữ dữ liệu**: Kết quả trích xuất được tổng hợp chuẩn hóa vào `discord-export/ocr-results.json` với định dạng `{ [msgId]: { file, user, cards, minutes, streak, deck, detail } }`.
+
+## Reporting, Charts & Dashboard Conventions
+- **Ngôn ngữ**: 100% Tiếng Việt cho tiêu đề, chú thích, nhãn trục và giao diện báo cáo/thống kê.
+- **Xuất ảnh biểu đồ**: Tạo biểu đồ JPG độ phân giải cao (tối thiểu DPI 200) với bố cục rõ ràng, phối màu ấm áp (Terracotta & Nền kem).
+- **Dashboard tương tác**: Khi người dùng yêu cầu xem dạng web/HTML, tạo file `.html` độc lập (standalone) chứa sẵn CSS/JS (Chart.js), theo phong cách **Claude warm style** (Terracotta `#CC785C`, nền kem `#FAF9F5`, bo góc mềm mại, KPI cards, hệ thống tab chuyển đổi) để người dùng có thể mở trực tiếp trên trình duyệt mà không cần chạy server.
+
+## Windows PowerShell Script Execution Rule
+- Tránh chạy các lệnh inline phức tạp nhiều dòng qua `node -e "..."` hoặc `python -c "..."` vì PowerShell dễ bị lỗi parsing/escaping với các ký tự đặc biệt (`$`, `&`, `()`, `--`, template literal backticks).
+- **Giải pháp chuẩn**: Luôn ghi mã nguồn ra file script cụ thể trong thư mục `scripts/` (ví dụ `scripts/temp_script.js`), thực thi file qua terminal, rồi dọn dẹp file tạm nếu không cần lưu trữ.
+

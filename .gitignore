@@ -34,4 +34,5 @@ tmp/
 # Discord thread export (messages + member screenshots, contains PII)
 discord-export/
 
-
+# IDE & workspace local settings
+.commandcode/

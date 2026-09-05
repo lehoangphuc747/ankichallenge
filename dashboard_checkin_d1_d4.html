@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anki Challenge 11 — Bảng Thống Kê & Xếp Hạng Check-in D1 - D4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg: #FAF9F5;
+      --card-bg: #FFFFFF;
+      --text-main: #2D2A26;
+      --text-muted: #736E65;
+      --primary: #CC785C;
+      --primary-hover: #BA6449;
+      --primary-light: #FBF0EC;
+      --forest: #4A7C59;
+      --forest-light: #EBF3EE;
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --navy: #2B4C7E;
+      --border: #E8E5DE;
+      --border-subtle: #F0EDE6;
+      --shadow: 0 4px 20px -2px rgba(45, 42, 38, 0.05);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.6; padding: 32px 20px 80px; }
+    .container { max-width: 1240px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 20px; }
+    .brand-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); font-weight: 700; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; padding: 6px 14px; border-radius: 999px; margin-bottom: 12px; border: 1px solid rgba(204, 120, 92, 0.2); }
+    .title { font-family: 'Newsreader', Georgia, serif; font-size: 38px; font-weight: 600; color: var(--text-main); letter-spacing: -0.5px; line-height: 1.2; }
+    .subtitle { color: var(--text-muted); font-size: 15px; margin-top: 6px; }
+    .header-actions { display: flex; gap: 12px; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: var(--radius-md); font-weight: 600; font-size: 14px; cursor: pointer; text-decoration: none; transition: all 0.2s ease; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); }
+    .btn:hover { background: #F3F1EA; border-color: #D6D1C4; }
+    .btn-primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-primary:hover { background: var(--primary-hover); border-color: var(--primary-hover); color: #fff; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-bottom: 32px; }
+    .kpi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); position: relative; overflow: hidden; }
+    .kpi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; }
+    .kpi-card.cards::before { background: var(--primary); }
+    .kpi-card.learners::before { background: var(--forest); }
+    .kpi-card.time::before { background: var(--amber); }
+    .kpi-card.avg::before { background: var(--navy); }
+    .kpi-label { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .kpi-val { font-size: 34px; font-weight: 800; color: var(--text-main); line-height: 1.1; margin-bottom: 6px; }
+    .kpi-desc { font-size: 13px; color: var(--text-muted); }
+    .charts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); gap: 24px; margin-bottom: 32px; }
+    @media (max-width: 600px) { .charts-grid { grid-template-columns: 1fr; } }
+    .chart-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-title { font-size: 18px; font-weight: 700; color: var(--text-main); }
+    .card-subtitle { font-size: 13px; color: var(--text-muted); }
+    .chart-container { position: relative; height: 280px; width: 100%; }
+    .tabs-wrapper { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); margin-bottom: 32px; }
+    .tabs-header { display: flex; gap: 10px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { padding: 8px 18px; border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-weight: 600; font-size: 13px; cursor: pointer; transition: all 0.2s ease; }
+    .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .tab-btn:hover:not(.active) { background: #F4F2EB; color: var(--text-main); }
+    .table-container { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+    th { background: #FAF8F2; color: var(--text-muted); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    td { padding: 14px 16px; border-bottom: 1px solid var(--border-subtle); color: var(--text-main); }
+    tr:hover td { background: #FDFCF9; }
+    .rank-badge { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; font-weight: 700; font-size: 13px; }
+    .rank-1 { background: #FEF3C7; color: #B45309; }
+    .rank-2 { background: #F3F4F6; color: #4B5563; }
+    .rank-3 { background: #FED7AA; color: #9A3412; }
+    .rank-other { color: var(--text-muted); }
+    .tag { display: inline-block; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; }
+    .tag-day1 { background: #FEF2F2; color: #991B1B; }
+    .tag-day2 { background: #ECFDF5; color: #065F46; }
+    .tag-day3 { background: #EFF6FF; color: #1E40AF; }
+    .tag-day4 { background: #FFFBEB; color: #92400E; }
+    .footer { text-align: center; color: var(--text-muted); font-size: 13px; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <div>
+        <div class="brand-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Anki Challenge Vietnam
+        </div>
+        <h1 class="title">Bảng Thống Kê & Xếp Hạng Check-in Ngày 1 — Ngày 4</h1>
+        <p class="subtitle">Dữ liệu trích xuất chính xác bằng Gemini Vision OCR từ ảnh check-in Discord (01/09 — 04/09/2026)</p>
+      </div>
+      <div class="header-actions">
+        <a href="anki_challenge_d1_d4_chart.jpg" target="_blank" class="btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+          Xem File JPG Biểu Đồ
+        </a>
+        <button id="btnPrint" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+          In Báo Cáo
+        </button>
+      </div>
+    </header>
+
+    <div class="kpi-grid">
+      <div class="kpi-card cards">
+        <div class="kpi-label">Tổng Số Thẻ Đã Học</div>
+        <div class="kpi-val">33,461</div>
+        <div class="kpi-desc">Được ghi nhận từ 90+ lượt check-in qua 4 ngày</div>
+      </div>
+      <div class="kpi-card learners">
+        <div class="kpi-label">Tổng Lượt Check-in Hợp Lệ</div>
+        <div class="kpi-val">90</div>
+        <div class="kpi-desc">Tất cả ảnh đều được xác thực số liệu qua OCR</div>
+      </div>
+      <div class="kpi-card time">
+        <div class="kpi-label">Kỷ Lục Thẻ 1 Ngày</div>
+        <div class="kpi-val">2,677</div>
+        <div class="kpi-desc">Thiết lập vào Ngày 3 (03/09/2026)</div>
+      </div>
+      <div class="kpi-card avg">
+        <div class="kpi-label">Trung Bình Thẻ / Ngày</div>
+        <div class="kpi-val">8,365</div>
+        <div class="kpi-desc">Toàn bộ cộng đồng duy trì phong độ ấn tượng</div>
+      </div>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Tổng Số Thẻ Học & Ôn Tập Theo Ngày</div>
+            <div class="card-subtitle">Diễn biến số lượng thẻ ôn tập từ Ngày 1 đến Ngày 4</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="dailyCardsChart"></canvas>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="card-header">
+          <div>
+            <div class="card-title">Số Thành Viên Điểm Danh Theo Ngày</div>
+            <div class="card-subtitle">Số lượng người check-in kèm ảnh thống kê hợp lệ</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <canvas id="dailyLearnersChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs-wrapper">
+      <div class="card-header">
+        <div>
+          <div class="card-title">Bảng Xếp Hạng & Dữ Liệu Chi Tiết</div>
+          <div class="card-subtitle">Chọn tab để xem top thành viên và từng ngày check-in</div>
+        </div>
+      </div>
+
+      <div class="tabs-header">
+        <button class="tab-btn active" id="tabBtnTopUsers">🏆 Top Thành Viên (Ngày 1 & Ngày 2)</button>
+        <button class="tab-btn" id="tabBtnTopSingle">🔥 Kỷ Lục 1 Ngày (Ngày 1 — Ngày 4)</button>
+        <button class="tab-btn" id="tabBtnDay1">Ngày 1 (29 bản ghi)</button>
+        <button class="tab-btn" id="tabBtnDay2">Ngày 2 (17 bản ghi)</button>
+        <button class="tab-btn" id="tabBtnDay3">Ngày 3 (33 bản ghi)</button>
+        <button class="tab-btn" id="tabBtnDay4">Ngày 4 (15 bản ghi)</button>
+      </div>
+
+      <div class="table-container">
+        <table id="dataTable">
+          <thead id="tableHead"></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="footer">
+      © 2026 Anki Challenge Vietnam • Dữ liệu được trích xuất bằng Gemini Vision OCR
+    </footer>
+  </div>
+
+  <script>
+    const RAW_DATA = {"meta":{"source":"Antigravity Gemini OCR read from Day1/Day2/Day3/Day4 checkin screenshots","dateGenerated":"2026-09-05","note":"Day1 & Day2: mapped by discordId. Day3 (33 images) & Day4 (15 images): OCR via Gemini Vision view_file with exact cards, minutes, streak, and details."},"day1":{"438960335983083530":{"user":"Gai Hàn TOPIK 6 xin vía","cards":439,"minutes":187.13,"detail":"Daily avg 408 · Days 89% · Longest 382d · 25.58s/card"},"1446504123657748651":{"user":"Tram","cards":262,"minutes":null,"detail":"heatmap: 262 cards reviewed Tue Sep 1"},"616159212980011018":{"user":"Aleye","cards":351,"minutes":null,"detail":"Total 351 ôn tập (deck), Daily load 205 · khong phai dashboard 'studied' rõ"},"1465133555574243348":{"user":"Gai con HaVy trộm vía","cards":518,"minutes":null,"detail":"Chinese HSK6 · 518 thẻ ôn tập 01/09 · Daily load 553"},"534726411521490956":{"user":"Dan1elP","cards":121,"minutes":5.71,"detail":"Learn 104 · Again 39 · 2.83s/card"},"770311204396466198":{"user":"Huyền","cards":23,"minutes":null,"detail":"23 thẻ ôn tập 01/09 · Daily load 19"},"871985158151106571":{"user":"Paul","cards":246,"minutes":null,"detail":"246 cards reviewed Tue Sep 1 · Daily avg 138 · streak 460d"},"1375756159834783755":{"user":"0","cards":285,"minutes":30.3,"detail":"pktruong · 6.38s/card · streak 2"},"711153532392308767":{"user":"Alan Le","cards":67,"minutes":32.08,"detail":"Learn 67 · 28.73s/card"},"705779271603322911":{"user":"Minh may mắn","cards":71,"minutes":23.7,"detail":"Die Trying!!! · 20.1s/card · retention 100% · 26d streak"},"1446702112347127869":{"user":"nothinn","cards":38,"minutes":null,"detail":"38 cards reviewed Tue Sep 1 · Days 91% · streak 268d"},"883936057878536222":{"user":"Linh","cards":142,"minutes":null,"detail":"142 cards reviewed Tue Sep 1 · Daily avg 81 · streak 258d"},"963399002466955314":{"user":"thientrng","cards":28,"minutes":null,"detail":"28 reviews done today · 177d streak"},"1503052423390957772":{"user":"Danneee05","cards":345,"minutes":null,"detail":"11 AA topik2025 · 345 thẻ ôn tập 01/09"},"1340307678215405710":{"user":"Ethan NP","cards":2525,"minutes":387.64,"detail":"9.21s/card · Daily avg 295 · streak 1165d"},"1488741701823500390":{"user":"FuonG","cards":50,"minutes":5.21,"detail":"SIC-Si Vật lý · 6.26s/card"},"894143041298894859":{"user":"Hhoopj","cards":259,"minutes":null,"detail":"259 cards reviewed Tue Sep 1 · streak 41d"},"1128985878367318116":{"user":"Hana đang học","cards":0,"minutes":null,"detail":"Deck list: Active Learning 248, CopyWriting 78, TIẾNG TRUNG 348, TOEIC 393... (chủ yếu new cards, chưa rõ 'studied')"},"1424374539177164861":{"user":"TaiTran","cards":167,"minutes":null,"detail":"167 cards reviewed Tue Sep 1 · Daily avg 152 · streak 508d"},"792983013340086293":{"user":"Dulgi","cards":246,"minutes":null,"detail":"246 cards reviewed Tue Sep 1 · Days 35% · streak 460d"},"1410392551634112640":{"user":"Sunny","cards":172,"minutes":null,"detail":"Cambridge Vocab IELTS L11 · 172 thẻ ôn tập · Daily load 98"},"756776493685669940":{"user":"z9b","cards":779,"minutes":32,"detail":"Done 779 · 2.5s/card · Time 32m · avg 7 · streak 2"},"790859151734996992":{"user":"TheMink","cards":231,"minutes":null,"detail":"231 cards reviewed Tue Sep 1"},"1393440400038957157":{"user":"Serene Flow","cards":51,"minutes":null,"detail":"51 cards reviewed Tue Sep 1"},"838271094170583120":{"user":"stuna1604#8722","cards":18,"minutes":null,"detail":"18 thẻ ôn tập 02/09(D2-anh lộn) · Daily load 5 · Ôn tập tổng 65"},"1353193643866984490":{"user":"Anh 3 Khía","cards":44,"minutes":null,"detail":"44 thẻ ôn tập · ngày 2/9"},"895672321916960838":{"user":"Ava","cards":162,"minutes":null,"detail":"162 reviews Tuesday September 1"},"1315027452430516246":{"user":"*♡ xinh láo ✧*。","cards":145,"minutes":20.73,"detail":"AnkiDroid N1 · 8.58s/card · total 5868 thẻ"},"1532000627121721516":{"user":"(bot)","cards":null,"minutes":null,"detail":"bot / admin message"}},"day2":{"438960335983083530":{"user":"Gai Hàn TOPIK 6 xin vía","cards":405,"minutes":97.02,"detail":"Daily avg 408 · Days 89% · Longest 382d · 14.37s/card"},"1446504123657748651":{"user":"Tram","cards":90,"minutes":null,"detail":"90 cards reviewed Wed Sep 2 · Daily avg 152 · streak 509d"},"616159212980011018":{"user":"Aleye","cards":209,"minutes":15.93,"detail":"Da hoc 209 the trong 15,93 phut · 4.57s/card · 19d streak"},"534726411521490956":{"user":"Dan1elP","cards":122,"minutes":14.29,"detail":"7.03s/card · avg 8.54 cards/min"},"770311204396466198":{"user":"Huyền","cards":25,"minutes":null,"detail":"25 thẻ ôn tập 02/09 · Daily load 5"},"871985158151106571":{"user":"Paul","cards":416,"minutes":null,"detail":"416 cards reviewed Wed Sep 2 · Daily avg 138 · streak 461d"},"1375756159834783755":{"user":"0","cards":318,"minutes":46.3,"detail":"pktruong · 8.74s/card · 3 streak"},"705779271603322911":{"user":"Minh may mắn","cards":71,"minutes":23.7,"detail":"Die Trying!!! · 20.1s/card · 100% retention"},"963399002466955314":{"user":"thientrng","cards":45,"minutes":null,"detail":"45 reviews done today · 02/09"},"1503052423390957772":{"user":"Danneee05","cards":178,"minutes":null,"detail":"11 AA topik2025 · 178 thẻ ôn tập 02/09"},"1340307678215405710":{"user":"Ethan NP","cards":1188,"minutes":149.26,"detail":"7.54s/card · Daily avg 295 · streak 1166d"},"894143041298894859":{"user":"Hhoopj","cards":371,"minutes":null,"detail":"371 cards reviewed Wed Sep 2"},"1128985878367318116":{"user":"Hana đang học","cards":760,"minutes":78.6,"detail":"Studied 760 cards in 1.31 hours (78.6 min) · 6.21s/card"},"1424374539177164861":{"user":"TaiTran","cards":284,"minutes":7.42,"detail":"Đã học 284 thẻ trong 7,42 phút · 1.57s/card"},"792983013340086293":{"user":"Dulgi","cards":416,"minutes":null,"detail":"416 cards reviewed Wed Sep 2 · Days 36% · streak 461d"},"883936057878536222":{"user":"Linh","cards":68,"minutes":null,"detail":"68 cards reviewed Wed Sep 2"},"1315027452430516246":{"user":"*♡ xinh láo ✧*。","cards":145,"minutes":20.73,"detail":"AnkiDroid N1 · 8.58s/card (ảnh trùng Day1)"}},"day3":{"1544926830199316551":{"cards":178,"minutes":null,"streak":null,"deck":null,"detail":"178 cards reviewed on Wednesday Sep 2, 2026"},"1544926938844504115":{"cards":178,"minutes":null,"streak":null,"deck":null,"detail":"178 cards reviewed on Wednesday Sep 2, 2026 (duplicate)"},"1544932414386741288":{"cards":93,"minutes":37.96,"streak":34,"deck":null,"detail":"Studied 93 cards in 37.96m (24.49s/card) · Daily avg 408 · streak 34d"},"1544942140428132432":{"cards":136,"minutes":52.18,"streak":34,"deck":null,"detail":"Studied 136 cards in 52.18m (23.02s/card) · Daily avg 408 · streak 34d"},"1544958629428461628":{"cards":47,"minutes":12.05,"streak":null,"deck":null,"detail":"Studied 47 cards in 12.05m (15.39s/card) · Again 1 (2.13%) · Learn 47, Review 0"},"1544958785448185956":{"cards":122,"minutes":null,"streak":null,"deck":"1 Chinese (HSK9)::Từ vựng::HSK6","detail":"122 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: 1 Chinese (HSK9)::Từ vựng::HSK6"},"1544976339428319332":{"cards":89,"minutes":null,"streak":null,"deck":null,"detail":"89 cards reviewed on Thursday Sep 3, 2026"},"1544997189091069983":{"cards":2677,"minutes":null,"streak":null,"deck":null,"detail":"2,677 cards reviewed on Thursday Sep 3, 2026"},"1545045279722569758":{"cards":210,"minutes":70.7,"streak":27,"deck":null,"detail":"Studied 210 cards in 70.7m · Pace 20.2s/card · Retention 100% · Streak 27 days"},"1545053025893224519":{"cards":1497,"minutes":null,"streak":null,"deck":"11 AA topik2025","detail":"1,497 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: 11 AA topik2025"},"1545069262727815190":{"cards":58,"minutes":null,"streak":3,"deck":"SẢN 1","detail":"58 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: SẢN 1 · 3 ngày đã học"},"1545084998476890283":{"cards":4,"minutes":2.29,"streak":3,"deck":"ZHVI HSK 3.0","detail":"Studied 4 cards in 2.29m (34.36s/card) · Current streak 3 days"},"1545085320096125009":{"cards":138,"minutes":null,"streak":null,"deck":null,"detail":"138 cards reviewed on Thursday Sep 3, 2026"},"1545088973305811085":{"cards":75,"minutes":null,"streak":179,"deck":null,"detail":"75 reviews done today · 179 day streak"},"1545095557649801327":{"cards":200,"minutes":null,"streak":510,"deck":null,"detail":"200 cards reviewed on Thursday Sep 3, 2026 · Daily avg 152 · Current streak 510 days"},"1545095935883870299":{"cards":48,"minutes":null,"streak":null,"deck":null,"detail":"48 cards reviewed on Thursday Sep 3, 2026"},"1545096041043337367":{"cards":48,"minutes":null,"streak":null,"deck":null,"detail":"48 cards reviewed on Thursday Sep 3, 2026 (duplicate)"},"1545096918701707294":{"cards":211,"minutes":21.39,"streak":null,"deck":null,"detail":"Studied 211 cards in 21.39 minutes today (6.08s/card)"},"1545102538787790908":{"cards":409,"minutes":null,"streak":187,"deck":null,"detail":"409 cards reviewed on Sep 3, 2026 · Streak: 187 days · Daily avg: 164 cards"},"1545102608946176080":{"cards":409,"minutes":null,"streak":187,"deck":null,"detail":"409 cards reviewed on Sep 3, 2026 · Streak: 187 days (duplicate)"},"1545115098136182885":{"cards":2415,"minutes":280.86,"streak":1167,"deck":null,"detail":"Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days"},"1545115203124068424":{"cards":2415,"minutes":280.86,"streak":1167,"deck":null,"detail":"Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days (duplicate)"},"1545122848652263474":{"cards":11,"minutes":null,"streak":268,"deck":null,"detail":"11 cards reviewed on Sep 3, 2026 · Longest streak: 268 days · Daily avg: 102 cards"},"1545125173210910760":{"cards":104,"minutes":4.48,"streak":null,"deck":null,"detail":"Studied 104 cards in 4.48 minutes today (2.58s/card) · Again: 28"},"1545136534569623583":{"cards":425,"minutes":63.8,"streak":null,"deck":"徹底トレーニング N1","detail":"Đã học 425 thẻ trong 63.8 phút hôm nay (9.01s/thẻ) · Deck: 徹底トレーニング N1"},"1545137004734324866":{"cards":181,"minutes":51.46,"streak":null,"deck":null,"detail":"Studied 181 cards in 51.46 minutes today (17.06s/card)"},"1545137163342061619":{"cards":181,"minutes":51.46,"streak":null,"deck":null,"detail":"Studied 181 cards in 51.46 minutes today (17.06s/card) (duplicate)"},"1545446470356967525":{"cards":106,"minutes":14,"streak":null,"deck":null,"detail":"THG 9 03 · 106 REV · 8.2 S/C · 77.8% RET · 14 m · 32 NEW"},"1545454726282223769":{"cards":6,"minutes":null,"streak":null,"deck":null,"detail":"Thursday, September 3, 2026 · 6 reviews"},"1545455546658857030":{"cards":14,"minutes":null,"streak":null,"deck":null,"detail":"Thứ Năm, ngày 3 tháng 9, 2026 · 14 thẻ ôn tập"},"1545459282655453204":{"cards":150,"minutes":null,"streak":null,"deck":null,"detail":"150 cards reviewed on Thursday September 3, 2026"},"1545467344078245968":{"cards":null,"minutes":null,"streak":4,"deck":null,"detail":"Heatmap ô màu 4 ngày liên tiếp (không có số thẻ cụ thể)"},"1545474236833996870":{"cards":34,"minutes":2.98,"streak":null,"deck":null,"detail":"Studied 34 cards in 2.98 minutes today (5.26s/card)"}},"day4":{"1545196153719623780":{"cards":398,"minutes":8.78,"streak":null,"deck":null,"detail":"Đã học 398 thẻ trong 8,78 phút hôm nay (1,32giây/thẻ)"},"1545270351011909642":{"cards":239,"minutes":null,"streak":null,"deck":null,"detail":"Lịch ôn tập ngày 04/09/2026: 239 thẻ ôn tập"},"1545322754516197376":{"cards":50,"minutes":27.57,"streak":null,"deck":null,"detail":"Studied 50 cards in 27.57 minutes today (33.09s/card)"},"1545338091647012885":{"cards":107,"minutes":26.43,"streak":null,"deck":null,"detail":"Studied 107 cards in 26.43 minutes today (14.82s/card)"},"1545442443187720305":{"cards":null,"minutes":null,"streak":null,"deck":null,"detail":"Review Heatmap icon sao (không hiển thị số thẻ cụ thể)"},"1545445502688952421":{"cards":59,"minutes":null,"streak":4,"deck":"SẢN 1","detail":"59 thẻ ôn tập ngày 04/09/2026 · Bộ thẻ: SẢN 1 · 4 ngày đã học"},"1545459511689478236":{"cards":656,"minutes":null,"streak":null,"deck":null,"detail":"656 cards reviewed on Friday September 4, 2026 · Daily average: 327 cards"},"1545459944545984512":{"cards":684,"minutes":171.21,"streak":null,"deck":null,"detail":"Studied 684 cards in 171.21 minutes today (15.02s/card)"},"1545460370309775500":{"cards":177,"minutes":13.88,"streak":5,"deck":null,"detail":"Studied 177 cards in 13.88 minutes (4.71s/card) · Leaderboard: pktruong, streak 5d"},"1545464588932489368":{"cards":23,"minutes":null,"streak":4,"deck":null,"detail":"23 cards reviewed on Sep 4, 2026 · Current streak: 4 days"},"1545465600262934620":{"cards":132,"minutes":null,"streak":188,"deck":null,"detail":"132 cards reviewed on Sep 4, 2026 · Current streak: 188 days · Daily avg: 164"},"1545470296461414490":{"cards":112,"minutes":null,"streak":null,"deck":"1 Chinese (HSK9)::Từ vựng::HSK6","detail":"112 thẻ ôn tập ngày 04/09/2026 · Bộ thẻ: 1 Chinese (HSK9)::Từ vựng::HSK6"},"1545479003387854888":{"cards":2518,"minutes":222.43,"streak":1168,"deck":null,"detail":"Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days"},"1545479226243813486":{"cards":2518,"minutes":222.43,"streak":1168,"deck":null,"detail":"Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days (duplicate)"},"1545486357198147706":{"cards":23,"minutes":15.03,"streak":35,"deck":null,"detail":"Studied 23 cards in 15.03 minutes today (39.21s/card) · streak 35 days"}}};
+    const daysLabel = ['Ngày 1 (01/09)', 'Ngày 2 (02/09)', 'Ngày 3 (03/09)', 'Ngày 4 (04/09)'];
+    const cardsPerDay = [7785, 5111, 12869, 7696];
+    const learnersPerDay = [27, 17, 32, 14];
+
+    document.getElementById('btnPrint').onclick = () => window.print();
+
+    new Chart(document.getElementById('dailyCardsChart'), {
+      type: 'bar',
+      data: {
+        labels: daysLabel,
+        datasets: [{
+          label: 'Số thẻ học',
+          data: cardsPerDay,
+          backgroundColor: '#CC785C',
+          borderRadius: 8,
+          borderSkipped: false,
+          barThickness: 38
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y.toLocaleString() + ' thẻ'
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: { color: '#F0EDE6' },
+            ticks: { callback: (val) => val.toLocaleString() + ' thẻ' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('dailyLearnersChart'), {
+      type: 'bar',
+      data: {
+        labels: daysLabel,
+        datasets: [{
+          label: 'Thành viên',
+          data: learnersPerDay,
+          backgroundColor: '#4A7C59',
+          borderRadius: 8,
+          borderSkipped: false,
+          barThickness: 38
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => ctx.parsed.y + ' người check-in'
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: { color: '#F0EDE6' },
+            ticks: { callback: (val) => val + ' người' }
+          },
+          x: { grid: { display: false } }
+        }
+      }
+    });
+
+    function setTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const btnMap = {
+        topUsers: 'tabBtnTopUsers',
+        topSingle: 'tabBtnTopSingle',
+        day1: 'tabBtnDay1',
+        day2: 'tabBtnDay2',
+        day3: 'tabBtnDay3',
+        day4: 'tabBtnDay4'
+      };
+      if (document.getElementById(btnMap[tabId])) {
+        document.getElementById(btnMap[tabId]).classList.add('active');
+      }
+
+      const thead = document.getElementById('tableHead');
+      const tbody = document.getElementById('tableBody');
+
+      if (tabId === 'topUsers') {
+        thead.innerHTML = '<tr><th>Hạng</th><th>Thành viên</th><th>Tổng số thẻ</th><th>Số ngày học</th><th>Thời gian ghi nhận</th></tr>';
+        const stats = {};
+        ['day1', 'day2'].forEach(d => {
+          Object.values(RAW_DATA[d] || {}).forEach(item => {
+            if (!item.user || item.user === '(bot)') return;
+            if (!stats[item.user]) stats[item.user] = { user: item.user, cards: 0, days: 0, minutes: 0 };
+            if (item.cards > 0) {
+              stats[item.user].cards += item.cards;
+              stats[item.user].days += 1;
+              stats[item.user].minutes += (item.minutes || 0);
+            }
+          });
+        });
+        const sorted = Object.values(stats).sort((a,b) => b.cards - a.cards);
+        tbody.innerHTML = sorted.map((u, i) => {
+          const badgeClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
+          const mins = u.minutes ? u.minutes.toFixed(1) + ' phút' : '—';
+          return '<tr>' +
+            '<td><span class="rank-badge ' + badgeClass + '">' + (i + 1) + '</span></td>' +
+            '<td><strong>' + u.user + '</strong></td>' +
+            '<td><strong style="color: #CC785C;">' + u.cards.toLocaleString() + ' thẻ</strong></td>' +
+            '<td>' + u.days + ' ngày</td>' +
+            '<td>' + mins + '</td>' +
+          '</tr>';
+        }).join('');
+      } else if (tabId === 'topSingle') {
+        thead.innerHTML = '<tr><th>Hạng</th><th>Định danh / Thành viên</th><th>Số thẻ trong ngày</th><th>Ngày</th><th>Chi tiết ghi nhận</th></tr>';
+        const list = [];
+        ['day1', 'day2', 'day3', 'day4'].forEach(d => {
+          Object.entries(RAW_DATA[d] || {}).forEach(([k, item]) => {
+            if ((item.cards || 0) > 0) {
+              const name = item.user || item.deck || ('Ảnh ID ' + k.slice(-4));
+              const dayVN = { day1: 'Ngày 1', day2: 'Ngày 2', day3: 'Ngày 3', day4: 'Ngày 4' }[d];
+              list.push({ name, cards: item.cards, day: dayVN, dayTag: d, detail: item.detail || '' });
+            }
+          });
+        });
+        list.sort((a, b) => b.cards - a.cards);
+        tbody.innerHTML = list.slice(0, 15).map((u, i) => {
+          const badgeClass = i === 0 ? 'rank-1' : i === 1 ? 'rank-2' : i === 2 ? 'rank-3' : 'rank-other';
+          return '<tr>' +
+            '<td><span class="rank-badge ' + badgeClass + '">' + (i + 1) + '</span></td>' +
+            '<td><strong>' + u.name + '</strong></td>' +
+            '<td><strong style="color: #D97706;">' + u.cards.toLocaleString() + ' thẻ</strong></td>' +
+            '<td><span class="tag tag-' + u.dayTag + '">' + u.day + '</span></td>' +
+            '<td style="color: var(--text-muted);">' + u.detail + '</td>' +
+          '</tr>';
+        }).join('');
+      } else {
+        const dayData = RAW_DATA[tabId] || {};
+        thead.innerHTML = '<tr><th>STT</th><th>Thành viên / File</th><th>Số thẻ</th><th>Thời gian</th><th>Streak</th><th>Chi tiết thống kê</th></tr>';
+        const entries = Object.entries(dayData);
+        tbody.innerHTML = entries.map(([k, item], i) => {
+          const c = item.cards !== null && item.cards !== undefined ? item.cards.toLocaleString() + ' thẻ' : '—';
+          const m = item.minutes !== null && item.minutes !== undefined ? item.minutes + ' phút' : '—';
+          const s = item.streak !== null && item.streak !== undefined ? item.streak + ' ngày' : '—';
+          const title = item.user || item.file || k;
+          return '<tr>' +
+            '<td>' + (i + 1) + '</td>' +
+            '<td><strong>' + title + '</strong></td>' +
+            '<td><strong style="color: #CC785C;">' + c + '</strong></td>' +
+            '<td>' + m + '</td>' +
+            '<td>' + s + '</td>' +
+            '<td style="color: var(--text-muted);">' + (item.detail || '—') + '</td>' +
+          '</tr>';
+        }).join('');
+      }
+    }
+
+    document.getElementById('tabBtnTopUsers').onclick = () => setTab('topUsers');
+    document.getElementById('tabBtnTopSingle').onclick = () => setTab('topSingle');
+    document.getElementById('tabBtnDay1').onclick = () => setTab('day1');
+    document.getElementById('tabBtnDay2').onclick = () => setTab('day2');
+    document.getElementById('tabBtnDay3').onclick = () => setTab('day3');
+    document.getElementById('tabBtnDay4').onclick = () => setTab('day4');
+
+    setTab('topUsers');
+  </script>
+</body>
+</html>
