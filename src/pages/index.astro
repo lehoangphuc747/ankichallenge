@@ -18,8 +18,12 @@ if (sessionCookie) {
   if (loggedUser?.id && env.DB) {
     try {
       const profile = await getUserByDiscordId(env.DB, loggedUser.id);
-      loggedUser.ac11Registered = (profile?.challengeIds || []).some((id: any) => Number(id) === 4);
-      loggedUser.ac11Approved = profile?.ac11Approved === true;
+      if (profile) {
+        loggedUser.memberId = profile.id;
+        loggedUser.memberName = profile.name;
+        loggedUser.ac11Registered = (profile?.challengeIds || []).some((id: any) => Number(id) === 4);
+        loggedUser.ac11Approved = profile?.ac11Approved === true;
+      }
     } catch (e) {
       console.warn('[index ac11 banner lookup]', e);
     }
