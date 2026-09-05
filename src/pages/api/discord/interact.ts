@@ -550,7 +550,7 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
   if (env.DB) {
     records = await getRecordsFromDB(env.DB, latestCid);
   } else {
-    const kvKey = KV_RECORDS[latestCid] || 'records_10';
+    const kvKey = KV_RECORDS[latestCid] || 'records_11';
     records = await getFromKV<any>(env, kvKey, requestUrl) || {};
   }
 

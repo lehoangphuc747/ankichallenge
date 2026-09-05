@@ -205,6 +205,7 @@ const { userId, challengeId } = Astro.params;
       if (challengeId == 1) prefix = '08';
       if (challengeId == 2) prefix = '09';
       if (challengeId == 3) prefix = '10';
+      if (challengeId == 4) prefix = '11';
 
       const recordsRes = await fetch(`/api/data/records_${prefix}` + cb);
       if (!recordsRes.ok) {

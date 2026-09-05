@@ -92,6 +92,7 @@ export function getStaticPaths() {
             <option value="1">Anki Challenge 8</option>
             <option value="2">Anki Challenge 9</option>
             <option value="3">Anki Challenge 10</option>
+            <option value="4">Anki Challenge 11</option>
           </select>
         </div>
         <!-- Search Input -->
@@ -396,6 +397,7 @@ export function getStaticPaths() {
         if (cid == 1) prefix = '08';
         if (cid == 2) prefix = '09';
         if (cid == 3) prefix = '10';
+        if (cid == 4) prefix = '11';
         try {
           const res = await fetch(`/api/data/records_${prefix}` + cacheBuster);
           if (res.ok) return await res.json();
@@ -618,16 +620,16 @@ export function getStaticPaths() {
       `;
     }
 
-    // Stats grid - show current selected challenge or first challenge
-    updateStatsDisplay(challengeStats);
-
-    // Display certificates
-    displayCertificates(user, challengeStats);
-
     // Calendar view - display current challenge only
     const displayStats = currentViewChallengeId 
       ? challengeStats.filter(s => s.challengeId === currentViewChallengeId)
       : [challengeStats[0]];
+
+    // Stats grid - show current selected challenge
+    updateStatsDisplay(displayStats);
+
+    // Display certificates
+    displayCertificates(user, challengeStats);
     
     displayCalendars(displayStats);
 
@@ -764,7 +766,8 @@ export function getStaticPaths() {
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       const effectiveEndDate = todayStr < dateRange.end ? todayStr : dateRange.end;
-      const daysSoFar = Math.ceil((new Date(effectiveEndDate) - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      let daysSoFar = Math.ceil((new Date(effectiveEndDate).getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      if (!Number.isFinite(daysSoFar) || daysSoFar < 1) daysSoFar = 1;
       const disciplinePercentage = Math.round((stat.totalDays / daysSoFar) * 100);
       
       // Xác định trạng thái: completed nếu đã kết thúc hoặc đạt 100%, progress nếu đang diễn ra
@@ -909,6 +912,7 @@ export function getStaticPaths() {
       if (challengeId == 1) prefix = '08';
       if (challengeId == 2) prefix = '09';
       if (challengeId == 3) prefix = '10';
+      if (challengeId == 4) prefix = '11';
       const recordsRes = await fetch(`/api/data/records_${prefix}` + cb);
       const studyRecordsData = await recordsRes.json();
 
@@ -1361,8 +1365,9 @@ export function getStaticPaths() {
       const today = new Date();
       const todayStr = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       const effectiveEndDate = todayStr < dateRange.end ? todayStr : dateRange.end;
-      const daysSoFar = Math.ceil((new Date(effectiveEndDate) - startDate) / (1000 * 60 * 60 * 24)) + 1;
-      const totalChallengeDays = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+      let daysSoFar = Math.ceil((new Date(effectiveEndDate).getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+      if (!Number.isFinite(daysSoFar) || daysSoFar < 1) daysSoFar = 1;
+      const totalChallengeDays = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
       const disciplinePercentage = Math.round((stat.totalDays / daysSoFar) * 100);
       
       // Make sure stat.dates exists

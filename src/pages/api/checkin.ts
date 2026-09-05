@@ -91,6 +91,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
       if (cid === 1) kvKey = 'records_08';
       if (cid === 2) kvKey = 'records_09';
       if (cid === 3) kvKey = 'records_10';
+      if (cid === 4) kvKey = 'records_11';
 
       type StudyRecords = Record<string, Record<string, boolean>>;
       let records: StudyRecords = await getFromKV(env, kvKey, request.url) || {};

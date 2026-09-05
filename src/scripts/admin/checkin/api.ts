@@ -51,6 +51,7 @@ export async function loadData(targetChallengeId?: number): Promise<void> {
     if (activeChallengeId === 1) challengePrefix = '08';
     if (activeChallengeId === 2) challengePrefix = '09';
     if (activeChallengeId === 3) challengePrefix = '10';
+    if (activeChallengeId === 4) challengePrefix = '11';
 
     let studyRecordsData = {};
     const recordsRes = await Promise.resolve(fetch(`/api/data/records_${challengePrefix}` + cb));
