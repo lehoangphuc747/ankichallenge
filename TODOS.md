@@ -4,6 +4,7 @@ Danh sách công việc đang dở / dự kiến. Cập nhật khi hoàn thành.
 
 ## 🔄 ĐANG LÀM DỞ (chưa commit/deploy)
 
+- [ ] **OCR ảnh check-in bằng Antigravity Gemini**: Day1 + Day2 đã OCR xong (model thường, lưu trong `discord-export/ocr-results.json`). Cần dùng **Antigravity Gemini** để OCR nhanh hơn cho Day3 (33 ảnh) + Day4 (15 ảnh). Tổng 48 ảnh còn lại trong `discord-export/D3-03/09/` và `discord-export/D4-04/09/`.
 - [x] Không còn mục nào đang dở ở đây. (Đã xử lý xong checkin + approve AC11.)
 
 ## 📌 VIỆC DỰ KIẾN / NICE-TO-HAVE
