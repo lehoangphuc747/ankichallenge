@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 4)",
-    "generatedAt": "2026-09-05T08:05:05.734Z",
+    "generatedAt": "2026-09-05T08:39:33.667Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -12,16 +12,16 @@
   "kpi": {
     "totalCards": 33461,
     "totalCheckins": 94,
-    "uniqueUsers": 77,
+    "uniqueUsers": 34,
     "maxSingleDayCards": 2677,
-    "topSingleUser": "User 1544997189091069983",
+    "topSingleUser": "Argentina vô địch thì đổi tên",
     "topAggregateUser": "Ethan NP",
-    "topAggregateCards": 3713
+    "topAggregateCards": 13579
   },
   "deckCategories": {
-    "japanese": 11,
-    "english": 4,
-    "medical": 58,
+    "japanese": 15,
+    "english": 5,
+    "medical": 53,
     "other": 21
   },
   "dailySummary": [
@@ -566,7 +566,7 @@
           "id": "1544997189091069983",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544997189091069983",
+          "user": "Argentina vô địch thì đổi tên",
           "cards": 2677,
           "minutes": 0,
           "streak": null,
@@ -577,7 +577,7 @@
           "id": "1545115098136182885",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545115098136182885",
+          "user": "Ethan NP",
           "cards": 2415,
           "minutes": 280.86,
           "streak": 1167,
@@ -588,7 +588,7 @@
           "id": "1545115203124068424",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545115203124068424",
+          "user": "Ethan NP",
           "cards": 2415,
           "minutes": 280.86,
           "streak": 1167,
@@ -599,7 +599,7 @@
           "id": "1545053025893224519",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545053025893224519",
+          "user": "Danneee05",
           "cards": 1497,
           "minutes": 0,
           "streak": null,
@@ -610,7 +610,7 @@
           "id": "1545136534569623583",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545136534569623583",
+          "user": "*♡ xinh láo ✧*。",
           "cards": 425,
           "minutes": 63.8,
           "streak": null,
@@ -621,7 +621,7 @@
           "id": "1545102538787790908",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545102538787790908",
+          "user": "Hana đang học",
           "cards": 409,
           "minutes": 0,
           "streak": 187,
@@ -632,7 +632,7 @@
           "id": "1545102608946176080",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545102608946176080",
+          "user": "Hana đang học",
           "cards": 409,
           "minutes": 0,
           "streak": 187,
@@ -643,7 +643,7 @@
           "id": "1545096918701707294",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545096918701707294",
+          "user": "0",
           "cards": 211,
           "minutes": 21.39,
           "streak": null,
@@ -654,7 +654,7 @@
           "id": "1545045279722569758",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545045279722569758",
+          "user": "Minh may mắn",
           "cards": 210,
           "minutes": 70.7,
           "streak": 27,
@@ -665,7 +665,7 @@
           "id": "1545095557649801327",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545095557649801327",
+          "user": "TaiTran",
           "cards": 200,
           "minutes": 0,
           "streak": 510,
@@ -676,7 +676,7 @@
           "id": "1545137004734324866",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545137004734324866",
+          "user": "TheMink",
           "cards": 181,
           "minutes": 51.46,
           "streak": null,
@@ -687,7 +687,7 @@
           "id": "1545137163342061619",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545137163342061619",
+          "user": "TheMink",
           "cards": 181,
           "minutes": 51.46,
           "streak": null,
@@ -698,7 +698,7 @@
           "id": "1544926830199316551",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544926830199316551",
+          "user": "PhươngPhương",
           "cards": 178,
           "minutes": 0,
           "streak": null,
@@ -709,7 +709,7 @@
           "id": "1544926938844504115",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544926938844504115",
+          "user": "PhươngPhương",
           "cards": 178,
           "minutes": 0,
           "streak": null,
@@ -720,7 +720,7 @@
           "id": "1545459282655453204",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545459282655453204",
+          "user": "Hhoopj",
           "cards": 150,
           "minutes": 0,
           "streak": null,
@@ -731,7 +731,7 @@
           "id": "1545085320096125009",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545085320096125009",
+          "user": "Serene Flow",
           "cards": 138,
           "minutes": 0,
           "streak": null,
@@ -742,7 +742,7 @@
           "id": "1544942140428132432",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544942140428132432",
+          "user": "Gai Hàn TOPIK 6 xin vía",
           "cards": 136,
           "minutes": 52.18,
           "streak": 34,
@@ -753,7 +753,7 @@
           "id": "1544958785448185956",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544958785448185956",
+          "user": "Gai con HaVy trộm vía",
           "cards": 122,
           "minutes": 0,
           "streak": null,
@@ -764,7 +764,7 @@
           "id": "1545446470356967525",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545446470356967525",
+          "user": "Paul",
           "cards": 106,
           "minutes": 14,
           "streak": null,
@@ -775,7 +775,7 @@
           "id": "1545125173210910760",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545125173210910760",
+          "user": "Dan1elP",
           "cards": 104,
           "minutes": 4.48,
           "streak": null,
@@ -786,7 +786,7 @@
           "id": "1544932414386741288",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544932414386741288",
+          "user": "Gai Hàn TOPIK 6 xin vía",
           "cards": 93,
           "minutes": 37.96,
           "streak": 34,
@@ -797,7 +797,7 @@
           "id": "1544976339428319332",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544976339428319332",
+          "user": "Linh",
           "cards": 89,
           "minutes": 0,
           "streak": null,
@@ -808,7 +808,7 @@
           "id": "1545088973305811085",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545088973305811085",
+          "user": "thientrng.if not now, then when?",
           "cards": 75,
           "minutes": 0,
           "streak": 179,
@@ -819,7 +819,7 @@
           "id": "1545069262727815190",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545069262727815190",
+          "user": "stuna1604#8722",
           "cards": 58,
           "minutes": 0,
           "streak": 3,
@@ -830,7 +830,7 @@
           "id": "1545095935883870299",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545095935883870299",
+          "user": "Dulgi",
           "cards": 48,
           "minutes": 0,
           "streak": null,
@@ -841,7 +841,7 @@
           "id": "1545096041043337367",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545096041043337367",
+          "user": "Dulgi",
           "cards": 48,
           "minutes": 0,
           "streak": null,
@@ -852,7 +852,7 @@
           "id": "1544958629428461628",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1544958629428461628",
+          "user": "Alan Le",
           "cards": 47,
           "minutes": 12.05,
           "streak": null,
@@ -863,7 +863,7 @@
           "id": "1545474236833996870",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545474236833996870",
+          "user": "FuonG",
           "cards": 34,
           "minutes": 2.98,
           "streak": null,
@@ -874,7 +874,7 @@
           "id": "1545455546658857030",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545455546658857030",
+          "user": "Anh 3 Khía",
           "cards": 14,
           "minutes": 0,
           "streak": null,
@@ -885,7 +885,7 @@
           "id": "1545122848652263474",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545122848652263474",
+          "user": "nothinn",
           "cards": 11,
           "minutes": 0,
           "streak": 268,
@@ -896,7 +896,7 @@
           "id": "1545454726282223769",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545454726282223769",
+          "user": "Ava",
           "cards": 6,
           "minutes": 0,
           "streak": null,
@@ -907,7 +907,7 @@
           "id": "1545084998476890283",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545084998476890283",
+          "user": "Tuong Vie",
           "cards": 4,
           "minutes": 2.29,
           "streak": 3,
@@ -918,7 +918,7 @@
           "id": "1545467344078245968",
           "day": "day3",
           "date": "03/09/2026",
-          "user": "User 1545467344078245968",
+          "user": "Tuong Vie",
           "cards": 0,
           "minutes": 0,
           "streak": 4,
@@ -940,7 +940,7 @@
           "id": "1545479003387854888",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545479003387854888",
+          "user": "Ethan NP",
           "cards": 2518,
           "minutes": 222.43,
           "streak": 1168,
@@ -951,7 +951,7 @@
           "id": "1545479226243813486",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545479226243813486",
+          "user": "Ethan NP",
           "cards": 2518,
           "minutes": 222.43,
           "streak": 1168,
@@ -962,7 +962,7 @@
           "id": "1545459944545984512",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545459944545984512",
+          "user": "TheMink",
           "cards": 684,
           "minutes": 171.21,
           "streak": null,
@@ -973,7 +973,7 @@
           "id": "1545459511689478236",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545459511689478236",
+          "user": "Hhoopj",
           "cards": 656,
           "minutes": 0,
           "streak": null,
@@ -984,7 +984,7 @@
           "id": "1545196153719623780",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545196153719623780",
+          "user": "Tram",
           "cards": 398,
           "minutes": 8.78,
           "streak": null,
@@ -995,7 +995,7 @@
           "id": "1545270351011909642",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545270351011909642",
+          "user": "Aleye",
           "cards": 239,
           "minutes": 0,
           "streak": null,
@@ -1006,7 +1006,7 @@
           "id": "1545460370309775500",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545460370309775500",
+          "user": "0",
           "cards": 177,
           "minutes": 13.88,
           "streak": 5,
@@ -1017,7 +1017,7 @@
           "id": "1545465600262934620",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545465600262934620",
+          "user": "Hana đang học",
           "cards": 132,
           "minutes": 0,
           "streak": 188,
@@ -1028,7 +1028,7 @@
           "id": "1545470296461414490",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545470296461414490",
+          "user": "Gai con HaVy trộm vía",
           "cards": 112,
           "minutes": 0,
           "streak": null,
@@ -1039,7 +1039,7 @@
           "id": "1545338091647012885",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545338091647012885",
+          "user": "PhươngPhương",
           "cards": 107,
           "minutes": 26.43,
           "streak": null,
@@ -1050,7 +1050,7 @@
           "id": "1545445502688952421",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545445502688952421",
+          "user": "stuna1604#8722",
           "cards": 59,
           "minutes": 0,
           "streak": 4,
@@ -1061,7 +1061,7 @@
           "id": "1545322754516197376",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545322754516197376",
+          "user": "Alan Le",
           "cards": 50,
           "minutes": 27.57,
           "streak": null,
@@ -1072,7 +1072,7 @@
           "id": "1545464588932489368",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545464588932489368",
+          "user": "nothinn",
           "cards": 23,
           "minutes": 0,
           "streak": 4,
@@ -1083,7 +1083,7 @@
           "id": "1545486357198147706",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545486357198147706",
+          "user": "Gai Hàn TOPIK 6 xin vía",
           "cards": 23,
           "minutes": 15.03,
           "streak": 35,
@@ -1094,7 +1094,7 @@
           "id": "1545442443187720305",
           "day": "day4",
           "date": "04/09/2026",
-          "user": "User 1545442443187720305",
+          "user": "thientrng.if not now, then when?",
           "cards": 0,
           "minutes": 0,
           "streak": null,
@@ -1107,20 +1107,24 @@
   "userRankings": [
     {
       "user": "Ethan NP",
-      "totalCards": 3713,
-      "daysCount": 2,
-      "totalMinutes": 536.9,
-      "maxStreak": 0,
+      "totalCards": 13579,
+      "daysCount": 6,
+      "totalMinutes": 1543.48,
+      "maxStreak": 1168,
       "maxSingleDay": 2525,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3",
+        "day3",
+        "day4",
+        "day4"
       ],
       "decks": [],
-      "avgMinutesPerDay": 268.5
+      "avgMinutesPerDay": 257.2
     },
     {
-      "user": "User 1544997189091069983",
+      "user": "Argentina vô địch thì đổi tên",
       "totalCards": 2677,
       "daysCount": 1,
       "totalMinutes": 0,
@@ -1133,65 +1137,15 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545479003387854888",
-      "totalCards": 2518,
-      "daysCount": 1,
-      "totalMinutes": 222.43,
-      "maxStreak": 1168,
-      "maxSingleDay": 2518,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 222.4
-    },
-    {
-      "user": "User 1545479226243813486",
-      "totalCards": 2518,
-      "daysCount": 1,
-      "totalMinutes": 222.43,
-      "maxStreak": 1168,
-      "maxSingleDay": 2518,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 222.4
-    },
-    {
-      "user": "User 1545115098136182885",
-      "totalCards": 2415,
-      "daysCount": 1,
-      "totalMinutes": 280.86,
-      "maxStreak": 1167,
-      "maxSingleDay": 2415,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 280.9
-    },
-    {
-      "user": "User 1545115203124068424",
-      "totalCards": 2415,
-      "daysCount": 1,
-      "totalMinutes": 280.86,
-      "maxStreak": 1167,
-      "maxSingleDay": 2415,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 280.9
-    },
-    {
-      "user": "User 1545053025893224519",
-      "totalCards": 1497,
-      "daysCount": 1,
+      "user": "Danneee05",
+      "totalCards": 2020,
+      "daysCount": 3,
       "totalMinutes": 0,
       "maxStreak": 0,
       "maxSingleDay": 1497,
       "daysJoined": [
+        "day1",
+        "day2",
         "day3"
       ],
       "decks": [
@@ -1200,18 +1154,101 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "Gai Hàn TOPIK 6 xin vía",
-      "totalCards": 844,
-      "daysCount": 2,
-      "totalMinutes": 284.15,
+      "user": "Hana đang học",
+      "totalCards": 1710,
+      "daysCount": 5,
+      "totalMinutes": 78.6,
+      "maxStreak": 188,
+      "maxSingleDay": 760,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day3",
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 15.7
+    },
+    {
+      "user": "Hhoopj",
+      "totalCards": 1436,
+      "daysCount": 4,
+      "totalMinutes": 0,
       "maxStreak": 0,
+      "maxSingleDay": 656,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "TheMink",
+      "totalCards": 1277,
+      "daysCount": 4,
+      "totalMinutes": 274.13,
+      "maxStreak": 0,
+      "maxSingleDay": 684,
+      "daysJoined": [
+        "day1",
+        "day3",
+        "day3",
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 68.5
+    },
+    {
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "totalCards": 1096,
+      "daysCount": 5,
+      "totalMinutes": 389.31999999999994,
+      "maxStreak": 35,
       "maxSingleDay": 439,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3",
+        "day3",
+        "day4"
       ],
       "decks": [],
-      "avgMinutesPerDay": 142.1
+      "avgMinutesPerDay": 77.9
+    },
+    {
+      "user": "0",
+      "totalCards": 991,
+      "daysCount": 4,
+      "totalMinutes": 111.86999999999999,
+      "maxStreak": 5,
+      "maxSingleDay": 318,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 28
+    },
+    {
+      "user": "Aleye",
+      "totalCards": 799,
+      "daysCount": 3,
+      "totalMinutes": 15.93,
+      "maxStreak": 0,
+      "maxSingleDay": 351,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 5.3
     },
     {
       "user": "z9b",
@@ -1227,128 +1264,82 @@
       "avgMinutesPerDay": 32
     },
     {
-      "user": "Hana đang học",
-      "totalCards": 760,
-      "daysCount": 2,
-      "totalMinutes": 78.6,
-      "maxStreak": 0,
-      "maxSingleDay": 760,
-      "daysJoined": [
-        "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 39.3
-    },
-    {
-      "user": "User 1545459944545984512",
-      "totalCards": 684,
-      "daysCount": 1,
-      "totalMinutes": 171.21,
-      "maxStreak": 0,
-      "maxSingleDay": 684,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 171.2
-    },
-    {
       "user": "Paul",
-      "totalCards": 662,
-      "daysCount": 2,
-      "totalMinutes": 0,
+      "totalCards": 768,
+      "daysCount": 3,
+      "totalMinutes": 14,
       "maxStreak": 0,
       "maxSingleDay": 416,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0
+      "avgMinutesPerDay": 4.7
     },
     {
       "user": "Dulgi",
-      "totalCards": 662,
-      "daysCount": 2,
+      "totalCards": 758,
+      "daysCount": 4,
       "totalMinutes": 0,
       "maxStreak": 0,
       "maxSingleDay": 416,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3",
+        "day3"
       ],
       "decks": [],
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545459511689478236",
-      "totalCards": 656,
-      "daysCount": 1,
-      "totalMinutes": 0,
+      "user": "Tram",
+      "totalCards": 750,
+      "daysCount": 3,
+      "totalMinutes": 8.78,
       "maxStreak": 0,
-      "maxSingleDay": 656,
+      "maxSingleDay": 398,
       "daysJoined": [
+        "day1",
+        "day2",
         "day4"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0
+      "avgMinutesPerDay": 2.9
     },
     {
-      "user": "Hhoopj",
-      "totalCards": 630,
-      "daysCount": 2,
-      "totalMinutes": 0,
+      "user": "*♡ xinh láo ✧*。",
+      "totalCards": 715,
+      "daysCount": 3,
+      "totalMinutes": 105.25999999999999,
       "maxStreak": 0,
-      "maxSingleDay": 371,
+      "maxSingleDay": 425,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3"
       ],
-      "decks": [],
-      "avgMinutesPerDay": 0
+      "decks": [
+        "徹底トレーニング N1"
+      ],
+      "avgMinutesPerDay": 35.1
     },
     {
-      "user": "0",
-      "totalCards": 603,
-      "daysCount": 2,
-      "totalMinutes": 76.6,
-      "maxStreak": 0,
-      "maxSingleDay": 318,
+      "user": "TaiTran",
+      "totalCards": 651,
+      "daysCount": 3,
+      "totalMinutes": 7.42,
+      "maxStreak": 510,
+      "maxSingleDay": 284,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3"
       ],
       "decks": [],
-      "avgMinutesPerDay": 38.3
-    },
-    {
-      "user": "Aleye",
-      "totalCards": 560,
-      "daysCount": 2,
-      "totalMinutes": 15.93,
-      "maxStreak": 0,
-      "maxSingleDay": 351,
-      "daysJoined": [
-        "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 8
-    },
-    {
-      "user": "Danneee05",
-      "totalCards": 523,
-      "daysCount": 2,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 345,
-      "daysJoined": [
-        "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
+      "avgMinutesPerDay": 2.5
     },
     {
       "user": "Gai con HaVy trộm vía",
@@ -1364,258 +1355,94 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "TaiTran",
-      "totalCards": 451,
-      "daysCount": 2,
-      "totalMinutes": 7.42,
+      "user": "PhươngPhương",
+      "totalCards": 463,
+      "daysCount": 3,
+      "totalMinutes": 26.43,
       "maxStreak": 0,
-      "maxSingleDay": 284,
+      "maxSingleDay": 178,
       "daysJoined": [
-        "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 3.7
-    },
-    {
-      "user": "User 1545136534569623583",
-      "totalCards": 425,
-      "daysCount": 1,
-      "totalMinutes": 63.8,
-      "maxStreak": 0,
-      "maxSingleDay": 425,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [
-        "徹底トレーニング N1"
-      ],
-      "avgMinutesPerDay": 63.8
-    },
-    {
-      "user": "User 1545102538787790908",
-      "totalCards": 409,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 187,
-      "maxSingleDay": 409,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545102608946176080",
-      "totalCards": 409,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 187,
-      "maxSingleDay": 409,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545196153719623780",
-      "totalCards": 398,
-      "daysCount": 1,
-      "totalMinutes": 8.78,
-      "maxStreak": 0,
-      "maxSingleDay": 398,
-      "daysJoined": [
+        "day3",
+        "day3",
         "day4"
       ],
       "decks": [],
       "avgMinutesPerDay": 8.8
     },
     {
-      "user": "Tram",
+      "user": "Minh may mắn",
       "totalCards": 352,
-      "daysCount": 2,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 262,
+      "daysCount": 3,
+      "totalMinutes": 118.1,
+      "maxStreak": 27,
+      "maxSingleDay": 210,
       "daysJoined": [
         "day1",
-        "day2"
+        "day2",
+        "day3"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "*♡ xinh láo ✧*。",
-      "totalCards": 290,
-      "daysCount": 2,
-      "totalMinutes": 41.46,
-      "maxStreak": 0,
-      "maxSingleDay": 145,
-      "daysJoined": [
-        "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 20.7
+      "avgMinutesPerDay": 39.4
     },
     {
       "user": "Dan1elP",
-      "totalCards": 243,
-      "daysCount": 2,
-      "totalMinutes": 20,
+      "totalCards": 347,
+      "daysCount": 3,
+      "totalMinutes": 24.48,
       "maxStreak": 0,
       "maxSingleDay": 122,
       "daysJoined": [
         "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 10
-    },
-    {
-      "user": "User 1545270351011909642",
-      "totalCards": 239,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 239,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "TheMink",
-      "totalCards": 231,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 231,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545096918701707294",
-      "totalCards": 211,
-      "daysCount": 1,
-      "totalMinutes": 21.39,
-      "maxStreak": 0,
-      "maxSingleDay": 211,
-      "daysJoined": [
+        "day2",
         "day3"
       ],
       "decks": [],
-      "avgMinutesPerDay": 21.4
+      "avgMinutesPerDay": 8.2
     },
     {
       "user": "Linh",
-      "totalCards": 210,
-      "daysCount": 2,
+      "totalCards": 299,
+      "daysCount": 3,
       "totalMinutes": 0,
       "maxStreak": 0,
       "maxSingleDay": 142,
       "daysJoined": [
         "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545045279722569758",
-      "totalCards": 210,
-      "daysCount": 1,
-      "totalMinutes": 70.7,
-      "maxStreak": 27,
-      "maxSingleDay": 210,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 70.7
-    },
-    {
-      "user": "User 1545095557649801327",
-      "totalCards": 200,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 510,
-      "maxSingleDay": 200,
-      "daysJoined": [
+        "day2",
         "day3"
       ],
       "decks": [],
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545137004734324866",
-      "totalCards": 181,
-      "daysCount": 1,
-      "totalMinutes": 51.46,
-      "maxStreak": 0,
-      "maxSingleDay": 181,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 51.5
-    },
-    {
-      "user": "User 1545137163342061619",
-      "totalCards": 181,
-      "daysCount": 1,
-      "totalMinutes": 51.46,
-      "maxStreak": 0,
-      "maxSingleDay": 181,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 51.5
-    },
-    {
-      "user": "User 1544926830199316551",
-      "totalCards": 178,
-      "daysCount": 1,
+      "user": "Gai con HaVy trộm vía",
+      "totalCards": 234,
+      "daysCount": 2,
       "totalMinutes": 0,
       "maxStreak": 0,
-      "maxSingleDay": 178,
+      "maxSingleDay": 122,
       "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1544926938844504115",
-      "totalCards": 178,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 178,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545460370309775500",
-      "totalCards": 177,
-      "daysCount": 1,
-      "totalMinutes": 13.88,
-      "maxStreak": 5,
-      "maxSingleDay": 177,
-      "daysJoined": [
+        "day3",
         "day4"
       ],
+      "decks": [
+        "1 Chinese (HSK9)::Từ vựng::HSK6"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Serene Flow",
+      "totalCards": 189,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 138,
+      "daysJoined": [
+        "day1",
+        "day3"
+      ],
       "decks": [],
-      "avgMinutesPerDay": 13.9
+      "avgMinutesPerDay": 0
     },
     {
       "user": "Sunny",
@@ -1632,187 +1459,74 @@
     },
     {
       "user": "Ava",
-      "totalCards": 162,
-      "daysCount": 1,
+      "totalCards": 168,
+      "daysCount": 2,
       "totalMinutes": 0,
       "maxStreak": 0,
       "maxSingleDay": 162,
       "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545459282655453204",
-      "totalCards": 150,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 150,
-      "daysJoined": [
+        "day1",
         "day3"
       ],
       "decks": [],
       "avgMinutesPerDay": 0
     },
     {
-      "user": "Minh may mắn",
-      "totalCards": 142,
-      "daysCount": 2,
-      "totalMinutes": 47.4,
+      "user": "Alan Le",
+      "totalCards": 164,
+      "daysCount": 3,
+      "totalMinutes": 71.69999999999999,
       "maxStreak": 0,
-      "maxSingleDay": 71,
+      "maxSingleDay": 67,
       "daysJoined": [
         "day1",
-        "day2"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 23.7
-    },
-    {
-      "user": "User 1545085320096125009",
-      "totalCards": 138,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 138,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1544942140428132432",
-      "totalCards": 136,
-      "daysCount": 1,
-      "totalMinutes": 52.18,
-      "maxStreak": 34,
-      "maxSingleDay": 136,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 52.2
-    },
-    {
-      "user": "User 1545465600262934620",
-      "totalCards": 132,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 188,
-      "maxSingleDay": 132,
-      "daysJoined": [
+        "day3",
         "day4"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0
+      "avgMinutesPerDay": 23.9
     },
     {
-      "user": "User 1544958785448185956",
-      "totalCards": 122,
-      "daysCount": 1,
+      "user": "stuna1604#8722",
+      "totalCards": 135,
+      "daysCount": 3,
       "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 122,
+      "maxStreak": 4,
+      "maxSingleDay": 59,
       "daysJoined": [
-        "day3"
-      ],
-      "decks": [
-        "1 Chinese (HSK9)::Từ vựng::HSK6"
-      ],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545470296461414490",
-      "totalCards": 112,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 112,
-      "daysJoined": [
+        "day1",
+        "day3",
         "day4"
       ],
       "decks": [
-        "1 Chinese (HSK9)::Từ vựng::HSK6"
+        "SẢN 1"
       ],
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545338091647012885",
-      "totalCards": 107,
-      "daysCount": 1,
-      "totalMinutes": 26.43,
+      "user": "FuonG",
+      "totalCards": 84,
+      "daysCount": 2,
+      "totalMinutes": 8.19,
       "maxStreak": 0,
-      "maxSingleDay": 107,
+      "maxSingleDay": 50,
       "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 26.4
-    },
-    {
-      "user": "User 1545446470356967525",
-      "totalCards": 106,
-      "daysCount": 1,
-      "totalMinutes": 14,
-      "maxStreak": 0,
-      "maxSingleDay": 106,
-      "daysJoined": [
+        "day1",
         "day3"
       ],
       "decks": [],
-      "avgMinutesPerDay": 14
+      "avgMinutesPerDay": 4.1
     },
     {
-      "user": "User 1545125173210910760",
-      "totalCards": 104,
-      "daysCount": 1,
-      "totalMinutes": 4.48,
-      "maxStreak": 0,
-      "maxSingleDay": 104,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 4.5
-    },
-    {
-      "user": "User 1544932414386741288",
-      "totalCards": 93,
-      "daysCount": 1,
-      "totalMinutes": 37.96,
-      "maxStreak": 34,
-      "maxSingleDay": 93,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 38
-    },
-    {
-      "user": "User 1544976339428319332",
-      "totalCards": 89,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 89,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545088973305811085",
+      "user": "thientrng.if not now, then when?",
       "totalCards": 75,
-      "daysCount": 1,
+      "daysCount": 2,
       "totalMinutes": 0,
       "maxStreak": 179,
       "maxSingleDay": 75,
       "daysJoined": [
-        "day3"
+        "day3",
+        "day4"
       ],
       "decks": [],
       "avgMinutesPerDay": 0
@@ -1832,86 +1546,33 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "Alan Le",
-      "totalCards": 67,
-      "daysCount": 1,
-      "totalMinutes": 32.08,
-      "maxStreak": 0,
-      "maxSingleDay": 67,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 32.1
-    },
-    {
-      "user": "User 1545445502688952421",
-      "totalCards": 59,
-      "daysCount": 1,
+      "user": "nothinn",
+      "totalCards": 72,
+      "daysCount": 3,
       "totalMinutes": 0,
-      "maxStreak": 4,
-      "maxSingleDay": 59,
+      "maxStreak": 268,
+      "maxSingleDay": 38,
       "daysJoined": [
+        "day1",
+        "day3",
         "day4"
       ],
-      "decks": [
-        "SẢN 1"
-      ],
+      "decks": [],
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545069262727815190",
+      "user": "Anh 3 Khía",
       "totalCards": 58,
-      "daysCount": 1,
+      "daysCount": 2,
       "totalMinutes": 0,
-      "maxStreak": 3,
-      "maxSingleDay": 58,
+      "maxStreak": 0,
+      "maxSingleDay": 44,
       "daysJoined": [
+        "day1",
         "day3"
       ],
-      "decks": [
-        "SẢN 1"
-      ],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "Serene Flow",
-      "totalCards": 51,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 51,
-      "daysJoined": [
-        "day1"
-      ],
       "decks": [],
       "avgMinutesPerDay": 0
-    },
-    {
-      "user": "FuonG",
-      "totalCards": 50,
-      "daysCount": 1,
-      "totalMinutes": 5.21,
-      "maxStreak": 0,
-      "maxSingleDay": 50,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 5.2
-    },
-    {
-      "user": "User 1545322754516197376",
-      "totalCards": 50,
-      "daysCount": 1,
-      "totalMinutes": 27.57,
-      "maxStreak": 0,
-      "maxSingleDay": 50,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 27.6
     },
     {
       "user": "Huyền",
@@ -1928,175 +1589,20 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "User 1545095935883870299",
-      "totalCards": 48,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 48,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545096041043337367",
-      "totalCards": 48,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 48,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1544958629428461628",
-      "totalCards": 47,
-      "daysCount": 1,
-      "totalMinutes": 12.05,
-      "maxStreak": 0,
-      "maxSingleDay": 47,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 12.1
-    },
-    {
-      "user": "Anh 3 Khía",
-      "totalCards": 44,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 44,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "nothinn",
-      "totalCards": 38,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 38,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545474236833996870",
-      "totalCards": 34,
-      "daysCount": 1,
-      "totalMinutes": 2.98,
-      "maxStreak": 0,
-      "maxSingleDay": 34,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 3
-    },
-    {
-      "user": "User 1545464588932489368",
-      "totalCards": 23,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 4,
-      "maxSingleDay": 23,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545486357198147706",
-      "totalCards": 23,
-      "daysCount": 1,
-      "totalMinutes": 15.03,
-      "maxStreak": 35,
-      "maxSingleDay": 23,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 15
-    },
-    {
-      "user": "stuna1604#8722",
-      "totalCards": 18,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 18,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545455546658857030",
-      "totalCards": 14,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 14,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545122848652263474",
-      "totalCards": 11,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 268,
-      "maxSingleDay": 11,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545454726282223769",
-      "totalCards": 6,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 6,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545084998476890283",
+      "user": "Tuong Vie",
       "totalCards": 4,
-      "daysCount": 1,
+      "daysCount": 2,
       "totalMinutes": 2.29,
-      "maxStreak": 3,
+      "maxStreak": 4,
       "maxSingleDay": 4,
       "daysJoined": [
+        "day3",
         "day3"
       ],
       "decks": [
         "ZHVI HSK 3.0"
       ],
-      "avgMinutesPerDay": 2.3
+      "avgMinutesPerDay": 1.1
     },
     {
       "user": "(bot)",
@@ -2110,32 +1616,6 @@
       ],
       "decks": [],
       "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545467344078245968",
-      "totalCards": 0,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 4,
-      "maxSingleDay": 0,
-      "daysJoined": [
-        "day3"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
-    },
-    {
-      "user": "User 1545442443187720305",
-      "totalCards": 0,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 0,
-      "daysJoined": [
-        "day4"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
     }
   ],
   "topSingleDayRecords": [
@@ -2143,7 +1623,7 @@
       "id": "1544997189091069983",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1544997189091069983",
+      "user": "Argentina vô địch thì đổi tên",
       "cards": 2677,
       "minutes": 0,
       "streak": null,
@@ -2165,7 +1645,7 @@
       "id": "1545479003387854888",
       "day": "day4",
       "date": "04/09/2026",
-      "user": "User 1545479003387854888",
+      "user": "Ethan NP",
       "cards": 2518,
       "minutes": 222.43,
       "streak": 1168,
@@ -2176,7 +1656,7 @@
       "id": "1545479226243813486",
       "day": "day4",
       "date": "04/09/2026",
-      "user": "User 1545479226243813486",
+      "user": "Ethan NP",
       "cards": 2518,
       "minutes": 222.43,
       "streak": 1168,
@@ -2187,7 +1667,7 @@
       "id": "1545115098136182885",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545115098136182885",
+      "user": "Ethan NP",
       "cards": 2415,
       "minutes": 280.86,
       "streak": 1167,
@@ -2198,7 +1678,7 @@
       "id": "1545115203124068424",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545115203124068424",
+      "user": "Ethan NP",
       "cards": 2415,
       "minutes": 280.86,
       "streak": 1167,
@@ -2209,7 +1689,7 @@
       "id": "1545053025893224519",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545053025893224519",
+      "user": "Danneee05",
       "cards": 1497,
       "minutes": 0,
       "streak": null,
@@ -2253,7 +1733,7 @@
       "id": "1545459944545984512",
       "day": "day4",
       "date": "04/09/2026",
-      "user": "User 1545459944545984512",
+      "user": "TheMink",
       "cards": 684,
       "minutes": 171.21,
       "streak": null,
@@ -2264,7 +1744,7 @@
       "id": "1545459511689478236",
       "day": "day4",
       "date": "04/09/2026",
-      "user": "User 1545459511689478236",
+      "user": "Hhoopj",
       "cards": 656,
       "minutes": 0,
       "streak": null,
@@ -2297,7 +1777,7 @@
       "id": "1545136534569623583",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545136534569623583",
+      "user": "*♡ xinh láo ✧*。",
       "cards": 425,
       "minutes": 63.8,
       "streak": null,
@@ -2330,7 +1810,7 @@
       "id": "1545102538787790908",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545102538787790908",
+      "user": "Hana đang học",
       "cards": 409,
       "minutes": 0,
       "streak": 187,
@@ -2341,7 +1821,7 @@
       "id": "1545102608946176080",
       "day": "day3",
       "date": "03/09/2026",
-      "user": "User 1545102608946176080",
+      "user": "Hana đang học",
       "cards": 409,
       "minutes": 0,
       "streak": 187,
