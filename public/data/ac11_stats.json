@@ -1,0 +1,2363 @@
+{
+  "meta": {
+    "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 4)",
+    "generatedAt": "2026-09-05T08:05:05.734Z",
+    "daysAvailable": [
+      "Day 1",
+      "Day 2",
+      "Day 3",
+      "Day 4"
+    ]
+  },
+  "kpi": {
+    "totalCards": 33461,
+    "totalCheckins": 94,
+    "uniqueUsers": 77,
+    "maxSingleDayCards": 2677,
+    "topSingleUser": "User 1544997189091069983",
+    "topAggregateUser": "Ethan NP",
+    "topAggregateCards": 3713
+  },
+  "deckCategories": {
+    "japanese": 11,
+    "english": 4,
+    "medical": 58,
+    "other": 21
+  },
+  "dailySummary": [
+    {
+      "day": "day1",
+      "dayLabel": "Day 1",
+      "date": "01/09/2026",
+      "totalCards": 7785,
+      "totalUsers": 29,
+      "totalMinutes": 725,
+      "avgCardsPerUser": 268,
+      "records": [
+        {
+          "id": "1340307678215405710",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Ethan NP",
+          "cards": 2525,
+          "minutes": 387.64,
+          "streak": null,
+          "deck": null,
+          "detail": "9.21s/card · Daily avg 295 · streak 1165d"
+        },
+        {
+          "id": "756776493685669940",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "z9b",
+          "cards": 779,
+          "minutes": 32,
+          "streak": null,
+          "deck": null,
+          "detail": "Done 779 · 2.5s/card · Time 32m · avg 7 · streak 2"
+        },
+        {
+          "id": "1465133555574243348",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Gai con HaVy trộm vía",
+          "cards": 518,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Chinese HSK6 · 518 thẻ ôn tập 01/09 · Daily load 553"
+        },
+        {
+          "id": "438960335983083530",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 439,
+          "minutes": 187.13,
+          "streak": null,
+          "deck": null,
+          "detail": "Daily avg 408 · Days 89% · Longest 382d · 25.58s/card"
+        },
+        {
+          "id": "616159212980011018",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Aleye",
+          "cards": 351,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Total 351 ôn tập (deck), Daily load 205 · khong phai dashboard 'studied' rõ"
+        },
+        {
+          "id": "1503052423390957772",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Danneee05",
+          "cards": 345,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "11 AA topik2025 · 345 thẻ ôn tập 01/09"
+        },
+        {
+          "id": "1375756159834783755",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "0",
+          "cards": 285,
+          "minutes": 30.3,
+          "streak": null,
+          "deck": null,
+          "detail": "pktruong · 6.38s/card · streak 2"
+        },
+        {
+          "id": "1446504123657748651",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Tram",
+          "cards": 262,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "heatmap: 262 cards reviewed Tue Sep 1"
+        },
+        {
+          "id": "894143041298894859",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Hhoopj",
+          "cards": 259,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "259 cards reviewed Tue Sep 1 · streak 41d"
+        },
+        {
+          "id": "871985158151106571",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Paul",
+          "cards": 246,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "246 cards reviewed Tue Sep 1 · Daily avg 138 · streak 460d"
+        },
+        {
+          "id": "792983013340086293",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Dulgi",
+          "cards": 246,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "246 cards reviewed Tue Sep 1 · Days 35% · streak 460d"
+        },
+        {
+          "id": "790859151734996992",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "TheMink",
+          "cards": 231,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "231 cards reviewed Tue Sep 1"
+        },
+        {
+          "id": "1410392551634112640",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Sunny",
+          "cards": 172,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Cambridge Vocab IELTS L11 · 172 thẻ ôn tập · Daily load 98"
+        },
+        {
+          "id": "1424374539177164861",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "TaiTran",
+          "cards": 167,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "167 cards reviewed Tue Sep 1 · Daily avg 152 · streak 508d"
+        },
+        {
+          "id": "895672321916960838",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Ava",
+          "cards": 162,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "162 reviews Tuesday September 1"
+        },
+        {
+          "id": "1315027452430516246",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "*♡ xinh láo ✧*。",
+          "cards": 145,
+          "minutes": 20.73,
+          "streak": null,
+          "deck": null,
+          "detail": "AnkiDroid N1 · 8.58s/card · total 5868 thẻ"
+        },
+        {
+          "id": "883936057878536222",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Linh",
+          "cards": 142,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "142 cards reviewed Tue Sep 1 · Daily avg 81 · streak 258d"
+        },
+        {
+          "id": "534726411521490956",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Dan1elP",
+          "cards": 121,
+          "minutes": 5.71,
+          "streak": null,
+          "deck": null,
+          "detail": "Learn 104 · Again 39 · 2.83s/card"
+        },
+        {
+          "id": "705779271603322911",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Minh may mắn",
+          "cards": 71,
+          "minutes": 23.7,
+          "streak": null,
+          "deck": null,
+          "detail": "Die Trying!!! · 20.1s/card · retention 100% · 26d streak"
+        },
+        {
+          "id": "711153532392308767",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Alan Le",
+          "cards": 67,
+          "minutes": 32.08,
+          "streak": null,
+          "deck": null,
+          "detail": "Learn 67 · 28.73s/card"
+        },
+        {
+          "id": "1393440400038957157",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Serene Flow",
+          "cards": 51,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "51 cards reviewed Tue Sep 1"
+        },
+        {
+          "id": "1488741701823500390",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "FuonG",
+          "cards": 50,
+          "minutes": 5.21,
+          "streak": null,
+          "deck": null,
+          "detail": "SIC-Si Vật lý · 6.26s/card"
+        },
+        {
+          "id": "1353193643866984490",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Anh 3 Khía",
+          "cards": 44,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "44 thẻ ôn tập · ngày 2/9"
+        },
+        {
+          "id": "1446702112347127869",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "nothinn",
+          "cards": 38,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "38 cards reviewed Tue Sep 1 · Days 91% · streak 268d"
+        },
+        {
+          "id": "963399002466955314",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "thientrng",
+          "cards": 28,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "28 reviews done today · 177d streak"
+        },
+        {
+          "id": "770311204396466198",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Huyền",
+          "cards": 23,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "23 thẻ ôn tập 01/09 · Daily load 19"
+        },
+        {
+          "id": "838271094170583120",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "stuna1604#8722",
+          "cards": 18,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "18 thẻ ôn tập 02/09(D2-anh lộn) · Daily load 5 · Ôn tập tổng 65"
+        },
+        {
+          "id": "1128985878367318116",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "Hana đang học",
+          "cards": 0,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Deck list: Active Learning 248, CopyWriting 78, TIẾNG TRUNG 348, TOEIC 393... (chủ yếu new cards, chưa rõ 'studied')"
+        },
+        {
+          "id": "1532000627121721516",
+          "day": "day1",
+          "date": "01/09/2026",
+          "user": "(bot)",
+          "cards": 0,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "bot / admin message"
+        }
+      ]
+    },
+    {
+      "day": "day2",
+      "dayLabel": "Day 2",
+      "date": "02/09/2026",
+      "totalCards": 5111,
+      "totalUsers": 17,
+      "totalMinutes": 453,
+      "avgCardsPerUser": 301,
+      "records": [
+        {
+          "id": "1340307678215405710",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Ethan NP",
+          "cards": 1188,
+          "minutes": 149.26,
+          "streak": null,
+          "deck": null,
+          "detail": "7.54s/card · Daily avg 295 · streak 1166d"
+        },
+        {
+          "id": "1128985878367318116",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Hana đang học",
+          "cards": 760,
+          "minutes": 78.6,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 760 cards in 1.31 hours (78.6 min) · 6.21s/card"
+        },
+        {
+          "id": "871985158151106571",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Paul",
+          "cards": 416,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "416 cards reviewed Wed Sep 2 · Daily avg 138 · streak 461d"
+        },
+        {
+          "id": "792983013340086293",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Dulgi",
+          "cards": 416,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "416 cards reviewed Wed Sep 2 · Days 36% · streak 461d"
+        },
+        {
+          "id": "438960335983083530",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 405,
+          "minutes": 97.02,
+          "streak": null,
+          "deck": null,
+          "detail": "Daily avg 408 · Days 89% · Longest 382d · 14.37s/card"
+        },
+        {
+          "id": "894143041298894859",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Hhoopj",
+          "cards": 371,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "371 cards reviewed Wed Sep 2"
+        },
+        {
+          "id": "1375756159834783755",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "0",
+          "cards": 318,
+          "minutes": 46.3,
+          "streak": null,
+          "deck": null,
+          "detail": "pktruong · 8.74s/card · 3 streak"
+        },
+        {
+          "id": "1424374539177164861",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "TaiTran",
+          "cards": 284,
+          "minutes": 7.42,
+          "streak": null,
+          "deck": null,
+          "detail": "Đã học 284 thẻ trong 7,42 phút · 1.57s/card"
+        },
+        {
+          "id": "616159212980011018",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Aleye",
+          "cards": 209,
+          "minutes": 15.93,
+          "streak": null,
+          "deck": null,
+          "detail": "Da hoc 209 the trong 15,93 phut · 4.57s/card · 19d streak"
+        },
+        {
+          "id": "1503052423390957772",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Danneee05",
+          "cards": 178,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "11 AA topik2025 · 178 thẻ ôn tập 02/09"
+        },
+        {
+          "id": "1315027452430516246",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "*♡ xinh láo ✧*。",
+          "cards": 145,
+          "minutes": 20.73,
+          "streak": null,
+          "deck": null,
+          "detail": "AnkiDroid N1 · 8.58s/card (ảnh trùng Day1)"
+        },
+        {
+          "id": "534726411521490956",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Dan1elP",
+          "cards": 122,
+          "minutes": 14.29,
+          "streak": null,
+          "deck": null,
+          "detail": "7.03s/card · avg 8.54 cards/min"
+        },
+        {
+          "id": "1446504123657748651",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Tram",
+          "cards": 90,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "90 cards reviewed Wed Sep 2 · Daily avg 152 · streak 509d"
+        },
+        {
+          "id": "705779271603322911",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Minh may mắn",
+          "cards": 71,
+          "minutes": 23.7,
+          "streak": null,
+          "deck": null,
+          "detail": "Die Trying!!! · 20.1s/card · 100% retention"
+        },
+        {
+          "id": "883936057878536222",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Linh",
+          "cards": 68,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "68 cards reviewed Wed Sep 2"
+        },
+        {
+          "id": "963399002466955314",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "thientrng",
+          "cards": 45,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "45 reviews done today · 02/09"
+        },
+        {
+          "id": "770311204396466198",
+          "day": "day2",
+          "date": "02/09/2026",
+          "user": "Huyền",
+          "cards": 25,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "25 thẻ ôn tập 02/09 · Daily load 5"
+        }
+      ]
+    },
+    {
+      "day": "day3",
+      "dayLabel": "Day 3",
+      "date": "03/09/2026",
+      "totalCards": 12869,
+      "totalUsers": 33,
+      "totalMinutes": 946,
+      "avgCardsPerUser": 390,
+      "records": [
+        {
+          "id": "1544997189091069983",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544997189091069983",
+          "cards": 2677,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "2,677 cards reviewed on Thursday Sep 3, 2026"
+        },
+        {
+          "id": "1545115098136182885",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545115098136182885",
+          "cards": 2415,
+          "minutes": 280.86,
+          "streak": 1167,
+          "deck": null,
+          "detail": "Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days"
+        },
+        {
+          "id": "1545115203124068424",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545115203124068424",
+          "cards": 2415,
+          "minutes": 280.86,
+          "streak": 1167,
+          "deck": null,
+          "detail": "Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days (duplicate)"
+        },
+        {
+          "id": "1545053025893224519",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545053025893224519",
+          "cards": 1497,
+          "minutes": 0,
+          "streak": null,
+          "deck": "11 AA topik2025",
+          "detail": "1,497 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: 11 AA topik2025"
+        },
+        {
+          "id": "1545136534569623583",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545136534569623583",
+          "cards": 425,
+          "minutes": 63.8,
+          "streak": null,
+          "deck": "徹底トレーニング N1",
+          "detail": "Đã học 425 thẻ trong 63.8 phút hôm nay (9.01s/thẻ) · Deck: 徹底トレーニング N1"
+        },
+        {
+          "id": "1545102538787790908",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545102538787790908",
+          "cards": 409,
+          "minutes": 0,
+          "streak": 187,
+          "deck": null,
+          "detail": "409 cards reviewed on Sep 3, 2026 · Streak: 187 days · Daily avg: 164 cards"
+        },
+        {
+          "id": "1545102608946176080",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545102608946176080",
+          "cards": 409,
+          "minutes": 0,
+          "streak": 187,
+          "deck": null,
+          "detail": "409 cards reviewed on Sep 3, 2026 · Streak: 187 days (duplicate)"
+        },
+        {
+          "id": "1545096918701707294",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545096918701707294",
+          "cards": 211,
+          "minutes": 21.39,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 211 cards in 21.39 minutes today (6.08s/card)"
+        },
+        {
+          "id": "1545045279722569758",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545045279722569758",
+          "cards": 210,
+          "minutes": 70.7,
+          "streak": 27,
+          "deck": null,
+          "detail": "Studied 210 cards in 70.7m · Pace 20.2s/card · Retention 100% · Streak 27 days"
+        },
+        {
+          "id": "1545095557649801327",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545095557649801327",
+          "cards": 200,
+          "minutes": 0,
+          "streak": 510,
+          "deck": null,
+          "detail": "200 cards reviewed on Thursday Sep 3, 2026 · Daily avg 152 · Current streak 510 days"
+        },
+        {
+          "id": "1545137004734324866",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545137004734324866",
+          "cards": 181,
+          "minutes": 51.46,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 181 cards in 51.46 minutes today (17.06s/card)"
+        },
+        {
+          "id": "1545137163342061619",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545137163342061619",
+          "cards": 181,
+          "minutes": 51.46,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 181 cards in 51.46 minutes today (17.06s/card) (duplicate)"
+        },
+        {
+          "id": "1544926830199316551",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544926830199316551",
+          "cards": 178,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "178 cards reviewed on Wednesday Sep 2, 2026"
+        },
+        {
+          "id": "1544926938844504115",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544926938844504115",
+          "cards": 178,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "178 cards reviewed on Wednesday Sep 2, 2026 (duplicate)"
+        },
+        {
+          "id": "1545459282655453204",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545459282655453204",
+          "cards": 150,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "150 cards reviewed on Thursday September 3, 2026"
+        },
+        {
+          "id": "1545085320096125009",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545085320096125009",
+          "cards": 138,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "138 cards reviewed on Thursday Sep 3, 2026"
+        },
+        {
+          "id": "1544942140428132432",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544942140428132432",
+          "cards": 136,
+          "minutes": 52.18,
+          "streak": 34,
+          "deck": null,
+          "detail": "Studied 136 cards in 52.18m (23.02s/card) · Daily avg 408 · streak 34d"
+        },
+        {
+          "id": "1544958785448185956",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544958785448185956",
+          "cards": 122,
+          "minutes": 0,
+          "streak": null,
+          "deck": "1 Chinese (HSK9)::Từ vựng::HSK6",
+          "detail": "122 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: 1 Chinese (HSK9)::Từ vựng::HSK6"
+        },
+        {
+          "id": "1545446470356967525",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545446470356967525",
+          "cards": 106,
+          "minutes": 14,
+          "streak": null,
+          "deck": null,
+          "detail": "THG 9 03 · 106 REV · 8.2 S/C · 77.8% RET · 14 m · 32 NEW"
+        },
+        {
+          "id": "1545125173210910760",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545125173210910760",
+          "cards": 104,
+          "minutes": 4.48,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 104 cards in 4.48 minutes today (2.58s/card) · Again: 28"
+        },
+        {
+          "id": "1544932414386741288",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544932414386741288",
+          "cards": 93,
+          "minutes": 37.96,
+          "streak": 34,
+          "deck": null,
+          "detail": "Studied 93 cards in 37.96m (24.49s/card) · Daily avg 408 · streak 34d"
+        },
+        {
+          "id": "1544976339428319332",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544976339428319332",
+          "cards": 89,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "89 cards reviewed on Thursday Sep 3, 2026"
+        },
+        {
+          "id": "1545088973305811085",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545088973305811085",
+          "cards": 75,
+          "minutes": 0,
+          "streak": 179,
+          "deck": null,
+          "detail": "75 reviews done today · 179 day streak"
+        },
+        {
+          "id": "1545069262727815190",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545069262727815190",
+          "cards": 58,
+          "minutes": 0,
+          "streak": 3,
+          "deck": "SẢN 1",
+          "detail": "58 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: SẢN 1 · 3 ngày đã học"
+        },
+        {
+          "id": "1545095935883870299",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545095935883870299",
+          "cards": 48,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "48 cards reviewed on Thursday Sep 3, 2026"
+        },
+        {
+          "id": "1545096041043337367",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545096041043337367",
+          "cards": 48,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "48 cards reviewed on Thursday Sep 3, 2026 (duplicate)"
+        },
+        {
+          "id": "1544958629428461628",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1544958629428461628",
+          "cards": 47,
+          "minutes": 12.05,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 47 cards in 12.05m (15.39s/card) · Again 1 (2.13%) · Learn 47, Review 0"
+        },
+        {
+          "id": "1545474236833996870",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545474236833996870",
+          "cards": 34,
+          "minutes": 2.98,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 34 cards in 2.98 minutes today (5.26s/card)"
+        },
+        {
+          "id": "1545455546658857030",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545455546658857030",
+          "cards": 14,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Thứ Năm, ngày 3 tháng 9, 2026 · 14 thẻ ôn tập"
+        },
+        {
+          "id": "1545122848652263474",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545122848652263474",
+          "cards": 11,
+          "minutes": 0,
+          "streak": 268,
+          "deck": null,
+          "detail": "11 cards reviewed on Sep 3, 2026 · Longest streak: 268 days · Daily avg: 102 cards"
+        },
+        {
+          "id": "1545454726282223769",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545454726282223769",
+          "cards": 6,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Thursday, September 3, 2026 · 6 reviews"
+        },
+        {
+          "id": "1545084998476890283",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545084998476890283",
+          "cards": 4,
+          "minutes": 2.29,
+          "streak": 3,
+          "deck": "ZHVI HSK 3.0",
+          "detail": "Studied 4 cards in 2.29m (34.36s/card) · Current streak 3 days"
+        },
+        {
+          "id": "1545467344078245968",
+          "day": "day3",
+          "date": "03/09/2026",
+          "user": "User 1545467344078245968",
+          "cards": 0,
+          "minutes": 0,
+          "streak": 4,
+          "deck": null,
+          "detail": "Heatmap ô màu 4 ngày liên tiếp (không có số thẻ cụ thể)"
+        }
+      ]
+    },
+    {
+      "day": "day4",
+      "dayLabel": "Day 4",
+      "date": "04/09/2026",
+      "totalCards": 7696,
+      "totalUsers": 15,
+      "totalMinutes": 708,
+      "avgCardsPerUser": 513,
+      "records": [
+        {
+          "id": "1545479003387854888",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545479003387854888",
+          "cards": 2518,
+          "minutes": 222.43,
+          "streak": 1168,
+          "deck": null,
+          "detail": "Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days"
+        },
+        {
+          "id": "1545479226243813486",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545479226243813486",
+          "cards": 2518,
+          "minutes": 222.43,
+          "streak": 1168,
+          "deck": null,
+          "detail": "Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days (duplicate)"
+        },
+        {
+          "id": "1545459944545984512",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545459944545984512",
+          "cards": 684,
+          "minutes": 171.21,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 684 cards in 171.21 minutes today (15.02s/card)"
+        },
+        {
+          "id": "1545459511689478236",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545459511689478236",
+          "cards": 656,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "656 cards reviewed on Friday September 4, 2026 · Daily average: 327 cards"
+        },
+        {
+          "id": "1545196153719623780",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545196153719623780",
+          "cards": 398,
+          "minutes": 8.78,
+          "streak": null,
+          "deck": null,
+          "detail": "Đã học 398 thẻ trong 8,78 phút hôm nay (1,32giây/thẻ)"
+        },
+        {
+          "id": "1545270351011909642",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545270351011909642",
+          "cards": 239,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Lịch ôn tập ngày 04/09/2026: 239 thẻ ôn tập"
+        },
+        {
+          "id": "1545460370309775500",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545460370309775500",
+          "cards": 177,
+          "minutes": 13.88,
+          "streak": 5,
+          "deck": null,
+          "detail": "Studied 177 cards in 13.88 minutes (4.71s/card) · Leaderboard: pktruong, streak 5d"
+        },
+        {
+          "id": "1545465600262934620",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545465600262934620",
+          "cards": 132,
+          "minutes": 0,
+          "streak": 188,
+          "deck": null,
+          "detail": "132 cards reviewed on Sep 4, 2026 · Current streak: 188 days · Daily avg: 164"
+        },
+        {
+          "id": "1545470296461414490",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545470296461414490",
+          "cards": 112,
+          "minutes": 0,
+          "streak": null,
+          "deck": "1 Chinese (HSK9)::Từ vựng::HSK6",
+          "detail": "112 thẻ ôn tập ngày 04/09/2026 · Bộ thẻ: 1 Chinese (HSK9)::Từ vựng::HSK6"
+        },
+        {
+          "id": "1545338091647012885",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545338091647012885",
+          "cards": 107,
+          "minutes": 26.43,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 107 cards in 26.43 minutes today (14.82s/card)"
+        },
+        {
+          "id": "1545445502688952421",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545445502688952421",
+          "cards": 59,
+          "minutes": 0,
+          "streak": 4,
+          "deck": "SẢN 1",
+          "detail": "59 thẻ ôn tập ngày 04/09/2026 · Bộ thẻ: SẢN 1 · 4 ngày đã học"
+        },
+        {
+          "id": "1545322754516197376",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545322754516197376",
+          "cards": 50,
+          "minutes": 27.57,
+          "streak": null,
+          "deck": null,
+          "detail": "Studied 50 cards in 27.57 minutes today (33.09s/card)"
+        },
+        {
+          "id": "1545464588932489368",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545464588932489368",
+          "cards": 23,
+          "minutes": 0,
+          "streak": 4,
+          "deck": null,
+          "detail": "23 cards reviewed on Sep 4, 2026 · Current streak: 4 days"
+        },
+        {
+          "id": "1545486357198147706",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545486357198147706",
+          "cards": 23,
+          "minutes": 15.03,
+          "streak": 35,
+          "deck": null,
+          "detail": "Studied 23 cards in 15.03 minutes today (39.21s/card) · streak 35 days"
+        },
+        {
+          "id": "1545442443187720305",
+          "day": "day4",
+          "date": "04/09/2026",
+          "user": "User 1545442443187720305",
+          "cards": 0,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "Review Heatmap icon sao (không hiển thị số thẻ cụ thể)"
+        }
+      ]
+    }
+  ],
+  "userRankings": [
+    {
+      "user": "Ethan NP",
+      "totalCards": 3713,
+      "daysCount": 2,
+      "totalMinutes": 536.9,
+      "maxStreak": 0,
+      "maxSingleDay": 2525,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 268.5
+    },
+    {
+      "user": "User 1544997189091069983",
+      "totalCards": 2677,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 2677,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545479003387854888",
+      "totalCards": 2518,
+      "daysCount": 1,
+      "totalMinutes": 222.43,
+      "maxStreak": 1168,
+      "maxSingleDay": 2518,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 222.4
+    },
+    {
+      "user": "User 1545479226243813486",
+      "totalCards": 2518,
+      "daysCount": 1,
+      "totalMinutes": 222.43,
+      "maxStreak": 1168,
+      "maxSingleDay": 2518,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 222.4
+    },
+    {
+      "user": "User 1545115098136182885",
+      "totalCards": 2415,
+      "daysCount": 1,
+      "totalMinutes": 280.86,
+      "maxStreak": 1167,
+      "maxSingleDay": 2415,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 280.9
+    },
+    {
+      "user": "User 1545115203124068424",
+      "totalCards": 2415,
+      "daysCount": 1,
+      "totalMinutes": 280.86,
+      "maxStreak": 1167,
+      "maxSingleDay": 2415,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 280.9
+    },
+    {
+      "user": "User 1545053025893224519",
+      "totalCards": 1497,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 1497,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [
+        "11 AA topik2025"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "totalCards": 844,
+      "daysCount": 2,
+      "totalMinutes": 284.15,
+      "maxStreak": 0,
+      "maxSingleDay": 439,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 142.1
+    },
+    {
+      "user": "z9b",
+      "totalCards": 779,
+      "daysCount": 1,
+      "totalMinutes": 32,
+      "maxStreak": 0,
+      "maxSingleDay": 779,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 32
+    },
+    {
+      "user": "Hana đang học",
+      "totalCards": 760,
+      "daysCount": 2,
+      "totalMinutes": 78.6,
+      "maxStreak": 0,
+      "maxSingleDay": 760,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 39.3
+    },
+    {
+      "user": "User 1545459944545984512",
+      "totalCards": 684,
+      "daysCount": 1,
+      "totalMinutes": 171.21,
+      "maxStreak": 0,
+      "maxSingleDay": 684,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 171.2
+    },
+    {
+      "user": "Paul",
+      "totalCards": 662,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 416,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Dulgi",
+      "totalCards": 662,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 416,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545459511689478236",
+      "totalCards": 656,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 656,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Hhoopj",
+      "totalCards": 630,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 371,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "0",
+      "totalCards": 603,
+      "daysCount": 2,
+      "totalMinutes": 76.6,
+      "maxStreak": 0,
+      "maxSingleDay": 318,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 38.3
+    },
+    {
+      "user": "Aleye",
+      "totalCards": 560,
+      "daysCount": 2,
+      "totalMinutes": 15.93,
+      "maxStreak": 0,
+      "maxSingleDay": 351,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 8
+    },
+    {
+      "user": "Danneee05",
+      "totalCards": 523,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 345,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Gai con HaVy trộm vía",
+      "totalCards": 518,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 518,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "TaiTran",
+      "totalCards": 451,
+      "daysCount": 2,
+      "totalMinutes": 7.42,
+      "maxStreak": 0,
+      "maxSingleDay": 284,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 3.7
+    },
+    {
+      "user": "User 1545136534569623583",
+      "totalCards": 425,
+      "daysCount": 1,
+      "totalMinutes": 63.8,
+      "maxStreak": 0,
+      "maxSingleDay": 425,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [
+        "徹底トレーニング N1"
+      ],
+      "avgMinutesPerDay": 63.8
+    },
+    {
+      "user": "User 1545102538787790908",
+      "totalCards": 409,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 187,
+      "maxSingleDay": 409,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545102608946176080",
+      "totalCards": 409,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 187,
+      "maxSingleDay": 409,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545196153719623780",
+      "totalCards": 398,
+      "daysCount": 1,
+      "totalMinutes": 8.78,
+      "maxStreak": 0,
+      "maxSingleDay": 398,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 8.8
+    },
+    {
+      "user": "Tram",
+      "totalCards": 352,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 262,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "*♡ xinh láo ✧*。",
+      "totalCards": 290,
+      "daysCount": 2,
+      "totalMinutes": 41.46,
+      "maxStreak": 0,
+      "maxSingleDay": 145,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 20.7
+    },
+    {
+      "user": "Dan1elP",
+      "totalCards": 243,
+      "daysCount": 2,
+      "totalMinutes": 20,
+      "maxStreak": 0,
+      "maxSingleDay": 122,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 10
+    },
+    {
+      "user": "User 1545270351011909642",
+      "totalCards": 239,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 239,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "TheMink",
+      "totalCards": 231,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 231,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545096918701707294",
+      "totalCards": 211,
+      "daysCount": 1,
+      "totalMinutes": 21.39,
+      "maxStreak": 0,
+      "maxSingleDay": 211,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 21.4
+    },
+    {
+      "user": "Linh",
+      "totalCards": 210,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 142,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545045279722569758",
+      "totalCards": 210,
+      "daysCount": 1,
+      "totalMinutes": 70.7,
+      "maxStreak": 27,
+      "maxSingleDay": 210,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 70.7
+    },
+    {
+      "user": "User 1545095557649801327",
+      "totalCards": 200,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 510,
+      "maxSingleDay": 200,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545137004734324866",
+      "totalCards": 181,
+      "daysCount": 1,
+      "totalMinutes": 51.46,
+      "maxStreak": 0,
+      "maxSingleDay": 181,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 51.5
+    },
+    {
+      "user": "User 1545137163342061619",
+      "totalCards": 181,
+      "daysCount": 1,
+      "totalMinutes": 51.46,
+      "maxStreak": 0,
+      "maxSingleDay": 181,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 51.5
+    },
+    {
+      "user": "User 1544926830199316551",
+      "totalCards": 178,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 178,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1544926938844504115",
+      "totalCards": 178,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 178,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545460370309775500",
+      "totalCards": 177,
+      "daysCount": 1,
+      "totalMinutes": 13.88,
+      "maxStreak": 5,
+      "maxSingleDay": 177,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 13.9
+    },
+    {
+      "user": "Sunny",
+      "totalCards": 172,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 172,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Ava",
+      "totalCards": 162,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 162,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545459282655453204",
+      "totalCards": 150,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 150,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Minh may mắn",
+      "totalCards": 142,
+      "daysCount": 2,
+      "totalMinutes": 47.4,
+      "maxStreak": 0,
+      "maxSingleDay": 71,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 23.7
+    },
+    {
+      "user": "User 1545085320096125009",
+      "totalCards": 138,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 138,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1544942140428132432",
+      "totalCards": 136,
+      "daysCount": 1,
+      "totalMinutes": 52.18,
+      "maxStreak": 34,
+      "maxSingleDay": 136,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 52.2
+    },
+    {
+      "user": "User 1545465600262934620",
+      "totalCards": 132,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 188,
+      "maxSingleDay": 132,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1544958785448185956",
+      "totalCards": 122,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 122,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [
+        "1 Chinese (HSK9)::Từ vựng::HSK6"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545470296461414490",
+      "totalCards": 112,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 112,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [
+        "1 Chinese (HSK9)::Từ vựng::HSK6"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545338091647012885",
+      "totalCards": 107,
+      "daysCount": 1,
+      "totalMinutes": 26.43,
+      "maxStreak": 0,
+      "maxSingleDay": 107,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 26.4
+    },
+    {
+      "user": "User 1545446470356967525",
+      "totalCards": 106,
+      "daysCount": 1,
+      "totalMinutes": 14,
+      "maxStreak": 0,
+      "maxSingleDay": 106,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 14
+    },
+    {
+      "user": "User 1545125173210910760",
+      "totalCards": 104,
+      "daysCount": 1,
+      "totalMinutes": 4.48,
+      "maxStreak": 0,
+      "maxSingleDay": 104,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 4.5
+    },
+    {
+      "user": "User 1544932414386741288",
+      "totalCards": 93,
+      "daysCount": 1,
+      "totalMinutes": 37.96,
+      "maxStreak": 34,
+      "maxSingleDay": 93,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 38
+    },
+    {
+      "user": "User 1544976339428319332",
+      "totalCards": 89,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 89,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545088973305811085",
+      "totalCards": 75,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 179,
+      "maxSingleDay": 75,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "thientrng",
+      "totalCards": 73,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 45,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Alan Le",
+      "totalCards": 67,
+      "daysCount": 1,
+      "totalMinutes": 32.08,
+      "maxStreak": 0,
+      "maxSingleDay": 67,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 32.1
+    },
+    {
+      "user": "User 1545445502688952421",
+      "totalCards": 59,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 4,
+      "maxSingleDay": 59,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [
+        "SẢN 1"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545069262727815190",
+      "totalCards": 58,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 3,
+      "maxSingleDay": 58,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [
+        "SẢN 1"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "Serene Flow",
+      "totalCards": 51,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 51,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "FuonG",
+      "totalCards": 50,
+      "daysCount": 1,
+      "totalMinutes": 5.21,
+      "maxStreak": 0,
+      "maxSingleDay": 50,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 5.2
+    },
+    {
+      "user": "User 1545322754516197376",
+      "totalCards": 50,
+      "daysCount": 1,
+      "totalMinutes": 27.57,
+      "maxStreak": 0,
+      "maxSingleDay": 50,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 27.6
+    },
+    {
+      "user": "Huyền",
+      "totalCards": 48,
+      "daysCount": 2,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 25,
+      "daysJoined": [
+        "day1",
+        "day2"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545095935883870299",
+      "totalCards": 48,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 48,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545096041043337367",
+      "totalCards": 48,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 48,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1544958629428461628",
+      "totalCards": 47,
+      "daysCount": 1,
+      "totalMinutes": 12.05,
+      "maxStreak": 0,
+      "maxSingleDay": 47,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 12.1
+    },
+    {
+      "user": "Anh 3 Khía",
+      "totalCards": 44,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 44,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "nothinn",
+      "totalCards": 38,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 38,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545474236833996870",
+      "totalCards": 34,
+      "daysCount": 1,
+      "totalMinutes": 2.98,
+      "maxStreak": 0,
+      "maxSingleDay": 34,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 3
+    },
+    {
+      "user": "User 1545464588932489368",
+      "totalCards": 23,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 4,
+      "maxSingleDay": 23,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545486357198147706",
+      "totalCards": 23,
+      "daysCount": 1,
+      "totalMinutes": 15.03,
+      "maxStreak": 35,
+      "maxSingleDay": 23,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 15
+    },
+    {
+      "user": "stuna1604#8722",
+      "totalCards": 18,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 18,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545455546658857030",
+      "totalCards": 14,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 14,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545122848652263474",
+      "totalCards": 11,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 268,
+      "maxSingleDay": 11,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545454726282223769",
+      "totalCards": 6,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 6,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545084998476890283",
+      "totalCards": 4,
+      "daysCount": 1,
+      "totalMinutes": 2.29,
+      "maxStreak": 3,
+      "maxSingleDay": 4,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [
+        "ZHVI HSK 3.0"
+      ],
+      "avgMinutesPerDay": 2.3
+    },
+    {
+      "user": "(bot)",
+      "totalCards": 0,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 0,
+      "daysJoined": [
+        "day1"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545467344078245968",
+      "totalCards": 0,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 4,
+      "maxSingleDay": 0,
+      "daysJoined": [
+        "day3"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "User 1545442443187720305",
+      "totalCards": 0,
+      "daysCount": 1,
+      "totalMinutes": 0,
+      "maxStreak": 0,
+      "maxSingleDay": 0,
+      "daysJoined": [
+        "day4"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 0
+    }
+  ],
+  "topSingleDayRecords": [
+    {
+      "id": "1544997189091069983",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1544997189091069983",
+      "cards": 2677,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "2,677 cards reviewed on Thursday Sep 3, 2026"
+    },
+    {
+      "id": "1340307678215405710",
+      "day": "day1",
+      "date": "01/09/2026",
+      "user": "Ethan NP",
+      "cards": 2525,
+      "minutes": 387.64,
+      "streak": null,
+      "deck": null,
+      "detail": "9.21s/card · Daily avg 295 · streak 1165d"
+    },
+    {
+      "id": "1545479003387854888",
+      "day": "day4",
+      "date": "04/09/2026",
+      "user": "User 1545479003387854888",
+      "cards": 2518,
+      "minutes": 222.43,
+      "streak": 1168,
+      "deck": null,
+      "detail": "Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days"
+    },
+    {
+      "id": "1545479226243813486",
+      "day": "day4",
+      "date": "04/09/2026",
+      "user": "User 1545479226243813486",
+      "cards": 2518,
+      "minutes": 222.43,
+      "streak": 1168,
+      "deck": null,
+      "detail": "Đã học 2518 thẻ trong 222,43 phút hôm nay (5,3s/thẻ) · streak 1168 days (duplicate)"
+    },
+    {
+      "id": "1545115098136182885",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545115098136182885",
+      "cards": 2415,
+      "minutes": 280.86,
+      "streak": 1167,
+      "deck": null,
+      "detail": "Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days"
+    },
+    {
+      "id": "1545115203124068424",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545115203124068424",
+      "cards": 2415,
+      "minutes": 280.86,
+      "streak": 1167,
+      "deck": null,
+      "detail": "Đã học 2415 thẻ trong 280.86 phút hôm nay (6.98s/thẻ) · Streak: 1167 days (duplicate)"
+    },
+    {
+      "id": "1545053025893224519",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545053025893224519",
+      "cards": 1497,
+      "minutes": 0,
+      "streak": null,
+      "deck": "11 AA topik2025",
+      "detail": "1,497 thẻ ôn tập (Thứ Năm, 3/9/2026) · Deck: 11 AA topik2025"
+    },
+    {
+      "id": "1340307678215405710",
+      "day": "day2",
+      "date": "02/09/2026",
+      "user": "Ethan NP",
+      "cards": 1188,
+      "minutes": 149.26,
+      "streak": null,
+      "deck": null,
+      "detail": "7.54s/card · Daily avg 295 · streak 1166d"
+    },
+    {
+      "id": "756776493685669940",
+      "day": "day1",
+      "date": "01/09/2026",
+      "user": "z9b",
+      "cards": 779,
+      "minutes": 32,
+      "streak": null,
+      "deck": null,
+      "detail": "Done 779 · 2.5s/card · Time 32m · avg 7 · streak 2"
+    },
+    {
+      "id": "1128985878367318116",
+      "day": "day2",
+      "date": "02/09/2026",
+      "user": "Hana đang học",
+      "cards": 760,
+      "minutes": 78.6,
+      "streak": null,
+      "deck": null,
+      "detail": "Studied 760 cards in 1.31 hours (78.6 min) · 6.21s/card"
+    },
+    {
+      "id": "1545459944545984512",
+      "day": "day4",
+      "date": "04/09/2026",
+      "user": "User 1545459944545984512",
+      "cards": 684,
+      "minutes": 171.21,
+      "streak": null,
+      "deck": null,
+      "detail": "Studied 684 cards in 171.21 minutes today (15.02s/card)"
+    },
+    {
+      "id": "1545459511689478236",
+      "day": "day4",
+      "date": "04/09/2026",
+      "user": "User 1545459511689478236",
+      "cards": 656,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "656 cards reviewed on Friday September 4, 2026 · Daily average: 327 cards"
+    },
+    {
+      "id": "1465133555574243348",
+      "day": "day1",
+      "date": "01/09/2026",
+      "user": "Gai con HaVy trộm vía",
+      "cards": 518,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "Chinese HSK6 · 518 thẻ ôn tập 01/09 · Daily load 553"
+    },
+    {
+      "id": "438960335983083530",
+      "day": "day1",
+      "date": "01/09/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 439,
+      "minutes": 187.13,
+      "streak": null,
+      "deck": null,
+      "detail": "Daily avg 408 · Days 89% · Longest 382d · 25.58s/card"
+    },
+    {
+      "id": "1545136534569623583",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545136534569623583",
+      "cards": 425,
+      "minutes": 63.8,
+      "streak": null,
+      "deck": "徹底トレーニング N1",
+      "detail": "Đã học 425 thẻ trong 63.8 phút hôm nay (9.01s/thẻ) · Deck: 徹底トレーニング N1"
+    },
+    {
+      "id": "871985158151106571",
+      "day": "day2",
+      "date": "02/09/2026",
+      "user": "Paul",
+      "cards": 416,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "416 cards reviewed Wed Sep 2 · Daily avg 138 · streak 461d"
+    },
+    {
+      "id": "792983013340086293",
+      "day": "day2",
+      "date": "02/09/2026",
+      "user": "Dulgi",
+      "cards": 416,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "416 cards reviewed Wed Sep 2 · Days 36% · streak 461d"
+    },
+    {
+      "id": "1545102538787790908",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545102538787790908",
+      "cards": 409,
+      "minutes": 0,
+      "streak": 187,
+      "deck": null,
+      "detail": "409 cards reviewed on Sep 3, 2026 · Streak: 187 days · Daily avg: 164 cards"
+    },
+    {
+      "id": "1545102608946176080",
+      "day": "day3",
+      "date": "03/09/2026",
+      "user": "User 1545102608946176080",
+      "cards": 409,
+      "minutes": 0,
+      "streak": 187,
+      "deck": null,
+      "detail": "409 cards reviewed on Sep 3, 2026 · Streak: 187 days (duplicate)"
+    },
+    {
+      "id": "438960335983083530",
+      "day": "day2",
+      "date": "02/09/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 405,
+      "minutes": 97.02,
+      "streak": null,
+      "deck": null,
+      "detail": "Daily avg 408 · Days 89% · Longest 382d · 14.37s/card"
+    }
+  ]
+}

@@ -1,0 +1,559 @@
+---
+// src/pages/stats.astro
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import statsData from "../data/ac11_stats.json";
+
+const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } = statsData;
+---
+
+<Layout title="Thống Kê & Phân Tích - Anki Challenge 11">
+  <main class="min-h-screen bg-[#FAF9F5] text-[#141413] font-['Plus_Jakarta_Sans','Inter',sans-serif] relative overflow-x-hidden selection:bg-[#CC785C]/20 selection:text-[#141413]">
+    <!-- Warm Ambient Glows -->
+    <div class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#CC785C]/5 blur-[140px] rounded-full pointer-events-none z-0"></div>
+    <div class="fixed bottom-[-10%] right-[-5%] w-[450px] h-[450px] bg-[#E8A55A]/5 blur-[150px] rounded-full pointer-events-none z-0"></div>
+
+    <div class="max-w-5xl mx-auto px-4 py-8 relative z-10 min-h-screen flex flex-col">
+      <!-- Navbar -->
+      <Navbar activePage="stats" />
+
+      <!-- Page Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pb-6 border-b border-[#E6DFD8]">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#CC785C]/10 border border-[#CC785C]/20 text-[#CC785C] text-xs font-bold uppercase tracking-wider mb-2">
+            <span>Anki Challenge 11</span>
+            <span>•</span>
+            <span>Day 1 – Day 4</span>
+          </div>
+          <h1 class="text-3xl sm:text-4xl font-serif text-[#141413] font-semibold tracking-tight">
+            Thống Kê & Phân Tích Check-in
+          </h1>
+          <p class="text-[#73726C] text-sm sm:text-base mt-1 max-w-2xl leading-relaxed">
+            Dữ liệu trích xuất trực tiếp từ các hình ảnh check-in thực tế của thành viên, tổng hợp tiến độ học tập và bảng xếp hạng nỗ lực.
+          </p>
+        </div>
+
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <a
+            href="/anki_challenge_d1_d4_chart.jpg"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-[#CC785C] hover:bg-[#B8684D] active:scale-[0.98] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs transition-all duration-200 cursor-pointer"
+          >
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="18" height="18" x="3" y="3" rx="2" ry="2"/>
+              <circle cx="9" cy="9" r="2"/>
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+            </svg>
+            <span>Xem Ảnh Biểu Đồ JPG</span>
+          </a>
+
+          <a
+            href="/data/ac11_stats.json"
+            download="anki_challenge_11_stats.json"
+            class="inline-flex items-center gap-2 px-3.5 py-2 bg-[#FFFFFF] hover:bg-[#F3EFEA] border border-[#E6DFD8] text-[#141413] font-semibold text-xs sm:text-sm rounded-xl shadow-xs transition-all duration-200"
+            title="Tải tệp JSON dữ liệu"
+          >
+            <svg class="w-4 h-4 text-[#73726C]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Tải JSON</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- 4 KPI Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        <div class="bg-[#FFFFFF] p-5 rounded-2xl border border-[#E6DFD8] shadow-xs relative overflow-hidden group hover:border-[#CC785C]/40 transition-colors">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#73726C] mb-1">
+            Tổng số thẻ đã học
+          </div>
+          <div class="text-2xl sm:text-3xl font-serif font-bold text-[#CC785C]">
+            {kpi.totalCards.toLocaleString('vi-VN')}
+          </div>
+          <div class="text-xs text-[#73726C] mt-1 flex items-center gap-1">
+            <span class="text-[#2E7D47] font-semibold">4 ngày liên tiếp</span>
+          </div>
+        </div>
+
+        <div class="bg-[#FFFFFF] p-5 rounded-2xl border border-[#E6DFD8] shadow-xs relative overflow-hidden group hover:border-[#CC785C]/40 transition-colors">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#73726C] mb-1">
+            Tổng lượt check-in
+          </div>
+          <div class="text-2xl sm:text-3xl font-serif font-bold text-[#141413]">
+            {kpi.totalCheckins}
+          </div>
+          <div class="text-xs text-[#73726C] mt-1">
+            <span>Trung bình 23.5 lượt/ngày</span>
+          </div>
+        </div>
+
+        <div class="bg-[#FFFFFF] p-5 rounded-2xl border border-[#E6DFD8] shadow-xs relative overflow-hidden group hover:border-[#CC785C]/40 transition-colors">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#73726C] mb-1">
+            Kỷ lục trong 1 ngày
+          </div>
+          <div class="text-2xl sm:text-3xl font-serif font-bold text-[#141413]">
+            {kpi.maxSingleDayCards.toLocaleString('vi-VN')}
+          </div>
+          <div class="text-xs text-[#73726C] mt-1 truncate" title="Đạt tại Day 3">
+            <span>Đạt tại Day 3 (03/09)</span>
+          </div>
+        </div>
+
+        <div class="bg-[#FFFFFF] p-5 rounded-2xl border border-[#E6DFD8] shadow-xs relative overflow-hidden group hover:border-[#CC785C]/40 transition-colors">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#73726C] mb-1">
+            Top 1 Tích luỹ thẻ
+          </div>
+          <div class="text-2xl sm:text-3xl font-serif font-bold text-[#CC785C]">
+            {kpi.topAggregateCards.toLocaleString('vi-VN')}
+          </div>
+          <div class="text-xs text-[#73726C] mt-1 truncate" title={kpi.topAggregateUser}>
+            <span>{kpi.topAggregateUser}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Section -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Chart 1: Thẻ theo ngày -->
+        <div class="bg-[#FFFFFF] p-5 sm:p-6 rounded-2xl border border-[#E6DFD8] shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#141413]">Tổng Thẻ Ôn Tập Theo Ngày</h3>
+              <p class="text-xs text-[#73726C]">Số thẻ học sinh động qua từng ngày thử thách</p>
+            </div>
+            <span class="p-2 rounded-xl bg-[#CC785C]/10 text-[#CC785C]">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </span>
+          </div>
+          <div class="h-64 relative w-full">
+            <canvas id="cardsPerDayChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 2: Số người check-in -->
+        <div class="bg-[#FFFFFF] p-5 sm:p-6 rounded-2xl border border-[#E6DFD8] shadow-xs flex flex-col justify-between">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#141413]">Số Thành Viên Check-in</h3>
+              <p class="text-xs text-[#73726C]">Mức độ tham gia duy trì kỷ luật mỗi ngày</p>
+            </div>
+            <span class="p-2 rounded-xl bg-[#5DB872]/15 text-[#2E7D47]">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </span>
+          </div>
+          <div class="h-64 relative w-full">
+            <canvas id="usersPerDayChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Charts Section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Chart 3: Top 5 Tích Luỹ -->
+        <div class="md:col-span-2 bg-[#FFFFFF] p-5 sm:p-6 rounded-2xl border border-[#E6DFD8] shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#141413]">Top Thành Viên Tích Luỹ Thẻ Cao Nhất</h3>
+              <p class="text-xs text-[#73726C]">Tổng hợp từ tất cả các ngày check-in</p>
+            </div>
+            <span class="p-2 rounded-xl bg-[#F0EAE1] text-[#CC785C]">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            </span>
+          </div>
+          <div class="h-64 relative w-full">
+            <canvas id="topUsersChart"></canvas>
+          </div>
+        </div>
+
+        <!-- Chart 4: Phân bổ bộ thẻ -->
+        <div class="bg-[#FFFFFF] p-5 sm:p-6 rounded-2xl border border-[#E6DFD8] shadow-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-serif text-lg font-bold text-[#141413]">Phân Bổ Lĩnh Vực</h3>
+              <p class="text-xs text-[#73726C]">Các loại deck được học phổ biến</p>
+            </div>
+            <span class="p-2 rounded-xl bg-[#F0EAE1] text-[#73726C]">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+            </span>
+          </div>
+          <div class="h-64 relative w-full flex items-center justify-center">
+            <canvas id="deckCategoryChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Details with Tabs -->
+      <div class="bg-[#FFFFFF] rounded-2xl border border-[#E6DFD8] shadow-xs overflow-hidden mb-12">
+        <!-- Tab Bar & Search -->
+        <div class="p-4 sm:p-5 border-b border-[#E6DFD8] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4 bg-[#FAF9F5]/40">
+          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0 scrollbar-none" id="tabButtons">
+            <button
+              id="tabBtnTopUsers"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs"
+              data-tab="topUsers"
+            >
+              Top Tích Luỹ
+            </button>
+            <button
+              id="tabBtnTopSingle"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]"
+              data-tab="topSingle"
+            >
+              Kỷ Lục 1 Ngày
+            </button>
+            <button
+              id="tabBtnDay1"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]"
+              data-tab="day1"
+            >
+              Day 1
+            </button>
+            <button
+              id="tabBtnDay2"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]"
+              data-tab="day2"
+            >
+              Day 2
+            </button>
+            <button
+              id="tabBtnDay3"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]"
+              data-tab="day3"
+            >
+              Day 3
+            </button>
+            <button
+              id="tabBtnDay4"
+              class="tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]"
+              data-tab="day4"
+            >
+              Day 4
+            </button>
+          </div>
+
+          <div class="relative w-full md:w-64">
+            <input
+              type="text"
+              id="statsSearchInput"
+              placeholder="Tìm theo tên thành viên..."
+              class="w-full bg-[#FFFFFF] border border-[#E6DFD8] text-[#141413] text-xs sm:text-sm rounded-xl py-2 pl-9 pr-3 focus:outline-none focus:ring-2 focus:ring-[#CC785C]/30 transition-all placeholder:text-[#8E8B82]"
+            />
+            <div class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#8E8B82]">
+              <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Content Description -->
+        <div class="px-5 py-3 bg-[#FFFFFF] border-b border-[#E6DFD8] text-xs text-[#73726C] flex items-center justify-between" id="tabDescription">
+          <span>Danh sách xếp hạng theo tổng số thẻ hoàn thành</span>
+          <span id="tabCountBadge" class="font-semibold text-[#141413] font-mono">0 kết quả</span>
+        </div>
+
+        <!-- Table View -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm" id="statsTable">
+            <thead>
+              <tr class="border-b border-[#E6DFD8] bg-[#F8F6F0]/60 text-[11px] font-bold uppercase tracking-wider text-[#73726C]" id="statsTableHead">
+                <th class="py-3 px-4 w-16">Hạng</th>
+                <th class="py-3 px-4">Thành viên</th>
+                <th class="py-3 px-4">Tổng thẻ</th>
+                <th class="py-3 px-4">Số ngày</th>
+                <th class="py-3 px-4">Thời gian</th>
+                <th class="py-3 px-4">Ghi chú & Deck</th>
+              </tr>
+            </thead>
+            <tbody id="statsTableBody" class="divide-y divide-[#E6DFD8]/60 text-[#141413]">
+              <!-- Hydrated via JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js" is:inline></script>
+<script is:inline define:vars={{ statsData }}>
+  const data = statsData;
+  let currentTab = 'topUsers';
+  let searchQuery = '';
+
+  // Render Charts
+  window.addEventListener('DOMContentLoaded', () => {
+    // Chart 1: Cards Per Day
+    const ctx1 = document.getElementById('cardsPerDayChart')?.getContext('2d');
+    if (ctx1) {
+      new Chart(ctx1, {
+        type: 'bar',
+        data: {
+          labels: data.dailySummary.map(d => d.dayLabel),
+          datasets: [{
+            label: 'Số thẻ học',
+            data: data.dailySummary.map(d => d.totalCards),
+            backgroundColor: '#CC785C',
+            hoverBackgroundColor: '#B8684D',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ` ${c.raw.toLocaleString('vi-VN')} thẻ`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(0,0,0,0.04)' }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // Chart 2: Users Per Day
+    const ctx2 = document.getElementById('usersPerDayChart')?.getContext('2d');
+    if (ctx2) {
+      new Chart(ctx2, {
+        type: 'line',
+        data: {
+          labels: data.dailySummary.map(d => d.dayLabel),
+          datasets: [{
+            label: 'Người check-in',
+            data: data.dailySummary.map(d => d.totalUsers),
+            borderColor: '#5DB872',
+            backgroundColor: 'rgba(93, 184, 114, 0.12)',
+            fill: true,
+            tension: 0.35,
+            pointRadius: 5,
+            pointBackgroundColor: '#5DB872'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ` ${c.raw} người check-in`
+              }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: 'rgba(0,0,0,0.04)' }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // Chart 3: Top Users
+    const ctx3 = document.getElementById('topUsersChart')?.getContext('2d');
+    if (ctx3) {
+      const top8 = data.userRankings.slice(0, 8);
+      new Chart(ctx3, {
+        type: 'bar',
+        data: {
+          labels: top8.map(u => u.user.length > 14 ? u.user.substring(0, 12) + '…' : u.user),
+          datasets: [{
+            label: 'Tổng số thẻ',
+            data: top8.map(u => u.totalCards),
+            backgroundColor: '#E8A55A',
+            hoverBackgroundColor: '#D29A3A',
+            borderRadius: 6
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              callbacks: {
+                label: (c) => ` ${c.raw.toLocaleString('vi-VN')} thẻ`
+              }
+            }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              grid: { color: 'rgba(0,0,0,0.04)' }
+            },
+            y: {
+              grid: { display: false }
+            }
+          }
+        }
+      });
+    }
+
+    // Chart 4: Deck Categories
+    const ctx4 = document.getElementById('deckCategoryChart')?.getContext('2d');
+    if (ctx4) {
+      new Chart(ctx4, {
+        type: 'doughnut',
+        data: {
+          labels: ['Tiếng Nhật', 'Tiếng Anh', 'Y/Dược', 'Khác'],
+          datasets: [{
+            data: [
+              data.deckCategories.japanese,
+              data.deckCategories.english,
+              data.deckCategories.medical,
+              data.deckCategories.other
+            ],
+            backgroundColor: ['#CC785C', '#5865F2', '#5DB872', '#8E8B82'],
+            borderWidth: 2,
+            borderColor: '#FFFFFF'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { boxWidth: 12, font: { size: 11 } }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    // Initial table render
+    setTab('topUsers');
+  });
+
+  function setTab(tab) {
+    currentTab = tab;
+
+    // Update active tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      const isCurrent = btn.getAttribute('data-tab') === tab;
+      if (isCurrent) {
+        btn.className = 'tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs';
+      } else {
+        btn.className = 'tab-btn px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA]';
+      }
+    });
+
+    renderTable();
+  }
+
+  function renderTable() {
+    const tbody = document.getElementById('statsTableBody');
+    const thead = document.getElementById('statsTableHead');
+    const desc = document.getElementById('tabDescription');
+    const countBadge = document.getElementById('tabCountBadge');
+    if (!tbody || !thead) return;
+
+    let items = [];
+    let isSingleDay = false;
+    let isDayDetail = false;
+
+    if (currentTab === 'topUsers') {
+      items = data.userRankings.map((u, i) => ({
+        rank: i + 1,
+        title: u.user,
+        cards: u.totalCards,
+        days: `${u.daysCount} ngày`,
+        time: u.totalMinutes > 0 ? `${Math.round(u.totalMinutes)}p` : '—',
+        note: (u.decks && u.decks.length) ? u.decks.join(', ') : (u.maxStreak ? `Streak: ${u.maxStreak}d` : '—')
+      }));
+      if (desc) desc.querySelector('span:first-child').textContent = 'Bảng xếp hạng tổng thẻ tích luỹ của toàn bộ thành viên (D1-D4)';
+    } else if (currentTab === 'topSingle') {
+      items = data.topSingleDayRecords.map((r, i) => ({
+        rank: i + 1,
+        title: r.user,
+        cards: r.cards,
+        days: r.date,
+        time: r.minutes ? `${Math.round(r.minutes)}p` : '—',
+        note: r.detail || r.deck || '—'
+      }));
+      if (desc) desc.querySelector('span:first-child').textContent = 'Top các kỷ lục số thẻ học nhiều nhất đạt được trong 1 ngày duy nhất';
+    } else {
+      // day1, day2, day3, day4
+      isDayDetail = true;
+      const dayObj = data.dailySummary.find(d => d.day === currentTab);
+      const records = dayObj ? dayObj.records : [];
+      items = records.map((r, i) => ({
+        rank: i + 1,
+        title: r.user,
+        cards: r.cards,
+        days: dayObj.date,
+        time: r.minutes ? `${Math.round(r.minutes)}p` : '—',
+        note: r.detail || r.deck || '—'
+      }));
+      if (desc) desc.querySelector('span:first-child').textContent = `Chi tiết các lượt check-in thực tế trong ${dayObj?.dayLabel || ''} (${dayObj?.date || ''})`;
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const q = searchQuery.trim().toLowerCase();
+      items = items.filter(it => it.title.toLowerCase().includes(q) || it.note.toLowerCase().includes(q));
+    }
+
+    if (countBadge) {
+      countBadge.textContent = `${items.length} kết quả`;
+    }
+
+    if (items.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-[#8E8B82]">Không tìm thấy thành viên phù hợp</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = items.map(it => {
+      let rankBadge = `<span class="font-mono font-bold text-[#73726C]">${it.rank}</span>`;
+      if (it.rank === 1) rankBadge = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#E8A55A]/25 text-[#B45309] font-bold text-xs">🥇</span>`;
+      else if (it.rank === 2) rankBadge = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#E6DFD8] text-[#73726C] font-bold text-xs">🥈</span>`;
+      else if (it.rank === 3) rankBadge = `<span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#CC785C]/20 text-[#CC785C] font-bold text-xs">🥉</span>`;
+
+      return `
+        <tr class="hover:bg-[#FAF9F5] transition-colors">
+          <td class="py-3 px-4">${rankBadge}</td>
+          <td class="py-3 px-4 font-semibold text-[#141413]">${it.title}</td>
+          <td class="py-3 px-4 font-bold text-[#CC785C]">${it.cards.toLocaleString('vi-VN')}</td>
+          <td class="py-3 px-4 text-[#73726C]">${it.days}</td>
+          <td class="py-3 px-4 text-[#73726C] font-mono">${it.time}</td>
+          <td class="py-3 px-4 text-[#8E8B82] max-w-xs truncate" title="${it.note}">${it.note}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  // Setup event listeners for tab buttons and search input
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const tab = e.currentTarget.getAttribute('data-tab');
+      if (tab) setTab(tab);
+    });
+  });
+
+  const searchInput = document.getElementById('statsSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchQuery = e.target.value;
+      renderTable();
+    });
+  }
+</script>

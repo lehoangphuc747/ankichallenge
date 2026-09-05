@@ -1,0 +1,152 @@
+---
+// src/components/Navbar.astro
+import DiscordAuthButton from './DiscordAuthButton.astro';
+
+interface Props {
+  activePage?: 'leaderboard' | 'stats' | 'profile' | string;
+  showChallengeSelect?: boolean;
+  selectedChallenge?: string;
+}
+
+const { activePage = 'leaderboard', showChallengeSelect = false, selectedChallenge = '4' } = Astro.props;
+---
+
+<header class="w-full mb-8 pt-2">
+  <div class="flex flex-col md:flex-row items-center justify-between gap-4 py-3 px-4 sm:px-5 bg-[#FFFFFF]/80 backdrop-blur-md rounded-2xl border border-[#E6DFD8] shadow-[0_2px_12px_rgba(20,20,19,0.03)]">
+    
+    <!-- Left: Brand Logo & Title -->
+    <div class="flex items-center justify-between w-full md:w-auto gap-4">
+      <a href="/" class="flex items-center gap-3 group">
+        <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-[#F0EAE1] text-[#CC785C] border border-[#E6DFD8] shadow-xs group-hover:scale-105 group-hover:bg-[#CC785C] group-hover:text-white transition-all duration-200">
+          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+            <path d="M12 2L14.3 9.7L22 12L14.3 14.3L12 22L9.7 14.3L2 12L9.7 9.7L12 2Z"/>
+          </svg>
+        </span>
+        <div class="flex flex-col">
+          <span class="text-base sm:text-lg font-serif font-bold text-[#141413] tracking-tight group-hover:text-[#CC785C] transition-colors leading-none">
+            Anki Challenge
+          </span>
+          <span class="text-[10px] font-mono font-bold text-[#CC785C] tracking-wider uppercase mt-1">
+            Việt Nam
+          </span>
+        </div>
+      </a>
+
+      <!-- Mobile Navigation Segmented Control -->
+      <nav class="flex md:hidden items-center bg-[#F3EFEA] p-1 rounded-xl border border-[#E6DFD8]">
+        <a
+          href="/"
+          class={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            activePage === 'leaderboard'
+              ? 'bg-[#FFFFFF] text-[#CC785C] shadow-xs'
+              : 'text-[#73726C] hover:text-[#141413]'
+          }`}
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+            <path d="M4 22h16"/>
+            <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/>
+            <path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/>
+            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+          </svg>
+          <span>BXH</span>
+        </a>
+        <a
+          href="/stats"
+          class={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+            activePage === 'stats'
+              ? 'bg-[#FFFFFF] text-[#CC785C] shadow-xs'
+              : 'text-[#73726C] hover:text-[#141413]'
+          }`}
+        >
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
+          <span>Thống kê</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Center: Desktop Navigation Bar (Segmented Tabs) -->
+    <nav class="hidden md:flex items-center gap-1.5 bg-[#F3EFEA] p-1.5 rounded-xl border border-[#E6DFD8]">
+      <a
+        href="/"
+        class={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200 ${
+          activePage === 'leaderboard'
+            ? 'bg-[#FFFFFF] text-[#CC785C] shadow-xs'
+            : 'text-[#73726C] hover:text-[#141413] hover:bg-[#FAF9F5]/60'
+        }`}
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+          <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+          <path d="M4 22h16"/>
+          <path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/>
+          <path d="M14 14.66V17c0 .55.45 1 1 1h2c.55 0 1-.45 1-1v-2.34"/>
+          <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+        </svg>
+        <span>Bảng xếp hạng</span>
+      </a>
+
+      <a
+        href="/stats"
+        class={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all duration-200 relative ${
+          activePage === 'stats'
+            ? 'bg-[#FFFFFF] text-[#CC785C] shadow-xs'
+            : 'text-[#73726C] hover:text-[#141413] hover:bg-[#FAF9F5]/60'
+        }`}
+      >
+        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        <span>Thống kê</span>
+        <span class="inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wide bg-[#CC785C]/15 text-[#CC785C] border border-[#CC785C]/25">
+          Mới
+        </span>
+      </a>
+    </nav>
+
+    <!-- Right: Challenge Selector & Discord Auth -->
+    <div class="flex items-center gap-2.5 w-full md:w-auto justify-end flex-wrap">
+      {showChallengeSelect ? (
+        <div class="relative group flex-1 md:flex-none">
+          <select
+            id="challengeSelect"
+            class="w-full md:w-auto appearance-none bg-[#F3EFEA] hover:bg-[#EAE4DC] border border-[#E6DFD8] text-[#141413] text-xs md:text-sm font-semibold py-2 pl-3.5 pr-9 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CC785C]/30 transition-all cursor-pointer shadow-xs"
+          >
+            <option value="1" selected={selectedChallenge === '1'} class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 8</option>
+            <option value="2" selected={selectedChallenge === '2'} class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 9</option>
+            <option value="3" selected={selectedChallenge === '3'} class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 10</option>
+            <option value="4" selected={selectedChallenge === '4'} class="bg-[#FAF9F5] text-[#141413]">Anki Challenge 11</option>
+          </select>
+          <div class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none text-[#8E8B82]">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </div>
+        </div>
+      ) : (
+        <a
+          href="https://discord.gg/P5EwPm7C38"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#73726C] hover:text-[#5865F2] bg-[#F3EFEA] hover:bg-[#5865F2]/10 border border-[#E6DFD8] rounded-xl transition-all duration-200"
+          title="Cộng đồng Discord Anki Việt Nam"
+        >
+          <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 127.14 96.36">
+            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.68,1.76,1.36,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1,105.25,105.25,0,0,0,32.19-16.14c2.64-27.38-4.51-51.11-20.95-72.15ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,45.92,53.87,53,48.8,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.2,45.92,96.07,53,91,65.69,84.69,65.69Z"/>
+          </svg>
+          <span>Discord VN</span>
+        </a>
+      )}
+
+      <DiscordAuthButton />
+    </div>
+
+  </div>
+</header>
