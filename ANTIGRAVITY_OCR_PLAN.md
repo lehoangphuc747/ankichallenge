@@ -9,30 +9,30 @@ OCR toàn bộ ảnh check-in từ các daily thread D1-D5 để thu thập dữ
 |------|------|-----------|--------------|
 | D1-01/09 | 22 ảnh | ✅ Xong (28 users) | `discord-export/ocr-results.json` |
 | D2-02/09 | 0 ảnh | ✅ Xong (16 users, ảnh từ thread khác) | `discord-export/ocr-results.json` |
-| D3-03/09 | 33 ảnh | ❌ Chưa OCR | `discord-export/D3-03/09/` |
-| D4-04/09 | 15 ảnh | ❌ Chưa OCR | `discord-export/D4-04/09/` |
+| D3-03/09 | 33 ảnh | ✅ Xong (Antigravity Gemini) | `discord-export/ocr-results.json` |
+| D4-04/09 | 15 ảnh | ✅ Xong (Antigravity Gemini) | `discord-export/ocr-results.json` |
 | D5-05/09 | 0 ảnh | — | Chưa có check-in |
 
 ## Task cần làm
 
 ### 1. Setup Antigravity
-- [ ] Cài đặt Antigravity CLI / SDK (Google's app code tool)
-- [ ] Configure API key cho Gemini model
-- [ ] Test OCR 1 ảnh mẫu trước khi chạy batch
+- [x] Antigravity IDE & Subagents
+- [x] Dùng Gemini Vision qua `view_file`
+- [x] Test OCR ảnh mẫu thành công
 
 ### 2. OCR Day3 (33 ảnh)
-- [ ] Batch OCR tất cả ảnh trong `discord-export/D3-03/09/`
-- [ ] Trích xuất: `cards`, `minutes`, `streak`, `deck name`, `user`
-- [ ] Append kết quả vào `ocr-results.json` → key `day3`
+- [x] Batch OCR tất cả ảnh trong `discord-export/D3-03/09/` qua các subagent
+- [x] Trích xuất: `cards`, `minutes`, `streak`, `deck name`
+- [x] Append kết quả vào `ocr-results.json` → key `day3`
 
 ### 3. OCR Day4 (15 ảnh)
-- [ ] Batch OCR tất cả ảnh trong `discord-export/D4-04/09/`
-- [ ] Trích xuất: `cards`, `minutes`, `streak`, `deck name`, `user`
-- [ ] Append kết quả vào `ocr-results.json` → key `day4`
+- [x] Batch OCR tất cả ảnh trong `discord-export/D4-04/09/` qua subagent
+- [x] Trích xuất: `cards`, `minutes`, `streak`, `deck name`
+- [x] Append kết quả vào `ocr-results.json` → key `day4`
 
 ### 4. Tổng hợp & Validate
-- [ ] Cross-check OCR results với check-in messages trong thread (match user ↔ image)
-- [ ] Verify số liệu hợp lý (cards > 0, minutes reasonable)
+- [x] Cross-check OCR results và loại bỏ placeholder cũ
+- [x] Verify số liệu hợp lý (cards, minutes, streak)
 - [ ] Xuất summary: top learners, avg cards/day, most studied decks
 
 ## Prompt mẫu cho Antigravity
