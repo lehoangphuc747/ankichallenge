@@ -25,6 +25,7 @@ jobs:
         run: |
           echo "Calling create-daily-thread..."
           RESP=$(curl -s -w "\n%{http_code}" -X POST "https://ankichallenge.pages.dev/api/discord/create-daily-thread" \
+            -H "Content-Type: application/json" \
             -H "User-Agent: GitHubActions-DailyThread/1.0" \
             ${CRON_SECRET:+-H "x-cron-secret: $CRON_SECRET"})
           BODY=$(echo "$RESP" | sed '$d')
