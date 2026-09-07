@@ -212,6 +212,22 @@ function formatDateDisplay(ymd: string): string {
   return ymd;
 }
 
+function parseDateFromThreadName(name?: string): string | null {
+  if (!name) return null;
+  // Match thread format: D1-01/09, D05-05/09, D100-09/12, Test-31/08
+  const m = name.match(/(?:D\d+|Test)\s*[-_:]\s*(\d{1,2})[\/\.-](\d{1,2})/i);
+  if (m) {
+    const day = Number(m[1]);
+    const month = Number(m[2]);
+    const now = new Date();
+    const vnYear = new Date(now.getTime() + 7 * 3600 * 1000).getUTCFullYear();
+    if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+      return `${vnYear}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    }
+  }
+  return null;
+}
+
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
   // Option date - BẮT BUỘC (user phải khai ngày)
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
@@ -285,6 +301,42 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     return patchOriginalMessage(
       interaction,
       `Ngày **${displayDate}** là trong tương lai. Chỉ check-in được cho ngày hôm nay hoặc các ngày trước.`,
+      true
+    );
+  }
+
+  // Strict Thread Gate: Nếu lệnh được gọi trong thread ngày (VD: D5-05/09), bắt buộc ngày check-in phải khớp ngày thread
+  let channelName = interaction.channel?.name;
+  if (!channelName && interaction.channel_id) {
+    const token = env.DISCORD_TOKEN || import.meta.env.DISCORD_TOKEN;
+    if (token) {
+      try {
+        const chRes = await fetch(`https://discord.com/api/v10/channels/${interaction.channel_id}`, {
+          headers: {
+            'Authorization': `Bot ${token}`,
+            'User-Agent': 'DiscordBot (https://ankichallenge.pages.dev, 1.0)',
+          },
+        });
+        if (chRes.ok) {
+          const chData: any = await chRes.json();
+          channelName = chData?.name;
+        }
+      } catch (e) {
+        // bỏ qua nếu lỗi mạng Discord
+      }
+    }
+  }
+
+  const threadDate = parseDateFromThreadName(channelName);
+  if (threadDate && date !== threadDate) {
+    const displayThreadDate = formatDateDisplay(threadDate);
+    return patchOriginalMessage(
+      interaction,
+      `⚠️ **Bạn đang ở nhầm thread rồi!**\n\n` +
+      `• Thread này là **${channelName}** (dành cho ngày **${displayThreadDate}**).\n` +
+      `• Nhưng bạn lại đang chọn check-in cho ngày **${displayDate}**.\n\n` +
+      `👉 Vui lòng chuyển sang đúng thread của ngày **${displayDate}** để check-in nhé!\n` +
+      `*(Nếu bạn muốn check-in bù cho ngày này, hãy gõ lại với \`/checkin date: ${displayThreadDate.slice(0, 5)}\`)*`,
       true
     );
   }
