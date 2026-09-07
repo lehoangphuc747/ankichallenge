@@ -36,9 +36,9 @@ const COMMANDS = [
         required: false,
       },
       {
-        type: 4, // INTEGER
+        type: 10, // NUMBER (cho phép số thập phân như 1.93, 2.5)
         name: 'minutes',
-        description: 'Số phút đã học hôm nay (tùy chọn)',
+        description: 'Số phút đã học hôm nay (tùy chọn, ví dụ: 1.93 hoặc 25)',
         required: false,
       },
     ],

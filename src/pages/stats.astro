@@ -23,19 +23,19 @@ const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } =
           <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-[#CC785C]/10 border border-[#CC785C]/20 text-[#CC785C] text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2">
             <span>Anki Challenge 11</span>
             <span>•</span>
-            <span>Day 1 – Day 4</span>
+            <span>Day 1 – Day 7</span>
           </div>
           <h1 class="text-2xl sm:text-3xl md:text-4xl font-serif text-[#141413] font-semibold tracking-tight">
             Thống Kê & Phân Tích Check-in
           </h1>
           <p class="text-[#73726C] text-xs sm:text-sm md:text-base mt-1 max-w-2xl leading-relaxed">
-            Dữ liệu trích xuất từ hình ảnh check-in thực tế của 34 thành viên, tổng hợp tiến độ học tập và bảng xếp hạng nỗ lực.
+            Dữ liệu trích xuất từ hình ảnh check-in thực tế của {kpi.uniqueUsers} thành viên, tổng hợp tiến độ học tập và bảng xếp hạng nỗ lực.
           </p>
         </div>
 
         <div class="flex items-center gap-2 sm:gap-2.5 flex-wrap w-full md:w-auto">
           <a
-            href="/anki_challenge_d1_d4_chart.jpg"
+            href="/anki_challenge_d1_d7_chart.jpg"
             target="_blank"
             rel="noopener noreferrer"
             class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3.5 py-2 bg-[#CC785C] hover:bg-[#B8684D] active:scale-[0.98] text-white font-semibold text-xs sm:text-sm rounded-xl shadow-xs transition-all duration-200 cursor-pointer whitespace-nowrap"
@@ -74,7 +74,7 @@ const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } =
             {kpi.totalCards.toLocaleString('vi-VN')}
           </div>
           <div class="text-[11px] sm:text-xs text-[#73726C] mt-1 flex items-center gap-1">
-            <span class="text-[#2E7D47] font-semibold">4 ngày liên tiếp</span>
+            <span class="text-[#2E7D47] font-semibold">{dailySummary.length} ngày liên tiếp</span>
           </div>
         </div>
 
@@ -86,7 +86,7 @@ const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } =
             {kpi.totalCheckins}
           </div>
           <div class="text-[11px] sm:text-xs text-[#73726C] mt-1 truncate">
-            <span>23.5 lượt/ngày</span>
+            <span>{(kpi.totalCheckins / dailySummary.length).toFixed(1)} lượt/ngày</span>
           </div>
         </div>
 
@@ -204,34 +204,15 @@ const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } =
             >
               Kỷ Lục 1 Ngày
             </button>
-            <button
-              id="tabBtnDay1"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-              data-tab="day1"
-            >
-              Day 1
-            </button>
-            <button
-              id="tabBtnDay2"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-              data-tab="day2"
-            >
-              Day 2
-            </button>
-            <button
-              id="tabBtnDay3"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-              data-tab="day3"
-            >
-              Day 3
-            </button>
-            <button
-              id="tabBtnDay4"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-              data-tab="day4"
-            >
-              Day 4
-            </button>
+            {dailySummary.map((d) => (
+              <button
+                id={`tabBtn${d.day}`}
+                class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
+                data-tab={d.day}
+              >
+                {d.dayLabel}
+              </button>
+            ))}
           </div>
 
           <div class="relative w-full md:w-64 shrink-0">
@@ -478,7 +459,7 @@ const { kpi, dailySummary, userRankings, topSingleDayRecords, deckCategories } =
         time: u.totalMinutes > 0 ? `${Math.round(u.totalMinutes)}p` : '—',
         note: (u.decks && u.decks.length) ? u.decks.join(', ') : (u.maxStreak ? `Streak: ${u.maxStreak}d` : '—')
       }));
-      if (desc) desc.querySelector('span:first-child').textContent = 'Bảng xếp hạng tổng thẻ tích luỹ của toàn bộ thành viên (D1-D4)';
+      if (desc) desc.querySelector('span:first-child').textContent = 'Bảng xếp hạng tổng thẻ tích luỹ của toàn bộ thành viên (D1-D7)';
     } else if (currentTab === 'topSingle') {
       items = data.topSingleDayRecords.map((r, i) => ({
         rank: i + 1,

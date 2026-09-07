@@ -9,7 +9,7 @@ const COMMANDS = [
       { type: 11, name: 'image', description: 'Ảnh / screenshot chứng thực (bắt buộc - PNG, JPG...)', required: true },
       { type: 3, name: 'date', description: 'Ngày check-in (bắt buộc): hôm nay, hq, hk, hoặc 15/8, YYYY-MM-DD', required: true },
       { type: 4, name: 'cards', description: 'Số thẻ đã học hôm nay (tùy chọn)', required: false },
-      { type: 4, name: 'minutes', description: 'Số phút đã học hôm nay (tùy chọn)', required: false },
+      { type: 10, name: 'minutes', description: 'Số phút đã học hôm nay (tùy chọn, ví dụ: 1.93 hoặc 25)', required: false },
     ],
   },
   { name: 'trangthai', description: 'Xem trạng thái, thứ hạng, chuỗi streak và tiến độ thử thách của bạn' },

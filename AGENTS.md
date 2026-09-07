@@ -122,6 +122,7 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 
 ## Reporting, Charts & Dashboard Conventions
 - **Ngôn ngữ**: 100% Tiếng Việt cho tiêu đề, chú thích, nhãn trục và giao diện báo cáo/thống kê.
+- **Cập nhật trang `/stats`**: Mỗi khi cập nhật dữ liệu check-in/OCR mới, **BẮT BUỘC** chạy script cập nhật `src/data/ac11_stats.json` và `public/data/ac11_stats.json`, kiểm tra trang web `src/pages/stats.astro` (hoạt động đồng bộ theo các ngày Day 1 - Day N), file standalone dashboard `.html` và ảnh biểu đồ `.jpg`.
 - **Xuất ảnh biểu đồ**: Tạo biểu đồ JPG độ phân giải cao (tối thiểu DPI 200) với bố cục rõ ràng, phối màu ấm áp (Terracotta & Nền kem).
 - **Dashboard tương tác**: Khi người dùng yêu cầu xem dạng web/HTML, tạo file `.html` độc lập (standalone) chứa sẵn CSS/JS (Chart.js), theo phong cách **Claude warm style** (Terracotta `#CC785C`, nền kem `#FAF9F5`, bo góc mềm mại, KPI cards, hệ thống tab chuyển đổi) để người dùng có thể mở trực tiếp trên trình duyệt mà không cần chạy server.
 

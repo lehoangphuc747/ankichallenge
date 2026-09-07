@@ -1,14 +1,27 @@
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const raw = JSON.parse(fs.readFileSync('discord-export/ocr-results.json', 'utf8'));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const days = ['day1', 'day2', 'day3', 'day4'];
+const raw = JSON.parse(fs.readFileSync(path.join(__dirname, '../discord-export/ocr-results.json'), 'utf8'));
+
+let userMap = {};
+const userMapPath = path.join(__dirname, '../discord-export/user-map.json');
+if (fs.existsSync(userMapPath)) {
+  userMap = JSON.parse(fs.readFileSync(userMapPath, 'utf8'));
+}
+
+const days = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7'];
 const dates = {
   day1: '01/09/2026',
   day2: '02/09/2026',
   day3: '03/09/2026',
-  day4: '04/09/2026'
+  day4: '04/09/2026',
+  day5: '05/09/2026',
+  day6: '06/09/2026',
+  day7: '07/09/2026'
 };
 
 const userAgg = {};
@@ -21,38 +34,59 @@ let grandTotalCheckins = 0;
 for (const d of days) {
   const dayData = raw[d] || {};
   const entries = Object.entries(dayData);
-  let dayCards = 0;
-  let dayUsers = entries.length;
-  let dayMinutes = 0;
-  const records = [];
+  
+  // Deduplicate per user per day
+  const userBestEntry = new Map();
 
   for (const [key, item] of entries) {
+    const discordId = item.discordId || (userMap[key] ? key : null);
+    let userName = item.user || (discordId ? userMap[discordId] : null) || `User ${key}`;
+    if (discordId && userMap[discordId]) {
+      userName = userMap[discordId];
+    }
+    // Clean up any trailing discord tags like #8722 if wanted, or keep consistent
+    userName = userName.replace(/#\d{4}$/, '').trim();
+
     const cards = Number(item.cards) || 0;
     const minutes = Number(item.minutes) || 0;
     const streak = item.streak != null ? Number(item.streak) : null;
-    const userName = item.user || item.file || `User ${key}`;
-
-    dayCards += cards;
-    dayMinutes += minutes;
+    const deck = item.deck || null;
+    const detail = item.detail || '';
+    const imageDesc = item.image_content_desc || '';
 
     const entryObj = {
       id: key,
+      discordId: discordId || key,
       day: d,
       date: dates[d],
       user: userName,
       cards,
       minutes,
       streak,
-      deck: item.deck || null,
-      detail: item.detail || ''
+      deck,
+      detail,
+      imageDesc
     };
 
-    records.push(entryObj);
-    singleDayRecords.push(entryObj);
+    const existing = userBestEntry.get(userName);
+    if (!existing || cards > existing.cards) {
+      userBestEntry.set(userName, entryObj);
+    }
+  }
 
-    if (!userAgg[userName]) {
-      userAgg[userName] = {
-        user: userName,
+  const dayRecords = Array.from(userBestEntry.values());
+  let dayCards = 0;
+  let dayMinutes = 0;
+
+  for (const entry of dayRecords) {
+    dayCards += entry.cards;
+    dayMinutes += entry.minutes;
+    singleDayRecords.push(entry);
+
+    if (!userAgg[entry.user]) {
+      userAgg[entry.user] = {
+        user: entry.user,
+        discordId: entry.discordId,
         totalCards: 0,
         daysCount: 0,
         totalMinutes: 0,
@@ -63,35 +97,35 @@ for (const d of days) {
       };
     }
 
-    userAgg[userName].totalCards += cards;
-    userAgg[userName].daysCount += 1;
-    userAgg[userName].totalMinutes += minutes;
-    if (streak && streak > userAgg[userName].maxStreak) {
-      userAgg[userName].maxStreak = streak;
+    userAgg[entry.user].totalCards += entry.cards;
+    userAgg[entry.user].daysCount += 1;
+    userAgg[entry.user].totalMinutes += entry.minutes;
+    if (entry.streak && entry.streak > userAgg[entry.user].maxStreak) {
+      userAgg[entry.user].maxStreak = entry.streak;
     }
-    if (cards > userAgg[userName].maxSingleDay) {
-      userAgg[userName].maxSingleDay = cards;
+    if (entry.cards > userAgg[entry.user].maxSingleDay) {
+      userAgg[entry.user].maxSingleDay = entry.cards;
     }
-    userAgg[userName].daysJoined.push(d);
-    if (item.deck) {
-      userAgg[userName].decks.add(item.deck);
+    userAgg[entry.user].daysJoined.push(d);
+    if (entry.deck) {
+      userAgg[entry.user].decks.add(entry.deck);
     }
   }
 
   grandTotalCards += dayCards;
-  grandTotalCheckins += dayUsers;
+  grandTotalCheckins += dayRecords.length;
 
-  records.sort((a, b) => b.cards - a.cards);
+  dayRecords.sort((a, b) => b.cards - a.cards);
 
   dailySummary.push({
     day: d,
     dayLabel: d.toUpperCase().replace('DAY', 'Day '),
     date: dates[d],
     totalCards: dayCards,
-    totalUsers: dayUsers,
+    totalUsers: dayRecords.length,
     totalMinutes: Math.round(dayMinutes),
-    avgCardsPerUser: dayUsers > 0 ? Math.round(dayCards / dayUsers) : 0,
-    records
+    avgCardsPerUser: dayRecords.length > 0 ? Math.round(dayCards / dayRecords.length) : 0,
+    records: dayRecords
   });
 }
 
@@ -112,12 +146,12 @@ let medicalCount = 0;
 let otherCount = 0;
 
 for (const r of singleDayRecords) {
-  const txt = `${r.deck || ''} ${r.detail || ''} ${r.user || ''}`.toLowerCase();
-  if (txt.includes('n1') || txt.includes('n2') || txt.includes('n3') || txt.includes('kanji') || txt.includes('nhật') || txt.includes('hsk') || txt.includes('hàn') || txt.includes('japanese') || txt.includes('tango')) {
+  const txt = `${r.deck || ''} ${r.detail || ''} ${r.user || ''} ${r.imageDesc || ''}`.toLowerCase();
+  if (txt.includes('n1') || txt.includes('n2') || txt.includes('n3') || txt.includes('kanji') || txt.includes('nhật') || txt.includes('hsk') || txt.includes('hàn') || txt.includes('topik') || txt.includes('chinese') || txt.includes('japanese') || txt.includes('tango')) {
     japaneseCount++;
   } else if (txt.includes('ielts') || txt.includes('toeic') || txt.includes('english') || txt.includes('anh') || txt.includes('oxford') || txt.includes('vocab')) {
     englishCount++;
-  } else if (txt.includes('y') || txt.includes('med') || txt.includes('dược') || txt.includes('anatomy') || txt.includes('bệnh') || txt.includes('thuốc')) {
+  } else if (txt.includes('y') || txt.includes('sản') || txt.includes('med') || txt.includes('dược') || txt.includes('anatomy') || txt.includes('bệnh') || txt.includes('thuốc')) {
     medicalCount++;
   } else {
     otherCount++;
@@ -126,9 +160,9 @@ for (const r of singleDayRecords) {
 
 const statsData = {
   meta: {
-    title: 'Thống Kê Anki Challenge 11 (Day 1 - Day 4)',
+    title: 'Thống Kê Anki Challenge 11 (Day 1 - Day 7)',
     generatedAt: new Date().toISOString(),
-    daysAvailable: ['Day 1', 'Day 2', 'Day 3', 'Day 4']
+    daysAvailable: days.map(d => d.toUpperCase().replace('DAY', 'Day '))
   },
   kpi: {
     totalCards: grandTotalCards,
@@ -147,15 +181,20 @@ const statsData = {
   },
   dailySummary,
   userRankings,
-  topSingleDayRecords: singleDayRecords.slice(0, 20)
+  topSingleDayRecords: singleDayRecords.slice(0, 30)
 };
 
-if (!fs.existsSync('src/data')) {
-  fs.mkdirSync('src/data', { recursive: true });
+const srcDir = path.join(__dirname, '../src/data');
+if (!fs.existsSync(srcDir)) {
+  fs.mkdirSync(srcDir, { recursive: true });
 }
 
-fs.writeFileSync('src/data/ac11_stats.json', JSON.stringify(statsData, null, 2), 'utf8');
-fs.writeFileSync('public/data/ac11_stats.json', JSON.stringify(statsData, null, 2), 'utf8');
+fs.writeFileSync(path.join(srcDir, 'ac11_stats.json'), JSON.stringify(statsData, null, 2), 'utf8');
+fs.writeFileSync(path.join(__dirname, '../public/data/ac11_stats.json'), JSON.stringify(statsData, null, 2), 'utf8');
 
-console.log('Successfully generated src/data/ac11_stats.json and public/data/ac11_stats.json');
-console.log('KPI:', JSON.stringify(statsData.kpi));
+console.log('Successfully generated src/data/ac11_stats.json and public/data/ac11_stats.json!');
+console.log('KPI:', JSON.stringify(statsData.kpi, null, 2));
+console.log('Daily Summary:');
+for (const ds of dailySummary) {
+  console.log(`- ${ds.dayLabel} (${ds.date}): ${ds.totalCards.toLocaleString()} cards, ${ds.totalUsers} users, ${ds.totalMinutes} mins, avg ${ds.avgCardsPerUser} cards/user`);
+}

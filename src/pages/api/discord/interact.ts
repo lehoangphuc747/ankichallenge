@@ -228,8 +228,9 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     if (Number.isFinite(n) && n >= 0) cardsStudied = Math.round(n);
   }
   if (minutesOption?.value !== undefined && minutesOption?.value !== null) {
-    const n = Number(minutesOption.value);
-    if (Number.isFinite(n) && n >= 0) minutesStudied = n;
+    const rawVal = String(minutesOption.value).replace(',', '.');
+    const n = Number(rawVal);
+    if (Number.isFinite(n) && n >= 0) minutesStudied = Math.round(n * 100) / 100;
   }
 
   // Option image - BẮT BUỘC phải có ảnh mới được check-in
