@@ -23,7 +23,7 @@ ax_bg.axis('off')
 # Title & Subtitle
 ax_bg.text(0.06, 0.955, "ANKI CHALLENGE 11  •  DAY 1 – DAY 7", fontsize=11, fontweight='bold', color='#CC785C')
 ax_bg.text(0.06, 0.915, "Thống Kê & Bảng Xếp Hạng Check-in Thử Thách", fontsize=23, fontweight='bold', color='#2D2A26')
-ax_bg.text(0.06, 0.885, f"Dữ liệu trích xuất từ thị giác (Gemini Vision OCR) trên 173 lượt check-in của {kpi['uniqueUsers']} thành viên", fontsize=11.5, color='#736E65')
+ax_bg.text(0.06, 0.885, f"Dữ liệu trích xuất từ thị giác (Gemini Vision OCR) trên {kpi['totalCheckins']} lượt check-in của {kpi['uniqueUsers']} thành viên", fontsize=11.5, color='#736E65')
 
 # KPI Box drawing helper
 def draw_kpi(x, y, w, h, label, val, sub, bar_color):
@@ -37,8 +37,9 @@ def draw_kpi(x, y, w, h, label, val, sub, bar_color):
     ax_bg.text(x + 0.015, y + 0.028, val, fontsize=19, fontweight='bold', color='#2D2A26')
     ax_bg.text(x + 0.015, y + 0.010, sub, fontsize=8.5, color='#736E65')
 
+avg_daily_checkin = round(kpi['totalCheckins'] / len(daily), 1) if len(daily) > 0 else 0
 draw_kpi(0.06, 0.77, 0.20, 0.088, "Tổng số thẻ học", f"{kpi['totalCards']:,}".replace(',', '.'), "7 ngày liên tục", '#CC785C')
-draw_kpi(0.28, 0.77, 0.20, 0.088, "Tổng lượt check-in", f"{kpi['totalCheckins']} lượt", "Trung bình 24.7 lượt/ngày", '#4A7C59')
+draw_kpi(0.28, 0.77, 0.20, 0.088, "Tổng lượt check-in", f"{kpi['totalCheckins']} lượt", f"Trung bình {avg_daily_checkin} lượt/ngày", '#4A7C59')
 draw_kpi(0.50, 0.77, 0.20, 0.088, "Kỷ lục 1 ngày", f"{kpi['maxSingleDayCards']:,}".replace(',', '.') + " thẻ", f"Bởi {kpi['topSingleUser']}", '#D97706')
 draw_kpi(0.72, 0.77, 0.22, 0.088, "Top 1 Tích Luỹ", f"{kpi['topAggregateCards']:,}".replace(',', '.') + " thẻ", f"Bởi {kpi['topAggregateUser']}", '#2B4C7E')
 
