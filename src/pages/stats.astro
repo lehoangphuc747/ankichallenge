@@ -193,30 +193,63 @@ const chartLink = meta?.chartUrl || "/anki_challenge_d1_d7_chart.jpg";
       <div class="bg-[#FFFFFF] rounded-2xl border border-[#E6DFD8] shadow-xs overflow-hidden mb-8 sm:mb-12">
         <!-- Tab Bar & Search -->
         <div class="p-3 sm:p-5 border-b border-[#E6DFD8] flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4 bg-[#FAF9F5]/40">
-          <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none" id="tabButtons">
-            <button
-              id="tabBtnTopUsers"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs whitespace-nowrap shrink-0"
-              data-tab="topUsers"
-            >
-              Top Tích Luỹ
-            </button>
-            <button
-              id="tabBtnTopSingle"
-              class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-              data-tab="topSingle"
-            >
-              Kỷ Lục 1 Ngày
-            </button>
-            {dailySummary.map((d) => (
+          <div class="flex flex-wrap items-center gap-2" id="tabControls">
+            <!-- 2 Tab Tổng Quan -->
+            <div class="flex items-center gap-1.5 shrink-0">
               <button
-                id={`tabBtn${d.day}`}
-                class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0"
-                data-tab={d.day}
+                id="tabBtnTopUsers"
+                class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs whitespace-nowrap"
+                data-tab="topUsers"
               >
-                {d.dayLabel}
+                Top Tích Luỹ
               </button>
-            ))}
+              <button
+                id="tabBtnTopSingle"
+                class="tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap"
+                data-tab="topSingle"
+              >
+                Kỷ Lục 1 Ngày
+              </button>
+            </div>
+
+            <div class="hidden sm:block h-5 w-px bg-[#E6DFD8] mx-0.5"></div>
+
+            <!-- Date Selector with Prev / Dropdown / Next -->
+            <div class="flex items-center gap-0.5 sm:gap-1 shrink-0 bg-[#FFFFFF] border border-[#E6DFD8] rounded-xl p-0.5 transition-all shadow-2xs hover:border-[#CC785C]/40" id="dayPickerContainer">
+              <button
+                id="prevDayBtn"
+                type="button"
+                title="Ngày trước đó"
+                class="p-1.5 rounded-lg text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+              </button>
+
+              <div class="relative flex items-center">
+                <select
+                  id="daySelect"
+                  class="appearance-none bg-transparent pl-2 pr-7 py-1 text-xs sm:text-sm font-semibold text-[#73726C] hover:text-[#141413] cursor-pointer focus:outline-none"
+                >
+                  {dailySummary.slice().reverse().map((d) => (
+                    <option value={d.day}>
+                      {d.dayLabel} ({d.date})
+                    </option>
+                  ))}
+                </select>
+                <div class="absolute right-1.5 pointer-events-none text-[#73726C]">
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </div>
+              </div>
+
+              <button
+                id="nextDayBtn"
+                type="button"
+                title="Ngày tiếp theo"
+                class="p-1.5 rounded-lg text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] disabled:opacity-30 disabled:pointer-events-none transition-colors cursor-pointer"
+              >
+                <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+              </button>
+            </div>
           </div>
 
           <div class="relative w-full md:w-64 shrink-0">
@@ -429,18 +462,60 @@ const chartLink = meta?.chartUrl || "/anki_challenge_d1_d7_chart.jpg";
     setTab('topUsers');
   });
 
+  const daysList = data.dailySummary.map(d => d.day);
+  const daySelect = document.getElementById('daySelect');
+  const prevDayBtn = document.getElementById('prevDayBtn');
+  const nextDayBtn = document.getElementById('nextDayBtn');
+  const dayPickerContainer = document.getElementById('dayPickerContainer');
+  const tabBtnTopUsers = document.getElementById('tabBtnTopUsers');
+  const tabBtnTopSingle = document.getElementById('tabBtnTopSingle');
+
+  function updateDateNav(day) {
+    const idx = daysList.indexOf(day);
+    if (idx === -1) {
+      if (prevDayBtn) prevDayBtn.disabled = true;
+      if (nextDayBtn) nextDayBtn.disabled = true;
+    } else {
+      if (prevDayBtn) prevDayBtn.disabled = (idx <= 0);
+      if (nextDayBtn) nextDayBtn.disabled = (idx >= daysList.length - 1);
+    }
+  }
+
   function setTab(tab) {
     currentTab = tab;
+    const isDay = tab.startsWith('day');
 
-    // Update active tab buttons
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      const isCurrent = btn.getAttribute('data-tab') === tab;
-      if (isCurrent) {
-        btn.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs whitespace-nowrap shrink-0';
+    if (tabBtnTopUsers) {
+      if (tab === 'topUsers') {
+        tabBtnTopUsers.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs whitespace-nowrap';
       } else {
-        btn.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap shrink-0';
+        tabBtnTopUsers.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap';
       }
-    });
+    }
+
+    if (tabBtnTopSingle) {
+      if (tab === 'topSingle') {
+        tabBtnTopSingle.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer bg-[#CC785C] text-white shadow-xs whitespace-nowrap';
+      } else {
+        tabBtnTopSingle.className = 'tab-btn px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer text-[#73726C] hover:text-[#141413] hover:bg-[#F3EFEA] whitespace-nowrap';
+      }
+    }
+
+    if (dayPickerContainer && daySelect) {
+      if (isDay) {
+        dayPickerContainer.className = 'flex items-center gap-0.5 sm:gap-1 shrink-0 bg-[#FBF0EC] border border-[#CC785C] rounded-xl p-0.5 transition-all shadow-xs ring-2 ring-[#CC785C]/20';
+        daySelect.className = 'appearance-none bg-transparent pl-2 pr-7 py-1 text-xs sm:text-sm font-bold text-[#CC785C] cursor-pointer focus:outline-none';
+        daySelect.value = tab;
+        updateDateNav(tab);
+      } else {
+        dayPickerContainer.className = 'flex items-center gap-0.5 sm:gap-1 shrink-0 bg-[#FFFFFF] border border-[#E6DFD8] rounded-xl p-0.5 transition-all shadow-2xs hover:border-[#CC785C]/40';
+        daySelect.className = 'appearance-none bg-transparent pl-2 pr-7 py-1 text-xs sm:text-sm font-semibold text-[#73726C] hover:text-[#141413] cursor-pointer focus:outline-none';
+        if (!daySelect.value && daysList.length > 0) {
+          daySelect.value = daysList[daysList.length - 1];
+        }
+        updateDateNav(daySelect.value);
+      }
+    }
 
     renderTable();
   }
@@ -529,6 +604,28 @@ const chartLink = meta?.chartUrl || "/anki_challenge_d1_d7_chart.jpg";
       const tab = e.currentTarget.getAttribute('data-tab');
       if (tab) setTab(tab);
     });
+  });
+
+  daySelect?.addEventListener('change', (e) => {
+    if (e.target.value) {
+      setTab(e.target.value);
+    }
+  });
+
+  prevDayBtn?.addEventListener('click', () => {
+    const current = currentTab.startsWith('day') ? currentTab : (daySelect?.value || daysList[daysList.length - 1]);
+    const idx = daysList.indexOf(current);
+    if (idx > 0) {
+      setTab(daysList[idx - 1]);
+    }
+  });
+
+  nextDayBtn?.addEventListener('click', () => {
+    const current = currentTab.startsWith('day') ? currentTab : (daySelect?.value || daysList[daysList.length - 1]);
+    const idx = daysList.indexOf(current);
+    if (idx >= 0 && idx < daysList.length - 1) {
+      setTab(daysList[idx + 1]);
+    }
   });
 
   const searchInput = document.getElementById('statsSearchInput');

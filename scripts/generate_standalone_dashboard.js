@@ -72,10 +72,16 @@ const htmlContent = `<!DOCTYPE html>
 
     .tabs-wrapper { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; box-shadow: var(--shadow); margin-bottom: 32px; }
     .tab-header-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 20px; }
-    .tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
     .tab-btn { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-muted); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s ease; white-space: nowrap; }
     .tab-btn:hover { background: #F3F1EA; color: var(--text-main); }
     .tab-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .date-nav-group { display: inline-flex; align-items: center; background: #FFFFFF; border: 1px solid var(--border); border-radius: 999px; padding: 2px 6px; gap: 2px; transition: all 0.2s ease; }
+    .date-nav-group.active { border-color: var(--primary); background: var(--primary-light); }
+    .date-nav-btn { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; border: none; background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.2s; }
+    .date-nav-btn:hover:not(:disabled) { background: #E8E5DE; color: var(--text-main); }
+    .date-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .date-select { appearance: none; -webkit-appearance: none; background: transparent; border: none; font-family: inherit; font-size: 13px; font-weight: 600; color: var(--text-main); padding: 4px 22px 4px 8px; cursor: pointer; outline: none; }
 
     .search-box { position: relative; min-width: 260px; }
     .search-box input { width: 100%; padding: 8px 14px 8px 36px; border-radius: 999px; border: 1px solid var(--border); font-size: 14px; background: #FAF9F5; outline: none; font-family: inherit; }
@@ -215,16 +221,24 @@ const htmlContent = `<!DOCTYPE html>
     <!-- Data Tabs & Search -->
     <div class="tabs-wrapper">
       <div class="tab-header-row">
-        <div class="tabs" id="tabButtons">
+        <div class="tabs" id="tabControls">
           <button class="tab-btn active" data-tab="topUsers">Top Tích Luỹ</button>
           <button class="tab-btn" data-tab="topSingle">Kỷ Lục 1 Ngày</button>
-          <button class="tab-btn" data-tab="day1">Day 1</button>
-          <button class="tab-btn" data-tab="day2">Day 2</button>
-          <button class="tab-btn" data-tab="day3">Day 3</button>
-          <button class="tab-btn" data-tab="day4">Day 4</button>
-          <button class="tab-btn" data-tab="day5">Day 5</button>
-          <button class="tab-btn" data-tab="day6">Day 6</button>
-          <button class="tab-btn" data-tab="day7">Day 7</button>
+          
+          <div class="date-nav-group" id="dateNavGroup">
+            <button class="date-nav-btn" id="prevDayBtn" title="Ngày trước đó">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+            </button>
+            <div style="position: relative; display: flex; align-items: center;">
+              <select id="daySelect" class="date-select">
+                ${statsData.dailySummary.slice().reverse().map(d => `<option value="${d.day}">${d.dayLabel} (${d.date})</option>`).join('')}
+              </select>
+              <svg style="position: absolute; right: 6px; pointer-events: none; width: 12px; height: 12px; color: var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+            </div>
+            <button class="date-nav-btn" id="nextDayBtn" title="Ngày tiếp theo">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="search-box">
@@ -389,8 +403,27 @@ const htmlContent = `<!DOCTYPE html>
       setTab('topUsers');
     });
 
+    const daysList = DATA.dailySummary.map(d => d.day);
+    const daySelect = document.getElementById('daySelect');
+    const prevDayBtn = document.getElementById('prevDayBtn');
+    const nextDayBtn = document.getElementById('nextDayBtn');
+    const dateNavGroup = document.getElementById('dateNavGroup');
+
+    function updateDateNav(day) {
+      const idx = daysList.indexOf(day);
+      if (idx === -1) {
+        if (prevDayBtn) prevDayBtn.disabled = true;
+        if (nextDayBtn) nextDayBtn.disabled = true;
+      } else {
+        if (prevDayBtn) prevDayBtn.disabled = (idx <= 0);
+        if (nextDayBtn) nextDayBtn.disabled = (idx >= daysList.length - 1);
+      }
+    }
+
     function setTab(tab) {
       currentTab = tab;
+      const isDay = tab.startsWith('day');
+
       document.querySelectorAll('.tab-btn').forEach(b => {
         if (b.getAttribute('data-tab') === tab) {
           b.classList.add('active');
@@ -398,6 +431,25 @@ const htmlContent = `<!DOCTYPE html>
           b.classList.remove('active');
         }
       });
+
+      if (dateNavGroup && daySelect) {
+        if (isDay) {
+          dateNavGroup.classList.add('active');
+          daySelect.style.color = 'var(--primary)';
+          daySelect.style.fontWeight = '700';
+          daySelect.value = tab;
+          updateDateNav(tab);
+        } else {
+          dateNavGroup.classList.remove('active');
+          daySelect.style.color = 'var(--text-main)';
+          daySelect.style.fontWeight = '600';
+          if (!daySelect.value && daysList.length > 0) {
+            daySelect.value = daysList[daysList.length - 1];
+          }
+          updateDateNav(daySelect.value);
+        }
+      }
+
       renderTable();
     }
 
@@ -495,6 +547,22 @@ const htmlContent = `<!DOCTYPE html>
         const tab = e.currentTarget.getAttribute('data-tab');
         if (tab) setTab(tab);
       });
+    });
+
+    daySelect?.addEventListener('change', (e) => {
+      if (e.target.value) setTab(e.target.value);
+    });
+
+    prevDayBtn?.addEventListener('click', () => {
+      const current = currentTab.startsWith('day') ? currentTab : (daySelect?.value || daysList[daysList.length - 1]);
+      const idx = daysList.indexOf(current);
+      if (idx > 0) setTab(daysList[idx - 1]);
+    });
+
+    nextDayBtn?.addEventListener('click', () => {
+      const current = currentTab.startsWith('day') ? currentTab : (daySelect?.value || daysList[daysList.length - 1]);
+      const idx = daysList.indexOf(current);
+      if (idx >= 0 && idx < daysList.length - 1) setTab(daysList[idx + 1]);
     });
 
     document.getElementById('searchInput').addEventListener('input', (e) => {
