@@ -129,7 +129,7 @@ const htmlContent = `<!DOCTYPE html>
         <p class="subtitle">Dữ liệu thị giác trích xuất trực tiếp từ hình ảnh check-in thực tế của <strong>${statsData.kpi.uniqueUsers} thành viên</strong> suốt ${statsData.meta.daysAvailable.length} ngày đầu thử thách.</p>
       </div>
       <div class="header-actions">
-        <a href="anki_challenge_d1_d8_chart.jpg" target="_blank" class="btn btn-primary">
+        <a href="anki_challenge_${statsData.meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}_chart.jpg" target="_blank" class="btn btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
           Xem Ảnh Biểu Đồ HD
         </a>
@@ -574,8 +574,13 @@ const htmlContent = `<!DOCTYPE html>
 </html>
 `;
 
+const slugRange = `${statsData.meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}`;
+fs.writeFileSync(path.join(__dirname, `../dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, `../public/dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d9.html'), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d9.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d8.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d8.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d7.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d7.html'), htmlContent, 'utf8');
-console.log('Successfully generated dashboard_checkin_d1_d8.html and dashboard_checkin_d1_d7.html!');
+console.log(`Successfully generated dashboard_checkin_${slugRange}.html and dashboard_checkin_d1_d9.html!`);
