@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 9)",
-    "generatedAt": "2026-09-09T04:46:31.584Z",
+    "generatedAt": "2026-09-09T06:56:11.823Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -16,8 +16,8 @@
   },
   "kpi": {
     "totalCards": 66815,
-    "totalCheckins": 221,
-    "uniqueUsers": 34,
+    "totalCheckins": 220,
+    "uniqueUsers": 33,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
     "topAggregateUser": "Ethan NP",
@@ -27,7 +27,7 @@
     "japanese": 50,
     "english": 30,
     "medical": 121,
-    "other": 20
+    "other": 19
   },
   "dailySummary": [
     {
@@ -35,9 +35,9 @@
       "dayLabel": "Day 1",
       "date": "01/09/2026",
       "totalCards": 8478,
-      "totalUsers": 31,
+      "totalUsers": 30,
       "totalMinutes": 828,
-      "avgCardsPerUser": 273,
+      "avgCardsPerUser": 283,
       "records": [
         {
           "id": "1340307678215405710",
@@ -427,19 +427,6 @@
           "streak": null,
           "deck": null,
           "detail": "Deck list: Active Learning 248, CopyWriting 78, TIẾNG TRUNG 348, TOEIC 393... (chủ yếu new cards, chưa rõ 'studied')",
-          "imageDesc": ""
-        },
-        {
-          "id": "1532000627121721516",
-          "discordId": "1532000627121721516",
-          "day": "day1",
-          "date": "01/09/2026",
-          "user": "Check-in",
-          "cards": 0,
-          "minutes": 0,
-          "streak": null,
-          "deck": null,
-          "detail": "bot / admin message",
           "imageDesc": ""
         }
       ]
@@ -3685,20 +3672,6 @@
         "ZHVI HSK 3.0"
       ],
       "avgMinutesPerDay": 0.6
-    },
-    {
-      "user": "Check-in",
-      "discordId": "1532000627121721516",
-      "totalCards": 0,
-      "daysCount": 1,
-      "totalMinutes": 0,
-      "maxStreak": 0,
-      "maxSingleDay": 0,
-      "daysJoined": [
-        "day1"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 0
     }
   ],
   "topSingleDayRecords": [

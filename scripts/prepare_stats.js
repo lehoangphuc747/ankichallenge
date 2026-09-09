@@ -41,11 +41,13 @@ for (const d of days) {
   const userBestEntry = new Map();
 
   for (const [key, item] of entries) {
+    if (key === '1532000627121721516' || item.user === '(bot)' || item.detail === 'bot / admin message') continue;
     const discordId = item.discordId || (userMap[key] ? key : null);
     let userName = item.user || (discordId ? userMap[discordId] : null) || `User ${key}`;
     if (discordId && userMap[discordId]) {
       userName = userMap[discordId];
     }
+    if (userName === 'Check-in') continue;
     // Clean up any trailing discord tags like #8722 if wanted, or keep consistent
     userName = userName.replace(/#\d{4}$/, '').trim();
 
