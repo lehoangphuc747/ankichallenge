@@ -21,7 +21,8 @@ ax_bg = fig.add_axes([0, 0, 1, 1], facecolor='none')
 ax_bg.axis('off')
 
 # Title & Subtitle
-ax_bg.text(0.06, 0.955, "ANKI CHALLENGE 11  •  DAY 1 – DAY 7", fontsize=11, fontweight='bold', color='#CC785C')
+day_range_str = f"{daily[0]['dayLabel'].upper()} – {daily[-1]['dayLabel'].upper()}" if len(daily) > 0 else "AC11"
+ax_bg.text(0.06, 0.955, f"ANKI CHALLENGE 11  •  {day_range_str}", fontsize=11, fontweight='bold', color='#CC785C')
 ax_bg.text(0.06, 0.915, "Thống Kê & Bảng Xếp Hạng Check-in Thử Thách", fontsize=23, fontweight='bold', color='#2D2A26')
 ax_bg.text(0.06, 0.885, f"Dữ liệu trích xuất từ thị giác (Gemini Vision OCR) trên {kpi['totalCheckins']} lượt check-in của {kpi['uniqueUsers']} thành viên", fontsize=11.5, color='#736E65')
 
@@ -38,7 +39,7 @@ def draw_kpi(x, y, w, h, label, val, sub, bar_color):
     ax_bg.text(x + 0.015, y + 0.010, sub, fontsize=8.5, color='#736E65')
 
 avg_daily_checkin = round(kpi['totalCheckins'] / len(daily), 1) if len(daily) > 0 else 0
-draw_kpi(0.06, 0.77, 0.20, 0.088, "Tổng số thẻ học", f"{kpi['totalCards']:,}".replace(',', '.'), "7 ngày liên tục", '#CC785C')
+draw_kpi(0.06, 0.77, 0.20, 0.088, "Tổng số thẻ học", f"{kpi['totalCards']:,}".replace(',', '.'), f"{len(daily)} ngày liên tục", '#CC785C')
 draw_kpi(0.28, 0.77, 0.20, 0.088, "Tổng lượt check-in", f"{kpi['totalCheckins']} lượt", f"Trung bình {avg_daily_checkin} lượt/ngày", '#4A7C59')
 draw_kpi(0.50, 0.77, 0.20, 0.088, "Kỷ lục 1 ngày", f"{kpi['maxSingleDayCards']:,}".replace(',', '.') + " thẻ", f"Bởi {kpi['topSingleUser']}", '#D97706')
 draw_kpi(0.72, 0.77, 0.22, 0.088, "Top 1 Tích Luỹ", f"{kpi['topAggregateCards']:,}".replace(',', '.') + " thẻ", f"Bởi {kpi['topAggregateUser']}", '#2B4C7E')
@@ -78,7 +79,7 @@ top_names = [u['user'] if len(u['user']) <= 12 else u['user'][:11] + '…' for u
 top_vals = [u['totalCards'] for u in reversed(top_users)]
 bars_h = ax3.barh(top_names, top_vals, color='#E8A55A', height=0.58, zorder=3)
 ax3.grid(axis='x', color='#F0EDE6', linestyle='--', zorder=0)
-ax3.set_title("Top 10 Cày Thẻ Tích Luỹ D1 – D7", fontsize=13, fontweight='bold', color='#2D2A26', pad=12, loc='left')
+ax3.set_title(f"Top 10 Cày Thẻ Tích Luỹ {daily[0]['dayLabel']} – {daily[-1]['dayLabel']}", fontsize=13, fontweight='bold', color='#2D2A26', pad=12, loc='left')
 for bar in bars_h:
     xval = bar.get_width()
     ax3.text(xval + 140, bar.get_y() + bar.get_height()/2.0, f"{int(xval):,}".replace(',', '.'), ha='left', va='center', fontsize=8, fontweight='bold', color='#2D2A26')
@@ -106,6 +107,8 @@ ax4.legend(wedges, cat_labels, loc="center left", bbox_to_anchor=(0.78, 0.5), fo
 ax_bg.text(0.5, 0.02, "Anki Challenge Vietnam  •  Báo Cáo Tự Động  •  Gemini Vision OCR Verification", ha='center', fontsize=9, color='#8E8B82')
 
 # Save figure with high DPI
+plt.savefig('anki_challenge_d1_d8_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
+plt.savefig('public/anki_challenge_d1_d8_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('anki_challenge_d1_d7_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('public/anki_challenge_d1_d7_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
-print("Successfully generated clean anki_challenge_d1_d7_chart.jpg!")
+print("Successfully generated clean anki_challenge_d1_d8_chart.jpg and d1_d7_chart.jpg!")

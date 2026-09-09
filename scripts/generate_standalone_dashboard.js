@@ -13,7 +13,7 @@ const htmlContent = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anki Challenge 11 — Báo Cáo & Bảng Xếp Hạng Check-in D1 - D7</title>
+  <title>Anki Challenge 11 — Báo Cáo & Bảng Xếp Hạng Check-in ${statsData.meta.daysAvailable[0]} - ${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1]}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
@@ -123,13 +123,13 @@ const htmlContent = `<!DOCTYPE html>
         <div class="brand-badge">
           <span>Anki Challenge 11</span>
           <span>•</span>
-          <span>Báo Cáo Tổng Hợp D1 – D7</span>
+          <span>Báo Cáo Tổng Hợp ${statsData.meta.daysAvailable[0]} – ${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1]}</span>
         </div>
         <h1 class="title">Bảng Thống Kê & Xếp Hạng Check-in</h1>
-        <p class="subtitle">Dữ liệu thị giác trích xuất trực tiếp từ hình ảnh check-in thực tế của <strong>${statsData.kpi.uniqueUsers} thành viên</strong> suốt 7 ngày đầu thử thách.</p>
+        <p class="subtitle">Dữ liệu thị giác trích xuất trực tiếp từ hình ảnh check-in thực tế của <strong>${statsData.kpi.uniqueUsers} thành viên</strong> suốt ${statsData.meta.daysAvailable.length} ngày đầu thử thách.</p>
       </div>
       <div class="header-actions">
-        <a href="anki_challenge_d1_d7_chart.jpg" target="_blank" class="btn btn-primary">
+        <a href="anki_challenge_d1_d8_chart.jpg" target="_blank" class="btn btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
           Xem Ảnh Biểu Đồ HD
         </a>
@@ -574,7 +574,8 @@ const htmlContent = `<!DOCTYPE html>
 </html>
 `;
 
+fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d8.html'), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d8.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d7.html'), htmlContent, 'utf8');
-// Also write to public/dashboard_checkin_d1_d7.html so it can be served or viewed online
 fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d7.html'), htmlContent, 'utf8');
-console.log('Successfully generated dashboard_checkin_d1_d7.html!');
+console.log('Successfully generated dashboard_checkin_d1_d8.html and dashboard_checkin_d1_d7.html!');

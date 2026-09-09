@@ -8,7 +8,9 @@ const { meta, kpi, dailySummary, userRankings, topSingleDayRecords, deckCategori
 const daysRangeText = meta?.daysAvailable?.length 
   ? `${meta.daysAvailable[0]} – ${meta.daysAvailable[meta.daysAvailable.length - 1]}` 
   : `Day 1 – Day ${dailySummary.length}`;
-const chartLink = meta?.chartUrl || "/anki_challenge_d1_d7_chart.jpg";
+const chartLink = meta?.chartUrl || (meta?.daysAvailable?.length 
+  ? `/anki_challenge_${meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${meta.daysAvailable[meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}_chart.jpg` 
+  : "/anki_challenge_d1_d8_chart.jpg");
 ---
 
 <Layout title="Thống Kê & Phân Tích - Anki Challenge 11">
