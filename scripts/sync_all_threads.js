@@ -31,6 +31,7 @@ const THREAD_CONFIGS = [
   { id: '1546231844792705064', dayDir: 'day7_extra', label: 'Day 7 (07/09) - thread 2' },
   { id: '1546616658850750596', dayDir: 'day8', label: 'Day 8 (08/09)' },
   { id: '1546969670970507406', dayDir: 'day9', label: 'Day 9 (09/09)' },
+  { id: '1547329911511842847', dayDir: 'day10', label: 'Day 10 (10/09)' },
 ];
 
 function api(urlPath) {
@@ -62,7 +63,7 @@ function api(urlPath) {
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
-    https.get(url, res => {
+    const req = https.get(url, { timeout: 10000 }, res => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return downloadFile(res.headers.location, dest).then(resolve, reject);
       }
@@ -73,7 +74,11 @@ function downloadFile(url, dest) {
       res.pipe(ws);
       ws.on('finish', () => ws.close(resolve));
       ws.on('error', reject);
-    }).on('error', reject);
+    });
+    req.on('timeout', () => {
+      req.destroy(new Error('Download timed out'));
+    });
+    req.on('error', reject);
   });
 }
 
