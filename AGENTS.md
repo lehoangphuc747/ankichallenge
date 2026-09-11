@@ -98,7 +98,7 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - Dùng Node `https.request`/`fetch` với header charset, hoặc `src/pages/api/discord/post-to-thread.ts` + `manage-message.ts` đã làm đúng. Không dùng PowerShell cho nội dung có dấu.
 
 ### Daily thread & members thread
-- Daily thread: `src/pages/api/discord/create-daily-thread.ts` (channel `1541493820242264256`, `START_ISO 2026-09-01T00:00:00+07:00`, `auto_archive 1440`). Auto 00h VN qua GitHub Actions `.github/workflows/daily-thread.yml` (`cron: '0 17 * * *'` UTC) gọi `POST /api/discord/create-daily-thread`.
+- Daily thread: `src/pages/api/discord/create-daily-thread.ts` (channel `1541493820242264256`, `START_ISO 2026-09-01T00:00:00+07:00`, `auto_archive 1440`). Auto 00:01 VN qua GitHub Actions `.github/workflows/daily-thread.yml` (`cron: '1 17 * * *'` UTC = 00:01 VN) gọi `POST /api/discord/create-daily-thread`. Hỗ trợ tham số query `?day={x}` để trigger hoặc ghi đè ngày thủ công. Từ Day 12 đã bỏ phần hướng dẫn check-in dài dòng (`/checkin image:...`); Ngày 12 có khối vinh danh Top 3 tích luỹ xuất sắc chặng đầu Day 1 – Day 11 (Ethan NP, Nguyen, .diffusion.) kèm tag `<@discordId>` và `allowed_mentions: {parse: ['users']}`.
 - Members thread: `src/utils/threads.ts` (`1541692300797673542`, `AC11_THREAD_TRACK_KEY`, `AC11_POSTED_IDS_KEY`). Từ 2026-08-31 đã tag `<@discordId>` + `allowed_mentions: {parse:['users']}`. Để sửa tin cũ: `POST /api/discord/create-members-thread?rebuild=1` (xóa `👤` cũ, đăng lại có tag). Quản lý message lẻ: `POST /api/discord/manage-message` (`delete`/`edit`) và `POST /api/discord/post-to-thread`.
 
 ## Deploy quirks (Cloudflare Pages)
