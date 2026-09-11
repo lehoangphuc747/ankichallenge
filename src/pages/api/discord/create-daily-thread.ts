@@ -45,31 +45,44 @@ export const POST: APIRoute = async ({ request, locals }) => {
     return new Response(JSON.stringify({ error: 'Missing DISCORD_TOKEN' }), { status: 500, headers: { 'Content-Type': 'application/json' } });
   }
 
+  const url = new URL(request.url);
+  const dayParam = url.searchParams.get('day');
+  const dayOverride = dayParam ? parseInt(dayParam, 10) : null;
+
   const now = new Date();
-  const day = getDayNumber(now);
-  const vnDate = formatVN(now); // DD/MM/YYYY
+  const day = dayOverride ?? getDayNumber(now);
+
+  let targetDate = now;
+  if (dayOverride) {
+    const start = new Date(START_ISO);
+    targetDate = new Date(start.getTime() + (dayOverride - 1) * 86400000);
+  }
+
+  const vnDate = formatVN(targetDate); // DD/MM/YYYY
   const ddmm = vnDate.slice(0, 5); // DD/MM
 
   // If before challenge start (day < 1), still allow but mark as Test
   const dayLabel = day < 1 ? `Test-${ddmm}` : `D${day}-${ddmm}`;
-  const ddmmSlash = `${ddmm.slice(0, 2)}/${ddmm.slice(3, 5)}`; // DD/MM
-  const dateExample = vnDate.replace(/\//g, '/'); // DD/MM/YYYY
   const quote = (quotes as Record<string, { text: string; author: string }>)[String(day)];
   const quoteBlock = quote ? `\n\n> ${quote.text}\n> — *${quote.author}*` : '';
-  const guide =
-    `\n\n📌 **Check-in (điểm danh + ảnh bắt buộc):**\n` +
-    `\n` +
-    `/checkin image:ảnh date:hn   → hôm nay\n` +
-    `/checkin image:ảnh date:hq   → hôm qua (hôm kia: hk)\n` +
-    `/checkin image:ảnh date:${ddmmSlash} → ngày cụ thể\n` +
-    `\n` +
-    `📊 **Tuỳ chọn khai thêm số thẻ & phút:**\n` +
-    `/checkin image:ảnh date:hn cards:100 minutes:45\n` +
-    `\n` +
-    `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
+
+  let bodyBlock = '';
+  if (day === 12) {
+    bodyBlock =
+      `\n\n🏆 **VINH DANH TOP 3 XUẤT SẮC (CHẶNG ĐẦU DAY 1 – DAY 11)** 🌟\n` +
+      `Chúc mừng 3 chiến thần đã bứt phá ngoạn mục:\n` +
+      `🥇 **Top 1: Ethan NP** (<@1340307678215405710>) — **19.402 thẻ** (kỷ lục 4.374 thẻ/ngày)\n` +
+      `🥈 **Top 2: Nguyen** (<@871321277858725958>) — **13.657 thẻ** (kỷ lục 2.976 thẻ/ngày)\n` +
+      `🥉 **Top 3: .diffusion.** (<@1375756159834783755>) — **4.091 thẻ** (kỷ luật tuyệt đối 11/11 ngày)\n\n` +
+      `Toàn đội AC11 đã cùng nhau chinh phục hơn **81.300 thẻ**! Mọi người tiếp tục giữ vững ngọn lửa kỷ luật trong Ngày 12 nhé! 🔥💪\n\n` +
+      `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
+  } else {
+    bodyBlock = `\n\nChúc mọi người ngày ${day} kỷ luật! 🔥`;
+  }
+
   const messageContent = day < 1
     ? `## [TEST] Ngày ${day} - ${vnDate} (trước ngày bắt đầu 01/09/2026)`
-    : `## Ngày ${day} - ${vnDate}${quoteBlock}${guide}`;
+    : `## Ngày ${day} - ${vnDate}${quoteBlock}${bodyBlock}`;
 
   const headers: Record<string, string> = {
     'Authorization': `Bot ${token}`,
@@ -82,7 +95,10 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const msgRes = await fetch(`https://discord.com/api/v10/channels/${CHANNEL_ID}/messages`, {
       method: 'POST',
       headers,
-      body: JSON.stringify({ content: messageContent }),
+      body: JSON.stringify({
+        content: messageContent,
+        allowed_mentions: { parse: ['users'] }
+      }),
     });
     const msgJson: any = await msgRes.json();
     if (!msgRes.ok) {
