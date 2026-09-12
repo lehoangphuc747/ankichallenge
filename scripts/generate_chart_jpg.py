@@ -107,10 +107,12 @@ ax4.legend(wedges, cat_labels, loc="center left", bbox_to_anchor=(0.78, 0.5), fo
 ax_bg.text(0.5, 0.02, "Anki Challenge Vietnam  •  Báo Cáo Tự Động  •  Gemini Vision OCR Verification", ha='center', fontsize=9, color='#8E8B82')
 
 # Save figure with high DPI
+plt.savefig('anki_challenge_day1_day12_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
+plt.savefig('public/anki_challenge_day1_day12_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
+plt.savefig('anki_challenge_d1_d12_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
+plt.savefig('public/anki_challenge_d1_d12_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('anki_challenge_day1_day11_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('public/anki_challenge_day1_day11_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('anki_challenge_d1_d11_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
 plt.savefig('public/anki_challenge_d1_d11_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
-plt.savefig('anki_challenge_d1_d10_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
-plt.savefig('public/anki_challenge_d1_d10_chart.jpg', dpi=220, facecolor='#FAF9F5', edgecolor='none')
-print("Successfully generated clean anki_challenge_day1_day11_chart.jpg!")
+print("Successfully generated clean anki_challenge_day1_day12_chart.jpg!")

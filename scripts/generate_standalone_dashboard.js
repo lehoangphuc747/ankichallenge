@@ -577,8 +577,10 @@ const htmlContent = `<!DOCTYPE html>
 const slugRange = `${statsData.meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}`;
 fs.writeFileSync(path.join(__dirname, `../dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, `../public/dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d12.html'), htmlContent, 'utf8');
+fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d12.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d11.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d11.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d10.html'), htmlContent, 'utf8');
 fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d10.html'), htmlContent, 'utf8');
-console.log(`Successfully generated dashboard_checkin_${slugRange}.html and dashboard_checkin_d1_d11.html!`);
+console.log(`Successfully generated dashboard_checkin_${slugRange}.html and dashboard_checkin_d1_d12.html!`);
