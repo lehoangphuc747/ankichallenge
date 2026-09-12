@@ -76,6 +76,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
       `🥉 **Top 3: .diffusion.** (<@1375756159834783755>) — **4.091 thẻ** (kỷ luật tuyệt đối 11/11 ngày)\n\n` +
       `Toàn đội AC11 đã cùng nhau chinh phục hơn **81.300 thẻ**! Mọi người tiếp tục giữ vững ngọn lửa kỷ luật trong Ngày 12 nhé! 🔥💪\n\n` +
       `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
+  } else if (day === 13) {
+    bodyBlock =
+      `\n\n🏆 **TRAO TẶNG DANH HIỆU: "CHIẾN THẦN BÌNH MINH" (EARLY BIRD AC11)** 🌅🐦\n` +
+      `Trang trọng vinh danh thành viên **Tram** (<@1446504123657748651>) với kỷ lục vô tiền khoáng hậu:\n` +
+      `✨ **Chuỗi 12/12 ngày check-in sớm nhất server!** ✨\n\n` +
+      `⏰ **Kỷ luật thép:** Luôn thức dậy và hoàn thành bài học trong khung giờ vàng **04:50 – 05:25 sáng** mỗi ngày.\n` +
+      `*(Chính chủ mở bát Day 1 xin tự nguyện nhường ngôi để trao tặng trọn vẹn danh hiệu chuỗi bất bại 12/12 ngày cho bạn Tram! 👏🎩)*\n\n` +
+      `Chúc toàn thể anh em AC11 lấy nguồn năng lượng rạng sáng này làm động lực bứt phá trong Ngày ${day} nhé! 🔥💪\n\n` +
+      `Chúc mọi người ngày ${day} kỷ luật! 🔥`;
   } else {
     bodyBlock = `\n\nChúc mọi người ngày ${day} kỷ luật! 🔥`;
   }
