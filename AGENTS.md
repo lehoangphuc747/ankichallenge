@@ -120,10 +120,21 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - **Phân luồng song song**: Khi xử lý lượng ảnh lớn của nhiều ngày, chủ động phân chia nhiệm vụ cho các subagents theo từng ngày (Day) hoặc batch ảnh để tăng tốc độ xử lý.
 - **Lưu trữ dữ liệu**: Kết quả trích xuất được tổng hợp chuẩn hóa vào `discord-export/ocr-results.json` với định dạng `{ [msgId]: { file, user, cards, minutes, streak, deck, detail } }`.
 
+## Discord Check-in Debt Ledger (Sổ nợ & Giấy đòi nợ)
+- **Cơ chế theo dõi nợ KPI**: Áp dụng cho các thành viên có KPI cố định (ví dụ KPI 500 thẻ/ngày như Ava `<@895672321916960838>`, Sunny `<@1410392551634112640>`).
+- **Nguyên tắc tính toán**:
+  - `Tổng nợ thẻ = (Số ngày đã diễn ra × KPI ngày) - Tổng số thẻ thực tế đã học`.
+  - Ngày học vượt chỉ tiêu (`cards > KPI`) được cộng dồn trừ trực tiếp vào số dư nợ cũ.
+  - Ngày không check-in hoặc vắng học: tính 0 thẻ học (`+500 thẻ nợ`). Nếu người dùng xác nhận vắng học (ví dụ Sunny Day 4), ghi nhận chính thức "Vắng học" thay vì nợ ảnh bù, tỷ lệ chuyên cần được tính trên số ngày tham gia thực tế.
+  - Check-in bù nhiều ngày (như Ava bù D5–D11): được tính lại đầy đủ vào bảng đối soát từng ngày và khôi phục chuyên cần (100%).
+- **Công cụ gửi đối soát**:
+  - Gửi qua script Node.js dùng `https.request` trực tiếp đến Discord API v10 với header UTF-8 (`Content-Type: application/json; charset=utf-8`) và cấu hình `allowed_mentions: { users: [...] }` để ping đúng đối tượng.
+  - Script mẫu: `scripts/post_ava_debt_ledger.js`, `scripts/post_sunny_debt_ledger.js`, `scripts/post_day11_debt_ledger.js`.
+
 ## Reporting, Charts & Dashboard Conventions
 - **Ngôn ngữ**: 100% Tiếng Việt cho tiêu đề, chú thích, nhãn trục và giao diện báo cáo/thống kê.
 - **Cập nhật trang `/stats`**: Mỗi khi cập nhật dữ liệu check-in/OCR mới, **BẮT BUỘC** chạy script cập nhật `src/data/ac11_stats.json` và `public/data/ac11_stats.json`, kiểm tra trang web `src/pages/stats.astro` (hoạt động đồng bộ theo các ngày Day 1 - Day N), file standalone dashboard `.html` và ảnh biểu đồ `.jpg`.
-- **Xuất ảnh biểu đồ**: Tạo biểu đồ JPG độ phân giải cao (tối thiểu DPI 200) với bố cục rõ ràng, phối màu ấm áp (Terracotta & Nền kem).
+- **Xuất ảnh biểu đồ**: Tạo biểu đồ JPG độ phân giải cao (tối thiểu DPI 200) với bố cục rõ ràng, phối màu ấm áp (Terracotta & Nền kem). Đảm bảo tạo cả file dạng range đầy đủ (`day1_day12`) lẫn dạng rút gọn (`d1_d12`) ở cả root và `public/`.
 - **Dashboard tương tác**: Khi người dùng yêu cầu xem dạng web/HTML, tạo file `.html` độc lập (standalone) chứa sẵn CSS/JS (Chart.js), theo phong cách **Claude warm style** (Terracotta `#CC785C`, nền kem `#FAF9F5`, bo góc mềm mại, KPI cards, hệ thống tab chuyển đổi) để người dùng có thể mở trực tiếp trên trình duyệt mà không cần chạy server.
 
 ## Windows PowerShell Script Execution Rule
