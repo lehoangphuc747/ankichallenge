@@ -24,7 +24,7 @@ Tổ thu hồi nợ xin thông báo chốt sổ nợ chính thức cho **Day 11 
 • ⚡ Thực tế học: **812 thẻ** (PomoVN 1h 27m)
 • 🟢 **Kết quả:** **VƯỢT +312 THẺ!** Xuất sắc gạt bỏ bớt nợ luỹ kế cũ.
 • 💸 **Tổng nợ thẻ còn lại:** **2.965 thẻ** (giảm ngoạn mục từ 3.277 thẻ).
-• ⚠️ **Lưu ý:** Vẫn đang nợ ảnh check-in bù **Day 4 (04/09)** để lấy lại 100% chuyên cần nhé!
+• 📅 **Chuyên cần:** **10/11 ngày** (91% chuyên cần — *Xác nhận vắng Day 4 không học, bảo lưu 10 ngày đã học!*).
 
 2️⃣ **CON NỢ AVA (<@895672321916960838>):**
 • 🎯 Chỉ tiêu Day 11: **500 thẻ**
@@ -56,7 +56,7 @@ const req = https.request({
   res.on('end', () => {
     console.log('Status:', res.statusCode);
     if (res.statusCode >= 200 && res.statusCode < 300) {
-      console.log('Successfully posted debt ledger to Day 12 thread!');
+      console.log('Successfully posted debt ledger to Day 11 thread!');
     } else {
       console.error('Failed to post:', d);
     }
