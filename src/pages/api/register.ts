@@ -146,6 +146,16 @@ export const POST: APIRoute = async ({ request, cookies, locals, url }) => {
   }
 
   const challengeId = Number(bodyData.challengeId) || 3; // Mặc định Challenge 10 (id = 3)
+
+  if (challengeId === 4) {
+    return new Response(
+      JSON.stringify({
+        success: false,
+        error: 'Cổng đăng ký Anki Challenge 11 đã chính thức khép lại. Hẹn gặp lại bạn ở các mùa thử thách tiếp theo!',
+      }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
   const birthYear = bodyData.birthYear ? parseInt(String(bodyData.birthYear), 10) : undefined;
   const attendanceGoalNum = bodyData.attendanceGoal ? parseInt(String(bodyData.attendanceGoal), 10) : undefined;
 

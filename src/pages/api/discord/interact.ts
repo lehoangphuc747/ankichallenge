@@ -386,7 +386,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   if (!challengeIds.includes(latestCid)) {
     return patchOriginalMessage(
       interaction,
-      `⚠️ **Bạn (${memberName}) chưa đăng ký tham gia Anki Challenge 11!**\n\nVui lòng truy cập https://ankichallenge.pages.dev/anki-challenge-11 để đăng ký trước khi check-in.`,
+      `⚠️ **Bạn (${memberName}) chưa đăng ký tham gia Anki Challenge 11!**\n\nCổng đăng ký Anki Challenge 11 hiện đã đóng. Hẹn gặp lại bạn ở các mùa thử thách tiếp theo!`,
       true
     );
   }
