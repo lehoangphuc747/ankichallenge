@@ -145,12 +145,12 @@ const htmlContent = `<!DOCTYPE html>
       <div class="kpi-card cards">
         <div class="kpi-label">Tổng số thẻ hoàn thành</div>
         <div class="kpi-val" style="color: var(--primary);">${statsData.kpi.totalCards.toLocaleString('vi-VN')}</div>
-        <div class="kpi-desc">Trung bình <strong>${Math.round(statsData.kpi.totalCards / 7).toLocaleString('vi-VN')} thẻ/ngày</strong></div>
+        <div class="kpi-desc">Trung bình <strong>${Math.round(statsData.kpi.totalCards / statsData.meta.daysAvailable.length).toLocaleString('vi-VN')} thẻ/ngày</strong></div>
       </div>
       <div class="kpi-card learners">
         <div class="kpi-label">Tổng lượt check-in</div>
         <div class="kpi-val" style="color: var(--forest);">${statsData.kpi.totalCheckins}</div>
-        <div class="kpi-desc">Trung bình <strong>${(statsData.kpi.totalCheckins / 7).toFixed(1)} lượt/ngày</strong> (34 thành viên)</div>
+        <div class="kpi-desc">Trung bình <strong>${(statsData.kpi.totalCheckins / statsData.meta.daysAvailable.length).toFixed(1)} lượt/ngày</strong> (${statsData.kpi.uniqueUsers} thành viên)</div>
       </div>
       <div class="kpi-card time">
         <div class="kpi-label">Kỷ lục cày 1 ngày</div>
@@ -158,7 +158,7 @@ const htmlContent = `<!DOCTYPE html>
         <div class="kpi-desc">Thiết lập bởi <strong>${statsData.kpi.topSingleUser}</strong></div>
       </div>
       <div class="kpi-card avg">
-        <div class="kpi-label">Top 1 Tích Luỹ D1-D7</div>
+        <div class="kpi-label">Top 1 Tích Luỹ</div>
         <div class="kpi-val" style="color: var(--navy);">${statsData.kpi.topAggregateCards.toLocaleString('vi-VN')}</div>
         <div class="kpi-desc">Dẫn đầu bởi <strong>${statsData.kpi.topAggregateUser}</strong></div>
       </div>
@@ -248,8 +248,8 @@ const htmlContent = `<!DOCTYPE html>
       </div>
 
       <div class="tab-desc-bar">
-        <span id="tabDesc">Bảng xếp hạng tổng thẻ tích luỹ của 34 thành viên (D1-D7)</span>
-        <span class="count-badge" id="countBadge">34 kết quả</span>
+        <span id="tabDesc">Bảng xếp hạng tổng thẻ tích luỹ của ${statsData.kpi.uniqueUsers} thành viên</span>
+        <span class="count-badge" id="countBadge">${statsData.kpi.uniqueUsers} kết quả</span>
       </div>
 
       <div class="table-container">
@@ -463,13 +463,13 @@ const htmlContent = `<!DOCTYPE html>
 
       if (currentTab === 'topUsers') {
         thead.innerHTML = '<tr><th style="width: 60px;">Hạng</th><th>Thành viên</th><th>Tổng thẻ</th><th>Số ngày tham gia</th><th>Thời gian ghi nhận</th><th>Streak cao nhất</th><th>Bộ thẻ (Deck)</th></tr>';
-        tabDesc.textContent = 'Bảng xếp hạng tổng thẻ tích luỹ của toàn bộ thành viên (D1-D7)';
+        tabDesc.textContent = 'Bảng xếp hạng tổng thẻ tích luỹ của toàn bộ thành viên (' + DATA.meta.daysAvailable[0] + ' - ' + DATA.meta.daysAvailable[DATA.meta.daysAvailable.length - 1] + ')';
         
         rows = DATA.userRankings.map((u, i) => ({
           rank: i + 1,
           col1: u.user,
           col2: u.totalCards.toLocaleString('vi-VN') + ' thẻ',
-          col3: u.daysCount + ' / 7 ngày',
+          col3: u.daysCount + ' / ' + DATA.dailySummary.length + ' ngày',
           col4: u.totalMinutes > 0 ? Math.round(u.totalMinutes) + ' phút' : '—',
           col5: u.maxStreak ? u.maxStreak + ' ngày' : '—',
           col6: (u.decks && u.decks.length) ? u.decks.join(', ') : '—',
@@ -574,13 +574,11 @@ const htmlContent = `<!DOCTYPE html>
 </html>
 `;
 
-const slugRange = `${statsData.meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}`;
-fs.writeFileSync(path.join(__dirname, `../dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, `../public/dashboard_checkin_${slugRange}.html`), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d12.html'), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d12.html'), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d11.html'), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d11.html'), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../dashboard_checkin_d1_d10.html'), htmlContent, 'utf8');
-fs.writeFileSync(path.join(__dirname, '../public/dashboard_checkin_d1_d10.html'), htmlContent, 'utf8');
-console.log(`Successfully generated dashboard_checkin_${slugRange}.html and dashboard_checkin_d1_d12.html!`);
+const slugRange = `${statsData.meta.daysAvailable[0].toLowerCase().replace(' ', '')}_${statsData.meta.daysAvailable[statsData.meta.daysAvailable.length - 1].toLowerCase().replace(' ', '')}`; // e.g. day1_day13
+const shortRange = slugRange.replace(/day(\d+)/g, 'd$1'); // e.g. d1_d13
+
+for (const name of [slugRange, shortRange]) {
+  fs.writeFileSync(path.join(__dirname, `../dashboard_checkin_${name}.html`), htmlContent, 'utf8');
+  fs.writeFileSync(path.join(__dirname, `../public/dashboard_checkin_${name}.html`), htmlContent, 'utf8');
+}
+console.log(`Successfully generated dashboard_checkin_${slugRange}.html and dashboard_checkin_${shortRange}.html (root + public)!`);
