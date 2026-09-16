@@ -35,6 +35,9 @@ const THREAD_CONFIGS = [
   { id: '1547690101578924072', dayDir: 'day11', label: 'Day 11 (11/09)' },
   { id: '1548052644205957230', dayDir: 'day12', label: 'Day 12 (12/09)' },
   { id: '1548407515258167480', dayDir: 'day13', label: 'Day 13 (13/09)' },
+  { id: '1548773428314775673', dayDir: 'day14', label: 'Day 14 (14/09)' },
+  { id: '1549159263291572325', dayDir: 'day15', label: 'Day 15 (15/09)' },
+  { id: '1549510735774744587', dayDir: 'day16', label: 'Day 16 (16/09)' },
 ];
 
 function api(urlPath) {
