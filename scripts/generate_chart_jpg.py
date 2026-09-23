@@ -46,30 +46,30 @@ draw_kpi(0.72, 0.77, 0.22, 0.088, "Top 1 Tích Luỹ", f"{kpi['topAggregateCards
 
 # Subplot 1: Cards Per Day
 ax1 = fig.add_axes([0.06, 0.43, 0.41, 0.28], facecolor='#FFFFFF')
-labels = [d['dayLabel'] for d in daily]
+labels = [d['dayLabel'].replace('Day ', 'D') for d in daily]
 card_vals = [d['totalCards'] for d in daily]
-bars = ax1.bar(labels, card_vals, color='#CC785C', width=0.52, zorder=3)
+bars = ax1.bar(labels, card_vals, color='#CC785C', width=0.62, zorder=3)
 ax1.grid(axis='y', color='#F0EDE6', linestyle='--', zorder=0)
 ax1.set_title("Tổng Thẻ Ôn Tập Theo Ngày", fontsize=13, fontweight='bold', color='#2D2A26', pad=12, loc='left')
 for bar in bars:
     yval = bar.get_height()
-    ax1.text(bar.get_x() + bar.get_width()/2.0, yval + 160, f"{int(yval):,}".replace(',', '.'), ha='center', va='bottom', fontsize=8.5, fontweight='bold', color='#2D2A26')
-ax1.set_ylim(0, max(card_vals) * 1.15)
-ax1.tick_params(colors='#736E65', labelsize=9)
+    ax1.text(bar.get_x() + bar.get_width()/2.0, yval + 160, f"{int(yval):,}".replace(',', '.'), ha='center', va='bottom', fontsize=7, fontweight='bold', color='#2D2A26', rotation=45)
+ax1.set_ylim(0, max(card_vals) * 1.18)
+ax1.tick_params(colors='#736E65', labelsize=8)
 for spine in ax1.spines.values():
     spine.set_color('#E8E5DE')
 
 # Subplot 2: Users Per Day
 ax2 = fig.add_axes([0.53, 0.43, 0.41, 0.28], facecolor='#FFFFFF')
 user_vals = [d['totalUsers'] for d in daily]
-ax2.plot(labels, user_vals, color='#4A7C59', linewidth=2.5, marker='o', markersize=6.5, markerfacecolor='#4A7C59', markeredgecolor='#FFFFFF', markeredgewidth=1.5, zorder=3)
+ax2.plot(labels, user_vals, color='#4A7C59', linewidth=2.2, marker='o', markersize=5.5, markerfacecolor='#4A7C59', markeredgecolor='#FFFFFF', markeredgewidth=1.2, zorder=3)
 ax2.fill_between(labels, user_vals, color='#4A7C59', alpha=0.10, zorder=2)
 ax2.grid(axis='y', color='#F0EDE6', linestyle='--', zorder=0)
 ax2.set_title("Số Lượng Thành Viên Check-in Mỗi Ngày", fontsize=13, fontweight='bold', color='#2D2A26', pad=12, loc='left')
 for i, val in enumerate(user_vals):
-    ax2.text(i, val + 0.8, f"{val} người", ha='center', va='bottom', fontsize=8.5, fontweight='bold', color='#4A7C59')
-ax2.set_ylim(0, 36)
-ax2.tick_params(colors='#736E65', labelsize=9)
+    ax2.text(i, val + 0.9, f"{val}", ha='center', va='bottom', fontsize=7.5, fontweight='bold', color='#4A7C59')
+ax2.set_ylim(0, 38)
+ax2.tick_params(colors='#736E65', labelsize=8)
 for spine in ax2.spines.values():
     spine.set_color('#E8E5DE')
 

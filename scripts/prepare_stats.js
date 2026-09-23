@@ -13,7 +13,7 @@ if (fs.existsSync(userMapPath)) {
   userMap = JSON.parse(fs.readFileSync(userMapPath, 'utf8'));
 }
 
-const days = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7', 'day8', 'day9', 'day10', 'day11', 'day12', 'day13', 'day14', 'day15', 'day16'];
+const days = ['day1', 'day2', 'day3', 'day4', 'day5', 'day6', 'day7', 'day8', 'day9', 'day10', 'day11', 'day12', 'day13', 'day14', 'day15', 'day16', 'day17', 'day18', 'day19', 'day20', 'day21', 'day22', 'day23'];
 const dates = {
   day1: '01/09/2026',
   day2: '02/09/2026',
@@ -30,7 +30,14 @@ const dates = {
   day13: '13/09/2026',
   day14: '14/09/2026',
   day15: '15/09/2026',
-  day16: '16/09/2026'
+  day16: '16/09/2026',
+  day17: '17/09/2026',
+  day18: '18/09/2026',
+  day19: '19/09/2026',
+  day20: '20/09/2026',
+  day21: '21/09/2026',
+  day22: '22/09/2026',
+  day23: '23/09/2026'
 };
 
 const userAgg = {};
@@ -171,7 +178,7 @@ for (const r of singleDayRecords) {
 
 const statsData = {
   meta: {
-    title: 'Thống Kê Anki Challenge 11 (Day 1 - Day 16)',
+    title: 'Thống Kê Anki Challenge 11 (Day 1 - Day 23)',
     generatedAt: new Date().toISOString(),
     daysAvailable: days.map(d => d.toUpperCase().replace('DAY', 'Day '))
   },
