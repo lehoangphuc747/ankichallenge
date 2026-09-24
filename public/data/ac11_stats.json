@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 24)",
-    "generatedAt": "2026-09-24T13:51:31.967Z",
+    "generatedAt": "2026-09-24T14:07:17.953Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -30,8 +30,8 @@
     ]
   },
   "kpi": {
-    "totalCards": 158022,
-    "totalCheckins": 568,
+    "totalCards": 161220,
+    "totalCheckins": 575,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
@@ -39,9 +39,9 @@
     "topAggregateCards": 22805
   },
   "deckCategories": {
-    "japanese": 125,
+    "japanese": 131,
     "english": 68,
-    "medical": 352,
+    "medical": 353,
     "other": 23
   },
   "dailySummary": [
@@ -6396,10 +6396,10 @@
       "day": "day19",
       "dayLabel": "Day 19",
       "date": "19/09/2026",
-      "totalCards": 5327,
-      "totalUsers": 20,
+      "totalCards": 5916,
+      "totalUsers": 22,
       "totalMinutes": 251,
-      "avgCardsPerUser": 266,
+      "avgCardsPerUser": 269,
       "records": [
         {
           "id": "1011294951201570887",
@@ -6439,6 +6439,19 @@
           "deck": null,
           "detail": "Thứ Bảy, 19 tháng 9, 2026: 733 thẻ ôn tập",
           "imageDesc": "Biểu đồ Heatmap Lịch Anki năm 2026, hover vào ngày Thứ Bảy, 19 tháng 9, 2026 hiển thị 733 thẻ ôn tập."
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day19",
+          "date": "19/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 536,
+          "minutes": 0,
+          "streak": 19,
+          "deck": null,
+          "detail": "Saturday September 19, 2026: 536 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 536 cards reviewed on Saturday September 19, 2026"
         },
         {
           "id": "1375756159834783755",
@@ -6597,6 +6610,19 @@
           "imageDesc": "Ảnh chụp dải thông báo của AnkiDroid: Studied 59 cards in 8.09 minutes today (8.23s/card)."
         },
         {
+          "id": "1465133555574243348",
+          "discordId": "1465133555574243348",
+          "day": "day19",
+          "date": "19/09/2026",
+          "user": "Gai con HaVy trộm vía",
+          "cards": 53,
+          "minutes": 0,
+          "streak": 19,
+          "deck": null,
+          "detail": "Thứ Bảy, 19/09/2026: 53 thẻ ôn tập",
+          "imageDesc": "AnkiDroid stats tooltip Thứ Bảy, 19 tháng 9, 2026: 53 thẻ ôn tập"
+        },
+        {
           "id": "711153532392308767",
           "discordId": "711153532392308767",
           "day": "day19",
@@ -6667,10 +6693,10 @@
       "day": "day20",
       "dayLabel": "Day 20",
       "date": "20/09/2026",
-      "totalCards": 4737,
-      "totalUsers": 21,
+      "totalCards": 5216,
+      "totalUsers": 22,
       "totalMinutes": 499,
-      "avgCardsPerUser": 226,
+      "avgCardsPerUser": 237,
       "records": [
         {
           "id": "1410392551634112640",
@@ -6710,6 +6736,19 @@
           "deck": null,
           "detail": "Studied 766 cards in 138.6 minutes today (10.86s/card)",
           "imageDesc": "Dòng thông báo hoàn thành học của Anki: Studied 766 cards in 138.6 minutes today (10.86s/card)."
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day20",
+          "date": "20/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 479,
+          "minutes": 0,
+          "streak": 20,
+          "deck": null,
+          "detail": "Sunday September 20, 2026: 479 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 479 cards reviewed on Sunday September 20, 2026"
         },
         {
           "id": "870187268692906014",
@@ -6951,10 +6990,10 @@
       "day": "day21",
       "dayLabel": "Day 21",
       "date": "21/09/2026",
-      "totalCards": 4989,
-      "totalUsers": 18,
+      "totalCards": 5011,
+      "totalUsers": 19,
       "totalMinutes": 296,
-      "avgCardsPerUser": 277,
+      "avgCardsPerUser": 264,
       "records": [
         {
           "id": "1410392551634112640",
@@ -7165,6 +7204,19 @@
           "imageDesc": "Ảnh chụp màn hình AnkiDroid mục thống kê bộ thẻ GIÁO TRÌNH HSK: Tooltip Heatmap Thứ Hai, ngày 21 tháng 9, 2026: 54 thẻ ôn tập. Tổng 1.884 thẻ ôn tập."
         },
         {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day21",
+          "date": "21/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 22,
+          "minutes": 0,
+          "streak": 21,
+          "deck": null,
+          "detail": "Monday September 21, 2026: 22 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 22 cards reviewed on Monday September 21, 2026"
+        },
+        {
           "id": "792983013340086293",
           "discordId": "792983013340086293",
           "day": "day21",
@@ -7196,10 +7248,10 @@
       "day": "day22",
       "dayLabel": "Day 22",
       "date": "22/09/2026",
-      "totalCards": 3552,
-      "totalUsers": 17,
+      "totalCards": 3554,
+      "totalUsers": 18,
       "totalMinutes": 359,
-      "avgCardsPerUser": 209,
+      "avgCardsPerUser": 197,
       "records": [
         {
           "id": "895672321916960838",
@@ -7410,6 +7462,19 @@
           "imageDesc": "Ảnh chụp Anki Heatmap với tooltip hiển thị '21 cards reviewed on Tuesday September 22, 2026', Longest streak: 481 days, Current streak: 481 days, Daily average: 136 cards."
         },
         {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day22",
+          "date": "22/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 2,
+          "minutes": 0,
+          "streak": 22,
+          "deck": null,
+          "detail": "Tuesday September 22, 2026: 2 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 2 cards reviewed on Tuesday September 22, 2026"
+        },
+        {
           "id": "567311737464946703",
           "discordId": "567311737464946703",
           "day": "day22",
@@ -7428,10 +7493,10 @@
       "day": "day23",
       "dayLabel": "Day 23",
       "date": "23/09/2026",
-      "totalCards": 3315,
-      "totalUsers": 14,
+      "totalCards": 4101,
+      "totalUsers": 15,
       "totalMinutes": 193,
-      "avgCardsPerUser": 237,
+      "avgCardsPerUser": 273,
       "records": [
         {
           "id": "895672321916960838",
@@ -7445,6 +7510,19 @@
           "deck": null,
           "detail": "Thứ Tư, 23/09/2026: 1,052 reviews",
           "imageDesc": "Ảnh chụp màn hình tooltip Anki Stats/Heatmap của Ava: 'Wednesday, September 23, 2026' - '1,052 reviews'."
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day23",
+          "date": "23/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 786,
+          "minutes": 0,
+          "streak": 23,
+          "deck": null,
+          "detail": "Wednesday September 23, 2026: 786 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 786 cards reviewed on Wednesday September 23, 2026"
         },
         {
           "id": "1011294951201570887",
@@ -7621,11 +7699,24 @@
       "day": "day24",
       "dayLabel": "Day 24",
       "date": "24/09/2026",
-      "totalCards": 1151,
-      "totalUsers": 5,
+      "totalCards": 2471,
+      "totalUsers": 6,
       "totalMinutes": 97,
-      "avgCardsPerUser": 230,
+      "avgCardsPerUser": 412,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day24",
+          "date": "24/09/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1320,
+          "minutes": 0,
+          "streak": 24,
+          "deck": null,
+          "detail": "Thursday September 24, 2026: 1,320 cards reviewed",
+          "imageDesc": "Anki Heatmap tooltip: 1,320 cards reviewed on Thursday September 24, 2026"
+        },
         {
           "id": "616159212980011018",
           "discordId": "616159212980011018",
@@ -7744,6 +7835,48 @@
       "avgMinutesPerDay": 205.5
     },
     {
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "discordId": "438960335983083530",
+      "totalCards": 13606,
+      "daysCount": 24,
+      "totalMinutes": 1056.3,
+      "maxStreak": 43,
+      "maxSingleDay": 1422,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day11",
+        "day12",
+        "day13",
+        "day14",
+        "day15",
+        "day16",
+        "day17",
+        "day18",
+        "day19",
+        "day20",
+        "day21",
+        "day22",
+        "day23",
+        "day24"
+      ],
+      "decks": [
+        "Archived::Default+",
+        "Tiếng Hàn Tổng Hợp",
+        "New General Service List 1.2",
+        "!과수생산학및실습::제1장 과수의 정의 및 특성과 중요성::1.1 과수의 정의"
+      ],
+      "avgMinutesPerDay": 44
+    },
+    {
       "user": "Sunny",
       "discordId": "1410392551634112640",
       "totalCards": 10584,
@@ -7778,42 +7911,6 @@
         "Cambridge Vocabulary for IELTS"
       ],
       "avgMinutesPerDay": 17.5
-    },
-    {
-      "user": "Gai Hàn TOPIK 6 xin vía",
-      "discordId": "438960335983083530",
-      "totalCards": 10461,
-      "daysCount": 18,
-      "totalMinutes": 1056.3,
-      "maxStreak": 43,
-      "maxSingleDay": 1422,
-      "daysJoined": [
-        "day1",
-        "day2",
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10",
-        "day11",
-        "day12",
-        "day13",
-        "day14",
-        "day15",
-        "day16",
-        "day17",
-        "day18"
-      ],
-      "decks": [
-        "Archived::Default+",
-        "Tiếng Hàn Tổng Hợp",
-        "New General Service List 1.2",
-        "!과수생산학및실습::제1장 과수의 정의 및 특성과 중요성::1.1 과수의 정의"
-      ],
-      "avgMinutesPerDay": 58.7
     },
     {
       "user": ".diffusion.",
@@ -8296,8 +8393,8 @@
     {
       "user": "Gai con HaVy trộm vía",
       "discordId": "1465133555574243348",
-      "totalCards": 2704,
-      "daysCount": 20,
+      "totalCards": 2757,
+      "daysCount": 21,
       "totalMinutes": 0,
       "maxStreak": 21,
       "maxSingleDay": 518,
@@ -8320,6 +8417,7 @@
         "day16",
         "day17",
         "day18",
+        "day19",
         "day20",
         "day21"
       ],
@@ -9055,6 +9153,19 @@
       "imageDesc": "Ảnh chụp màn hình Anki máy tính: 'Đã học 1323 thẻ trong 34,23 phút hôm nay', tooltip Review Heatmap: 1,323 cards reviewed on Tuesday September 15, 2026"
     },
     {
+      "id": "438960335983083530",
+      "discordId": "438960335983083530",
+      "day": "day24",
+      "date": "24/09/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 1320,
+      "minutes": 0,
+      "streak": 24,
+      "deck": null,
+      "detail": "Thursday September 24, 2026: 1,320 cards reviewed",
+      "imageDesc": "Anki Heatmap tooltip: 1,320 cards reviewed on Thursday September 24, 2026"
+    },
+    {
       "id": "1503052423390957772",
       "discordId": "1503052423390957772",
       "day": "day14",
@@ -9144,19 +9255,6 @@
       "deck": null,
       "detail": "1,036 lượt ôn tập (reviews) vào Wednesday, September 2, 2026",
       "imageDesc": "Ảnh chụp tooltip Anki Stats: 'Wednesday, September 2, 2026' - '1,036 reviews'."
-    },
-    {
-      "id": "1410392551634112640",
-      "discordId": "1410392551634112640",
-      "day": "day20",
-      "date": "20/09/2026",
-      "user": "Sunny",
-      "cards": 1029,
-      "minutes": 0,
-      "streak": 8,
-      "deck": null,
-      "detail": "1,029 thẻ ôn tập vào Sunday, September 20, 2026 (streak 8 ngày)",
-      "imageDesc": "Ảnh chụp màn hình Anki Review Heatmap của Sunny: 1,029 cards reviewed on Sunday September 20, 2026, Current streak: 8 days."
     }
   ]
 }

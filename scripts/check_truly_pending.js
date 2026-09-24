@@ -3,7 +3,7 @@ import path from 'node:path';
 
 const ocr = JSON.parse(fs.readFileSync('discord-export/ocr-results.json', 'utf8'));
 
-const days = ['day20', 'day21', 'day22', 'day23', 'day24'];
+const days = ['day19', 'day20', 'day21', 'day22', 'day23', 'day24'];
 const trulyPending = [];
 
 for (const day of days) {

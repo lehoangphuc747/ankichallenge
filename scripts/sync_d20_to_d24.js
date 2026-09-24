@@ -12,6 +12,7 @@ for (const line of envFile.split(/\r?\n/)) {
 }
 
 const TARGET_THREADS = [
+  { id: '1550588972646932571', dayDir: 'day19', label: 'Day 19 (19/09)' },
   { id: '1550947554156478535', dayDir: 'day20', label: 'Day 20 (20/09)' },
   { id: '1551311218726281339', dayDir: 'day21', label: 'Day 21 (21/09)' },
   { id: '1551696795011387473', dayDir: 'day22', label: 'Day 22 (22/09)' },
