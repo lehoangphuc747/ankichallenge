@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 31)",
-    "generatedAt": "2026-10-01T15:43:47.226Z",
+    "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 32)",
+    "generatedAt": "2026-10-02T12:13:13.369Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -33,12 +33,13 @@
       "Day 28",
       "Day 29",
       "Day 30",
-      "Day 31"
+      "Day 31",
+      "Day 32"
     ]
   },
   "kpi": {
-    "totalCards": 185899,
-    "totalCheckins": 705,
+    "totalCards": 187622,
+    "totalCheckins": 711,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
@@ -47,8 +48,8 @@
   },
   "deckCategories": {
     "japanese": 161,
-    "english": 83,
-    "medical": 438,
+    "english": 87,
+    "medical": 440,
     "other": 23
   },
   "dailySummary": [
@@ -9447,10 +9448,10 @@
       "day": "day31",
       "dayLabel": "Day 31",
       "date": "01/10/2026",
-      "totalCards": 3349,
-      "totalUsers": 8,
-      "totalMinutes": 321,
-      "avgCardsPerUser": 419,
+      "totalCards": 3597,
+      "totalUsers": 12,
+      "totalMinutes": 325,
+      "avgCardsPerUser": 300,
       "records": [
         {
           "id": "438960335983083530",
@@ -9518,6 +9519,19 @@
           "imageDesc": "AnkiDroid Lịch dự báo bộ HSK6: Thứ Năm 1/10/2026 có 159 thẻ ôn tập"
         },
         {
+          "id": "838271094170583120",
+          "discordId": "838271094170583120",
+          "day": "day31",
+          "date": "01/10/2026",
+          "user": "stuna1604",
+          "cards": 146,
+          "minutes": 0,
+          "streak": 1,
+          "deck": "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
+          "detail": "Thứ Năm, 1 tháng 10, 2026: 146 thẻ ôn tập (Bộ thẻ Sản khoa)",
+          "imageDesc": "Thống kê Anki desktop Lịch 1/10/2026: 146 thẻ ôn tập bộ Sản"
+        },
+        {
           "id": "705779271603322911",
           "discordId": "705779271603322911",
           "day": "day31",
@@ -9544,6 +9558,19 @@
           "imageDesc": "Tooltip Heatmap review: 85 cards reviewed on Thursday October 1, 2026"
         },
         {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day31",
+          "date": "01/10/2026",
+          "user": "Alan Le",
+          "cards": 65,
+          "minutes": 0,
+          "streak": 31,
+          "deck": "ĐỜI NGẮN ĐỪNG NGỦ DÀI",
+          "detail": "65 reviews on Thursday, October 1, 2026 (streak 292 ngày)",
+          "imageDesc": "Heatmap custom theme Đời ngắn đừng ngủ dài: 65 reviews on Thursday Oct 1, 2026"
+        },
+        {
           "id": "883936057878536222",
           "discordId": "883936057878536222",
           "day": "day31",
@@ -9555,6 +9582,69 @@
           "deck": null,
           "detail": "35 cards reviewed on Thursday October 1, 2026",
           "imageDesc": "Tooltip Heatmap xanh lá: 35 cards reviewed on Thursday October 1, 2026"
+        },
+        {
+          "id": "928998165770825728",
+          "discordId": "928998165770825728",
+          "day": "day31",
+          "date": "01/10/2026",
+          "user": "linhkhanhahi",
+          "cards": 27,
+          "minutes": 3.74,
+          "streak": 14,
+          "deck": "B. VĂN BẰNG 2::02. HỌC KÌ 2",
+          "detail": "Đã học 27 thẻ trong 3,74 phút hôm nay (8,31 giây/thẻ)",
+          "imageDesc": "AnkiDroid thống kê bộ Văn Bằng 2: 27 thẻ trong 3,74 phút"
+        },
+        {
+          "id": "1410392551634112640",
+          "discordId": "1410392551634112640",
+          "day": "day31",
+          "date": "01/10/2026",
+          "user": "Sunny",
+          "cards": 10,
+          "minutes": 0,
+          "streak": 7,
+          "deck": "Cambridge Vocabulary for IELTS",
+          "detail": "Thứ Năm, ngày 1 tháng 10, 2026: 10 thẻ ôn tập",
+          "imageDesc": "Tooltip Lịch AnkiMobile iOS: Thứ Năm 1/10/2026 có 10 thẻ ôn tập"
+        }
+      ]
+    },
+    {
+      "day": "day32",
+      "dayLabel": "Day 32",
+      "date": "02/10/2026",
+      "totalCards": 1475,
+      "totalUsers": 2,
+      "totalMinutes": 15,
+      "avgCardsPerUser": 738,
+      "records": [
+        {
+          "id": "1410392551634112640",
+          "discordId": "1410392551634112640",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Sunny",
+          "cards": 1028,
+          "minutes": 0,
+          "streak": 8,
+          "deck": "Cambridge Vocabulary for IELTS",
+          "detail": "Thứ Sáu, ngày 2 tháng 10, 2026: 1.028 thẻ ôn tập",
+          "imageDesc": "Tooltip Lịch AnkiMobile iOS: Thứ Sáu 2/10/2026 có 1.028 thẻ ôn tập"
+        },
+        {
+          "id": "1446504123657748651",
+          "discordId": "1446504123657748651",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Tram",
+          "cards": 447,
+          "minutes": 15.35,
+          "streak": 32,
+          "deck": null,
+          "detail": "Đã học 447 thẻ trong 15,35 phút hôm nay (2,06 giây/thẻ)",
+          "imageDesc": "Anki stats thanh ngang báo đã học 447 thẻ trong 15,35 phút"
         }
       ]
     }
@@ -9657,8 +9747,8 @@
     {
       "user": "Sunny",
       "discordId": "1410392551634112640",
-      "totalCards": 15216,
-      "daysCount": 27,
+      "totalCards": 16254,
+      "daysCount": 29,
       "totalMinutes": 349.78,
       "maxStreak": 11,
       "maxSingleDay": 2314,
@@ -9689,13 +9779,15 @@
         "day27",
         "day28",
         "day29",
-        "day30"
+        "day30",
+        "day31",
+        "day32"
       ],
       "decks": [
         "Cambridge Vocabulary for IELTS - Lesson 11",
         "Cambridge Vocabulary for IELTS"
       ],
-      "avgMinutesPerDay": 13
+      "avgMinutesPerDay": 12.1
     },
     {
       "user": "Lê Đức Tuấn",
@@ -9895,11 +9987,11 @@
     {
       "user": "Tram",
       "discordId": "1446504123657748651",
-      "totalCards": 6792,
-      "daysCount": 30,
-      "totalMinutes": 206.11,
-      "maxStreak": 31,
-      "maxSingleDay": 398,
+      "totalCards": 7239,
+      "daysCount": 31,
+      "totalMinutes": 221.46,
+      "maxStreak": 32,
+      "maxSingleDay": 447,
       "daysJoined": [
         "day1",
         "day2",
@@ -9930,10 +10022,11 @@
         "day28",
         "day29",
         "day30",
-        "day31"
+        "day31",
+        "day32"
       ],
       "decks": [],
-      "avgMinutesPerDay": 6.9
+      "avgMinutesPerDay": 7.1
     },
     {
       "user": "Danneee05",
@@ -10288,8 +10381,8 @@
     {
       "user": "Alan Le",
       "discordId": "711153532392308767",
-      "totalCards": 2639,
-      "daysCount": 28,
+      "totalCards": 2704,
+      "daysCount": 29,
       "totalMinutes": 706.23,
       "maxStreak": 31,
       "maxSingleDay": 305,
@@ -10321,7 +10414,8 @@
         "day26",
         "day27",
         "day28",
-        "day29"
+        "day29",
+        "day31"
       ],
       "decks": [
         "ZHVI HSK 3.0::Bài 08",
@@ -10332,9 +10426,10 @@
         "ZHVI HSK 3.0::HSK 1::Ghi nhớ cách viết",
         "ZHVI HSK 3.0::HSK 1::Bài tập luyện phản xạ",
         "ZHVI HSK 3.0::HSK 1::Ghi nhớ Pinyin",
-        "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết::Bài 01"
+        "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết::Bài 01",
+        "ĐỜI NGẮN ĐỪNG NGỦ DÀI"
       ],
-      "avgMinutesPerDay": 25.2
+      "avgMinutesPerDay": 24.4
     },
     {
       "user": "Dan1elP",
@@ -10552,9 +10647,9 @@
     {
       "user": "linhkhanhahi",
       "discordId": "928998165770825728",
-      "totalCards": 1177,
-      "daysCount": 20,
-      "totalMinutes": 202.5,
+      "totalCards": 1204,
+      "daysCount": 21,
+      "totalMinutes": 206.24,
       "maxStreak": 18,
       "maxSingleDay": 166,
       "daysJoined": [
@@ -10577,7 +10672,8 @@
         "day26",
         "day27",
         "day28",
-        "day29"
+        "day29",
+        "day31"
       ],
       "decks": [
         "Events",
@@ -10588,7 +10684,7 @@
         "B. VĂN BẰNG 2::03. HỌC KÌ 3",
         "B. VĂN BẰNG 2::02. HỌC KÌ 2"
       ],
-      "avgMinutesPerDay": 10.1
+      "avgMinutesPerDay": 9.8
     },
     {
       "user": "z9b",
@@ -10644,8 +10740,8 @@
     {
       "user": "stuna1604",
       "discordId": "838271094170583120",
-      "totalCards": 609,
-      "daysCount": 10,
+      "totalCards": 755,
+      "daysCount": 11,
       "totalMinutes": 0,
       "maxStreak": 9,
       "maxSingleDay": 160,
@@ -10659,12 +10755,14 @@
         "day7",
         "day8",
         "day9",
-        "day10"
+        "day10",
+        "day31"
       ],
       "decks": [
         "SẢN 1::Bài 1. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
         "SẢN 1",
-        "SẢN 1::01. KHUNG CHẬU NỮ"
+        "SẢN 1::01. KHUNG CHẬU NỮ",
+        "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA"
       ],
       "avgMinutesPerDay": 0
     },
