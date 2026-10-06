@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 32)",
-    "generatedAt": "2026-10-02T12:13:13.369Z",
+    "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 36)",
+    "generatedAt": "2026-10-06T15:38:35.603Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -34,12 +34,16 @@
       "Day 29",
       "Day 30",
       "Day 31",
-      "Day 32"
+      "Day 32",
+      "Day 33",
+      "Day 34",
+      "Day 35",
+      "Day 36"
     ]
   },
   "kpi": {
-    "totalCards": 187622,
-    "totalCheckins": 711,
+    "totalCards": 201366,
+    "totalCheckins": 770,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
@@ -47,10 +51,10 @@
     "topAggregateCards": 22805
   },
   "deckCategories": {
-    "japanese": 161,
-    "english": 87,
-    "medical": 440,
-    "other": 23
+    "japanese": 176,
+    "english": 94,
+    "medical": 476,
+    "other": 24
   },
   "dailySummary": [
     {
@@ -9615,11 +9619,24 @@
       "day": "day32",
       "dayLabel": "Day 32",
       "date": "02/10/2026",
-      "totalCards": 1475,
-      "totalUsers": 2,
-      "totalMinutes": 15,
-      "avgCardsPerUser": 738,
+      "totalCards": 5327,
+      "totalUsers": 16,
+      "totalMinutes": 358,
+      "avgCardsPerUser": 333,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 2026,
+          "minutes": 120,
+          "streak": 63,
+          "deck": null,
+          "detail": "2026 thẻ trong 120 phút, streak 63 ngày",
+          "imageDesc": "Heatmap Anki hiển thị 'Studied 2026 cards in 120 minutes today (3.55s/card)', current streak 63 days"
+        },
         {
           "id": "1410392551634112640",
           "discordId": "1410392551634112640",
@@ -9645,6 +9662,804 @@
           "deck": null,
           "detail": "Đã học 447 thẻ trong 15,35 phút hôm nay (2,06 giây/thẻ)",
           "imageDesc": "Anki stats thanh ngang báo đã học 447 thẻ trong 15,35 phút"
+        },
+        {
+          "id": "790859151734996992",
+          "discordId": "790859151734996992",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "TheMink",
+          "cards": 433,
+          "minutes": 75.41,
+          "streak": 32,
+          "deck": null,
+          "detail": "433 thẻ trong 75.41 phút (10.45s/card)",
+          "imageDesc": "Thống kê Heatmap Anki hiển thị 'Studied 433 cards in 75.41 minutes today (10.45s/card)'"
+        },
+        {
+          "id": "616159212980011018",
+          "discordId": "616159212980011018",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Aleye",
+          "cards": 387,
+          "minutes": 0,
+          "streak": 32,
+          "deck": null,
+          "detail": "387 thẻ ôn tập ngày 02/10/2026",
+          "imageDesc": "Giao diện Lịch và Ôn tập Anki/AnkiDroid hiển thị Thứ Sáu, 2 tháng 10, 2026: 387 thẻ ôn tập"
+        },
+        {
+          "id": "870187268692906014",
+          "discordId": "870187268692906014",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Lê Đức Tuấn",
+          "cards": 266,
+          "minutes": 51,
+          "streak": 32,
+          "deck": null,
+          "detail": "266 thẻ (264 rev + 2 new) trong 51 phút",
+          "imageDesc": "Heatmap popup OCT 02: 264 REV | 11.6 S/C | 77.9% RET | 51 m | 2 NEW"
+        },
+        {
+          "id": "838271094170583120",
+          "discordId": "838271094170583120",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "stuna1604",
+          "cards": 259,
+          "minutes": 0,
+          "streak": 2,
+          "deck": "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
+          "detail": "259 thẻ ôn tập ngày 02/10/2026",
+          "imageDesc": "Giao diện Thống kê Anki desktop ngày Thứ Sáu, 2 tháng 10, 2026: 259 thẻ ôn tập"
+        },
+        {
+          "id": "705779271603322911",
+          "discordId": "705779271603322911",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Minh may mắn",
+          "cards": 128,
+          "minutes": 42.5,
+          "streak": 56,
+          "deck": null,
+          "detail": "128 thẻ trong 42.5 phút, pace 19.9s/thẻ, retention 95%",
+          "imageDesc": "Thống kê giao diện Anki phong cách Die Trying, ghi nhận 128 cards, 42.5 min, 56 day streak"
+        },
+        {
+          "id": "1424374539177164861",
+          "discordId": "1424374539177164861",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "TaiTran",
+          "cards": 104,
+          "minutes": 0,
+          "streak": 541,
+          "deck": null,
+          "detail": "104 thẻ ôn tập ngày 02/10/2026, streak 541 ngày",
+          "imageDesc": "Heatmap popup: 104 cards reviewed on Friday October 2, 2026, current streak 541 days"
+        },
+        {
+          "id": "813419447150444554",
+          "discordId": "813419447150444554",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "PhươngPhương",
+          "cards": 68,
+          "minutes": 11.37,
+          "streak": 32,
+          "deck": null,
+          "detail": "68 thẻ trong 11.37 phút (10.03 giây/thẻ)",
+          "imageDesc": "Ảnh chụp màn hình máy tính thông báo 'Đã học 68 thẻ trong 11,37 phút hôm nay (10,03giây/thẻ)'"
+        },
+        {
+          "id": "1393440400038957157",
+          "discordId": "1393440400038957157",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Serene Flow",
+          "cards": 50,
+          "minutes": 9.45,
+          "streak": 21,
+          "deck": null,
+          "detail": "50 thẻ trong 9.45 phút (11.34s/card)",
+          "imageDesc": "Thống kê AnkiDroid Today: Studied 50 cards in 9.45 minutes today"
+        },
+        {
+          "id": "1353193643866984490",
+          "discordId": "1353193643866984490",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Anh 3 Khía",
+          "cards": 38,
+          "minutes": 0,
+          "streak": 5,
+          "deck": null,
+          "detail": "38 thẻ ôn tập ngày 02/10/2026",
+          "imageDesc": "Màn hình điện thoại AnkiDroid thống kê Thứ Sáu, ngày 2 tháng 10, 2026: 38 thẻ ôn tập"
+        },
+        {
+          "id": "928998165770825728",
+          "discordId": "928998165770825728",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "linhkhanhahi",
+          "cards": 30,
+          "minutes": 2.95,
+          "streak": 15,
+          "deck": "B. VĂN BẰNG 2::02. HỌC KÌ 2",
+          "detail": "30 thẻ trong 2.95 phút (5.9 giây/thẻ)",
+          "imageDesc": "AnkiDroid màn hình Hôm nay: Đã học 30 thẻ trong 2,95 phút hôm nay"
+        },
+        {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Alan Le",
+          "cards": 25,
+          "minutes": 25.64,
+          "streak": 32,
+          "deck": "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết",
+          "detail": "25 thẻ trong 25.64 phút (61.55 giây/thẻ)",
+          "imageDesc": "Màn hình thống kê AnkiDroid hiển thị hôm nay đã học 25 thẻ trong 25,64 phút"
+        },
+        {
+          "id": "792983013340086293",
+          "discordId": "792983013340086293",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "Dulgi",
+          "cards": 20,
+          "minutes": 0,
+          "streak": 493,
+          "deck": null,
+          "detail": "20 thẻ ôn tập ngày 02/10/2026, streak 493 ngày",
+          "imageDesc": "Anki Heatmap: 20 cards reviewed on Friday October 2, 2026, current streak 493 days"
+        },
+        {
+          "id": "1446702112347127869",
+          "discordId": "1446702112347127869",
+          "day": "day32",
+          "date": "02/10/2026",
+          "user": "nothinn",
+          "cards": 18,
+          "minutes": 4,
+          "streak": 26,
+          "deck": null,
+          "detail": "18 thẻ (18 rev) trong 4 phút",
+          "imageDesc": "Heatmap thanh thống kê: 18 rev (14sec), 00h 04m, streak 26d, 18 cards reviewed"
+        }
+      ]
+    },
+    {
+      "day": "day33",
+      "dayLabel": "Day 33",
+      "date": "03/10/2026",
+      "totalCards": 4267,
+      "totalUsers": 15,
+      "totalMinutes": 311,
+      "avgCardsPerUser": 284,
+      "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1816,
+          "minutes": 178.79,
+          "streak": 3,
+          "deck": "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense",
+          "detail": "Học 1.816 thẻ trong 178.79 phút (Learn: 1197, Review: 435, Relearn: 184)",
+          "imageDesc": "Ảnh chụp thống kê AnkiDroid Today: Studied 1,816 cards in 178.79 minutes today"
+        },
+        {
+          "id": "1410392551634112640",
+          "discordId": "1410392551634112640",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Sunny",
+          "cards": 803,
+          "minutes": 0,
+          "streak": 9,
+          "deck": "Cambridge Vocabulary for IELTS",
+          "detail": "Ôn tập 803 thẻ ngày 03/10/2026 bộ Cambridge Vocabulary for IELTS",
+          "imageDesc": "Ảnh chụp Anki iOS biểu đồ ôn tập ngày 3/10/2026: 803 thẻ ôn tập deck Cambridge Vocabulary for IELTS"
+        },
+        {
+          "id": "870187268692906014",
+          "discordId": "870187268692906014",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Lê Đức Tuấn",
+          "cards": 505,
+          "minutes": 0,
+          "streak": 33,
+          "deck": null,
+          "detail": "505 reviews ngày 03/10/2026 trên Anki Heatmap",
+          "imageDesc": "Ảnh chụp popup Heatmap ngày Saturday, October 3, 2026 với 505 reviews"
+        },
+        {
+          "id": "1446504123657748651",
+          "discordId": "1446504123657748651",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Tram",
+          "cards": 298,
+          "minutes": 9.18,
+          "streak": 33,
+          "deck": null,
+          "detail": "298 thẻ trong 9.18 phút (1.85 giây/thẻ)",
+          "imageDesc": "Ảnh cắt Anki: Đã học 298 thẻ trong 9,18 phút hôm nay (1,85giây/thẻ)"
+        },
+        {
+          "id": "813419447150444554",
+          "discordId": "813419447150444554",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "PhươngPhương",
+          "cards": 163,
+          "minutes": 26.84,
+          "streak": 33,
+          "deck": null,
+          "detail": "163 thẻ trong 26.84 phút (9.88 giây/thẻ)",
+          "imageDesc": "Ảnh chụp màn hình: Đã học 163 thẻ trong 26,84 phút hôm nay (9,88giây/thẻ)"
+        },
+        {
+          "id": "838271094170583120",
+          "discordId": "838271094170583120",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "stuna1604",
+          "cards": 120,
+          "minutes": 0,
+          "streak": 3,
+          "deck": "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
+          "detail": "120 thẻ ôn tập ngày 03/10/2026",
+          "imageDesc": "Thống kê Anki desktop: Thứ Bảy, 3 tháng 10, 2026: 120 thẻ ôn tập"
+        },
+        {
+          "id": "616159212980011018",
+          "discordId": "616159212980011018",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Aleye",
+          "cards": 113,
+          "minutes": 0,
+          "streak": 33,
+          "deck": null,
+          "detail": "113 thẻ ôn tập ngày 03/10/2026",
+          "imageDesc": "AnkiDroid Lịch và Ôn tập: Thứ Bảy, 3 tháng 10, 2026: 113 thẻ ôn tập"
+        },
+        {
+          "id": "705779271603322911",
+          "discordId": "705779271603322911",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Minh may mắn",
+          "cards": 108,
+          "minutes": 35.1,
+          "streak": 57,
+          "deck": null,
+          "detail": "108 thẻ trong 35.1 phút, pace 19.5s/card, retention 94%",
+          "imageDesc": "Die Trying dashboard: 108 cards, 35.1 min, 57 day streak"
+        },
+        {
+          "id": "1393440400038957157",
+          "discordId": "1393440400038957157",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Serene Flow",
+          "cards": 88,
+          "minutes": 21.02,
+          "streak": 22,
+          "deck": null,
+          "detail": "Học 88 thẻ trong 21.02 phút (Learn: 24, Review: 59, Relearn: 5)",
+          "imageDesc": "Ảnh chụp màn hình Anki mục Today: Studied 88 cards in 21.02 minutes"
+        },
+        {
+          "id": "1353193643866984490",
+          "discordId": "1353193643866984490",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Anh 3 Khía",
+          "cards": 81,
+          "minutes": 0,
+          "streak": 6,
+          "deck": "625 từ tiếng Anh căn...by Phuc - Ankivn.com",
+          "detail": "81 thẻ ôn tập ngày 03/10/2026",
+          "imageDesc": "AnkiDroid: Thứ Bảy, ngày 3 tháng 10, 2026: 81 thẻ ôn tập"
+        },
+        {
+          "id": "790859151734996992",
+          "discordId": "790859151734996992",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "TheMink",
+          "cards": 61,
+          "minutes": 14,
+          "streak": 34,
+          "deck": null,
+          "detail": "61 cards reviewed ngày 03/10/2026 trên Anki Heatmap (tự khai 14 phút)",
+          "imageDesc": "Ảnh chụp Anki Heatmap tooltip: 61 cards reviewed on Saturday October 3, 2026"
+        },
+        {
+          "id": "1424374539177164861",
+          "discordId": "1424374539177164861",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "TaiTran",
+          "cards": 47,
+          "minutes": 0,
+          "streak": 541,
+          "deck": null,
+          "detail": "47 cards reviewed ngày 03/10/2026 trên Anki Heatmap (Streak: 541 ngày)",
+          "imageDesc": "Ảnh chụp Anki Heatmap tooltip: 47 cards reviewed on Saturday October 3, 2026"
+        },
+        {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Alan Le",
+          "cards": 45,
+          "minutes": 22.35,
+          "streak": 33,
+          "deck": "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết",
+          "detail": "Học 45 thẻ trong 22.35 phút (Học lại: 14)",
+          "imageDesc": "Ảnh chụp thống kê AnkiDroid mục Hôm nay học 45 thẻ trong 22,35 phút"
+        },
+        {
+          "id": "1446702112347127869",
+          "discordId": "1446702112347127869",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "nothinn",
+          "cards": 18,
+          "minutes": 4,
+          "streak": 26,
+          "deck": null,
+          "detail": "18 cards reviewed (4 phút) ngày 04/10/2026; ô ngày 03/10/2026 cũng có học. Người dùng gửi cùng ảnh cho cả Day 33 và Day 34.",
+          "imageDesc": "Ảnh chụp màn hình Anki Heatmap & bảng thống kê: 18 cards reviewed trong 4 phút"
+        },
+        {
+          "id": "792983013340086293",
+          "discordId": "792983013340086293",
+          "day": "day33",
+          "date": "03/10/2026",
+          "user": "Dulgi",
+          "cards": 1,
+          "minutes": 0,
+          "streak": 493,
+          "deck": null,
+          "detail": "1 card reviewed ngày 03/10/2026 trên Anki Heatmap (Streak: 493 ngày)",
+          "imageDesc": "Ảnh chụp Anki Heatmap tooltip: 1 card reviewed on Saturday October 3, 2026"
+        }
+      ]
+    },
+    {
+      "day": "day34",
+      "dayLabel": "Day 34",
+      "date": "04/10/2026",
+      "totalCards": 2622,
+      "totalUsers": 13,
+      "totalMinutes": 236,
+      "avgCardsPerUser": 202,
+      "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1013,
+          "minutes": 0,
+          "streak": 5,
+          "deck": null,
+          "detail": "1.013 cards reviewed ngày 04/10/2026 trên Anki Heatmap",
+          "imageDesc": "Ảnh chụp Anki Heatmap tooltip: 1,013 cards reviewed on Sunday October 4, 2026"
+        },
+        {
+          "id": "790859151734996992",
+          "discordId": "790859151734996992",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "TheMink",
+          "cards": 571,
+          "minutes": 117.74,
+          "streak": 1,
+          "deck": null,
+          "detail": "Studied 571 cards in 117.74 minutes today (12.37s/card)",
+          "imageDesc": "Ảnh chụp màn hình Anki: Studied 571 cards in 117.74 minutes today"
+        },
+        {
+          "id": "1446504123657748651",
+          "discordId": "1446504123657748651",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Tram",
+          "cards": 221,
+          "minutes": 5.77,
+          "streak": 34,
+          "deck": null,
+          "detail": "Đã học 221 thẻ trong 5.77 phút hôm nay (1.57s/thẻ)",
+          "imageDesc": "Ảnh chụp màn hình Anki: Đã học 221 thẻ trong 5,77 phút hôm nay"
+        },
+        {
+          "id": "813419447150444554",
+          "discordId": "813419447150444554",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "PhươngPhương",
+          "cards": 220,
+          "minutes": 29.1,
+          "streak": 34,
+          "deck": null,
+          "detail": "Studied 220 cards in 29.1 minutes today (7.94s/card)",
+          "imageDesc": "Ảnh chụp màn hình Anki: Studied 220 cards in 29.1 minutes today"
+        },
+        {
+          "id": "870187268692906014",
+          "discordId": "870187268692906014",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Lê Đức Tuấn",
+          "cards": 159,
+          "minutes": 32,
+          "streak": 34,
+          "deck": null,
+          "detail": "159 reviews trong 32 phút ngày 04/10/2026 (12.1 s/card, 83.0% ret)",
+          "imageDesc": "Ảnh chụp Anki stats widget/bar: OCT 04 - 159 REV | 12.1 S/C | 83.0% RET | 32 m"
+        },
+        {
+          "id": "838271094170583120",
+          "discordId": "838271094170583120",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "stuna1604",
+          "cards": 81,
+          "minutes": 0,
+          "streak": 4,
+          "deck": "SẢN 2::01. SINH KHÓ",
+          "detail": "81 thẻ ôn tập ngày Chủ Nhật, 04/10/2026 bộ SẢN 2::01. SINH KHÓ",
+          "imageDesc": "Ảnh chụp Thống kê Anki PC: Lịch Chủ Nhật, 4 tháng 10, 2026 có 81 thẻ ôn tập deck SẢN 2::01. SINH KHÓ"
+        },
+        {
+          "id": "1393440400038957157",
+          "discordId": "1393440400038957157",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Serene Flow",
+          "cards": 74,
+          "minutes": 13.57,
+          "streak": 23,
+          "deck": null,
+          "detail": "Học 74 thẻ trong 13.57 phút (Learn: 3, Review: 69, Relearn: 2)",
+          "imageDesc": "Ảnh chụp màn hình Anki mục Today: Studied 74 cards in 13.57 minutes today"
+        },
+        {
+          "id": "616159212980011018",
+          "discordId": "616159212980011018",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Aleye",
+          "cards": 69,
+          "minutes": 0,
+          "streak": 34,
+          "deck": null,
+          "detail": "69 thẻ ôn tập ngày Chủ Nhật, 04/10/2026 trên lịch Anki",
+          "imageDesc": "Ảnh chụp màn hình Lịch Anki: Chủ Nhật, 4 tháng 10, 2026 - 69 thẻ ôn tập"
+        },
+        {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Alan Le",
+          "cards": 61,
+          "minutes": 23.46,
+          "streak": 34,
+          "deck": "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết",
+          "detail": "Học 61 thẻ trong 23.46 phút (Học: 10, Ôn: 24, Học lại: 27)",
+          "imageDesc": "Ảnh chụp màn hình AnkiDroid: Đã học 61 thẻ trong 23,46 phút hôm nay"
+        },
+        {
+          "id": "1424374539177164861",
+          "discordId": "1424374539177164861",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "TaiTran",
+          "cards": 60,
+          "minutes": 0,
+          "streak": 541,
+          "deck": null,
+          "detail": "60 cards reviewed ngày 04/10/2026 trên Anki Heatmap (Streak: 541 ngày)",
+          "imageDesc": "Ảnh chụp Anki Heatmap tooltip: 60 cards reviewed on Sunday October 4, 2026"
+        },
+        {
+          "id": "705779271603322911",
+          "discordId": "705779271603322911",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Minh may mắn",
+          "cards": 44,
+          "minutes": 10.13,
+          "streak": 34,
+          "deck": null,
+          "detail": "Học 44 thẻ trong 10.13 phút (tiếng Nhật: 今日は44枚のカードを10.13分で学習しています)",
+          "imageDesc": "Ảnh chụp màn hình Anki tiếng Nhật: 今日は44枚のカードを10.13分で学習しています (13.82秒/枚)"
+        },
+        {
+          "id": "1353193643866984490",
+          "discordId": "1353193643866984490",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "Anh 3 Khía",
+          "cards": 31,
+          "minutes": 0,
+          "streak": 7,
+          "deck": "CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "detail": "31 thẻ ôn tập ngày Chủ Nhật, 04/10/2026 bộ CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "imageDesc": "Ảnh chụp màn hình Anki iOS Lịch: Chủ Nhật, ngày 4 tháng 10, 2026: 31 thẻ ôn tập"
+        },
+        {
+          "id": "1446702112347127869",
+          "discordId": "1446702112347127869",
+          "day": "day34",
+          "date": "04/10/2026",
+          "user": "nothinn",
+          "cards": 18,
+          "minutes": 4,
+          "streak": 26,
+          "deck": null,
+          "detail": "18 cards reviewed trong 4 phút ngày 04/10/2026 trên Anki Heatmap",
+          "imageDesc": "Ảnh chụp màn hình Anki Heatmap: 18 cards reviewed on Sunday October 4, 2026, thời gian 00h 04m"
+        }
+      ]
+    },
+    {
+      "day": "day35",
+      "dayLabel": "Day 35",
+      "date": "05/10/2026",
+      "totalCards": 1867,
+      "totalUsers": 11,
+      "totalMinutes": 192,
+      "avgCardsPerUser": 170,
+      "records": [
+        {
+          "id": "790859151734996992",
+          "discordId": "790859151734996992",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "TheMink",
+          "cards": 447,
+          "minutes": 112,
+          "streak": 35,
+          "deck": null,
+          "detail": "447 thẻ ôn tập ngày 05/10/2026 trong 112 phút (tự khai)",
+          "imageDesc": "Ảnh Anki Heatmap tooltip: 447 cards reviewed on Monday October 5, 2026"
+        },
+        {
+          "id": "616159212980011018",
+          "discordId": "616159212980011018",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Aleye",
+          "cards": 326,
+          "minutes": 0,
+          "streak": 35,
+          "deck": null,
+          "detail": "326 thẻ ôn tập ngày 05/10/2026",
+          "imageDesc": "Ảnh Anki thống kê Lịch Heatmap: Thứ Hai, 5 tháng 10, 2026 có 326 thẻ ôn tập"
+        },
+        {
+          "id": "1446504123657748651",
+          "discordId": "1446504123657748651",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Tram",
+          "cards": 265,
+          "minutes": 8.15,
+          "streak": 35,
+          "deck": null,
+          "detail": "Đã học 265 thẻ trong 8.15 phút hôm nay (1.85 giây/thẻ)",
+          "imageDesc": "Ảnh chụp màn hình thông báo hoàn thành của Anki: Đã học 265 thẻ trong 8,15 phút hôm nay (1,85giây/thẻ)"
+        },
+        {
+          "id": "870187268692906014",
+          "discordId": "870187268692906014",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Lê Đức Tuấn",
+          "cards": 257,
+          "minutes": 52,
+          "streak": 35,
+          "deck": null,
+          "detail": "257 thẻ ôn tập, 7 thẻ mới trong 52 phút ngày 05/10/2026",
+          "imageDesc": "Ảnh Anki Heatmap summary bar ngày OCT 05: 257 REV | 12.3 S/C | 77.2% RET | 52 m | 7 NEW"
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 158,
+          "minutes": 0,
+          "streak": 1,
+          "deck": null,
+          "detail": "158 thẻ ôn tập ngày 05/10/2026",
+          "imageDesc": "Ảnh Anki Heatmap tooltip: 158 cards reviewed on Monday October 5, 2026"
+        },
+        {
+          "id": "813419447150444554",
+          "discordId": "813419447150444554",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "PhươngPhương",
+          "cards": 145,
+          "minutes": 0,
+          "streak": 36,
+          "deck": null,
+          "detail": "145 thẻ ôn tập ngày 05/10/2026",
+          "imageDesc": "Ảnh chụp màn hình máy tính bảng Heatmap Anki: Thứ Hai, 5 tháng 10, 2026 có 145 thẻ ôn tập"
+        },
+        {
+          "id": "1393440400038957157",
+          "discordId": "1393440400038957157",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Serene Flow",
+          "cards": 73,
+          "minutes": 20.13,
+          "streak": 24,
+          "deck": null,
+          "detail": "Học 73 thẻ trong 20.13 phút (Learn: 16, Review: 50, Relearn: 7)",
+          "imageDesc": "Ảnh thống kê Anki Today: Studied 73 cards in 20.13 minutes today"
+        },
+        {
+          "id": "838271094170583120",
+          "discordId": "838271094170583120",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "stuna1604",
+          "cards": 66,
+          "minutes": 0,
+          "streak": 5,
+          "deck": "SẢN 2",
+          "detail": "66 thẻ ôn tập ngày 05/10/2026, bộ thẻ SẢN 2",
+          "imageDesc": "Ảnh Anki PC Thống kê Lịch Heatmap: Thứ Hai, 5 tháng 10, 2026 có 66 thẻ ôn tập, bộ SẢN 2"
+        },
+        {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Alan Le",
+          "cards": 65,
+          "minutes": 0,
+          "streak": 36,
+          "deck": null,
+          "detail": "65 thẻ ôn tập ngày 05/10/2026",
+          "imageDesc": "Ảnh AnkiDroid Thống kê Lịch Heatmap: Thứ Hai, 5 tháng 10, 2026 có 65 thẻ ôn tập"
+        },
+        {
+          "id": "1353193643866984490",
+          "discordId": "1353193643866984490",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Anh 3 Khía",
+          "cards": 56,
+          "minutes": 0,
+          "streak": 8,
+          "deck": "CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "detail": "56 thẻ ôn tập ngày 05/10/2026, bộ CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "imageDesc": "Ảnh thống kê Heatmap trên iOS: Thứ Hai, ngày 5 tháng 10, 2026 có 56 thẻ ôn tập, bộ CÂU GIAO TIẾP NGẮN THÔNG DỤNG"
+        },
+        {
+          "id": "705779271603322911",
+          "discordId": "705779271603322911",
+          "day": "day35",
+          "date": "05/10/2026",
+          "user": "Minh may mắn",
+          "cards": 9,
+          "minutes": 0,
+          "streak": 35,
+          "deck": null,
+          "detail": "9 thẻ ôn tập ngày 05/10/2026 (streak 60 ngày trên hệ thống)",
+          "imageDesc": "Ảnh Anki/Brainscape Activity: 9 reviews on Monday, October 5, 2026, 60 day streak"
+        }
+      ]
+    },
+    {
+      "day": "day36",
+      "dayLabel": "Day 36",
+      "date": "06/10/2026",
+      "totalCards": 1136,
+      "totalUsers": 6,
+      "totalMinutes": 78,
+      "avgCardsPerUser": 189,
+      "records": [
+        {
+          "id": "616159212980011018",
+          "discordId": "616159212980011018",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Aleye",
+          "cards": 416,
+          "minutes": 0,
+          "streak": 36,
+          "deck": null,
+          "detail": "416 thẻ ôn tập ngày 06/10/2026",
+          "imageDesc": "Ảnh Anki Lịch Heatmap: Thứ Ba, 6 tháng 10, 2026 có 416 thẻ ôn tập"
+        },
+        {
+          "id": "813419447150444554",
+          "discordId": "813419447150444554",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "PhươngPhương",
+          "cards": 299,
+          "minutes": 35.56,
+          "streak": 1,
+          "deck": null,
+          "detail": "Đã học 299 thẻ trong 35.56 phút hôm nay (7.14 giây/thẻ)",
+          "imageDesc": "Ảnh chụp màn hình Anki: Đã học 299 thẻ trong 35,56 phút hôm nay (7,14giây/thẻ)"
+        },
+        {
+          "id": "1446504123657748651",
+          "discordId": "1446504123657748651",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Tram",
+          "cards": 226,
+          "minutes": 8.38,
+          "streak": 36,
+          "deck": null,
+          "detail": "Đã học 226 thẻ trong 8.38 phút hôm nay (2.22 giây/thẻ)",
+          "imageDesc": "Ảnh Anki thông báo hoàn thành: Đã học 226 thẻ trong 8,38 phút hôm nay (2,22giây/thẻ)"
+        },
+        {
+          "id": "711153532392308767",
+          "discordId": "711153532392308767",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Alan Le",
+          "cards": 103,
+          "minutes": 29.49,
+          "streak": 1,
+          "deck": "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết",
+          "detail": "Học 103 thẻ trong 29.49 phút (Học: 64, Ôn: 23, Học lại: 16), bộ ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết",
+          "imageDesc": "Ảnh AnkiDroid Thống kê mục Hôm nay: Đã học 103 thẻ trong 29,49 phút hôm nay, bộ ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết"
+        },
+        {
+          "id": "705779271603322911",
+          "discordId": "705779271603322911",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Minh may mắn",
+          "cards": 48,
+          "minutes": 4.74,
+          "streak": 36,
+          "deck": null,
+          "detail": "Học 48 thẻ trong 4.74 phút hôm nay (tiếng Nhật: 今日は48枚のカードを4.74分で学習しています)",
+          "imageDesc": "Ảnh Anki hoàn thành học tiếng Nhật: 今日は48枚のカードを4.74分で学習しています ( 5.93 秒 / 枚 )"
+        },
+        {
+          "id": "1353193643866984490",
+          "discordId": "1353193643866984490",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Anh 3 Khía",
+          "cards": 44,
+          "minutes": 0,
+          "streak": 9,
+          "deck": "CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "detail": "44 thẻ ôn tập ngày 06/10/2026, bộ CÂU GIAO TIẾP NGẮN THÔNG DỤNG",
+          "imageDesc": "Ảnh Anki iOS Heatmap: Thứ Ba, ngày 6 tháng 10, 2026 có 44 thẻ ôn tập, bộ CÂU GIAO TIẾP NGẮN THÔNG DỤNG"
         }
       ]
     }
@@ -9675,36 +10490,12 @@
       "avgMinutesPerDay": 14.2
     },
     {
-      "user": "Ethan NP",
-      "discordId": "1340307678215405710",
-      "totalCards": 19986,
-      "daysCount": 11,
-      "totalMinutes": 2260.02,
-      "maxStreak": 1175,
-      "maxSingleDay": 4374,
-      "daysJoined": [
-        "day1",
-        "day2",
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day11",
-        "day23"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 205.5
-    },
-    {
       "user": "Gai Hàn TOPIK 6 xin vía",
       "discordId": "438960335983083530",
-      "totalCards": 16807,
-      "daysCount": 27,
-      "totalMinutes": 1443.26,
-      "maxStreak": 43,
+      "totalCards": 21820,
+      "daysCount": 31,
+      "totalMinutes": 1742.05,
+      "maxStreak": 63,
       "maxSingleDay": 2309,
       "daysJoined": [
         "day1",
@@ -9733,22 +10524,51 @@
         "day24",
         "day25",
         "day28",
-        "day31"
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35"
       ],
       "decks": [
         "Archived::Default+",
         "Tiếng Hàn Tổng Hợp",
         "New General Service List 1.2",
         "!과수생산학및실습::제1장 과수의 정의 및 특성과 중요성::1.1 과수의 정의",
-        "Tiếng Hàn Tổng Hợp::Quyển 02::Bài 08. Phim ảnh (영화)"
+        "Tiếng Hàn Tổng Hợp::Quyển 02::Bài 08. Phim ảnh (영화)",
+        "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense"
       ],
-      "avgMinutesPerDay": 53.5
+      "avgMinutesPerDay": 56.2
+    },
+    {
+      "user": "Ethan NP",
+      "discordId": "1340307678215405710",
+      "totalCards": 19986,
+      "daysCount": 11,
+      "totalMinutes": 2260.02,
+      "maxStreak": 1175,
+      "maxSingleDay": 4374,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day11",
+        "day23"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 205.5
     },
     {
       "user": "Sunny",
       "discordId": "1410392551634112640",
-      "totalCards": 16254,
-      "daysCount": 29,
+      "totalCards": 17057,
+      "daysCount": 30,
       "totalMinutes": 349.78,
       "maxStreak": 11,
       "maxSingleDay": 2314,
@@ -9781,22 +10601,23 @@
         "day29",
         "day30",
         "day31",
-        "day32"
+        "day32",
+        "day33"
       ],
       "decks": [
         "Cambridge Vocabulary for IELTS - Lesson 11",
         "Cambridge Vocabulary for IELTS"
       ],
-      "avgMinutesPerDay": 12.1
+      "avgMinutesPerDay": 11.7
     },
     {
       "user": "Lê Đức Tuấn",
       "discordId": "870187268692906014",
-      "totalCards": 10196,
-      "daysCount": 29,
-      "totalMinutes": 733,
-      "maxStreak": 29,
-      "maxSingleDay": 500,
+      "totalCards": 11383,
+      "daysCount": 33,
+      "totalMinutes": 868,
+      "maxStreak": 35,
+      "maxSingleDay": 505,
       "daysJoined": [
         "day1",
         "day2",
@@ -9826,18 +10647,22 @@
         "day26",
         "day27",
         "day28",
-        "day29"
+        "day29",
+        "day32",
+        "day33",
+        "day34",
+        "day35"
       ],
       "decks": [],
-      "avgMinutesPerDay": 25.3
+      "avgMinutesPerDay": 26.3
     },
     {
       "user": "Aleye",
       "discordId": "616159212980011018",
-      "totalCards": 8518,
-      "daysCount": 29,
+      "totalCards": 9829,
+      "daysCount": 34,
       "totalMinutes": 20.79,
-      "maxStreak": 31,
+      "maxStreak": 36,
       "maxSingleDay": 920,
       "daysJoined": [
         "day1",
@@ -9868,10 +10693,59 @@
         "day27",
         "day28",
         "day29",
-        "day31"
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0.7
+      "avgMinutesPerDay": 0.6
+    },
+    {
+      "user": "TheMink",
+      "discordId": "790859151734996992",
+      "totalCards": 9758,
+      "daysCount": 31,
+      "totalMinutes": 1676.9700000000003,
+      "maxStreak": 35,
+      "maxSingleDay": 766,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day11",
+        "day12",
+        "day13",
+        "day14",
+        "day15",
+        "day17",
+        "day18",
+        "day19",
+        "day20",
+        "day21",
+        "day22",
+        "day23",
+        "day24",
+        "day25",
+        "day26",
+        "day27",
+        "day28",
+        "day32",
+        "day33",
+        "day34",
+        "day35"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 54.1
     },
     {
       "user": ".diffusion.",
@@ -9907,17 +10781,16 @@
       "avgMinutesPerDay": 43.4
     },
     {
-      "user": "TheMink",
-      "discordId": "790859151734996992",
-      "totalCards": 8246,
-      "daysCount": 27,
-      "totalMinutes": 1357.8200000000002,
-      "maxStreak": 28,
-      "maxSingleDay": 766,
+      "user": "Tram",
+      "discordId": "1446504123657748651",
+      "totalCards": 8249,
+      "daysCount": 35,
+      "totalMinutes": 252.94000000000003,
+      "maxStreak": 36,
+      "maxSingleDay": 447,
       "daysJoined": [
         "day1",
         "day2",
-        "day3",
         "day4",
         "day5",
         "day6",
@@ -9930,6 +10803,7 @@
         "day13",
         "day14",
         "day15",
+        "day16",
         "day17",
         "day18",
         "day19",
@@ -9941,10 +10815,18 @@
         "day25",
         "day26",
         "day27",
-        "day28"
+        "day28",
+        "day29",
+        "day30",
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
       ],
       "decks": [],
-      "avgMinutesPerDay": 50.3
+      "avgMinutesPerDay": 7.2
     },
     {
       "user": "Ava",
@@ -9985,50 +10867,6 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "Tram",
-      "discordId": "1446504123657748651",
-      "totalCards": 7239,
-      "daysCount": 31,
-      "totalMinutes": 221.46,
-      "maxStreak": 32,
-      "maxSingleDay": 447,
-      "daysJoined": [
-        "day1",
-        "day2",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10",
-        "day11",
-        "day12",
-        "day13",
-        "day14",
-        "day15",
-        "day16",
-        "day17",
-        "day18",
-        "day19",
-        "day20",
-        "day21",
-        "day22",
-        "day23",
-        "day24",
-        "day25",
-        "day26",
-        "day27",
-        "day28",
-        "day29",
-        "day30",
-        "day31",
-        "day32"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 7.1
-    },
-    {
       "user": "Danneee05",
       "discordId": "1503052423390957772",
       "totalCards": 6568,
@@ -10061,6 +10899,55 @@
         "부경대"
       ],
       "avgMinutesPerDay": 5.7
+    },
+    {
+      "user": "PhươngPhương",
+      "discordId": "813419447150444554",
+      "totalCards": 5932,
+      "daysCount": 33,
+      "totalMinutes": 981.55,
+      "maxStreak": 36,
+      "maxSingleDay": 356,
+      "daysJoined": [
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day11",
+        "day12",
+        "day13",
+        "day14",
+        "day15",
+        "day16",
+        "day17",
+        "day18",
+        "day19",
+        "day20",
+        "day21",
+        "day22",
+        "day23",
+        "day24",
+        "day25",
+        "day26",
+        "day27",
+        "day28",
+        "day29",
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
+      ],
+      "decks": [
+        "10. People and society",
+        "24. Entertainment"
+      ],
+      "avgMinutesPerDay": 29.7
     },
     {
       "user": "loipahm",
@@ -10136,56 +11023,12 @@
       "avgMinutesPerDay": 0
     },
     {
-      "user": "PhươngPhương",
-      "discordId": "813419447150444554",
-      "totalCards": 5037,
-      "daysCount": 28,
-      "totalMinutes": 878.6799999999998,
-      "maxStreak": 31,
-      "maxSingleDay": 356,
-      "daysJoined": [
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10",
-        "day11",
-        "day12",
-        "day13",
-        "day14",
-        "day15",
-        "day16",
-        "day17",
-        "day18",
-        "day19",
-        "day20",
-        "day21",
-        "day22",
-        "day23",
-        "day24",
-        "day25",
-        "day26",
-        "day27",
-        "day28",
-        "day29",
-        "day31"
-      ],
-      "decks": [
-        "10. People and society",
-        "24. Entertainment"
-      ],
-      "avgMinutesPerDay": 31.4
-    },
-    {
       "user": "TaiTran",
       "discordId": "1424374539177164861",
-      "totalCards": 4818,
-      "daysCount": 26,
+      "totalCards": 5029,
+      "daysCount": 29,
       "totalMinutes": 511.10999999999996,
-      "maxStreak": 534,
+      "maxStreak": 541,
       "maxSingleDay": 435,
       "daysJoined": [
         "day1",
@@ -10213,47 +11056,23 @@
         "day24",
         "day25",
         "day26",
-        "day27"
+        "day27",
+        "day32",
+        "day33",
+        "day34"
       ],
       "decks": [
         "FOCUS"
       ],
-      "avgMinutesPerDay": 19.7
-    },
-    {
-      "user": "*♡ xinh láo ✧*。",
-      "discordId": "1315027452430516246",
-      "totalCards": 3908,
-      "daysCount": 11,
-      "totalMinutes": 495.9599999999999,
-      "maxStreak": 58,
-      "maxSingleDay": 1022,
-      "daysJoined": [
-        "day1",
-        "day2",
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day16",
-        "day17"
-      ],
-      "decks": [
-        "徹底トレーニング N1",
-        "Phải thắngggg"
-      ],
-      "avgMinutesPerDay": 45.1
+      "avgMinutesPerDay": 17.6
     },
     {
       "user": "Minh may mắn",
       "discordId": "705779271603322911",
-      "totalCards": 3716,
-      "daysCount": 30,
-      "totalMinutes": 1592.8,
-      "maxStreak": 53,
+      "totalCards": 4053,
+      "daysCount": 35,
+      "totalMinutes": 1685.27,
+      "maxStreak": 57,
       "maxSingleDay": 210,
       "daysJoined": [
         "day1",
@@ -10285,13 +11104,45 @@
         "day27",
         "day28",
         "day29",
-        "day31"
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
       ],
       "decks": [
         "Die Trying!!!",
         "2220 Hán Tự JLPT N5-N1"
       ],
-      "avgMinutesPerDay": 53.1
+      "avgMinutesPerDay": 48.2
+    },
+    {
+      "user": "*♡ xinh láo ✧*。",
+      "discordId": "1315027452430516246",
+      "totalCards": 3908,
+      "daysCount": 11,
+      "totalMinutes": 495.9599999999999,
+      "maxStreak": 58,
+      "maxSingleDay": 1022,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day16",
+        "day17"
+      ],
+      "decks": [
+        "徹底トレーニング N1",
+        "Phải thắngggg"
+      ],
+      "avgMinutesPerDay": 45.1
     },
     {
       "user": "Gai con HaVy trộm vía",
@@ -10381,10 +11232,10 @@
     {
       "user": "Alan Le",
       "discordId": "711153532392308767",
-      "totalCards": 2704,
-      "daysCount": 29,
-      "totalMinutes": 706.23,
-      "maxStreak": 31,
+      "totalCards": 3003,
+      "daysCount": 34,
+      "totalMinutes": 807.1700000000001,
+      "maxStreak": 36,
       "maxSingleDay": 305,
       "daysJoined": [
         "day1",
@@ -10415,7 +11266,12 @@
         "day27",
         "day28",
         "day29",
-        "day31"
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
       ],
       "decks": [
         "ZHVI HSK 3.0::Bài 08",
@@ -10427,9 +11283,10 @@
         "ZHVI HSK 3.0::HSK 1::Bài tập luyện phản xạ",
         "ZHVI HSK 3.0::HSK 1::Ghi nhớ Pinyin",
         "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết::Bài 01",
-        "ĐỜI NGẮN ĐỪNG NGỦ DÀI"
+        "ĐỜI NGẮN ĐỪNG NGỦ DÀI",
+        "ZHVI HSK 3.0::HSK 2::Ghi nhớ cách viết"
       ],
-      "avgMinutesPerDay": 24.4
+      "avgMinutesPerDay": 23.7
     },
     {
       "user": "Dan1elP",
@@ -10468,6 +11325,51 @@
       ],
       "decks": [],
       "avgMinutesPerDay": 1.4
+    },
+    {
+      "user": "Serene Flow",
+      "discordId": "1393440400038957157",
+      "totalCards": 2272,
+      "daysCount": 32,
+      "totalMinutes": 350.16999999999996,
+      "maxStreak": 24,
+      "maxSingleDay": 176,
+      "daysJoined": [
+        "day1",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day12",
+        "day13",
+        "day14",
+        "day15",
+        "day16",
+        "day17",
+        "day18",
+        "day19",
+        "day20",
+        "day21",
+        "day22",
+        "day23",
+        "day24",
+        "day25",
+        "day26",
+        "day27",
+        "day28",
+        "day29",
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 10.9
     },
     {
       "user": "Linh",
@@ -10510,35 +11412,12 @@
       "avgMinutesPerDay": 1.2
     },
     {
-      "user": "Hana đang học",
-      "discordId": "1128985878367318116",
-      "totalCards": 2077,
-      "daysCount": 10,
-      "totalMinutes": 258.97,
-      "maxStreak": 194,
-      "maxSingleDay": 760,
-      "daysJoined": [
-        "day1",
-        "day2",
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 25.9
-    },
-    {
       "user": "Dulgi",
       "discordId": "792983013340086293",
-      "totalCards": 2069,
-      "daysCount": 23,
+      "totalCards": 2090,
+      "daysCount": 25,
       "totalMinutes": 15,
-      "maxStreak": 484,
+      "maxStreak": 493,
       "maxSingleDay": 416,
       "daysJoined": [
         "day1",
@@ -10563,21 +11442,24 @@
         "day22",
         "day23",
         "day24",
-        "day25"
+        "day25",
+        "day32",
+        "day33"
       ],
       "decks": [],
-      "avgMinutesPerDay": 0.7
+      "avgMinutesPerDay": 0.6
     },
     {
-      "user": "Serene Flow",
-      "discordId": "1393440400038957157",
-      "totalCards": 1987,
-      "daysCount": 28,
-      "totalMinutes": 286,
-      "maxStreak": 20,
-      "maxSingleDay": 176,
+      "user": "Hana đang học",
+      "discordId": "1128985878367318116",
+      "totalCards": 2077,
+      "daysCount": 10,
+      "totalMinutes": 258.97,
+      "maxStreak": 194,
+      "maxSingleDay": 760,
       "daysJoined": [
         "day1",
+        "day2",
         "day3",
         "day4",
         "day5",
@@ -10585,37 +11467,18 @@
         "day7",
         "day8",
         "day9",
-        "day10",
-        "day12",
-        "day13",
-        "day14",
-        "day15",
-        "day16",
-        "day17",
-        "day18",
-        "day19",
-        "day20",
-        "day21",
-        "day22",
-        "day23",
-        "day24",
-        "day25",
-        "day26",
-        "day27",
-        "day28",
-        "day29",
-        "day31"
+        "day10"
       ],
       "decks": [],
-      "avgMinutesPerDay": 10.2
+      "avgMinutesPerDay": 25.9
     },
     {
       "user": "Anh 3 Khía",
       "discordId": "1353193643866984490",
-      "totalCards": 1386,
-      "daysCount": 19,
+      "totalCards": 1636,
+      "daysCount": 24,
       "totalMinutes": 0,
-      "maxStreak": 7,
+      "maxStreak": 9,
       "maxSingleDay": 167,
       "daysJoined": [
         "day1",
@@ -10636,20 +11499,62 @@
         "day21",
         "day22",
         "day25",
-        "day26"
+        "day26",
+        "day32",
+        "day33",
+        "day34",
+        "day35",
+        "day36"
       ],
       "decks": [
         "GIÁO TRÌNH HSK",
-        "GIÁO TRÌNH HSK::HSK2::BÀI 03"
+        "GIÁO TRÌNH HSK::HSK2::BÀI 03",
+        "625 từ tiếng Anh căn...by Phuc - Ankivn.com",
+        "CÂU GIAO TIẾP NGẮN THÔNG DỤNG"
+      ],
+      "avgMinutesPerDay": 0
+    },
+    {
+      "user": "stuna1604",
+      "discordId": "838271094170583120",
+      "totalCards": 1281,
+      "daysCount": 15,
+      "totalMinutes": 0,
+      "maxStreak": 9,
+      "maxSingleDay": 259,
+      "daysJoined": [
+        "day1",
+        "day2",
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day31",
+        "day32",
+        "day33",
+        "day34",
+        "day35"
+      ],
+      "decks": [
+        "SẢN 1::Bài 1. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
+        "SẢN 1",
+        "SẢN 1::01. KHUNG CHẬU NỮ",
+        "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
+        "SẢN 2::01. SINH KHÓ",
+        "SẢN 2"
       ],
       "avgMinutesPerDay": 0
     },
     {
       "user": "linhkhanhahi",
       "discordId": "928998165770825728",
-      "totalCards": 1204,
-      "daysCount": 21,
-      "totalMinutes": 206.24,
+      "totalCards": 1234,
+      "daysCount": 22,
+      "totalMinutes": 209.19,
       "maxStreak": 18,
       "maxSingleDay": 166,
       "daysJoined": [
@@ -10673,7 +11578,8 @@
         "day27",
         "day28",
         "day29",
-        "day31"
+        "day31",
+        "day32"
       ],
       "decks": [
         "Events",
@@ -10684,32 +11590,14 @@
         "B. VĂN BẰNG 2::03. HỌC KÌ 3",
         "B. VĂN BẰNG 2::02. HỌC KÌ 2"
       ],
-      "avgMinutesPerDay": 9.8
-    },
-    {
-      "user": "z9b",
-      "discordId": "756776493685669940",
-      "totalCards": 804,
-      "daysCount": 3,
-      "totalMinutes": 34.46,
-      "maxStreak": 7,
-      "maxSingleDay": 779,
-      "daysJoined": [
-        "day1",
-        "day5",
-        "day7"
-      ],
-      "decks": [
-        "B1_Wortschartz"
-      ],
-      "avgMinutesPerDay": 11.5
+      "avgMinutesPerDay": 9.5
     },
     {
       "user": "nothinn",
       "discordId": "1446702112347127869",
-      "totalCards": 760,
-      "daysCount": 20,
-      "totalMinutes": 33,
+      "totalCards": 814,
+      "daysCount": 23,
+      "totalMinutes": 45,
       "maxStreak": 268,
       "maxSingleDay": 213,
       "daysJoined": [
@@ -10732,39 +11620,31 @@
         "day22",
         "day23",
         "day24",
-        "day25"
+        "day25",
+        "day32",
+        "day33",
+        "day34"
       ],
       "decks": [],
-      "avgMinutesPerDay": 1.7
+      "avgMinutesPerDay": 2
     },
     {
-      "user": "stuna1604",
-      "discordId": "838271094170583120",
-      "totalCards": 755,
-      "daysCount": 11,
-      "totalMinutes": 0,
-      "maxStreak": 9,
-      "maxSingleDay": 160,
+      "user": "z9b",
+      "discordId": "756776493685669940",
+      "totalCards": 804,
+      "daysCount": 3,
+      "totalMinutes": 34.46,
+      "maxStreak": 7,
+      "maxSingleDay": 779,
       "daysJoined": [
         "day1",
-        "day2",
-        "day3",
-        "day4",
         "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10",
-        "day31"
+        "day7"
       ],
       "decks": [
-        "SẢN 1::Bài 1. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA",
-        "SẢN 1",
-        "SẢN 1::01. KHUNG CHẬU NỮ",
-        "SẢN 1::01. KHUNG CHẬU NỮ VỀ PHƯƠNG DIỆN SẢN KHOA"
+        "B1_Wortschartz"
       ],
-      "avgMinutesPerDay": 0
+      "avgMinutesPerDay": 11.5
     },
     {
       "user": "thientrng.if not now, then when?",
@@ -11042,6 +11922,19 @@
       "imageDesc": "Bảng Anki tiếng Việt có Review Heatmap: Đã học 2047 thẻ trong 257,65 phút hôm nay, Current streak: 1169 days"
     },
     {
+      "id": "438960335983083530",
+      "discordId": "438960335983083530",
+      "day": "day32",
+      "date": "02/10/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 2026,
+      "minutes": 120,
+      "streak": 63,
+      "deck": null,
+      "detail": "2026 thẻ trong 120 phút, streak 63 ngày",
+      "imageDesc": "Heatmap Anki hiển thị 'Studied 2026 cards in 120 minutes today (3.55s/card)', current streak 63 days"
+    },
+    {
       "id": "1410392551634112640",
       "discordId": "1410392551634112640",
       "day": "day14",
@@ -11053,6 +11946,19 @@
       "deck": null,
       "detail": "Anki Review Heatmap tooltip: 2,025 cards reviewed on Monday, September 14, 2026. Xác nhận chính xác 2025 thẻ.",
       "imageDesc": "Ảnh chụp màn hình add-on Anki Review Heatmap năm 2026, tooltip hover vào ô ngày thứ Hai 14/09/2026 hiển thị rõ ràng '2,025 cards reviewed on Monday September 14, 2026'."
+    },
+    {
+      "id": "438960335983083530",
+      "discordId": "438960335983083530",
+      "day": "day33",
+      "date": "03/10/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 1816,
+      "minutes": 178.79,
+      "streak": 3,
+      "deck": "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense",
+      "detail": "Học 1.816 thẻ trong 178.79 phút (Learn: 1197, Review: 435, Relearn: 184)",
+      "imageDesc": "Ảnh chụp thống kê AnkiDroid Today: Studied 1,816 cards in 178.79 minutes today"
     },
     {
       "id": "871321277858725958",
@@ -11235,32 +12141,6 @@
       "deck": null,
       "detail": "1,194 cards reviewed on Saturday September 26, 2026",
       "imageDesc": "Ảnh chụp màn hình tooltip Anki Heatmap của Sunny: 1,194 cards reviewed on Saturday September 26, 2026."
-    },
-    {
-      "id": "1340307678215405710",
-      "discordId": "1340307678215405710",
-      "day": "day2",
-      "date": "02/09/2026",
-      "user": "Ethan NP",
-      "cards": 1188,
-      "minutes": 149.26,
-      "streak": null,
-      "deck": null,
-      "detail": "7.54s/card · Daily avg 295 · streak 1166d",
-      "imageDesc": ""
-    },
-    {
-      "id": "871321277858725958",
-      "discordId": "871321277858725958",
-      "day": "day12",
-      "date": "12/09/2026",
-      "user": "Nguyen",
-      "cards": 1183,
-      "minutes": 0,
-      "streak": 12,
-      "deck": null,
-      "detail": "Heatmap: 1,183 cards reviewed on Saturday September 12, 2026 · streak 12",
-      "imageDesc": "Review Heatmap tooltip: 1,183 cards reviewed on Saturday September 12, 2026"
     }
   ]
 }
