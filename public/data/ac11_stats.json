@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 39)",
-    "generatedAt": "2026-10-09T06:40:46.646Z",
+    "generatedAt": "2026-10-09T16:37:38.060Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -45,16 +45,16 @@
     ]
   },
   "kpi": {
-    "totalCards": 204750,
-    "totalCheckins": 791,
+    "totalCards": 208378,
+    "totalCheckins": 795,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
-    "topAggregateUser": "Nguyen",
-    "topAggregateCards": 22805
+    "topAggregateUser": "Gai Hàn TOPIK 6 xin vía",
+    "topAggregateCards": 25448
   },
   "deckCategories": {
-    "japanese": 180,
+    "japanese": 184,
     "english": 94,
     "medical": 492,
     "other": 25
@@ -10381,11 +10381,24 @@
       "day": "day36",
       "dayLabel": "Day 36",
       "date": "06/10/2026",
-      "totalCards": 1945,
-      "totalUsers": 11,
+      "totalCards": 2484,
+      "totalUsers": 12,
       "totalMinutes": 122,
-      "avgCardsPerUser": 177,
+      "avgCardsPerUser": 207,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day36",
+          "date": "06/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 539,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "539 cards reviewed on Tuesday October 6, 2026 (Anki Heatmap)",
+          "imageDesc": "Anki Heatmap tooltip: 539 cards reviewed on Tuesday October 6, 2026"
+        },
         {
           "id": "870187268692906014",
           "discordId": "870187268692906014",
@@ -10535,10 +10548,10 @@
       "day": "day37",
       "dayLabel": "Day 37",
       "date": "07/10/2026",
-      "totalCards": 1577,
-      "totalUsers": 8,
+      "totalCards": 1861,
+      "totalUsers": 9,
       "totalMinutes": 199,
-      "avgCardsPerUser": 197,
+      "avgCardsPerUser": 207,
       "records": [
         {
           "id": "790859151734996992",
@@ -10565,6 +10578,19 @@
           "deck": null,
           "detail": "Đã học 305 thẻ trong 9,52 phút hôm nay (1,87 giây/thẻ)",
           "imageDesc": "Dòng chữ thông báo hoàn thành của Anki: 'Đã học 305 thẻ trong 9,52 phút hôm nay (1,87giây/thẻ)'."
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day37",
+          "date": "07/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 284,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "284 cards reviewed on Wednesday October 7, 2026 (Anki Heatmap)",
+          "imageDesc": "Anki Heatmap tooltip: 284 cards reviewed on Wednesday October 7, 2026"
         },
         {
           "id": "616159212980011018",
@@ -10650,11 +10676,24 @@
       "day": "day38",
       "dayLabel": "Day 38",
       "date": "08/10/2026",
-      "totalCards": 797,
-      "totalUsers": 7,
+      "totalCards": 2395,
+      "totalUsers": 8,
       "totalMinutes": 96,
-      "avgCardsPerUser": 114,
+      "avgCardsPerUser": 299,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day38",
+          "date": "08/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1598,
+          "minutes": 0,
+          "streak": null,
+          "deck": null,
+          "detail": "1.598 cards reviewed on Thursday October 8, 2026 (Anki Heatmap)",
+          "imageDesc": "Anki Heatmap tooltip: 1,598 cards reviewed on Thursday October 8, 2026"
+        },
         {
           "id": "813419447150444554",
           "discordId": "813419447150444554",
@@ -10752,11 +10791,24 @@
       "day": "day39",
       "dayLabel": "Day 39",
       "date": "09/10/2026",
-      "totalCards": 201,
-      "totalUsers": 1,
-      "totalMinutes": 6,
-      "avgCardsPerUser": 201,
+      "totalCards": 1408,
+      "totalUsers": 2,
+      "totalMinutes": 93,
+      "avgCardsPerUser": 704,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day39",
+          "date": "09/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1207,
+          "minutes": 87.65,
+          "streak": null,
+          "deck": "Toàn bộ bộ sưu tập",
+          "detail": "1.207 lượt ôn tập (756 từ), 87.65 phút, tỷ lệ đúng 79.0%, Mới: 525, Ôn: 517, Lại: 165",
+          "imageDesc": "Thống kê popup Anki: 1.207 lượt ôn tập trong 87.65 phút, 79.0% tỷ lệ đúng"
+        },
         {
           "id": "1446504123657748651",
           "discordId": "1446504123657748651",
@@ -10775,35 +10827,11 @@
   ],
   "userRankings": [
     {
-      "user": "Nguyen",
-      "discordId": "871321277858725958",
-      "totalCards": 22805,
-      "daysCount": 11,
-      "totalMinutes": 156.24,
-      "maxStreak": 443,
-      "maxSingleDay": 2976,
-      "daysJoined": [
-        "day3",
-        "day4",
-        "day5",
-        "day6",
-        "day7",
-        "day8",
-        "day9",
-        "day10",
-        "day11",
-        "day12",
-        "day16"
-      ],
-      "decks": [],
-      "avgMinutesPerDay": 14.2
-    },
-    {
       "user": "Gai Hàn TOPIK 6 xin vía",
       "discordId": "438960335983083530",
-      "totalCards": 21820,
-      "daysCount": 31,
-      "totalMinutes": 1742.05,
+      "totalCards": 25448,
+      "daysCount": 35,
+      "totalMinutes": 1829.7,
       "maxStreak": 63,
       "maxSingleDay": 2309,
       "daysJoined": [
@@ -10837,7 +10865,11 @@
         "day32",
         "day33",
         "day34",
-        "day35"
+        "day35",
+        "day36",
+        "day37",
+        "day38",
+        "day39"
       ],
       "decks": [
         "Archived::Default+",
@@ -10845,9 +10877,34 @@
         "New General Service List 1.2",
         "!과수생산학및실습::제1장 과수의 정의 및 특성과 중요성::1.1 과수의 정의",
         "Tiếng Hàn Tổng Hợp::Quyển 02::Bài 08. Phim ảnh (영화)",
-        "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense"
+        "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense",
+        "Toàn bộ bộ sưu tập"
       ],
-      "avgMinutesPerDay": 56.2
+      "avgMinutesPerDay": 52.3
+    },
+    {
+      "user": "Nguyen",
+      "discordId": "871321277858725958",
+      "totalCards": 22805,
+      "daysCount": 11,
+      "totalMinutes": 156.24,
+      "maxStreak": 443,
+      "maxSingleDay": 2976,
+      "daysJoined": [
+        "day3",
+        "day4",
+        "day5",
+        "day6",
+        "day7",
+        "day8",
+        "day9",
+        "day10",
+        "day11",
+        "day12",
+        "day16"
+      ],
+      "decks": [],
+      "avgMinutesPerDay": 14.2
     },
     {
       "user": "Ethan NP",
@@ -12357,6 +12414,19 @@
       "imageDesc": "Review Heatmap hiển thị tooltip 1,625 cards reviewed on Friday September 11, 2026"
     },
     {
+      "id": "438960335983083530",
+      "discordId": "438960335983083530",
+      "day": "day38",
+      "date": "08/10/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 1598,
+      "minutes": 0,
+      "streak": null,
+      "deck": null,
+      "detail": "1.598 cards reviewed on Thursday October 8, 2026 (Anki Heatmap)",
+      "imageDesc": "Anki Heatmap tooltip: 1,598 cards reviewed on Thursday October 8, 2026"
+    },
+    {
       "id": "1545053025893224519",
       "discordId": "1503052423390957772",
       "day": "day3",
@@ -12459,19 +12529,6 @@
       "deck": null,
       "detail": "1216 thẻ trong 188.42 phút (9.3 s/thẻ), streak 1173 ngày",
       "imageDesc": "Màn hình Anki hiển thị 'Đã học 1216 thẻ trong 188,42 phút hôm nay (9,3giây/thẻ)', Review Heatmap với Current streak: 1173 days."
-    },
-    {
-      "id": "1410392551634112640",
-      "discordId": "1410392551634112640",
-      "day": "day26",
-      "date": "26/09/2026",
-      "user": "Sunny",
-      "cards": 1194,
-      "minutes": 0,
-      "streak": 2,
-      "deck": null,
-      "detail": "1,194 cards reviewed on Saturday September 26, 2026",
-      "imageDesc": "Ảnh chụp màn hình tooltip Anki Heatmap của Sunny: 1,194 cards reviewed on Saturday September 26, 2026."
     }
   ]
 }
