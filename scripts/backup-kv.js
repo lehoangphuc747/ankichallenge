@@ -13,6 +13,7 @@ const KEYS = [
   'records_08',
   'records_09',
   'records_10',
+  'records_11',
   'metadata',
 ];
 
@@ -42,6 +43,7 @@ async function backupKVData() {
         if (key === 'records_08') targetFileName = 'challenge_08_records.json';
         if (key === 'records_09') targetFileName = 'challenge_09_records.json';
         if (key === 'records_10') targetFileName = 'challenge_10_records.json';
+        if (key === 'records_11') targetFileName = 'challenge_11_records.json';
 
         const savePath = join(dataDir, targetFileName);
         writeFileSync(savePath, JSON.stringify(data, null, 2));
