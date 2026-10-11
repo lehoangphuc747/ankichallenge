@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 41)",
-    "generatedAt": "2026-10-11T15:15:30.723Z",
+    "generatedAt": "2026-10-11T15:24:23.591Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -47,16 +47,16 @@
     ]
   },
   "kpi": {
-    "totalCards": 212453,
-    "totalCheckins": 822,
+    "totalCards": 215162,
+    "totalCheckins": 823,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
     "topAggregateUser": "Gai Hàn TOPIK 6 xin vía",
-    "topAggregateCards": 25702
+    "topAggregateCards": 28411
   },
   "deckCategories": {
-    "japanese": 192,
+    "japanese": 193,
     "english": 95,
     "medical": 510,
     "other": 25
@@ -11127,11 +11127,24 @@
       "day": "day41",
       "dayLabel": "Day 41",
       "date": "11/10/2026",
-      "totalCards": 780,
-      "totalUsers": 5,
-      "totalMinutes": 136,
-      "avgCardsPerUser": 156,
+      "totalCards": 3489,
+      "totalUsers": 6,
+      "totalMinutes": 362,
+      "avgCardsPerUser": 582,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day41",
+          "date": "11/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 2709,
+          "minutes": 225.76,
+          "streak": null,
+          "deck": "AnkiDroid",
+          "detail": "Học 2.709 thẻ trong 225,76 phút (~3,76 giờ)",
+          "imageDesc": "AnkiDroid toast Studied 2709 cards in 225.76 minutes today (5s/card)"
+        },
         {
           "id": "1446504123657748651",
           "discordId": "1446504123657748651",
@@ -11204,11 +11217,11 @@
     {
       "user": "Gai Hàn TOPIK 6 xin vía",
       "discordId": "438960335983083530",
-      "totalCards": 25702,
-      "daysCount": 36,
-      "totalMinutes": 1868.1000000000001,
+      "totalCards": 28411,
+      "daysCount": 37,
+      "totalMinutes": 2093.86,
       "maxStreak": 71,
-      "maxSingleDay": 2309,
+      "maxSingleDay": 2709,
       "daysJoined": [
         "day1",
         "day2",
@@ -11245,7 +11258,8 @@
         "day37",
         "day38",
         "day39",
-        "day40"
+        "day40",
+        "day41"
       ],
       "decks": [
         "Archived::Default+",
@@ -11254,9 +11268,10 @@
         "!과수생산학및실습::제1장 과수의 정의 및 특성과 중요성::1.1 과수의 정의",
         "Tiếng Hàn Tổng Hợp::Quyển 02::Bài 08. Phim ảnh (영화)",
         "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense",
-        "Toàn bộ bộ sưu tập"
+        "Toàn bộ bộ sưu tập",
+        "AnkiDroid"
       ],
-      "avgMinutesPerDay": 51.9
+      "avgMinutesPerDay": 56.6
     },
     {
       "user": "Nguyen",
@@ -12582,6 +12597,19 @@
       "imageDesc": "Màn hình Anki desktop hiển thị thông báo đã học 2914 thẻ trong 347,63 phút hôm nay, streak 1171 ngày, nền AMBOSS/USMLE"
     },
     {
+      "id": "438960335983083530",
+      "discordId": "438960335983083530",
+      "day": "day41",
+      "date": "11/10/2026",
+      "user": "Gai Hàn TOPIK 6 xin vía",
+      "cards": 2709,
+      "minutes": 225.76,
+      "streak": null,
+      "deck": "AnkiDroid",
+      "detail": "Học 2.709 thẻ trong 225,76 phút (~3,76 giờ)",
+      "imageDesc": "AnkiDroid toast Studied 2709 cards in 225.76 minutes today (5s/card)"
+    },
+    {
       "id": "1545749012429414451",
       "discordId": "871321277858725958",
       "day": "day4",
@@ -12918,19 +12946,6 @@
       "deck": null,
       "detail": "1.258 thẻ ôn tập trong 30,45 phút (1,45s/thẻ) ngày 14/09/2026, longest streak 38 days",
       "imageDesc": "Ảnh chụp màn hình laptop Anki Heatmap hiển thị đã học 1258 thẻ trong 30,45 phút vào thứ Hai 14/09/2026."
-    },
-    {
-      "id": "1340307678215405710",
-      "discordId": "1340307678215405710",
-      "day": "day9",
-      "date": "09/09/2026",
-      "user": "Ethan NP",
-      "cards": 1216,
-      "minutes": 188.42,
-      "streak": 1173,
-      "deck": null,
-      "detail": "1216 thẻ trong 188.42 phút (9.3 s/thẻ), streak 1173 ngày",
-      "imageDesc": "Màn hình Anki hiển thị 'Đã học 1216 thẻ trong 188,42 phút hôm nay (9,3giây/thẻ)', Review Heatmap với Current streak: 1173 days."
     }
   ]
 }
