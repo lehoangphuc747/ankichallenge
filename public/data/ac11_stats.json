@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Thống Kê Anki Challenge 11 (Day 1 - Day 41)",
-    "generatedAt": "2026-10-14T13:06:33.499Z",
+    "generatedAt": "2026-10-14T13:22:34.269Z",
     "daysAvailable": [
       "Day 1",
       "Day 2",
@@ -50,16 +50,16 @@
     ]
   },
   "kpi": {
-    "totalCards": 219633,
-    "totalCheckins": 856,
+    "totalCards": 221303,
+    "totalCheckins": 859,
     "uniqueUsers": 34,
     "maxSingleDayCards": 4374,
     "topSingleUser": "Ethan NP",
     "topAggregateUser": "Gai Hàn TOPIK 6 xin vía",
-    "topAggregateCards": 28411
+    "topAggregateCards": 30081
   },
   "deckCategories": {
-    "japanese": 199,
+    "japanese": 202,
     "english": 96,
     "medical": 535,
     "other": 26
@@ -11310,10 +11310,10 @@
       "day": "day42",
       "dayLabel": "Day 42",
       "date": "12/10/2026",
-      "totalCards": 1667,
-      "totalUsers": 12,
-      "totalMinutes": 195,
-      "avgCardsPerUser": 139,
+      "totalCards": 1846,
+      "totalUsers": 13,
+      "totalMinutes": 213,
+      "avgCardsPerUser": 142,
       "records": [
         {
           "id": "790859151734996992",
@@ -11366,6 +11366,19 @@
           "deck": null,
           "detail": "180 thẻ học trong 70.9 phút, tốc độ 23.6 s/card, retention 99%, streak 66 ngày",
           "imageDesc": "Dashboard thống kê Anki đẹp mắt với STUDIED: 180 cards, TIME: 70.9 min, PACE: 23.6 s/card, RETENTION: 99%, ACTIVITY streak 66"
+        },
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day42",
+          "date": "12/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 179,
+          "minutes": 18,
+          "streak": null,
+          "deck": "Anki Heatmap",
+          "detail": "Học 179 lượt ôn trong 18 phút",
+          "imageDesc": "Anki Heatmap tooltip: 12 thg 10, 2026 · 179 lượt ôn · 18 phút"
         },
         {
           "id": "813419447150444554",
@@ -11477,11 +11490,24 @@
       "day": "day43",
       "dayLabel": "Day 43",
       "date": "13/10/2026",
-      "totalCards": 1352,
-      "totalUsers": 10,
-      "totalMinutes": 185,
-      "avgCardsPerUser": 135,
+      "totalCards": 2360,
+      "totalUsers": 11,
+      "totalMinutes": 289,
+      "avgCardsPerUser": 215,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day43",
+          "date": "13/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 1008,
+          "minutes": 104,
+          "streak": null,
+          "deck": "Anki Heatmap",
+          "detail": "Học 1.008 lượt ôn trong 104 phút",
+          "imageDesc": "Anki Heatmap tooltip: 13 thg 10, 2026 · 1.008 lượt ôn · 104 phút"
+        },
         {
           "id": "790859151734996992",
           "discordId": "790859151734996992",
@@ -11618,11 +11644,24 @@
       "day": "day44",
       "dayLabel": "Day 44",
       "date": "14/10/2026",
-      "totalCards": 680,
-      "totalUsers": 4,
-      "totalMinutes": 80,
-      "avgCardsPerUser": 170,
+      "totalCards": 1163,
+      "totalUsers": 5,
+      "totalMinutes": 129,
+      "avgCardsPerUser": 233,
       "records": [
+        {
+          "id": "438960335983083530",
+          "discordId": "438960335983083530",
+          "day": "day44",
+          "date": "14/10/2026",
+          "user": "Gai Hàn TOPIK 6 xin vía",
+          "cards": 483,
+          "minutes": 49,
+          "streak": null,
+          "deck": "Anki Heatmap",
+          "detail": "Học 483 lượt ôn trong 49 phút",
+          "imageDesc": "Anki Heatmap tooltip: 14 thg 10, 2026 · 483 lượt ôn · 49 phút"
+        },
         {
           "id": "813419447150444554",
           "discordId": "813419447150444554",
@@ -11682,9 +11721,9 @@
     {
       "user": "Gai Hàn TOPIK 6 xin vía",
       "discordId": "438960335983083530",
-      "totalCards": 28411,
-      "daysCount": 37,
-      "totalMinutes": 2093.86,
+      "totalCards": 30081,
+      "daysCount": 40,
+      "totalMinutes": 2264.86,
       "maxStreak": 71,
       "maxSingleDay": 2709,
       "daysJoined": [
@@ -11724,7 +11763,10 @@
         "day38",
         "day39",
         "day40",
-        "day41"
+        "day41",
+        "day42",
+        "day43",
+        "day44"
       ],
       "decks": [
         "Archived::Default+",
@@ -11734,7 +11776,8 @@
         "Tiếng Hàn Tổng Hợp::Quyển 02::Bài 08. Phim ảnh (영화)",
         "Korean Grammar (by Mathieu)::1. Sơ cấp (Beginner)::02. Tense",
         "Toàn bộ bộ sưu tập",
-        "AnkiDroid"
+        "AnkiDroid",
+        "Anki Heatmap"
       ],
       "avgMinutesPerDay": 56.6
     },
