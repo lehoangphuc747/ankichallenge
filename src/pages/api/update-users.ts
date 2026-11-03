@@ -99,7 +99,12 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
     let targetUser: any = null;
 
     if (env.DB) {
-      usersData = await getUsersFromDB(env.DB);
+      try {
+        usersData = await getUsersFromDB(env.DB);
+      } catch (e) {
+        console.warn('D1 users read failed, fallback to KV:', e);
+        usersData = await getFromKV(env, 'users', request.url) || { data: [] };
+      }
     } else {
       usersData = await getFromKV(env, 'users', request.url) || { data: [] };
     }
@@ -121,9 +126,16 @@ export const POST: APIRoute = async ({ request, locals, cookies }) => {
     usersData.data[userIndex] = updatedUser;
 
     // Ghi lại vào DB / KV
+    let savedInDB = false;
     if (env.DB) {
-      await upsertUserInDB(env.DB, updatedUser);
-    } else if (env.DATA) {
+      try {
+        await upsertUserInDB(env.DB, updatedUser);
+        savedInDB = true;
+      } catch (e) {
+        console.warn('D1 user upsert failed, fallback to KV:', e);
+      }
+    }
+    if (!savedInDB && env.DATA) {
       await putToKV(env, 'users', usersData);
     }
 

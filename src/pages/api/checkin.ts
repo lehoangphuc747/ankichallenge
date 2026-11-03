@@ -74,18 +74,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
     const cid = parseInt(String(challengeId));
     const uid = parseInt(String(userId));
 
+    let savedInDB = false;
     if (env.DB) {
-      if (isChecked) {
-        await recordCheckinInDB(env.DB, {
-          challengeId: cid,
-          userId: uid,
-          date,
-        });
-      } else {
-        await removeCheckinFromDB(env.DB, cid, uid, date);
+      try {
+        if (isChecked) {
+          await recordCheckinInDB(env.DB, {
+            challengeId: cid,
+            userId: uid,
+            date,
+          });
+        } else {
+          await removeCheckinFromDB(env.DB, cid, uid, date);
+        }
+        savedInDB = true;
+        console.log(`[checkin API -> D1] Saved: date=${date}, userId=${userId}, isChecked=${isChecked}, challengeId=${cid}`);
+      } catch (e) {
+        console.warn('[checkin API] D1 failed, falling back to KV:', e);
       }
-      console.log(`[checkin API -> D1] Saved: date=${date}, userId=${userId}, isChecked=${isChecked}, challengeId=${cid}`);
-    } else {
+    }
+
+    if (!savedInDB) {
       // Fallback KV
       let kvKey = 'records_08';
       if (cid === 1) kvKey = 'records_08';

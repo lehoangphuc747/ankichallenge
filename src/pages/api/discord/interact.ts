@@ -349,8 +349,13 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   let member: any = null;
 
   if (env.DB) {
-    member = await getUserByDiscordId(env.DB, discordId);
-  } else {
+    try {
+      member = await getUserByDiscordId(env.DB, discordId);
+    } catch (e) {
+      console.warn('[discord/interact] D1 getUserByDiscordId failed, falling back to KV:', e);
+    }
+  }
+  if (!member) {
     const usersData = await getFromKV<any>(env, 'users', requestUrl);
     const userList = Array.isArray(usersData?.data) ? usersData.data : [];
     member = userList.find((u: any) => String(u.discordId) === String(discordId));
@@ -392,19 +397,27 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   }
 
   let updateCount = 1;
+  let savedInDB = false;
   if (env.DB) {
-    const res = await recordCheckinInDB(env.DB, {
-      challengeId: latestCid,
-      userId: memberId,
-      date,
-      discordId: String(discordId),
-      channelId: interaction.channel_id,
-      imageUrl: attachment?.url || null, // Link CDN vĩnh viễn của Discord (lưu trong message)
-      cardsStudied,
-      minutesStudied,
-    });
-    updateCount = res.updateCount;
-  } else {
+    try {
+      const res = await recordCheckinInDB(env.DB, {
+        challengeId: latestCid,
+        userId: memberId,
+        date,
+        discordId: String(discordId),
+        channelId: interaction.channel_id,
+        imageUrl: attachment?.url || null, // Link CDN vĩnh viễn của Discord (lưu trong message)
+        cardsStudied,
+        minutesStudied,
+      });
+      updateCount = res.updateCount;
+      savedInDB = true;
+    } catch (e) {
+      console.warn('[discord/interact] D1 recordCheckinInDB failed, falling back to KV:', e);
+    }
+  }
+
+  if (!savedInDB) {
     // Fallback KV
     const kvKey = KV_RECORDS[latestCid];
     if (!kvKey) {
@@ -436,12 +449,19 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     let records: Record<string, Record<string, boolean>> = {};
 
     if (env.DB) {
-      const dbUsers = await getUsersFromDB(env.DB);
-      allUsers = dbUsers.data;
-      const challenges = await getChallengesFromDB(env.DB);
-      challenge = challenges[String(latestCid)] || { name: `Anki Challenge #${latestCid}`, start: '2026-01-01', end: '2026-12-31' };
-      records = await getRecordsFromDB(env.DB, latestCid);
-    } else {
+      try {
+        const dbUsers = await getUsersFromDB(env.DB);
+        allUsers = dbUsers.data;
+        const challenges = await getChallengesFromDB(env.DB);
+        challenge = challenges[String(latestCid)] || { name: `Anki Challenge #${latestCid}`, start: '2026-01-01', end: '2026-12-31' };
+        records = await getRecordsFromDB(env.DB, latestCid);
+      } catch (e) {
+        console.warn('[discord/interact] D1 stats read failed, fallback to KV:', e);
+        allUsers = [];
+      }
+    }
+
+    if (!allUsers || allUsers.length === 0) {
       const usersData = await getFromKV<any>(env, 'users', requestUrl);
       allUsers = Array.isArray(usersData?.data) ? usersData.data : [];
       const challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
@@ -507,12 +527,18 @@ async function handlePing(interaction: any, env: any, requestUrl: string): Promi
   let records: Record<string, Record<string, boolean>> = {};
   let challenge: any = null;
   if (env.DB) {
-    const dbUsers = await getUsersFromDB(env.DB);
-    userList = dbUsers.data;
-    const challenges = await getChallengesFromDB(env.DB);
-    challenge = challenges[String(latestCid)] || { name: `Anki Challenge 11`, start: '2026-09-01', end: '2026-12-09' };
-    records = await getRecordsFromDB(env.DB, latestCid);
-  } else {
+    try {
+      const dbUsers = await getUsersFromDB(env.DB);
+      userList = dbUsers.data;
+      const challenges = await getChallengesFromDB(env.DB);
+      challenge = challenges[String(latestCid)] || { name: `Anki Challenge 11`, start: '2026-09-01', end: '2026-12-09' };
+      records = await getRecordsFromDB(env.DB, latestCid);
+    } catch (e) {
+      console.warn('[discord/ping] D1 failed, fallback to KV:', e);
+      userList = [];
+    }
+  }
+  if (!userList || userList.length === 0) {
     const usersData = await getFromKV<any>(env, 'users', requestUrl);
     userList = Array.isArray(usersData?.data) ? usersData.data : [];
     const challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
@@ -557,9 +583,15 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
 
   let userList: any[] = [];
   if (env.DB) {
-    const dbUsers = await getUsersFromDB(env.DB);
-    userList = dbUsers.data;
-  } else {
+    try {
+      const dbUsers = await getUsersFromDB(env.DB);
+      userList = dbUsers.data;
+    } catch (e) {
+      console.warn('[discord/rank] D1 getUsersFromDB failed, fallback to KV:', e);
+      userList = [];
+    }
+  }
+  if (!userList || userList.length === 0) {
     const usersData = await getFromKV<any>(env, 'users', requestUrl);
     userList = Array.isArray(usersData?.data) ? usersData.data : [];
   }
@@ -587,8 +619,14 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
 
   let challenges: Record<string, any> = {};
   if (env.DB) {
-    challenges = await getChallengesFromDB(env.DB);
-  } else {
+    try {
+      challenges = await getChallengesFromDB(env.DB);
+    } catch (e) {
+      console.warn('[discord/rank] D1 getChallengesFromDB failed, fallback to KV:', e);
+      challenges = {};
+    }
+  }
+  if (!challenges || Object.keys(challenges).length === 0) {
     challenges = await getFromKV<any>(env, 'challenges', requestUrl) || {};
   }
 
@@ -601,8 +639,14 @@ async function handleRank(interaction: any, env: any, requestUrl: string): Promi
 
   let records: Record<string, Record<string, boolean>> = {};
   if (env.DB) {
-    records = await getRecordsFromDB(env.DB, latestCid);
-  } else {
+    try {
+      records = await getRecordsFromDB(env.DB, latestCid);
+    } catch (e) {
+      console.warn('[discord/rank] D1 getRecordsFromDB failed, fallback to KV:', e);
+      records = {};
+    }
+  }
+  if (!records || Object.keys(records).length === 0) {
     const kvKey = KV_RECORDS[latestCid] || 'records_11';
     records = await getFromKV<any>(env, kvKey, requestUrl) || {};
   }

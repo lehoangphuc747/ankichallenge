@@ -20,8 +20,14 @@ export const GET: APIRoute = async ({ request, locals }) => {
     let data: any = null;
 
     if (env.DB) {
-      data = await getChallengesFromDB(env.DB);
-    } else {
+      try {
+        data = await getChallengesFromDB(env.DB);
+      } catch (e) {
+        console.warn('D1 challenges read failed, fallback to KV:', e);
+        data = null;
+      }
+    }
+    if (!data) {
       data = await getFromKV(env, 'challenges', request.url);
     }
 

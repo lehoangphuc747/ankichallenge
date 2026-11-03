@@ -210,7 +210,7 @@ export async function recordCheckinInDB(
     const existing = await db
       .prepare('SELECT id, update_count FROM checkins WHERE challenge_id = ? AND user_id = ? AND date = ?')
       .bind(data.challengeId, data.userId, data.date)
-      .first<any>();
+      .first();
     const nextCount = (existing?.update_count ?? 0) + 1;
 
     const result = await db
@@ -234,7 +234,8 @@ export async function recordCheckinInDB(
         data.channelId || null,
         data.imageUrl || null,
         cards,
-        minutes
+        minutes,
+        nextCount
       )
       .run();
     const changed = (result?.meta?.changes ?? 0) > 0;
@@ -245,7 +246,7 @@ export async function recordCheckinInDB(
     if (msg.includes('no column') || msg.includes('no such column') || msg.includes('has no column')) {
       const existing = await db
         .prepare('SELECT id FROM checkins WHERE challenge_id = ? AND user_id = ? AND date = ?')
-        .bind(data.challengeId, data.userId, data.date).first<any>();
+        .bind(data.challengeId, data.userId, data.date).first();
       await db
         .prepare(
           `INSERT INTO checkins (challenge_id, user_id, date, discord_id, channel_id, image_url)

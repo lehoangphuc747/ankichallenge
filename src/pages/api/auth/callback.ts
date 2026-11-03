@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getFromKV, putToKV } from '../../../utils/kv';
 import { signSession } from '../../../utils/session';
-import { getUsersFromDB, upsertUserInDB, recordLoginHistoryInDB } from '../../../utils/db';
+import { getUsersFromDB, upsertUserInDB, recordLoginHistoryInDB, registerUserInDB } from '../../../utils/db';
 
 /**
  * Thuật toán đối chiếu tài khoản Discord với danh sách thành viên Anki Challenge.

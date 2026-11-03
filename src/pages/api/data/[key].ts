@@ -35,20 +35,25 @@ export const GET: APIRoute = async ({ params, request, locals }) => {
 
     // Ưu tiên đọc từ Cloudflare D1 Database nếu có binding DB
     if (env.DB) {
-      if (key === 'users') {
-        data = await getUsersFromDB(env.DB);
-      } else if (key === 'challenges') {
-        data = await getChallengesFromDB(env.DB);
-      } else if (key === 'records_08') {
-        data = await getRecordsFromDB(env.DB, 1);
-      } else if (key === 'records_09') {
-        data = await getRecordsFromDB(env.DB, 2);
-      } else if (key === 'records_10') {
-        data = await getRecordsFromDB(env.DB, 3);
-      } else if (key === 'records_11') {
-        data = await getRecordsFromDB(env.DB, 4);
-      } else if (key === 'login_history') {
-        data = await getLoginHistoryFromDB(env.DB);
+      try {
+        if (key === 'users') {
+          data = await getUsersFromDB(env.DB);
+        } else if (key === 'challenges') {
+          data = await getChallengesFromDB(env.DB);
+        } else if (key === 'records_08') {
+          data = await getRecordsFromDB(env.DB, 1);
+        } else if (key === 'records_09') {
+          data = await getRecordsFromDB(env.DB, 2);
+        } else if (key === 'records_10') {
+          data = await getRecordsFromDB(env.DB, 3);
+        } else if (key === 'records_11') {
+          data = await getRecordsFromDB(env.DB, 4);
+        } else if (key === 'login_history') {
+          data = await getLoginHistoryFromDB(env.DB);
+        }
+      } catch (d1Err) {
+        console.warn(`[api/data/${key}] D1 failed, falling back to KV:`, d1Err);
+        data = null;
       }
     }
 
