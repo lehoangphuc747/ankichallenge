@@ -89,9 +89,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
     bodyBlock = `\n\nChúc mọi người ngày ${day} kỷ luật! 🔥`;
   }
 
-  const messageContent = day < 1
-    ? `## [TEST] Ngày ${day} - ${vnDate} (trước ngày bắt đầu 01/09/2026)`
-    : `## Ngày ${day} - ${vnDate}${quoteBlock}${bodyBlock}`;
+  let messageContent = '';
+  if (day < 1) {
+    messageContent = `## [TEST] Ngày ${day} - ${vnDate} (trước ngày bắt đầu 01/09/2026)`;
+  } else if (day === 66) {
+    messageContent = `## Ngày 66 - ${vnDate}\n\nHọc đi không tui chích điện bây giờ á!!!`;
+  } else {
+    messageContent = `## Ngày ${day} - ${vnDate}${quoteBlock}${bodyBlock}`;
+  }
 
   const headers: Record<string, string> = {
     'Authorization': `Bot ${token}`,
