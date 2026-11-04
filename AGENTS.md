@@ -98,8 +98,25 @@ public/images/        — Static images (challenge10-qr.png, ankichallenge11-qr.
 - Dùng Node `https.request`/`fetch` với header charset, hoặc `src/pages/api/discord/post-to-thread.ts` + `manage-message.ts` đã làm đúng. Không dùng PowerShell cho nội dung có dấu.
 
 ### Daily thread & members thread
-- Daily thread: `src/pages/api/discord/create-daily-thread.ts` (channel `1541493820242264256`, `START_ISO 2026-09-01T00:00:00+07:00`, `auto_archive 1440`). Auto 00:01 VN qua GitHub Actions `.github/workflows/daily-thread.yml` (`cron: '1 17 * * *'` UTC = 00:01 VN) gọi `POST /api/discord/create-daily-thread`. Hỗ trợ tham số query `?day={x}` để trigger hoặc ghi đè ngày thủ công. Từ Day 12 đã bỏ phần hướng dẫn check-in dài dòng (`/checkin image:...`); Ngày 12 có khối vinh danh Top 3 tích luỹ xuất sắc chặng đầu Day 1 – Day 11 (Ethan NP, Nguyen, .diffusion.) kèm tag `<@discordId>` và `allowed_mentions: {parse: ['users']}`.
+- Daily thread: `src/pages/api/discord/create-daily-thread.ts` (channel `1541493820242264256`, `START_ISO 2026-09-01T00:00:00+07:00`, `auto_archive 1440`). Auto 00:01 VN qua GitHub Actions `.github/workflows/daily-thread.yml` (`cron: '1 17 * * *'` UTC = 00:01 VN) gọi `POST /api/discord/create-daily-thread`. Hỗ trợ tham số query `?day={x}` để trigger hoặc ghi đè ngày thủ công. Từ Day 12 đã bỏ phần hướng dẫn check-in dài dòng; từ Day 65/66 trở đi dùng thông điệp ngắn gọn, dứt khoát: `## Ngày {day} - {DD/MM/YYYY}\n\nHọc đi không tui chích điện bây giờ á!!!`.
 - Members thread: `src/utils/threads.ts` (`1541692300797673542`, `AC11_THREAD_TRACK_KEY`, `AC11_POSTED_IDS_KEY`). Từ 2026-08-31 đã tag `<@discordId>` + `allowed_mentions: {parse:['users']}`. Để sửa tin cũ: `POST /api/discord/create-members-thread?rebuild=1` (xóa `👤` cũ, đăng lại có tag). Quản lý message lẻ: `POST /api/discord/manage-message` (`delete`/`edit`) và `POST /api/discord/post-to-thread`.
+
+## Discord Add-ons Forum (`〔➕〕addons` — Channel `1436759768713662705`)
+- **Mục đích**: Kho lưu trữ, giới thiệu và hướng dẫn sử dụng toàn bộ add-on Anki hữu ích cho cộng đồng Anki Việt Nam.
+- **Nguồn dữ liệu**: ConnectRPC protobuf API của AnkiWeb `https://ankiweb.net/svc/shared/item-info?sharedId={code}` để lấy thông tin chi tiết, phiên bản hỗ trợ và danh sách hình ảnh/GIF gốc.
+- **Đăng bài (Forum Threads)**:
+  - Tạo thread mới qua Discord API v10 `POST /channels/1436759768713662705/threads`.
+  - **Đính kèm đầy đủ hình ảnh**: Tải ảnh về `/tmp/` và gửi qua `multipart/form-data` (`files[0..n]`) kèm `payload_json`. Discord tự động lấy file ảnh đầu tiên làm cover card cho bài diễn đàn.
+  - Nghỉ `time.sleep(4)` giữa mỗi bài đăng để tránh Discord rate limit.
+- **Bài ghim mục lục tổng hợp (Master Index Catalog — Thread `1567445151956213841`)**:
+  - Ghim thread lên đỉnh diễn đàn bằng `PATCH /channels/{thread_id}` với payload `{"flags": 2}`.
+  - Do giới hạn ký tự Discord (tối đa 2.000 ký tự/tin nhắn), toàn bộ add-on được phân bổ vào đúng **5 tin nhắn chuyên đề** cố định:
+    1. *Giao diện & Thẩm mỹ (UI / Theme / Dark Mode)*
+    2. *Thuật toán FSRS, Ôn tập & Thống kê (Review & Stats)*
+    3. *Game hoá học tập (Gamification) & AI, Audio, Ngoại ngữ*
+    4. *Trình biên tập, Định dạng & Soạn thẻ (Editor & Cards)*
+    5. *Quản lý, Đồng bộ & Tiện ích mở rộng (Sync & Workflow) + Mẹo cài đặt nhanh.*
+  - **Quy tắc bảo trì**: Khi bổ sung add-on mới, **không** gửi thêm tin nhắn lẻ hay reply rải rác vào bài ghim. Luôn chạy script cập nhật (`scripts/rebuild_pinned_catalog.py`) để biên tập trực tiếp (`PATCH`) 5 tin nhắn có sẵn, giữ cho mục lục luôn gọn gàng, liền mạch và chuẩn phân loại.
 
 ## Deploy quirks (Cloudflare Pages)
 - Auto-deploys from GitHub `master` → project `ankichallenge` (`ankichallenge.pages.dev`). Git remote is named **`ankichallenge`** (not `origin`).
