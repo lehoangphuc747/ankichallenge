@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import nacl from 'tweetnacl';
-import { InteractionType, InteractionResponseType, InteractionResponseFlags } from 'discord-interactions';
+import { InteractionType, InteractionResponseType, InteractionResponseFlags, MessageComponentTypes, ButtonStyleTypes } from 'discord-interactions';
 import { getFromKV, putToKV } from '../../../utils/kv';
 import { getUserByDiscordId, recordCheckinInDB, getUsersFromDB, getChallengesFromDB, getRecordsFromDB } from '../../../utils/db';
 import { calculateUserStats } from '../../../utils/calculateStats.js';
@@ -48,7 +48,7 @@ const WEBHOOK_HEADERS = {
 
 async function patchOriginalMessage(interaction: any, content: string, ephemeral = false, embeds?: any[]): Promise<void> {
   const url = `https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}/messages/@original`;
-  const body: any = { content };
+  const body: any = { content, components: [] }; // components: [] gỡ nút xác nhận sau khi đã bấm
   if (ephemeral) body.flags = InteractionResponseFlags.EPHEMERAL;
   if (embeds && embeds.length) body.embeds = embeds;
   await fetch(url, {
@@ -85,13 +85,14 @@ export const POST: APIRoute = async ({ request, locals }) => {
 
     if (interaction.type === InteractionType.APPLICATION_COMMAND) {
       const commandName = interaction.data?.name;
-      if (commandName === 'checkin' || commandName === 'rank' || commandName === 'streak' || commandName === 'trangthai' || commandName === 'ping') {
+      if (commandName === 'checkin') {
+        return jsonResponse(InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE, checkinPrompt(interaction));
+      }
+      if (commandName === 'rank' || commandName === 'streak' || commandName === 'trangthai' || commandName === 'ping') {
         const ctx = (locals as any).runtime?.ctx;
         const run = async () => {
           try {
-            if (commandName === 'checkin') {
-              await handleCheckin(interaction, env, requestUrl);
-            } else if (commandName === 'ping') {
+            if (commandName === 'ping') {
               await handlePing(interaction, env, requestUrl);
             } else {
               await handleRank(interaction, env, requestUrl);
@@ -114,6 +115,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
       }
     }
 
+    if (interaction.type === InteractionType.MESSAGE_COMPONENT && String(interaction.data?.custom_id || '').startsWith(CHECKIN_BUTTON_PREFIX)) {
+      const ctx = (locals as any).runtime?.ctx;
+      const run = async () => {
+        try {
+          await handleCheckin(interaction, env, requestUrl);
+        } catch (error: any) {
+          console.error('[discord/interact] Background checkin error:', error);
+          await patchOriginalMessage(interaction, 'Đã xảy ra lỗi khi xử lý lệnh. Vui lòng thử lại sau.', true);
+        }
+      };
+      if (ctx?.waitUntil) {
+        ctx.waitUntil(run());
+      } else {
+        run();
+      }
+      return new Response(JSON.stringify({ type: InteractionResponseType.DEFERRED_UPDATE_MESSAGE }), {
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
     return new Response('Unknown interaction', { status: 400 });
   } catch (error: any) {
     console.error('[discord/interact] Error:', error);
@@ -123,6 +144,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
     });
   }
 };
+
+const CHECKIN_BUTTON_PREFIX = 'checkin:';
+
+// Hỏi riêng người gọi lệnh; các option được gửi kèm trong nút (custom_id tối đa 100 ký tự nên cắt date, date dài quá thì đằng nào cũng không hợp lệ)
+function checkinPrompt(interaction: any) {
+  const option = (name: string) => interaction.data?.options?.find((o: any) => o.name === name)?.value;
+  const custom_id = CHECKIN_BUTTON_PREFIX + JSON.stringify({
+    d: String(option('date') ?? '').slice(0, 20),
+    c: option('cards'),
+    m: option('minutes'),
+  });
+  return {
+    content: '📸 Bạn đã đăng ảnh screenshot trong thread chưa?',
+    flags: InteractionResponseFlags.EPHEMERAL,
+    components: [{
+      type: MessageComponentTypes.ACTION_ROW,
+      components: [{ type: MessageComponentTypes.BUTTON, style: ButtonStyleTypes.SUCCESS, label: 'Đăng rồi, check-in', custom_id }],
+    }],
+  };
+}
 
 function parseCheckinDate(input?: string): string | null {
   const now = new Date();
@@ -230,56 +271,21 @@ function parseDateFromThreadName(name?: string): string | null {
 
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
   // Option date - tùy chọn: bỏ trống thì lấy ngày của thread, ngoài thread thì lấy hôm nay (VN)
-  const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
-  const rawInput = dateOption?.value;
+  // Chạy khi bấm nút xác nhận: option của lệnh nằm trong custom_id (xem checkinPrompt)
+  const { d: rawInput, c: rawCards, m: rawMinutes } = JSON.parse(interaction.data.custom_id.slice(CHECKIN_BUTTON_PREFIX.length));
   let date = parseCheckinDate(rawInput);
 
   // Option cards/minutes - người dùng tự khai (đỡ phải đọc ảnh)
   let cardsStudied: number | null = null;
   let minutesStudied: number | null = null;
-  const cardsOption = interaction.data?.options?.find((o: any) => o.name === 'cards');
-  const minutesOption = interaction.data?.options?.find((o: any) => o.name === 'minutes');
-  if (cardsOption?.value !== undefined && cardsOption?.value !== null) {
-    const n = Number(cardsOption.value);
+  if (rawCards !== undefined && rawCards !== null) {
+    const n = Number(rawCards);
     if (Number.isFinite(n) && n >= 0) cardsStudied = Math.round(n);
   }
-  if (minutesOption?.value !== undefined && minutesOption?.value !== null) {
-    const rawVal = String(minutesOption.value).replace(',', '.');
+  if (rawMinutes !== undefined && rawMinutes !== null) {
+    const rawVal = String(rawMinutes).replace(',', '.');
     const n = Number(rawVal);
     if (Number.isFinite(n) && n >= 0) minutesStudied = Math.round(n * 100) / 100;
-  }
-
-  // Option image - BẮT BUỘC phải có ảnh mới được check-in
-  const imageOption = interaction.data?.options?.find((o: any) => o.name === 'image');
-  const attachmentId = imageOption?.value;
-  const attachments = interaction.data?.resolved?.attachments || {};
-  const attachment: any = attachmentId ? attachments[String(attachmentId)] : null;
-
-  // Bắt buộc kèm ảnh chứng thực
-  const imageRequired = true;
-  if (imageRequired && !attachment) {
-    return patchOriginalMessage(
-      interaction,
-      '⚠️ Check-in của bạn cần kèm **1 ảnh/screenshot chứng thực** (dùng ô `image` khi gõ `/checkin`).',
-      true
-    );
-  }
-
-  // Kiểm tra đúng là file ảnh.
-  // Ưu tiên dựa vào content_type (Discord đã chuẩn hoá, ví dụ iPhone HEIC thường được
-  // chuyển thành image/jpeg; Samsung ảnh thường image/jpeg/image/png/image/webp).
-  // Fallback theo đuôi file: .png, .jpg, .jpeg, .gif, .webp, .avif, .heif, .heic
-  const ct = String(attachment?.content_type || '').toLowerCase();
-  const filename = String(attachment?.filename || '').toLowerCase();
-  const isImage =
-    ct.startsWith('image/') ||
-    /\.(png|jpe?g|gif|webp|avif|heif|heic)$/.test(filename);
-  if (!isImage) {
-    return patchOriginalMessage(
-      interaction,
-      '⚠️ File đính kèm không phải là ảnh hợp lệ. Vui lòng đính lại ảnh screenshot (PNG / JPG / WEBP...).',
-      true
-    );
   }
 
   if (!date) {
@@ -400,21 +406,19 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     );
   }
 
-  let updateCount = 1;
   let savedInDB = false;
   if (env.DB) {
     try {
-      const res = await recordCheckinInDB(env.DB, {
+      await recordCheckinInDB(env.DB, {
         challengeId: latestCid,
         userId: memberId,
         date,
         discordId: String(discordId),
         channelId: interaction.channel_id,
-        imageUrl: attachment?.url || null, // Link CDN vĩnh viễn của Discord (lưu trong message)
+        imageUrl: null, // Ảnh nằm trong tin nhắn của chính người dùng, bot không nhận qua lệnh nữa
         cardsStudied,
         minutesStudied,
       });
-      updateCount = res.updateCount;
       savedInDB = true;
     } catch (e) {
       console.warn('[discord/interact] D1 recordCheckinInDB failed, falling back to KV:', e);
@@ -431,19 +435,9 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     const records = await getFromKV<Record<string, Record<string, boolean>>>(env, kvKey, requestUrl) || {};
     if (!records[date]) records[date] = {};
 
-    records[date][String(memberId)] = attachment?.url || true;
+    records[date][String(memberId)] = true;
     await putToKV(env, kvKey, records);
-    // KV không track update_count (chỉ lưu 1 record/ngày); tính xấp xỉ
-    updateCount = records[date][String(memberId)] ? 1 : 1;
   }
-
-  // Ghi chú ảnh kèm trong tin check-in (chỉ hiển thị, không re-upload lên CDN khác)
-  // Đã bỏ dòng "Kèm ảnh chứng thực" — ảnh hiện ngay trong embed, khỏi nói.
-
-  // Nếu user tự khai số thẻ/phút -> hiện kèm
-  const statsUserPart = (cardsStudied !== null || minutesStudied !== null)
-    ? `\n📊 **Bạn tự khai:**${cardsStudied !== null ? ` ${cardsStudied} thẻ` : ''}${minutesStudied !== null ? ` trong ${minutesStudied} phút` : ''}`
-    : '';
 
   // Tính thêm streak / kỷ luật / rank để hiển thị kèm (giống /trangthai)
   let statsPart = '';
@@ -508,13 +502,16 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
     console.warn('[checkin stats] failed', e);
   }
 
-  // Hiển thị hình kèm ngay trong tin trả lời qua embed (dùng link CDN của Discord, không cần auth)
-  const imgEmbeds: any[] = attachment?.url
-    ? [{ image: { url: attachment.url } }]
-    : [];
-
-  const updatedText = updateCount > 1 ? ` (cập nhật lần ${updateCount})` : '';
-  return patchOriginalMessage(interaction, `✅ <@${discordId}> check-in ngày **${displayDate}** thành công${updatedText}!${statsUserPart}${statsPart}`, false, imgEmbeds);
+  // Báo công khai bằng followup (lời hỏi xác nhận chỉ người bấm thấy); parse: [] để hiện tên mà không ping
+  await fetch(`https://discord.com/api/v10/webhooks/${interaction.application_id}/${interaction.token}`, {
+    method: 'POST',
+    headers: WEBHOOK_HEADERS,
+    body: JSON.stringify({
+      content: `✅ <@${discordId}> check-in ngày ${displayDate} thành công!${statsPart}`,
+      allowed_mentions: { parse: [] },
+    }),
+  });
+  return patchOriginalMessage(interaction, '✅ Đã ghi nhận.');
 }
 
 async function handlePing(interaction: any, env: any, requestUrl: string): Promise<void> {

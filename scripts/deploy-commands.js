@@ -18,12 +18,6 @@ const COMMANDS = [
     description: 'Check-in ngày học của bạn',
     options: [
       {
-        type: 11, // ATTACHMENT
-        name: 'image',
-        description: 'Ảnh / screenshot chứng thực (bắt buộc - PNG, JPG...)',
-        required: true,
-      },
-      {
         type: 3, // STRING
         name: 'date',
         description: 'Bỏ trống = ngày của thread/hôm nay. Check-in bù: hq, hk, 15/8, YYYY-MM-DD',
