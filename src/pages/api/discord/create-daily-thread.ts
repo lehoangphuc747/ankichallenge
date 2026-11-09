@@ -98,6 +98,15 @@ export const POST: APIRoute = async ({ request, locals }) => {
     messageContent = `## Ngày ${day} - ${vnDate}${quoteBlock}${bodyBlock}`;
   }
 
+  // D49-D70 đã được đăng hướng dẫn trực tiếp vào thread, các ngày còn lại kèm luôn khi tạo thread
+  if (day >= 71 && day <= 100) {
+    messageContent +=
+      `\n\n📌 **Cách check-in mới**\n` +
+      `1. Đăng ảnh screenshot vào thread này như tin nhắn bình thường.\n` +
+      `2. Gõ \`/checkin\`, không cần đính kèm ảnh hay nhập ngày. Đăng trong thread nào thì tính cho ngày của thread đó.\n` +
+      `3. Bot hỏi riêng bạn, bấm **Đăng rồi, check-in** là xong.`;
+  }
+
   const headers: Record<string, string> = {
     'Authorization': `Bot ${token}`,
     'Content-Type': 'application/json',
