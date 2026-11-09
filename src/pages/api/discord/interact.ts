@@ -229,10 +229,10 @@ function parseDateFromThreadName(name?: string): string | null {
 }
 
 async function handleCheckin(interaction: any, env: any, requestUrl: string): Promise<void> {
-  // Option date - BẮT BUỘC (user phải khai ngày)
+  // Option date - tùy chọn: bỏ trống thì lấy ngày của thread, ngoài thread thì lấy hôm nay (VN)
   const dateOption = interaction.data?.options?.find((o: any) => o.name === 'date');
   const rawInput = dateOption?.value;
-  const date = parseCheckinDate(rawInput);
+  let date = parseCheckinDate(rawInput);
 
   // Option cards/minutes - người dùng tự khai (đỡ phải đọc ảnh)
   let cardsStudied: number | null = null;
@@ -295,7 +295,7 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   const now = new Date();
   const todayVN = new Date(now.getTime() + 7 * 60 * 60 * 1000);
   const todayStr = todayVN.toISOString().slice(0, 10);
-  const displayDate = formatDateDisplay(date);
+  let displayDate = formatDateDisplay(date);
 
   if (date > todayStr) {
     return patchOriginalMessage(
@@ -328,6 +328,10 @@ async function handleCheckin(interaction: any, env: any, requestUrl: string): Pr
   }
 
   const threadDate = parseDateFromThreadName(channelName);
+  if (threadDate && !rawInput?.trim() && threadDate <= todayStr) {
+    date = threadDate;
+    displayDate = formatDateDisplay(date);
+  }
   if (threadDate && date !== threadDate) {
     const displayThreadDate = formatDateDisplay(threadDate);
     return patchOriginalMessage(

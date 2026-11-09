@@ -26,8 +26,8 @@ const COMMANDS = [
       {
         type: 3, // STRING
         name: 'date',
-        description: 'Ngày check-in (bắt buộc): hôm nay, hq, hk, hoặc 15/8, YYYY-MM-DD',
-        required: true,
+        description: 'Bỏ trống = ngày của thread/hôm nay. Check-in bù: hq, hk, 15/8, YYYY-MM-DD',
+        required: false,
       },
       {
         type: 4, // INTEGER
